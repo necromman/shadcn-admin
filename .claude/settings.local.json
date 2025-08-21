@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm run:*)",
+      "Bash(pnpm add:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\features\\design-system\\frontend-section-new.tsx\")",
+      "Bash(npx eslint:*)",
+      "Bash(dir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

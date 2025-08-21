@@ -7,7 +7,8 @@
       "Bash(rm:*)",
       "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\features\\design-system\\frontend-section-new.tsx\")",
       "Bash(npx eslint:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []

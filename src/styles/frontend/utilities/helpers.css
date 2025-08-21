@@ -1,0 +1,275 @@
+/* Frontend Utility Helper Classes */
+
+/* Glassmorphism Effects */
+.frontend-glass {
+  background: hsl(var(--background) / 0.6) !important;
+  backdrop-filter: blur(var(--frontend-blur-md));
+  -webkit-backdrop-filter: blur(var(--frontend-blur-md));
+  border: 1px solid hsl(var(--border) / 0.2) !important;
+}
+
+.frontend-glass-sm {
+  background: hsl(var(--background) / 0.7) !important;
+  backdrop-filter: blur(var(--frontend-blur-sm));
+  -webkit-backdrop-filter: blur(var(--frontend-blur-sm));
+}
+
+.frontend-glass-lg {
+  background: hsl(var(--background) / 0.5) !important;
+  backdrop-filter: blur(var(--frontend-blur-lg));
+  -webkit-backdrop-filter: blur(var(--frontend-blur-lg));
+}
+
+/* Gradient Backgrounds */
+.frontend-gradient-primary {
+  background: linear-gradient(
+    var(--frontend-gradient-angle),
+    hsl(var(--primary)),
+    hsl(var(--primary) / 0.8)
+  ) !important;
+}
+
+.frontend-gradient-secondary {
+  background: linear-gradient(
+    var(--frontend-gradient-angle),
+    hsl(var(--secondary)),
+    hsl(var(--secondary) / 0.8)
+  ) !important;
+}
+
+.frontend-gradient-radial {
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--primary) / 0.1),
+    transparent
+  ) !important;
+}
+
+.frontend-gradient-mesh {
+  background: 
+    radial-gradient(at 0% 0%, hsl(var(--primary) / 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, hsl(var(--secondary) / 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsl(var(--accent) / 0.1) 0px, transparent 50%);
+}
+
+/* Text Gradients */
+.frontend-text-gradient {
+  background: linear-gradient(
+    var(--frontend-gradient-angle),
+    hsl(var(--foreground)),
+    hsl(var(--primary))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.frontend-text-gradient-multicolor {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary)),
+    hsl(var(--secondary)),
+    hsl(var(--accent))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Shadow Utilities */
+.frontend-shadow-xs { box-shadow: var(--frontend-shadow-xs) !important; }
+.frontend-shadow-sm { box-shadow: var(--frontend-shadow-sm) !important; }
+.frontend-shadow-md { box-shadow: var(--frontend-shadow-md) !important; }
+.frontend-shadow-lg { box-shadow: var(--frontend-shadow-lg) !important; }
+.frontend-shadow-xl { box-shadow: var(--frontend-shadow-xl) !important; }
+.frontend-shadow-2xl { box-shadow: var(--frontend-shadow-2xl) !important; }
+.frontend-shadow-none { box-shadow: none !important; }
+
+/* Glow Effects */
+.frontend-glow-sm { box-shadow: var(--frontend-glow-sm) !important; }
+.frontend-glow-md { box-shadow: var(--frontend-glow-md) !important; }
+.frontend-glow-lg { box-shadow: var(--frontend-glow-lg) !important; }
+
+/* Border Radius Utilities */
+.frontend-rounded-sm { border-radius: var(--frontend-radius-sm) !important; }
+.frontend-rounded-md { border-radius: var(--frontend-radius-md) !important; }
+.frontend-rounded-lg { border-radius: var(--frontend-radius-lg) !important; }
+.frontend-rounded-xl { border-radius: var(--frontend-radius-xl) !important; }
+.frontend-rounded-2xl { border-radius: var(--frontend-radius-2xl) !important; }
+.frontend-rounded-full { border-radius: var(--frontend-radius-full) !important; }
+
+/* Blur Utilities */
+.frontend-blur-sm { backdrop-filter: blur(var(--frontend-blur-sm)); -webkit-backdrop-filter: blur(var(--frontend-blur-sm)); }
+.frontend-blur-md { backdrop-filter: blur(var(--frontend-blur-md)); -webkit-backdrop-filter: blur(var(--frontend-blur-md)); }
+.frontend-blur-lg { backdrop-filter: blur(var(--frontend-blur-lg)); -webkit-backdrop-filter: blur(var(--frontend-blur-lg)); }
+.frontend-blur-xl { backdrop-filter: blur(var(--frontend-blur-xl)); -webkit-backdrop-filter: blur(var(--frontend-blur-xl)); }
+
+/* Overlay Effects */
+.frontend-overlay {
+  position: relative;
+}
+
+.frontend-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: inherit;
+}
+
+.frontend-overlay-light::before {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.frontend-overlay-gradient::before {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 0, 0, 0.7)
+  );
+}
+
+/* Decorative Elements */
+.frontend-dots-pattern {
+  background-image: radial-gradient(
+    circle,
+    hsl(var(--foreground) / 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+.frontend-grid-pattern {
+  background-image: 
+    linear-gradient(hsl(var(--border) / 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--border) / 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Spacing Utilities */
+.frontend-spacing-xs { padding: 0.5rem !important; }
+.frontend-spacing-sm { padding: 1rem !important; }
+.frontend-spacing-md { padding: 1.5rem !important; }
+.frontend-spacing-lg { padding: 2rem !important; }
+.frontend-spacing-xl { padding: 3rem !important; }
+
+/* Gap Utilities */
+.frontend-gap-xs { gap: 0.25rem !important; }
+.frontend-gap-sm { gap: 0.5rem !important; }
+.frontend-gap-md { gap: 1rem !important; }
+.frontend-gap-lg { gap: 1.5rem !important; }
+.frontend-gap-xl { gap: 2rem !important; }
+
+/* Overflow Utilities */
+.frontend-overflow-hidden { overflow: hidden !important; }
+.frontend-overflow-auto { overflow: auto !important; }
+.frontend-overflow-scroll { overflow: scroll !important; }
+.frontend-overflow-visible { overflow: visible !important; }
+
+/* Position Utilities */
+.frontend-sticky { position: sticky !important; }
+.frontend-fixed { position: fixed !important; }
+.frontend-absolute { position: absolute !important; }
+.frontend-relative { position: relative !important; }
+
+/* Z-Index Utilities */
+.frontend-z-0 { z-index: 0 !important; }
+.frontend-z-10 { z-index: 10 !important; }
+.frontend-z-20 { z-index: 20 !important; }
+.frontend-z-30 { z-index: 30 !important; }
+.frontend-z-40 { z-index: 40 !important; }
+.frontend-z-50 { z-index: 50 !important; }
+
+/* Cursor Utilities */
+.frontend-cursor-pointer { cursor: pointer !important; }
+.frontend-cursor-wait { cursor: wait !important; }
+.frontend-cursor-not-allowed { cursor: not-allowed !important; }
+.frontend-cursor-move { cursor: move !important; }
+
+/* User Select */
+.frontend-select-none { user-select: none !important; }
+.frontend-select-text { user-select: text !important; }
+.frontend-select-all { user-select: all !important; }
+
+/* Aspect Ratio */
+.frontend-aspect-square { aspect-ratio: 1 / 1 !important; }
+.frontend-aspect-video { aspect-ratio: 16 / 9 !important; }
+.frontend-aspect-portrait { aspect-ratio: 3 / 4 !important; }
+
+/* Line Clamp */
+.frontend-line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.frontend-line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.frontend-line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Truncate Text */
+.frontend-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Scrollbar Styling */
+.frontend-scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.frontend-scrollbar-thin::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.3);
+  border-radius: var(--frontend-radius-full);
+}
+
+.frontend-scrollbar-thin::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: var(--frontend-radius-full);
+}
+
+.frontend-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Hide Scrollbar */
+.frontend-scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.frontend-scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive Utilities */
+@media (max-width: 640px) {
+  .frontend-sm-hidden { display: none !important; }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .frontend-md-hidden { display: none !important; }
+}
+
+@media (min-width: 769px) {
+  .frontend-lg-hidden { display: none !important; }
+}
+
+/* Print Utilities */
+@media print {
+  .frontend-no-print { display: none !important; }
+}

@@ -1,0 +1,238 @@
+/* Frontend Form & Input Styles */
+
+/* Modern Input Field */
+.frontend-input {
+  border-radius: var(--frontend-radius-md) !important;
+  border: 2px solid hsl(var(--border) / 0.3) !important;
+  background: hsl(var(--background) / 0.5) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.95rem !important;
+  transition: all var(--frontend-transition-fast) !important;
+  backdrop-filter: blur(var(--frontend-blur-sm));
+  -webkit-backdrop-filter: blur(var(--frontend-blur-sm));
+}
+
+.frontend-input:hover:not(:focus) {
+  border-color: hsl(var(--border) / 0.5) !important;
+  background: hsl(var(--background) / 0.7) !important;
+}
+
+.frontend-input:focus {
+  outline: none !important;
+  border-color: hsl(var(--primary)) !important;
+  background: hsl(var(--background)) !important;
+  box-shadow: 0 0 0 4px hsl(var(--primary) / 0.1), var(--frontend-glow-sm) !important;
+}
+
+/* Floating Label Input Group */
+.frontend-input-group {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.frontend-input-floating {
+  padding: 1.25rem 1rem 0.5rem 1rem !important;
+}
+
+.frontend-input-label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+  transition: all var(--frontend-transition-fast);
+  background: hsl(var(--background));
+  padding: 0 0.25rem;
+}
+
+.frontend-input-floating:focus ~ .frontend-input-label,
+.frontend-input-floating:not(:placeholder-shown) ~ .frontend-input-label {
+  top: 0;
+  font-size: 0.75rem;
+  color: hsl(var(--primary));
+}
+
+/* Glass Input Variant */
+.frontend-input-glass {
+  background: hsl(var(--background) / 0.3) !important;
+  backdrop-filter: blur(var(--frontend-blur-md));
+  -webkit-backdrop-filter: blur(var(--frontend-blur-md));
+  border: 1px solid hsl(var(--border) / 0.2) !important;
+}
+
+.frontend-input-glass:focus {
+  background: hsl(var(--background) / 0.5) !important;
+  border-color: hsl(var(--primary) / 0.5) !important;
+}
+
+/* Input with Icon */
+.frontend-input-icon-group {
+  position: relative;
+}
+
+.frontend-input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+  transition: color var(--frontend-transition-fast);
+}
+
+.frontend-input-with-icon {
+  padding-left: 2.75rem !important;
+}
+
+.frontend-input-with-icon:focus ~ .frontend-input-icon {
+  color: hsl(var(--primary));
+}
+
+/* Textarea Enhancements */
+.frontend-textarea {
+  border-radius: var(--frontend-radius-md) !important;
+  border: 2px solid hsl(var(--border) / 0.3) !important;
+  background: hsl(var(--background) / 0.5) !important;
+  padding: 1rem !important;
+  resize: vertical;
+  min-height: 120px;
+  transition: all var(--frontend-transition-fast) !important;
+}
+
+.frontend-textarea:focus {
+  outline: none !important;
+  border-color: hsl(var(--primary)) !important;
+  background: hsl(var(--background)) !important;
+  box-shadow: 0 0 0 4px hsl(var(--primary) / 0.1) !important;
+}
+
+/* Select Dropdown */
+.frontend-select {
+  border-radius: var(--frontend-radius-md) !important;
+  border: 2px solid hsl(var(--border) / 0.3) !important;
+  background: hsl(var(--background) / 0.5) !important;
+  padding: 0.75rem 1rem !important;
+  transition: all var(--frontend-transition-fast) !important;
+  cursor: pointer;
+}
+
+.frontend-select:hover {
+  border-color: hsl(var(--border) / 0.5) !important;
+  background: hsl(var(--background) / 0.7) !important;
+}
+
+.frontend-select:focus {
+  outline: none !important;
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 0 4px hsl(var(--primary) / 0.1) !important;
+}
+
+/* Checkbox & Radio Modern Style */
+.frontend-checkbox,
+.frontend-radio {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid hsl(var(--border) / 0.5);
+  transition: all var(--frontend-transition-fast);
+  cursor: pointer;
+}
+
+.frontend-checkbox {
+  border-radius: var(--frontend-radius-sm);
+}
+
+.frontend-radio {
+  border-radius: var(--frontend-radius-full);
+}
+
+.frontend-checkbox:checked,
+.frontend-radio:checked {
+  background: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  box-shadow: var(--frontend-glow-sm);
+}
+
+/* Switch/Toggle Modern Style */
+.frontend-switch {
+  position: relative;
+  width: 3rem;
+  height: 1.5rem;
+  background: hsl(var(--muted));
+  border-radius: var(--frontend-radius-full);
+  transition: all var(--frontend-transition-fast);
+  cursor: pointer;
+}
+
+.frontend-switch-checked {
+  background: hsl(var(--primary));
+  box-shadow: var(--frontend-glow-sm);
+}
+
+.frontend-switch-thumb {
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: white;
+  border-radius: var(--frontend-radius-full);
+  top: 0.125rem;
+  left: 0.125rem;
+  transition: transform var(--frontend-transition-fast) var(--frontend-spring);
+  box-shadow: var(--frontend-shadow-sm);
+}
+
+.frontend-switch-checked .frontend-switch-thumb {
+  transform: translateX(1.5rem);
+}
+
+/* Form Validation States */
+.frontend-input-error {
+  border-color: hsl(var(--destructive)) !important;
+}
+
+.frontend-input-error:focus {
+  box-shadow: 0 0 0 4px hsl(var(--destructive) / 0.1) !important;
+}
+
+.frontend-input-success {
+  border-color: hsl(142 76% 36%) !important;
+}
+
+.frontend-input-success:focus {
+  box-shadow: 0 0 0 4px hsl(142 76% 36% / 0.1) !important;
+}
+
+/* Form Helper Text */
+.frontend-form-helper {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.5rem;
+  transition: color var(--frontend-transition-fast);
+}
+
+.frontend-form-helper-error {
+  color: hsl(var(--destructive));
+}
+
+.frontend-form-helper-success {
+  color: hsl(142 76% 36%);
+}
+
+/* Dark Mode Adjustments */
+.dark .frontend-input,
+.dark .frontend-textarea,
+.dark .frontend-select {
+  background: hsl(var(--background) / 0.3) !important;
+  border-color: hsl(var(--border) / 0.2) !important;
+}
+
+.dark .frontend-input:focus,
+.dark .frontend-textarea:focus,
+.dark .frontend-select:focus {
+  background: hsl(var(--background) / 0.5) !important;
+  box-shadow: 0 0 0 4px hsl(var(--primary) / 0.15), var(--frontend-glow-md) !important;
+}
+
+.dark .frontend-input-glass {
+  background: hsl(var(--background) / 0.1) !important;
+}

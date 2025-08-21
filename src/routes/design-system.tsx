@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FrontendSection } from '@/features/design-system/frontend-section'
 import { BackofficeSection } from '@/features/design-system/backoffice-section'
 import { ThemeToggleButton } from '@/components/theme-toggle-button'
 import { ThemeSelector } from '@/features/design-system/theme/components/theme-selector'
 import { Button } from '@/components/ui/button'
-import { Palette } from 'lucide-react'
+import { Palette, Rows3, LayoutGrid } from 'lucide-react'
 import { applyTheme, resetTheme } from '@/features/design-system/theme/core/theme-utils'
 import { type ThemeConfig } from '@/features/design-system/theme/core/types'
 import { themeRegistry } from '@/features/design-system/theme/core/theme-registry'
@@ -19,6 +19,8 @@ export const Route = createFileRoute('/design-system')({
 
 function DesignSystemPage() {
   const [activeTab, setActiveTab] = useState('frontend')
+  const [allExpanded, setAllExpanded] = useState(false)
+  const frontendSectionRef = useRef<{ toggleAll: () => void } | null>(null)
   
   // 컴포넌트 마운트 시 테마 등록 및 초기화
   useEffect(() => {
@@ -132,6 +134,24 @@ function DesignSystemPage() {
             </Tabs>
           </div>
           <div className="flex items-center gap-2">
+            {activeTab === 'frontend' && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  frontendSectionRef.current?.toggleAll()
+                  setAllExpanded(!allExpanded)
+                }}
+                className="h-8 w-8"
+                title={allExpanded ? "모두 접기" : "모두 펼치기"}
+              >
+                {allExpanded ? (
+                  <Rows3 className="h-4 w-4" />
+                ) : (
+                  <LayoutGrid className="h-4 w-4" />
+                )}
+              </Button>
+            )}
             <ThemeSelector 
               scopeFilter={activeTab === 'frontend' ? 'frontend' : activeTab === 'backoffice' ? 'backoffice' : 'all'}
             />
@@ -150,7 +170,11 @@ function DesignSystemPage() {
       </div>
 
       <main className="w-full">
-        {activeTab === 'frontend' ? <FrontendSection /> : <BackofficeSection />}
+        {activeTab === 'frontend' ? (
+          <FrontendSection ref={frontendSectionRef} />
+        ) : (
+          <BackofficeSection />
+        )}
       </main>
     </div>
   )

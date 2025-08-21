@@ -296,6 +296,114 @@ src/
 8. 빌드 및 검증
 9. 리팩토링
 
+## 🎯 디자인 시스템 탭별 스타일 가이드
+
+### 프론트/백오피스 탭 구조
+디자인 시스템 페이지는 **프론트 탭**과 **백오피스 탭**으로 구분되며, 각각 독립적인 스타일 시스템을 가집니다.
+
+#### 폴더 구조
+```
+src/
+├── features/design-system/
+│   ├── frontend-section.tsx    # 프론트 탭 컴포넌트
+│   ├── backoffice-section.tsx  # 백오피스 탭 컴포넌트
+│   └── component-showcase.tsx  # 공통 컴포넌트 쇼케이스
+├── styles/
+│   └── frontend/               # 프론트 전용 스타일 시스템
+│       ├── index.css           # 메인 엔트리 포인트
+│       ├── components/         # 컴포넌트별 스타일
+│       │   ├── cards.css      # 카드 스타일 (글래스모피즘 등)
+│       │   ├── forms.css      # 폼/입력 필드 스타일
+│       │   ├── buttons.css    # 버튼 스타일
+│       │   ├── auth.css       # 인증 컴포넌트 스타일
+│       │   └── navigation.css # 네비게이션 스타일
+│       ├── animations/         # 애니메이션 정의
+│       │   └── transitions.css # 트랜지션 효과
+│       └── utilities/          # 유틸리티 클래스
+│           └── helpers.css    # 헬퍼 클래스
+```
+
+### 프론트 탭 스타일링 원칙
+
+#### 1. 독립적인 스타일 시스템
+- **프론트 탭 전용 CSS**: `src/styles/frontend/` 폴더 내 모든 스타일
+- **클래스 접두사**: 모든 프론트 전용 클래스는 `.frontend-` 접두사 사용
+- **CSS 변수**: `--frontend-` 접두사로 독립적인 변수 정의
+- **백오피스 영향 없음**: 프론트 스타일이 백오피스 탭에 영향을 주지 않음
+
+#### 2. 테마 시스템 연동
+```css
+/* 테마 색상을 활용하면서 프론트만의 스타일 적용 */
+.frontend-card {
+  /* 테마 색상 변수 사용 */
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  
+  /* 프론트 전용 스타일 */
+  border-radius: var(--frontend-radius-lg);
+  box-shadow: var(--frontend-shadow-md);
+}
+```
+
+#### 3. 프론트 스타일 특징
+- **모던한 디자인**: 글래스모피즘, 그라데이션, 부드러운 그림자
+- **애니메이션**: 페이드인, 팝인, 호버 효과 등 다양한 트랜지션
+- **반응형**: 모바일 퍼스트로 설계된 반응형 스타일
+- **접근성**: ARIA 속성과 키보드 네비게이션 지원
+
+### 프론트 탭 작업 가이드
+
+#### 1. 컴포넌트에 스타일 적용
+```tsx
+// frontend-section.tsx
+import '@/styles/frontend/index.css'
+
+// 프론트 전용 클래스 추가
+<Card className="frontend-card frontend-card-hover">
+  {/* 내용 */}
+</Card>
+
+<Input className="frontend-input frontend-input-glass" />
+<Button className="frontend-button frontend-button-primary" />
+```
+
+#### 2. 새로운 스타일 추가
+```css
+/* src/styles/frontend/components/새로운파일.css */
+.frontend-새로운클래스 {
+  /* shadcn 기본 스타일 오버라이드 */
+  /* 테마 변수 활용 */
+  /* 프론트 전용 효과 추가 */
+}
+```
+
+#### 3. 스타일 유틸리티 활용
+```html
+<!-- 글래스모피즘 효과 -->
+<div className="frontend-glass">
+
+<!-- 그라데이션 텍스트 -->
+<h1 className="frontend-text-gradient">
+
+<!-- 애니메이션 효과 -->
+<div className="frontend-animate-fade-in-up">
+
+<!-- 그림자 효과 -->
+<div className="frontend-shadow-xl frontend-glow-sm">
+```
+
+### 중요 원칙
+1. **shadcn 기반 필수**: 모든 컴포넌트는 shadcn/ui를 기반으로 하며, 스타일만 오버라이드
+2. **테마 연동**: 색상은 항상 테마 시스템의 CSS 변수 사용 (--primary, --background 등)
+3. **백오피스 독립성**: 백오피스 탭은 기본 shadcn 스타일 유지, 프론트 스타일 영향 없음
+4. **재사용성**: `src/styles/frontend/` 폴더만 복사하면 다른 프로젝트에서도 즉시 사용 가능
+
+### 프론트 스타일 시스템 사용법
+1. **스타일 임포트**: `import '@/styles/frontend/index.css'`
+2. **컨테이너 설정**: `<div className="frontend-section">`
+3. **클래스 적용**: 기존 shadcn 클래스 + `frontend-*` 클래스 추가
+4. **커스터마이징**: 필요시 `src/styles/frontend/` 내 CSS 파일 수정
+
 ## ⚠️ 주의사항
 - **작업 범위 엄수**: `src/features/design-system/` 폴더만 수정
 - **다른 폴더 수정 금지**: 참조용으로만 사용
@@ -307,3 +415,4 @@ src/
 - **모바일 퍼스트 접근**
 - **프로덕션 레디 상태 유지**
 - **디자인 시스템은 즉시 사용 가능한 완성도로 구현**
+- **프론트/백오피스 스타일 독립성 유지**

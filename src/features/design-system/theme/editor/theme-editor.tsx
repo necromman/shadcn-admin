@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,7 +12,7 @@ import { ColorPicker } from './color-picker'
 import { PreviewWindow } from './preview-window'
 import { ExportDialog } from './export-dialog'
 import { type ThemeConfig, type ColorScheme, type ThemeScope } from '../core/types'
-import { applyTheme, resetTheme, getContrastColor, getCurrentThemeColors } from '../core/theme-utils'
+import { applyTheme, resetTheme, getContrastColor } from '../core/theme-utils'
 import { themeRegistry } from '../core/theme-registry'
 import { defaultTheme } from '../presets/default'
 import { Palette, Download, RotateCcw, Eye, Moon, Sun, RefreshCw, Globe, Building2, Sparkles } from 'lucide-react'
@@ -32,14 +32,40 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
   const [showPreview, setShowPreview] = useState(false)
   const [showExport, setShowExport] = useState(false)
   
+  // 에디터가 열릴 때 현재 테마 불러오기
+  useEffect(() => {
+    if (open) {
+      const currentTheme = themeRegistry.getCurrentTheme()
+      
+      if (currentTheme) {
+        setThemeName(currentTheme.name)
+        setThemeDescription(currentTheme.description || '')
+        setThemeAuthor(currentTheme.author || '')
+        setThemeScope(currentTheme.scope || 'both')
+        setLightColors(currentTheme.colors.light)
+        setDarkColors(currentTheme.colors.dark)
+      } else {
+        // 현재 테마가 없으면 기본 테마 사용
+        setThemeName('Custom Theme')
+        setThemeDescription('')
+        setThemeAuthor('')
+        setThemeScope('both')
+        setLightColors(defaultTheme.colors.light)
+        setDarkColors(defaultTheme.colors.dark)
+      }
+    }
+  }, [open])
+  
   // 현재 적용된 색상 불러오기
   const loadCurrentColors = () => {
-    const { light, dark } = getCurrentThemeColors()
-    if (Object.keys(light).length > 0) {
-      setLightColors(prev => ({ ...prev, ...light }))
-    }
-    if (Object.keys(dark).length > 0) {
-      setDarkColors(prev => ({ ...prev, ...dark }))
+    const currentTheme = themeRegistry.getCurrentTheme()
+    if (currentTheme) {
+      setThemeName(currentTheme.name)
+      setThemeDescription(currentTheme.description || '')
+      setThemeAuthor(currentTheme.author || '')
+      setThemeScope(currentTheme.scope || 'both')
+      setLightColors(currentTheme.colors.light)
+      setDarkColors(currentTheme.colors.dark)
     }
   }
 

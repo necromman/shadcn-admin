@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FrontendSection } from '@/features/design-system/frontend-section'
 import { BackofficeSection } from '@/features/design-system/backoffice-section'
-import { ThemeToggle } from '@/components/theme-toggle'
+import { ThemeToggleButton } from '@/components/theme-toggle-button'
 import { ThemeSelector } from '@/features/design-system/theme/components/theme-selector'
 import { Button } from '@/components/ui/button'
 import { Palette } from 'lucide-react'
@@ -20,11 +20,37 @@ export const Route = createFileRoute('/design-system')({
 function DesignSystemPage() {
   const [activeTab, setActiveTab] = useState('frontend')
   
-  // 컴포넌트 마운트 시 테마 등록
+  // 컴포넌트 마운트 시 테마 등록 및 초기화
   useEffect(() => {
     // 기본 테마들 등록
     themeRegistry.registerTheme(defaultTheme)
     themeRegistry.registerTheme(custom_themeTheme)
+    
+    // localStorage에서 커스텀 테마들 로드
+    const savedThemes = localStorage.getItem('custom-themes')
+    if (savedThemes) {
+      try {
+        const themes = JSON.parse(savedThemes) as ThemeConfig[]
+        themes.forEach(theme => themeRegistry.registerTheme(theme))
+      } catch {
+        // 파싱 에러 무시
+      }
+    }
+    
+    // 저장된 테마가 없고 기본 테마가 있으면 첫 번째 테마 활성화
+    const currentThemeId = themeRegistry.getCurrentThemeId()
+    if (!currentThemeId) {
+      const allThemes = themeRegistry.getAllThemes()
+      if (allThemes.length > 0) {
+        themeRegistry.activateTheme(allThemes[0].id)
+      }
+    } else {
+      // 저장된 테마가 있으면 다시 적용 (색상 확실히 적용)
+      const theme = themeRegistry.getTheme(currentThemeId)
+      if (theme) {
+        applyTheme(theme)
+      }
+    }
   }, [])
   
   // 테마 에디터 새 창 열기
@@ -34,8 +60,14 @@ function DesignSystemPage() {
     const left = (window.screen.width - width) / 2
     const top = (window.screen.height - height) / 2
     
+    // 현재 선택된 테마 ID 가져오기
+    const currentThemeId = themeRegistry.getCurrentThemeId()
+    const url = currentThemeId 
+      ? `/theme-editor?theme=${encodeURIComponent(currentThemeId)}`
+      : '/theme-editor'
+    
     window.open(
-      '/theme-editor',
+      url,
       'theme-editor',
       `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
     )
@@ -45,7 +77,29 @@ function DesignSystemPage() {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data.type === 'APPLY_THEME' && event.data.theme) {
-        applyTheme(event.data.theme as ThemeConfig)
+        const theme = event.data.theme as ThemeConfig
+        applyTheme(theme)
+        themeRegistry.registerTheme(theme)
+        
+        // localStorage에 커스텀 테마 저장
+        const savedThemes = localStorage.getItem('custom-themes')
+        let customThemes: ThemeConfig[] = []
+        if (savedThemes) {
+          try {
+            customThemes = JSON.parse(savedThemes)
+          } catch {
+            // 파싱 에러 무시
+          }
+        }
+        
+        const existingIndex = customThemes.findIndex(t => t.id === theme.id)
+        if (existingIndex >= 0) {
+          customThemes[existingIndex] = theme
+        } else {
+          customThemes.push(theme)
+        }
+        
+        localStorage.setItem('custom-themes', JSON.stringify(customThemes))
       } else if (event.data.type === 'RESET_THEME') {
         resetTheme()
       }
@@ -90,7 +144,7 @@ function DesignSystemPage() {
               <Palette className="h-4 w-4" />
               테마 에디터
             </Button>
-            <ThemeToggle />
+            <ThemeToggleButton />
           </div>
         </div>
       </div>
@@ -98,7 +152,6 @@ function DesignSystemPage() {
       <main className="w-full">
         {activeTab === 'frontend' ? <FrontendSection /> : <BackofficeSection />}
       </main>
-
     </div>
   )
 }

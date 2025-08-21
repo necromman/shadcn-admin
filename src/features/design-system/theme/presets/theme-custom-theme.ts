@@ -9,7 +9,7 @@ import { type ThemeConfig } from '../core/types'
 
 export const custom_themeTheme: ThemeConfig = {
   "id": "custom-theme",
-  "name": "custom-theme",
+  "name": "프로스트",
   "description": "",
   "version": "1.0.0",
   "author": "",
@@ -49,8 +49,8 @@ export const custom_themeTheme: ThemeConfig = {
       "muted-foreground": "210 40% 98%",
       "accent": "0 0% 17%",
       "accent-foreground": "210 40% 98%",
-      "border": "0 0% 17%",
-      "input": "0 0% 3%",
+      "border": "0 0% 25%",
+      "input": "0 0% 15%",
       "ring": "213 27% 84%",
       "card": "0 0% 3%",
       "card-foreground": "210 40% 98%",

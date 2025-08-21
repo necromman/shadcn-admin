@@ -11,7 +11,6 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { type ThemeConfig, type ThemeScope } from '../core/types'
 import { themeRegistry } from '../core/theme-registry'
-import { applyTheme } from '../core/theme-utils'
 import { Globe, Building2, Sparkles } from 'lucide-react'
 
 interface ThemeSelectorProps {
@@ -22,9 +21,10 @@ interface ThemeSelectorProps {
 export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelectorProps) {
   const [themes, setThemes] = useState<ThemeConfig[]>([])
   const [selectedThemeId, setSelectedThemeId] = useState<string>('')
+  const [isInitialized, setIsInitialized] = useState(false)
 
+  // 테마 목록 및 현재 테마 로드
   useEffect(() => {
-    // 테마 목록 로드
     const loadThemes = () => {
       const allThemes = themeRegistry.getAllThemes()
       
@@ -38,25 +38,43 @@ export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelec
           )
       
       setThemes(filteredThemes)
+      
+      // 현재 선택된 테마 가져오기 또는 첫 번째 테마 선택
+      const currentThemeId = themeRegistry.getCurrentThemeId()
+      
+      if (currentThemeId && filteredThemes.some(t => t.id === currentThemeId)) {
+        // 저장된 테마가 현재 필터링된 목록에 있으면 사용
+        setSelectedThemeId(currentThemeId)
+      } else if (!isInitialized && filteredThemes.length > 0) {
+        // 초기화 시 테마가 있으면 첫 번째 테마 선택 및 활성화
+        const firstTheme = filteredThemes[0]
+        setSelectedThemeId(firstTheme.id)
+        themeRegistry.activateTheme(firstTheme.id)
+        if (onThemeChange) {
+          onThemeChange(firstTheme)
+        }
+      } else if (filteredThemes.length === 0) {
+        // 테마가 없으면 빈 값
+        setSelectedThemeId('')
+      }
+      
+      setIsInitialized(true)
     }
 
-    loadThemes()
+    // 약간의 지연을 주어 테마 등록이 완료된 후 로드
+    const timer = setTimeout(() => {
+      loadThemes()
+    }, 100)
     
-    // 현재 선택된 테마 가져오기
-    const currentThemeId = themeRegistry.getCurrentThemeId()
-    if (currentThemeId) {
-      setSelectedThemeId(currentThemeId)
-    }
-  }, [scopeFilter])
+    return () => clearTimeout(timer)
+  }, [scopeFilter, isInitialized, onThemeChange])
 
   const handleThemeSelect = (themeId: string) => {
     const theme = themes.find(t => t.id === themeId)
     if (theme) {
-      applyTheme(theme)
+      // 레지스트리를 통해 테마 활성화
+      themeRegistry.activateTheme(themeId)
       setSelectedThemeId(themeId)
-      
-      // 로컬 스토리지에 저장
-      localStorage.setItem('selected-theme', themeId)
       
       // 콜백 호출
       if (onThemeChange) {
@@ -115,8 +133,8 @@ export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelec
 
   return (
     <Select value={selectedThemeId} onValueChange={handleThemeSelect}>
-      <SelectTrigger className="w-[200px]">
-        <SelectValue placeholder="테마 선택" />
+      <SelectTrigger className="w-[250px]">
+        <SelectValue placeholder={themes.length === 0 ? "테마 없음" : "테마 선택"} />
       </SelectTrigger>
       <SelectContent>
         {hasGroupedThemes ? (
@@ -196,9 +214,9 @@ export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelec
         )}
         
         {themes.length === 0 && (
-          <div className="py-6 text-center text-sm text-muted-foreground">
-            테마가 없습니다
-          </div>
+          <SelectItem value="none" disabled>
+            <span className="text-muted-foreground">테마 없음</span>
+          </SelectItem>
         )}
       </SelectContent>
     </Select>

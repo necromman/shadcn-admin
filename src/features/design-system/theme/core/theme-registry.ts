@@ -73,6 +73,7 @@ export class ThemeRegistryManager {
     const savedThemeId = localStorage.getItem('selected-theme')
     if (savedThemeId && window.__THEMES__?.[savedThemeId]) {
       applyTheme(window.__THEMES__[savedThemeId])
+      window.__CURRENT_THEME__ = savedThemeId
     }
   }
 
@@ -120,6 +121,8 @@ export class ThemeRegistryManager {
     if (!theme) return false
 
     applyTheme(theme)
+    window.__CURRENT_THEME__ = themeId
+    localStorage.setItem('selected-theme', themeId)
     return true
   }
 
@@ -144,7 +147,15 @@ export class ThemeRegistryManager {
    */
   getCurrentThemeId(): string | undefined {
     if (typeof window === 'undefined') return undefined
-    return window.__CURRENT_THEME__
+    return window.__CURRENT_THEME__ || localStorage.getItem('selected-theme') || undefined
+  }
+  
+  /**
+   * 현재 활성화된 테마 가져오기
+   */
+  getCurrentTheme(): ThemeConfig | undefined {
+    const themeId = this.getCurrentThemeId()
+    return themeId ? this.getTheme(themeId) : undefined
   }
 
   /**

@@ -2,13 +2,14 @@ import { DSHeader } from '@/components/design-system/ds-header'
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
 import { DSHero } from '@/components/design-system/ds-hero'
 import { DSFooter } from '@/components/design-system/ds-footer'
+import { DSAuthCards } from '@/components/design-system/ds-auth-cards'
 import { ComponentShowcase } from './component-showcase'
 
 export function FrontendSection() {
   return (
     <div className="w-full">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-primary/2 to-background">
+      {/* Hero Section - 1st Section (odd) */}
+      <section className="bg-gray-50 dark:bg-gray-900/50">
         <div className="container py-16">
           <div className="space-y-4">
             <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm">
@@ -23,13 +24,11 @@ export function FrontendSection() {
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Navigation Components Section */}
-      <section className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5" />
-        <div className="relative">
-          <div className="container pt-16 pb-8">
+      {/* Navigation Components Section - 2nd Section (even) */}
+      <section className="bg-white dark:bg-gray-950">
+        <div className="container pt-16 pb-8">
             <div className="flex items-center gap-2 mb-8">
               <div className="h-1 w-12 bg-primary rounded-full" />
               <h2 className="text-2xl font-bold">Navigation Components</h2>
@@ -75,14 +74,11 @@ export function FrontendSection() {
               <DSHeaderEnterprise />
             </div>
           </div>
-        </div>
       </section>
 
-      {/* Hero Section */}
-      <section className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5" />
-        <div className="relative">
-          <div className="container pt-16 pb-8">
+      {/* Hero & Landing Section - 3rd Section (odd) */}
+      <section className="bg-gray-50 dark:bg-gray-900/50">
+        <div className="container pt-16 pb-8">
             <div className="flex items-center gap-2 mb-8">
               <div className="h-1 w-12 bg-primary rounded-full" />
               <h2 className="text-2xl font-bold">Hero & Landing</h2>
@@ -102,13 +98,36 @@ export function FrontendSection() {
           <div className="w-full pb-16">
             <DSHero />
           </div>
+      </section>
+
+      {/* Authentication Cards Section - 4th Section (even) */}
+      <section className="bg-white dark:bg-gray-950">
+        <div className="container py-16">
+          <div className="flex items-center gap-2 mb-8">
+            <div className="h-1 w-12 bg-primary rounded-full" />
+            <h2 className="text-2xl font-bold">Authentication Cards</h2>
+          </div>
+          <div className="rounded-lg border bg-card p-6 mb-8">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-primary" />
+                <h3 className="text-xl font-semibold">Login & Registration Forms</h3>
+              </div>
+              <p className="text-sm text-muted-foreground pl-4">
+                로그인, 회원가입, 비밀번호 재설정 카드 컴포넌트. 
+                폼 검증, 소셜 로그인, 반응형 디자인 포함.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-xl border bg-background p-8">
+            <DSAuthCards />
+          </div>
         </div>
       </section>
 
-      {/* UI Components Section */}
-      <section className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-emerald-500/5" />
-        <div className="relative container py-16">
+      {/* UI Components Section - 5th Section (odd) */}
+      <section className="bg-gray-50 dark:bg-gray-900/50">
+        <div className="container py-16">
           <div className="flex items-center gap-2 mb-8">
             <div className="h-1 w-12 bg-primary rounded-full" />
             <h2 className="text-2xl font-bold">UI Components Library</h2>
@@ -131,11 +150,9 @@ export function FrontendSection() {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <section className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-500/5 to-gray-500/5" />
-        <div className="relative">
-          <div className="container pt-16 pb-8">
+      {/* Footer Section - 6th Section (even) */}
+      <section className="bg-white dark:bg-gray-950">
+        <div className="container pt-16 pb-8">
             <div className="flex items-center gap-2 mb-8">
               <div className="h-1 w-12 bg-primary rounded-full" />
               <h2 className="text-2xl font-bold">Footer Component</h2>
@@ -156,7 +173,6 @@ export function FrontendSection() {
           <div className="w-full border-t bg-background">
             <DSFooter />
           </div>
-        </div>
       </section>
     </div>
   )

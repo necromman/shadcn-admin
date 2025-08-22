@@ -2,7 +2,7 @@
 
 import { useState, forwardRef, useImperativeHandle } from 'react'
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
-import { DSHeader } from '@/components/design-system/ds-header'
+// import { DSHeader } from '@/components/design-system/ds-header'
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
 import { DSHero } from '@/components/design-system/ds-hero'
 import { DSFooter } from '@/components/design-system/ds-footer'
@@ -174,7 +174,7 @@ export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) =>
         fullWidthContent={true}
       >
         {/* Basic Header */}
-        <div className="space-y-4">
+        {/* <div className="space-y-4">
           <div className="container">
             <div className="rounded-lg border bg-card p-6 frontend-card frontend-card-hover frontend-animate-fade-in-up">
               <div className="space-y-2 mb-4">
@@ -191,7 +191,7 @@ export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) =>
           <div className="w-full border-y bg-background">
             <DSHeader />
           </div>
-        </div>
+        </div> */}
 
         {/* Enterprise Header */}
         <div className="space-y-4 mt-12">

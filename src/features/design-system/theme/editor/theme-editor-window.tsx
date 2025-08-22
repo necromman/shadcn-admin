@@ -60,22 +60,13 @@ export function ThemeEditorWindow() {
 
   // 초기 로드 시 테마 목록 및 선택된 테마 불러오기
   useEffect(() => {
-    // 테마 레지스트리에 기본 테마들 등록 (새 창이므로 레지스트리가 비어있음)
+    // 테마 레지스트리에 기본 테마들만 등록 (새 창이므로 레지스트리가 비어있음)
     themeRegistry.registerTheme(defaultTheme)
     themeRegistry.registerTheme(custom_themeTheme)
     
-    // localStorage에서 추가로 저장된 테마들 로드
-    const savedThemes = localStorage.getItem('custom-themes')
-    if (savedThemes) {
-      try {
-        const themes = JSON.parse(savedThemes) as ThemeConfig[]
-        themes.forEach(theme => themeRegistry.registerTheme(theme))
-      } catch {
-        // 파싱 에러 무시
-      }
-    }
+    // localStorage 로드 제거 - 기본 테마만 사용
     
-    // 사용 가능한 모든 테마 로드
+    // 사용 가능한 모든 테마 로드 (기본 테마들만)
     const themes = themeRegistry.getAllThemes()
     setAvailableThemes(themes)
     
@@ -90,17 +81,17 @@ export function ThemeEditorWindow() {
       }
     }
     
-    // localStorage에서 선택된 테마 ID 확인
-    if (!themeToLoad) {
-      const savedThemeId = localStorage.getItem('selected-theme')
-      if (savedThemeId) {
-        const foundTheme = themes.find(t => t.id === savedThemeId)
-        themeToLoad = foundTheme || null
-        if (themeToLoad) {
-          setSelectedThemeId(savedThemeId)
-        }
-      }
-    }
+    // localStorage에서 선택된 테마 ID 확인 - 비활성화 (매번 초기화)
+    // if (!themeToLoad) {
+    //   const savedThemeId = localStorage.getItem('selected-theme')
+    //   if (savedThemeId) {
+    //     const foundTheme = themes.find(t => t.id === savedThemeId)
+    //     themeToLoad = foundTheme || null
+    //     if (themeToLoad) {
+    //       setSelectedThemeId(savedThemeId)
+    //     }
+    //   }
+    // }
     
     // 그래도 없으면 첫 번째 테마 사용
     if (!themeToLoad && themes.length > 0) {
@@ -226,30 +217,24 @@ export function ThemeEditorWindow() {
       },
     }
     
+    // 현재 다크모드 상태 확인
+    const isDark = document.documentElement.classList.contains('dark')
+    
+    // 테마 적용
     applyTheme(themeConfig)
     themeRegistry.registerTheme(themeConfig)
+    themeRegistry.activateTheme(themeId)
     
-    // localStorage에 커스텀 테마 저장
-    const savedThemes = localStorage.getItem('custom-themes')
-    let customThemes: ThemeConfig[] = []
-    if (savedThemes) {
-      try {
-        customThemes = JSON.parse(savedThemes)
-      } catch {
-        // 파싱 에러 무시
-      }
+    // 다크모드 상태 재적용으로 스타일 강제 업데이트
+    if (isDark) {
+      document.documentElement.classList.remove('dark')
+      setTimeout(() => {
+        document.documentElement.classList.add('dark')
+      }, 0)
     }
     
-    // 기존 테마 업데이트 또는 새 테마 추가
-    const existingIndex = customThemes.findIndex(t => t.id === themeId)
-    if (existingIndex >= 0) {
-      customThemes[existingIndex] = themeConfig
-    } else {
-      customThemes.push(themeConfig)
-    }
-    
-    localStorage.setItem('custom-themes', JSON.stringify(customThemes))
-    localStorage.setItem('selected-theme', themeId)
+    // localStorage 저장 제거 - 임시 적용만 지원
+    // 테마는 메모리에만 등록되고 새로고침 시 사라짐
     
     // 저장된 색상 업데이트 ("적용"이 새로운 기준점이 됨)
     setSavedLightColors(lightColors)
@@ -259,12 +244,29 @@ export function ThemeEditorWindow() {
     setAvailableThemes(themeRegistry.getAllThemes())
     setSelectedThemeId(themeId)
     
-    // 부모 창에도 적용
+    // 부모 창에도 적용 - 두 가지 방법 모두 시도
+    // 1. window.opener를 통한 postMessage
     if (window.opener) {
-      window.opener.postMessage({ 
+      try {
+        window.opener.postMessage({ 
+          type: 'APPLY_THEME', 
+          theme: themeConfig 
+        }, window.location.origin)
+      } catch (error) {
+        console.error('Failed to send message via postMessage:', error)
+      }
+    }
+    
+    // 2. BroadcastChannel API 사용 (fallback)
+    try {
+      const channel = new BroadcastChannel('theme-editor-channel')
+      channel.postMessage({ 
         type: 'APPLY_THEME', 
         theme: themeConfig 
-      }, '*')
+      })
+      channel.close()
+    } catch (error) {
+      console.error('Failed to send message via BroadcastChannel:', error)
     }
   }
   

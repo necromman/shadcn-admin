@@ -29,6 +29,7 @@ export function DSHeaderEnterprise() {
   const [enableBlur, setEnableBlur] = useState(false)
   const [showAllMenus, setShowAllMenus] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const [hoverEnabled, setHoverEnabled] = useState(true) // 마우스오버 기본값 true
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const navItems: NavItem[] = [
@@ -163,6 +164,28 @@ export function DSHeaderEnterprise() {
                     />
                   </button>
                 </label>
+                
+                {/* 마우스오버 토글 */}
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <span className="text-sm text-muted-foreground">마우스오버</span>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={hoverEnabled}
+                    onClick={() => setHoverEnabled(!hoverEnabled)}
+                    className={cn(
+                      "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
+                      hoverEnabled ? "bg-primary" : "bg-muted"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "inline-block h-3 w-3 transform rounded-full bg-background transition-transform",
+                        hoverEnabled ? "translate-x-5" : "translate-x-1"
+                      )}
+                    />
+                  </button>
+                </label>
               </div>
             </div>
             
@@ -194,7 +217,14 @@ export function DSHeaderEnterprise() {
                     }
                   }}
                   onMouseEnter={() => {
-                    if (!showAllMenus && item.subItems) {
+                    if (!hoverEnabled) return // 마우스오버 비활성화 시 무시
+                    
+                    if (showAllMenus && item.subItems) {
+                      // 전체 메뉴 모드에서 마우스오버
+                      setMegaMenuOpen(true)
+                      setActiveDropdown(item.label)
+                    } else if (!showAllMenus && item.subItems) {
+                      // 기본 모드에서 마우스오버
                       setActiveDropdown(item.label)
                       setMegaMenuOpen(false)
                     }
@@ -208,7 +238,7 @@ export function DSHeaderEnterprise() {
                 {!showAllMenus && item.subItems && activeDropdown === item.label && (
                   <div 
                     className="absolute top-full left-0 mt-2 w-64 rounded-lg border bg-popover p-2 shadow-lg z-50"
-                    onMouseLeave={() => setActiveDropdown(null)}
+                    onMouseLeave={() => hoverEnabled && setActiveDropdown(null)}
                   >
                     {item.subItems.map((subItem) => (
                       <a
@@ -231,7 +261,15 @@ export function DSHeaderEnterprise() {
             
             {/* 전체 메뉴 모드: 메가 메뉴 (모든 서브메뉴를 한 번에 표시) */}
             {showAllMenus && megaMenuOpen && (
-              <div className="absolute top-full left-0 mt-2 w-full rounded-lg border bg-popover shadow-xl z-50">
+              <div 
+                className="absolute top-full left-0 mt-2 w-full rounded-lg border bg-popover shadow-xl z-50"
+                onMouseLeave={() => {
+                  if (hoverEnabled) {
+                    setMegaMenuOpen(false)
+                    setActiveDropdown(null)
+                  }
+                }}
+              >
                 <div className="grid grid-cols-5 gap-6 p-6">
                   {navItems.map((category) => (
                     category.subItems && (

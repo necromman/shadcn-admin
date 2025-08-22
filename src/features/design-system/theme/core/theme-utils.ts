@@ -156,9 +156,9 @@ ${darkColors}
   styleElement.innerHTML = styleContent
   document.head.appendChild(styleElement)
   
-  // 현재 테마 ID 저장
+  // 현재 테마 ID 저장 (메모리에만)
   window.__CURRENT_THEME__ = config.id
-  localStorage.setItem('selected-theme', config.id)
+  // localStorage.setItem('selected-theme', config.id) // 임시 적용이므로 저장하지 않음
 }
 
 /**
@@ -173,7 +173,7 @@ export function resetTheme() {
   
   // 저장된 테마 정보 제거
   window.__CURRENT_THEME__ = undefined
-  localStorage.removeItem('selected-theme')
+  // localStorage.removeItem('selected-theme') // 이미 저장하지 않으므로 제거할 필요 없음
 }
 
 /**

@@ -122,7 +122,7 @@ export class ThemeRegistryManager {
 
     applyTheme(theme)
     window.__CURRENT_THEME__ = themeId
-    localStorage.setItem('selected-theme', themeId)
+    // localStorage.setItem('selected-theme', themeId) // 임시 적용이므로 저장하지 않음
     return true
   }
 
@@ -147,7 +147,8 @@ export class ThemeRegistryManager {
    */
   getCurrentThemeId(): string | undefined {
     if (typeof window === 'undefined') return undefined
-    return window.__CURRENT_THEME__ || localStorage.getItem('selected-theme') || undefined
+    // localStorage 확인 제거 (임시 적용만 지원)
+    return window.__CURRENT_THEME__ || undefined
   }
   
   /**

@@ -24,34 +24,18 @@ function DesignSystemPage() {
   
   // 컴포넌트 마운트 시 테마 등록 및 초기화
   useEffect(() => {
-    // 기본 테마들 등록
+    // 기존 localStorage 데이터 정리 (한 번만 실행)
+    localStorage.removeItem('custom-themes')
+    localStorage.removeItem('selected-theme')
+    
+    // 기본 테마들만 등록 (커스텀 테마 로드 제거)
     themeRegistry.registerTheme(defaultTheme)
     themeRegistry.registerTheme(custom_themeTheme)
     
-    // localStorage에서 커스텀 테마들 로드
-    const savedThemes = localStorage.getItem('custom-themes')
-    if (savedThemes) {
-      try {
-        const themes = JSON.parse(savedThemes) as ThemeConfig[]
-        themes.forEach(theme => themeRegistry.registerTheme(theme))
-      } catch {
-        // 파싱 에러 무시
-      }
-    }
-    
-    // 저장된 테마가 없고 기본 테마가 있으면 첫 번째 테마 활성화
-    const currentThemeId = themeRegistry.getCurrentThemeId()
-    if (!currentThemeId) {
-      const allThemes = themeRegistry.getAllThemes()
-      if (allThemes.length > 0) {
-        themeRegistry.activateTheme(allThemes[0].id)
-      }
-    } else {
-      // 저장된 테마가 있으면 다시 적용 (색상 확실히 적용)
-      const theme = themeRegistry.getTheme(currentThemeId)
-      if (theme) {
-        applyTheme(theme)
-      }
+    // 항상 첫 번째 기본 테마 활성화
+    const allThemes = themeRegistry.getAllThemes()
+    if (allThemes.length > 0) {
+      themeRegistry.activateTheme(allThemes[0].id)
     }
   }, [])
   
@@ -77,38 +61,54 @@ function DesignSystemPage() {
   
   // 테마 에디터에서 메시지 받기
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data.type === 'APPLY_THEME' && event.data.theme) {
-        const theme = event.data.theme as ThemeConfig
+    const handleThemeMessage = (data: any) => {
+      if (data.type === 'APPLY_THEME' && data.theme) {
+        const theme = data.theme as ThemeConfig
+        
+        // 테마 적용 (현재 다크 모드 상태 반영) - 임시 적용만
         applyTheme(theme)
         themeRegistry.registerTheme(theme)
+        themeRegistry.activateTheme(theme.id)
         
-        // localStorage에 커스텀 테마 저장
-        const savedThemes = localStorage.getItem('custom-themes')
-        let customThemes: ThemeConfig[] = []
-        if (savedThemes) {
-          try {
-            customThemes = JSON.parse(savedThemes)
-          } catch {
-            // 파싱 에러 무시
-          }
+        // localStorage 저장 제거 - 임시 적용만 지원
+        
+        // 강제로 다크모드 클래스 재적용하여 스타일 갱신
+        const isDark = document.documentElement.classList.contains('dark')
+        if (isDark) {
+          document.documentElement.classList.remove('dark')
+          setTimeout(() => {
+            document.documentElement.classList.add('dark')
+          }, 0)
         }
-        
-        const existingIndex = customThemes.findIndex(t => t.id === theme.id)
-        if (existingIndex >= 0) {
-          customThemes[existingIndex] = theme
-        } else {
-          customThemes.push(theme)
-        }
-        
-        localStorage.setItem('custom-themes', JSON.stringify(customThemes))
-      } else if (event.data.type === 'RESET_THEME') {
+      } else if (data.type === 'RESET_THEME') {
         resetTheme()
       }
     }
     
+    // 1. window.postMessage 리스너
+    const handleMessage = (event: MessageEvent) => {
+      handleThemeMessage(event.data)
+    }
+    
+    // 2. BroadcastChannel 리스너
+    let channel: BroadcastChannel | null = null
+    try {
+      channel = new BroadcastChannel('theme-editor-channel')
+      channel.onmessage = (event) => {
+        handleThemeMessage(event.data)
+      }
+    } catch (error) {
+      console.error('Failed to create BroadcastChannel:', error)
+    }
+    
     window.addEventListener('message', handleMessage)
-    return () => window.removeEventListener('message', handleMessage)
+    
+    return () => {
+      window.removeEventListener('message', handleMessage)
+      if (channel) {
+        channel.close()
+      }
+    }
   }, [])
 
   return (

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { HiPlay, HiPause } from 'react-icons/hi2'
-import { IconType } from 'react-icons'
+import type { IconType } from 'react-icons'
 import { 
   FaApple, 
   FaMicrosoft,

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -31,7 +32,16 @@ import {
 } from '@/components/ui/alert'
 import { HiExclamationCircle, HiCheckCircle, HiXCircle, HiInformationCircle } from 'react-icons/hi2'
 
+type ToastPosition = 
+  | 'top-left' 
+  | 'top-center' 
+  | 'top-right' 
+  | 'bottom-left' 
+  | 'bottom-center' 
+  | 'bottom-right'
+
 export function ComponentShowcase() {
+  const [toastPosition, setToastPosition] = useState<ToastPosition>('bottom-right')
   return (
     <div className="space-y-12">
       <section className="space-y-4">
@@ -176,18 +186,86 @@ export function ComponentShowcase() {
             </div>
           </div>
 
-          <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3">Toasts</h3>
+          <div className="space-y-4">
+            <h3 className="text-sm font-medium text-muted-foreground">Toasts</h3>
+            
+            {/* 토스트 위치 선택 */}
+            <div className="space-y-2">
+              <Label htmlFor="toast-position" className="text-xs">토스트 위치</Label>
+              <Select value={toastPosition} onValueChange={(value) => setToastPosition(value as ToastPosition)}>
+                <SelectTrigger id="toast-position" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="top-left">↖ 왼쪽 상단</SelectItem>
+                  <SelectItem value="top-center">↑ 상단 중앙</SelectItem>
+                  <SelectItem value="top-right">↗ 오른쪽 상단</SelectItem>
+                  <SelectItem value="bottom-left">↙ 왼쪽 하단</SelectItem>
+                  <SelectItem value="bottom-center">↓ 하단 중앙</SelectItem>
+                  <SelectItem value="bottom-right">↘ 오른쪽 하단 (기본)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {/* 토스트 표시 버튼 */}
             <div className="flex flex-wrap gap-2">
-              <Button onClick={() => toast.success('Success toast!')}>
-                Show Success
+              <Button 
+                onClick={() => toast.success('성공적으로 완료되었습니다!', {
+                  position: toastPosition,
+                })}
+                variant="default"
+              >
+                성공 토스트
               </Button>
-              <Button onClick={() => toast.error('Error toast!')}>
-                Show Error
+              <Button 
+                onClick={() => toast.error('오류가 발생했습니다!', {
+                  position: toastPosition,
+                })}
+                variant="destructive"
+              >
+                오류 토스트
               </Button>
-              <Button onClick={() => toast.info('Info toast!')}>
-                Show Info
+              <Button 
+                onClick={() => toast.info('알림 메시지입니다.', {
+                  position: toastPosition,
+                })}
+                variant="secondary"
+              >
+                정보 토스트
               </Button>
+              <Button 
+                onClick={() => toast.warning('경고: 주의가 필요합니다!', {
+                  position: toastPosition,
+                })}
+                variant="outline"
+              >
+                경고 토스트
+              </Button>
+            </div>
+            
+            {/* 위치 시각화 */}
+            <div className="mt-4 p-4 border rounded-lg bg-muted/20">
+              <div className="text-xs text-muted-foreground mb-2">현재 선택된 위치</div>
+              <div className="relative aspect-video w-full max-w-xs mx-auto border-2 border-dashed rounded-lg">
+                {/* 상단 */}
+                <div className="absolute top-2 left-2 right-2 flex justify-between">
+                  <div className={`w-8 h-8 rounded-sm transition-all ${toastPosition === 'top-left' ? 'bg-primary scale-125' : 'bg-muted/50'}`} />
+                  <div className={`w-8 h-8 rounded-sm transition-all ${toastPosition === 'top-center' ? 'bg-primary scale-125' : 'bg-muted/50'}`} />
+                  <div className={`w-8 h-8 rounded-sm transition-all ${toastPosition === 'top-right' ? 'bg-primary scale-125' : 'bg-muted/50'}`} />
+                </div>
+                
+                {/* 하단 */}
+                <div className="absolute bottom-2 left-2 right-2 flex justify-between">
+                  <div className={`w-8 h-8 rounded-sm transition-all ${toastPosition === 'bottom-left' ? 'bg-primary scale-125' : 'bg-muted/50'}`} />
+                  <div className={`w-8 h-8 rounded-sm transition-all ${toastPosition === 'bottom-center' ? 'bg-primary scale-125' : 'bg-muted/50'}`} />
+                  <div className={`w-8 h-8 rounded-sm transition-all ${toastPosition === 'bottom-right' ? 'bg-primary scale-125' : 'bg-muted/50'}`} />
+                </div>
+                
+                {/* 중앙 텍스트 */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xs text-muted-foreground">화면 미리보기</span>
+                </div>
+              </div>
             </div>
           </div>
 

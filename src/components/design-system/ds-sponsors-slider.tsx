@@ -9,19 +9,19 @@ import {
   FaApple, 
   FaMicrosoft,
   FaGoogle,
-  FaAmazon,
+  // FaAmazon,
   FaMeta,
-  FaSpotify,
-  FaXTwitter
+  // FaSpotify,
+  // FaXTwitter
 } from 'react-icons/fa6'
 import { 
   SiTesla, 
   SiNetflix, 
-  SiAdobe, 
+  // SiAdobe, 
   SiNvidia,
   SiOpenai,
   SiDiscord,
-  SiNotion,
+  // SiNotion,
   SiFigma
 } from 'react-icons/si'
 

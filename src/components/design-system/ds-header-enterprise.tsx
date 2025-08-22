@@ -26,6 +26,9 @@ export function DSHeaderEnterprise() {
   const [isOpen, setIsOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null)
+  const [enableBlur, setEnableBlur] = useState(false)
+  const [showAllMenus, setShowAllMenus] = useState(false)
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const navItems: NavItem[] = [
@@ -85,6 +88,7 @@ export function DSHeaderEnterprise() {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setActiveDropdown(null)
+        setMegaMenuOpen(false)
       }
     }
 
@@ -94,13 +98,72 @@ export function DSHeaderEnterprise() {
 
   return (
     <>
+      {/* 드롭다운 활성화 시 배경 블러 오버레이 */}
+      {enableBlur && (activeDropdown || megaMenuOpen) && (
+        <div 
+          className="fixed inset-0 bg-background/60 backdrop-blur-sm z-40"
+          onClick={() => {
+            setActiveDropdown(null)
+            setMegaMenuOpen(false)
+          }}
+        />
+      )}
       
       <header className="w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 relative z-50">
         <div className="container">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-primary" />
-              <span className="text-xl font-bold">Enterprise</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-primary" />
+                <span className="text-xl font-bold">Enterprise</span>
+              </div>
+              
+              {/* 토글 버튼들 */}
+              <div className="hidden lg:flex items-center gap-4 ml-4 pl-4 border-l">
+                {/* 배경 블러 토글 */}
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <span className="text-sm text-muted-foreground">배경 블러</span>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={enableBlur}
+                    onClick={() => setEnableBlur(!enableBlur)}
+                    className={cn(
+                      "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
+                      enableBlur ? "bg-primary" : "bg-muted"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "inline-block h-3 w-3 transform rounded-full bg-background transition-transform",
+                        enableBlur ? "translate-x-5" : "translate-x-1"
+                      )}
+                    />
+                  </button>
+                </label>
+                
+                {/* 모든 메뉴 표시 토글 */}
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <span className="text-sm text-muted-foreground">전체 메뉴</span>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={showAllMenus}
+                    onClick={() => setShowAllMenus(!showAllMenus)}
+                    className={cn(
+                      "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
+                      showAllMenus ? "bg-primary" : "bg-muted"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "inline-block h-3 w-3 transform rounded-full bg-background transition-transform",
+                        showAllMenus ? "translate-x-5" : "translate-x-1"
+                      )}
+                    />
+                  </button>
+                </label>
+              </div>
             </div>
             
             <nav className="hidden lg:flex items-center gap-1" ref={dropdownRef}>
@@ -110,18 +173,41 @@ export function DSHeaderEnterprise() {
                   className={cn(
                     "flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-md transition-colors",
                     "hover:bg-accent hover:text-accent-foreground",
-                    activeDropdown === item.label && "bg-accent text-accent-foreground"
+                    (!showAllMenus && activeDropdown === item.label) || (showAllMenus && megaMenuOpen && activeDropdown === item.label) ? "bg-accent text-accent-foreground" : ""
                   )}
-                  onClick={() => setActiveDropdown(activeDropdown === item.label ? null : item.label)}
-                  onMouseEnter={() => item.subItems && setActiveDropdown(item.label)}
+                  onClick={() => {
+                    if (showAllMenus) {
+                      // 전체 메뉴 모드: 메가 메뉴 토글
+                      if (megaMenuOpen && activeDropdown === item.label) {
+                        // 같은 아이템 클릭 시 닫기
+                        setMegaMenuOpen(false)
+                        setActiveDropdown(null)
+                      } else {
+                        // 다른 아이템 클릭 시 열기/변경
+                        setMegaMenuOpen(true)
+                        setActiveDropdown(item.label)
+                      }
+                    } else {
+                      // 기본 모드: 개별 메뉴 토글
+                      setActiveDropdown(activeDropdown === item.label ? null : item.label)
+                      setMegaMenuOpen(false)
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    if (!showAllMenus && item.subItems) {
+                      setActiveDropdown(item.label)
+                      setMegaMenuOpen(false)
+                    }
+                  }}
                 >
                   {item.label}
                   {item.subItems && <HiChevronDown className="h-3 w-3" />}
                 </button>
                 
-                {item.subItems && activeDropdown === item.label && (
+                {/* 기본 모드: 개별 드롭다운 */}
+                {!showAllMenus && item.subItems && activeDropdown === item.label && (
                   <div 
-                    className="absolute top-full left-0 mt-2 w-64 rounded-lg border bg-popover p-2 shadow-lg"
+                    className="absolute top-full left-0 mt-2 w-64 rounded-lg border bg-popover p-2 shadow-lg z-50"
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
                     {item.subItems.map((subItem) => (
@@ -142,12 +228,46 @@ export function DSHeaderEnterprise() {
                 )}
               </div>
             ))}
+            
+            {/* 전체 메뉴 모드: 메가 메뉴 (모든 서브메뉴를 한 번에 표시) */}
+            {showAllMenus && megaMenuOpen && (
+              <div className="absolute top-full left-0 mt-2 w-full rounded-lg border bg-popover shadow-xl z-50">
+                <div className="grid grid-cols-5 gap-6 p-6">
+                  {navItems.map((category) => (
+                    category.subItems && (
+                      <div key={category.label} className="space-y-3">
+                        <h3 className="font-semibold text-sm text-primary border-b pb-2">
+                          {category.label}
+                        </h3>
+                        <div className="space-y-1">
+                          {category.subItems.map((subItem) => (
+                            <a
+                              key={subItem.label}
+                              href={subItem.href}
+                              className="block rounded-md px-2 py-1.5 hover:bg-accent transition-colors"
+                              onClick={() => setMegaMenuOpen(false)}
+                            >
+                              <div className="font-medium text-sm">{subItem.label}</div>
+                              {subItem.description && (
+                                <div className="text-xs text-muted-foreground mt-0.5">
+                                  {subItem.description}
+                                </div>
+                              )}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  ))}
+                </div>
+              </div>
+            )}
           </nav>
 
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-2">
               <Button variant="ghost" size="sm">로그인</Button>
-              <Button size="sm">무료 체험</Button>
+              <Button size="sm">시작</Button>
             </div>
 
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -225,7 +345,7 @@ export function DSHeaderEnterprise() {
                       로그인
                     </Button>
                     <Button size="lg" className="w-full justify-center font-medium">
-                      무료 체험 시작
+                      시작
                     </Button>
                     <p className="text-xs text-center text-muted-foreground mt-4">
                       문의: support@enterprise.com

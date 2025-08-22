@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Menu } from 'lucide-react'
+import { HiOutlineBars3 } from 'react-icons/hi2'
 import { useState } from 'react'
 import {
   Sheet,
@@ -49,7 +49,7 @@ export function DSHeader() {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon" className="relative">
-                <Menu className="h-5 w-5" />
+                <HiOutlineBars3 className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>

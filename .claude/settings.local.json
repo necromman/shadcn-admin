@@ -8,7 +8,14 @@
       "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\features\\design-system\\frontend-section-new.tsx\")",
       "Bash(npx eslint:*)",
       "Bash(dir:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm store prune:*)",
+      "Bash(pnpm list:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(sed:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

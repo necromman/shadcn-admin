@@ -1,16 +1,17 @@
 'use client'
 
 import { useState, forwardRef, useImperativeHandle } from 'react'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { DSHeader } from '@/components/design-system/ds-header'
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
 import { DSHero } from '@/components/design-system/ds-hero'
 import { DSFooter } from '@/components/design-system/ds-footer'
 import { DSAuthCards } from '@/components/design-system/ds-auth-cards'
-import { DSActionCards } from '@/components/design-system/ds-action-cards'
+import { DSBusinessCards } from '@/components/design-system/ds-business-cards'
+import { DSPortfolioSection } from '@/components/design-system/ds-portfolio-section'
 import { ComponentShowcase } from './component-showcase'
 import { Button } from '@/components/ui/button'
-import '@/styles/frontend/index.css'
+// import '@/styles/frontend/index.css'
 
 interface SectionProps {
   title: string
@@ -61,12 +62,12 @@ function CollapsibleSection({
               >
                 {isExpanded ? (
                   <>
-                    <ChevronUp className="h-4 w-4 mr-2" />
+                    <HiChevronUp className="h-4 w-4 mr-2" />
                     접기
                   </>
                 ) : (
                   <>
-                    <ChevronDown className="h-4 w-4 mr-2" />
+                    <HiChevronDown className="h-4 w-4 mr-2" />
                     펼치기
                   </>
                 )}
@@ -106,16 +107,17 @@ function CollapsibleSection({
 }
 
 export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) => {
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
-
   const sections = [
     'navigation',
     'hero',
     'auth',
     'action',
+    'portfolio',
     'components',
     'footer'
   ]
+
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(sections))
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => {
@@ -262,34 +264,57 @@ export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) =>
         </div>
       </CollapsibleSection>
 
-      {/* Action Cards Section */}
+      {/* Business Solutions Section */}
       <CollapsibleSection
-        title="Action Cards"
+        title="Business Solutions"
         bgColor="odd"
         isExpanded={expandedSections.has('action')}
         onToggle={() => toggleSection('action')}
+      >
+        <div className="rounded-lg border bg-card p-6 mb-8">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-primary" />
+              <h3 className="text-xl font-semibold">Business Card Components</h3>
+            </div>
+            <p className="text-sm text-muted-foreground pl-4">
+              Essential business cards for enterprise websites - services, pricing, team, testimonials, and CTAs.
+            </p>
+          </div>
+        </div>
+        <div className="space-y-8">
+          <DSBusinessCards />
+        </div>
+      </CollapsibleSection>
+
+      {/* Business Cards Section */}
+      <CollapsibleSection
+        title="Business Cards"
+        bgColor="even"
+        isExpanded={expandedSections.has('portfolio')}
+        onToggle={() => toggleSection('portfolio')}
       >
         <div className="rounded-lg border bg-card p-6 mb-8 frontend-card frontend-card-hover frontend-animate-fade-in-up">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-primary" />
-              <h3 className="text-xl font-semibold">Interactive Card Components</h3>
+              <h3 className="text-xl font-semibold">Business Essentials</h3>
             </div>
             <p className="text-sm text-muted-foreground pl-4">
-              다양한 액션과 상태를 표현하는 카드 컴포넌트. 
-              프로젝트, 통계, 알림, 소셜 인터랙션 등 다목적 활용 가능.
+              모든 비즈니스에 필요한 핵심 컴포넌트.
+              공지사항, 파트너, 스폰서 등 범용적으로 활용 가능한 깔끔한 카드 디자인.
             </p>
           </div>
         </div>
         <div className="rounded-xl border bg-background p-8 frontend-glass frontend-animate-fade-in">
-          <DSActionCards />
+          <DSPortfolioSection />
         </div>
       </CollapsibleSection>
 
       {/* UI Components Section */}
       <CollapsibleSection
         title="UI Components Library"
-        bgColor="even"
+        bgColor="odd"
         isExpanded={expandedSections.has('components')}
         onToggle={() => toggleSection('components')}
       >
@@ -313,7 +338,7 @@ export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) =>
       {/* Footer Section */}
       <CollapsibleSection
         title="Footer Component"
-        bgColor="odd"
+        bgColor="even"
         isExpanded={expandedSections.has('footer')}
         onToggle={() => toggleSection('footer')}
         fullWidthContent={true}

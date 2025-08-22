@@ -15,7 +15,7 @@ import { type ThemeConfig, type ColorScheme, type ThemeScope } from '../core/typ
 import { applyTheme, resetTheme, getContrastColor } from '../core/theme-utils'
 import { themeRegistry } from '../core/theme-registry'
 import { defaultTheme } from '../presets/default'
-import { Palette, Download, RotateCcw, Eye, Moon, Sun, RefreshCw, Globe, Building2, Sparkles } from 'lucide-react'
+import { HiSwatch, HiArrowDownTray, HiArrowPath, HiEye, HiMoon, HiSun, HiArrowsRightLeft, HiGlobeAlt, HiBuildingOffice2, HiSparkles } from 'react-icons/hi2'
 
 interface ThemeEditorProps {
   open: boolean
@@ -180,7 +180,7 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
         <DialogContent className="max-w-4xl max-h-[90vh] p-0">
           <DialogHeader className="px-6 pt-6">
             <div className="flex items-center gap-2">
-              <Palette className="h-5 w-5" />
+              <HiSwatch className="h-5 w-5" />
               <DialogTitle>테마 에디터</DialogTitle>
             </div>
             <DialogDescription>
@@ -193,11 +193,11 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="info">테마 정보</TabsTrigger>
                 <TabsTrigger value="light">
-                  <Sun className="h-4 w-4 mr-2" />
+                  <HiSun className="h-4 w-4 mr-2" />
                   라이트 모드
                 </TabsTrigger>
                 <TabsTrigger value="dark">
-                  <Moon className="h-4 w-4 mr-2" />
+                  <HiMoon className="h-4 w-4 mr-2" />
                   다크 모드
                 </TabsTrigger>
               </TabsList>
@@ -238,7 +238,7 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="frontend" id="frontend" />
                         <Label htmlFor="frontend" className="flex items-center gap-2 cursor-pointer">
-                          <Globe className="h-4 w-4" />
+                          <HiGlobeAlt className="h-4 w-4" />
                           프론트엔드
                           <span className="text-xs text-muted-foreground">(일반 사용자용)</span>
                         </Label>
@@ -246,7 +246,7 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="backoffice" id="backoffice" />
                         <Label htmlFor="backoffice" className="flex items-center gap-2 cursor-pointer">
-                          <Building2 className="h-4 w-4" />
+                          <HiBuildingOffice2 className="h-4 w-4" />
                           백오피스
                           <span className="text-xs text-muted-foreground">(관리자용)</span>
                         </Label>
@@ -254,7 +254,7 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="both" id="both" />
                         <Label htmlFor="both" className="flex items-center gap-2 cursor-pointer">
-                          <Sparkles className="h-4 w-4" />
+                          <HiSparkles className="h-4 w-4" />
                           공통
                           <span className="text-xs text-muted-foreground">(양쪽 모두 사용)</span>
                         </Label>
@@ -312,15 +312,15 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
             <div className="flex justify-between mt-6">
               <div className="flex gap-2">
                 <Button variant="outline" onClick={loadCurrentColors}>
-                  <RefreshCw className="h-4 w-4 mr-2" />
+                  <HiArrowsRightLeft className="h-4 w-4 mr-2" />
                   현재 색상 불러오기
                 </Button>
                 <Button variant="outline" onClick={handleResetTheme}>
-                  <RotateCcw className="h-4 w-4 mr-2" />
+                  <HiArrowPath className="h-4 w-4 mr-2" />
                   초기화
                 </Button>
                 <Button variant="outline" onClick={() => setShowPreview(true)}>
-                  <Eye className="h-4 w-4 mr-2" />
+                  <HiEye className="h-4 w-4 mr-2" />
                   미리보기
                 </Button>
               </div>
@@ -329,7 +329,7 @@ export function ThemeEditor({ open, onOpenChange }: ThemeEditorProps) {
                   적용
                 </Button>
                 <Button onClick={handleExport}>
-                  <Download className="h-4 w-4 mr-2" />
+                  <HiArrowDownTray className="h-4 w-4 mr-2" />
                   내보내기
                 </Button>
               </div>

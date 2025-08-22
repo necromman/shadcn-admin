@@ -1,85 +1,15 @@
-/* Frontend Style System - Main Entry Point */
+/* Frontend Styles Index */
 
-/* Import all component styles */
+/* Component Styles */
+@import './components/buttons.css';
 @import './components/cards.css';
 @import './components/forms.css';
-@import './components/buttons.css';
-@import './components/auth.css';
 @import './components/navigation.css';
+@import './components/auth.css';
+@import './components/business-cards.css';
+
+/* Animation Styles */
 @import './animations/transitions.css';
+
+/* Utility Styles */
 @import './utilities/helpers.css';
-
-/* Frontend-specific CSS Variables */
-.frontend-section {
-  /* Border Radius System */
-  --frontend-radius-sm: 0.75rem;
-  --frontend-radius-md: 1rem;
-  --frontend-radius-lg: 1.25rem;
-  --frontend-radius-xl: 1.75rem;
-  --frontend-radius-2xl: 2rem;
-  --frontend-radius-full: 9999px;
-  
-  /* Shadow System - Light Mode */
-  --frontend-shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --frontend-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
-  --frontend-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
-  --frontend-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.03);
-  --frontend-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
-  --frontend-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.12), 0 12px 24px rgba(0, 0, 0, 0.08);
-  
-  /* Glow Effects */
-  --frontend-glow-sm: 0 0 20px rgba(var(--primary-rgb, 147, 51, 234), 0.15);
-  --frontend-glow-md: 0 0 40px rgba(var(--primary-rgb, 147, 51, 234), 0.2);
-  --frontend-glow-lg: 0 0 60px rgba(var(--primary-rgb, 147, 51, 234), 0.25);
-  
-  /* Blur Effects */
-  --frontend-blur-sm: 8px;
-  --frontend-blur-md: 16px;
-  --frontend-blur-lg: 24px;
-  --frontend-blur-xl: 40px;
-  
-  /* Animation Timing */
-  --frontend-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --frontend-transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --frontend-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-  --frontend-transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Spring Animations */
-  --frontend-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --frontend-spring-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  
-  /* Gradient Angles */
-  --frontend-gradient-angle: 135deg;
-  --frontend-gradient-radial: radial-gradient(circle at center);
-}
-
-/* Dark Mode Adjustments */
-.dark .frontend-section {
-  /* Shadow System - Dark Mode */
-  --frontend-shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3);
-  --frontend-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.25);
-  --frontend-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.2);
-  --frontend-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.25);
-  --frontend-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.3);
-  --frontend-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.35);
-  
-  /* Enhanced Glow for Dark Mode */
-  --frontend-glow-sm: 0 0 30px rgba(var(--primary-rgb, 147, 51, 234), 0.25);
-  --frontend-glow-md: 0 0 50px rgba(var(--primary-rgb, 147, 51, 234), 0.3);
-  --frontend-glow-lg: 0 0 70px rgba(var(--primary-rgb, 147, 51, 234), 0.35);
-}
-
-/* Base Resets for Frontend Section */
-.frontend-section * {
-  transition-property: transform, opacity, box-shadow, background-color, border-color;
-  transition-duration: var(--frontend-transition-base);
-  transition-timing-function: ease-out;
-}
-
-/* Disable transitions for prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .frontend-section * {
-    transition: none !important;
-    animation: none !important;
-  }
-}

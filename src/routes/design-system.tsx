@@ -6,7 +6,7 @@ import { BackofficeSection } from '@/features/design-system/backoffice-section'
 import { ThemeToggleButton } from '@/components/theme-toggle-button'
 import { ThemeSelector } from '@/features/design-system/theme/components/theme-selector'
 import { Button } from '@/components/ui/button'
-import { Palette, Rows3, LayoutGrid } from 'lucide-react'
+import { HiSwatch, HiViewColumns, HiSquares2X2 } from 'react-icons/hi2'
 import { applyTheme, resetTheme } from '@/features/design-system/theme/core/theme-utils'
 import { type ThemeConfig } from '@/features/design-system/theme/core/types'
 import { themeRegistry } from '@/features/design-system/theme/core/theme-registry'
@@ -146,9 +146,9 @@ function DesignSystemPage() {
                 title={allExpanded ? "모두 접기" : "모두 펼치기"}
               >
                 {allExpanded ? (
-                  <Rows3 className="h-4 w-4" />
+                  <HiViewColumns className="h-4 w-4" />
                 ) : (
-                  <LayoutGrid className="h-4 w-4" />
+                  <HiSquares2X2 className="h-4 w-4" />
                 )}
               </Button>
             )}
@@ -161,7 +161,7 @@ function DesignSystemPage() {
               onClick={openThemeEditor}
               className="gap-2"
             >
-              <Palette className="h-4 w-4" />
+              <HiSwatch className="h-4 w-4" />
               테마 에디터
             </Button>
             <ThemeToggleButton />

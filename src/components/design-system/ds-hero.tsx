@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { ArrowRight, PlayCircle } from 'lucide-react'
+import { HiArrowRight, HiPlayCircle } from 'react-icons/hi2'
 
 export function DSHero() {
   return (
@@ -11,7 +11,7 @@ export function DSHero() {
           <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm">
             <span className="mr-2">🎉</span>
             <span className="text-muted-foreground">Introducing our new features</span>
-            <ArrowRight className="ml-2 h-3 w-3" />
+            <HiArrowRight className="ml-2 h-3 w-3" />
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
@@ -27,10 +27,10 @@ export function DSHero() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Button size="lg" className="min-w-[150px]">
               Get Started
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <HiArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button size="lg" variant="outline" className="min-w-[150px]">
-              <PlayCircle className="mr-2 h-4 w-4" />
+              <HiPlayCircle className="mr-2 h-4 w-4" />
               Watch Demo
             </Button>
           </div>

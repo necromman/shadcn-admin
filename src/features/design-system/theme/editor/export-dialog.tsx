@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { type ThemeConfig } from '../core/types'
-import { Copy, Download, Check } from 'lucide-react'
+import { HiClipboard, HiArrowDownTray, HiCheck } from 'react-icons/hi2'
 
 interface ExportDialogProps {
   open: boolean
@@ -120,12 +120,12 @@ export { ${theme.id.replace(/-/g, '_')}Theme } from './theme-${theme.id}'
                 >
                   {copied ? (
                     <>
-                      <Check className="h-4 w-4" />
+                      <HiCheck className="h-4 w-4" />
                       복사됨
                     </>
                   ) : (
                     <>
-                      <Copy className="h-4 w-4" />
+                      <HiClipboard className="h-4 w-4" />
                       복사
                     </>
                   )}
@@ -135,7 +135,7 @@ export { ${theme.id.replace(/-/g, '_')}Theme } from './theme-${theme.id}'
                   onClick={handleDownload}
                   className="gap-2"
                 >
-                  <Download className="h-4 w-4" />
+                  <HiArrowDownTray className="h-4 w-4" />
                   다운로드
                 </Button>
               </div>

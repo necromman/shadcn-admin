@@ -1,6 +1,6 @@
 import { type ChangeEvent, useState } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
-import { SlidersHorizontal, ArrowUpAZ, ArrowDownAZ } from 'lucide-react'
+import { LuSlidersHorizontal, LuArrowUpAZ, LuArrowDownZA } from 'react-icons/lu'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -126,19 +126,19 @@ export function Apps() {
           <Select value={sort} onValueChange={handleSortChange}>
             <SelectTrigger className='w-16'>
               <SelectValue>
-                <SlidersHorizontal size={18} />
+                <LuSlidersHorizontal size={18} />
               </SelectValue>
             </SelectTrigger>
             <SelectContent align='end'>
               <SelectItem value='asc'>
                 <div className='flex items-center gap-4'>
-                  <ArrowUpAZ size={16} />
+                  <LuArrowUpAZ size={16} />
                   <span>Ascending</span>
                 </div>
               </SelectItem>
               <SelectItem value='desc'>
                 <div className='flex items-center gap-4'>
-                  <ArrowDownAZ size={16} />
+                  <LuArrowDownZA size={16} />
                   <span>Descending</span>
                 </div>
               </SelectItem>

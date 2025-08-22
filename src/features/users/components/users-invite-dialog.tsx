@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MailPlus, Send } from 'lucide-react'
+import { LuMailPlus, LuSend } from 'react-icons/lu'
 import { showSubmittedData } from '@/utils/show-submitted-data'
 import { Button } from '@/components/ui/button'
 import {
@@ -68,7 +68,7 @@ export function UsersInviteDialog({
       <DialogContent className='sm:max-w-md'>
         <DialogHeader className='text-start'>
           <DialogTitle className='flex items-center gap-2'>
-            <MailPlus /> Invite User
+            <LuMailPlus /> Invite User
           </DialogTitle>
           <DialogDescription>
             Invite new user to join your team by sending them an email
@@ -141,7 +141,7 @@ export function UsersInviteDialog({
             <Button variant='outline'>Cancel</Button>
           </DialogClose>
           <Button type='submit' form='user-invite-form'>
-            Invite <Send />
+            Invite <LuSend />
           </Button>
         </DialogFooter>
       </DialogContent>

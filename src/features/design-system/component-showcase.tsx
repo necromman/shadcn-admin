@@ -29,7 +29,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from '@/components/ui/alert'
-import { AlertCircle, CheckCircle, XCircle, Info } from 'lucide-react'
+import { HiExclamationCircle, HiCheckCircle, HiXCircle, HiInformationCircle } from 'react-icons/hi2'
 
 export function ComponentShowcase() {
   return (
@@ -55,7 +55,7 @@ export function ComponentShowcase() {
               <Button>Default</Button>
               <Button size="sm">Small</Button>
               <Button size="icon">
-                <CheckCircle className="h-4 w-4" />
+                <HiCheckCircle className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -146,28 +146,28 @@ export function ComponentShowcase() {
             <h3 className="text-sm font-medium text-muted-foreground mb-3">Alerts</h3>
             <div className="space-y-2">
               <Alert>
-                <Info className="h-4 w-4" />
+                <HiInformationCircle className="h-4 w-4" />
                 <AlertTitle>Information</AlertTitle>
                 <AlertDescription>
                   This is an informational alert message.
                 </AlertDescription>
               </Alert>
               <Alert className="border-green-500/50 text-green-600 dark:text-green-400">
-                <CheckCircle className="h-4 w-4" />
+                <HiCheckCircle className="h-4 w-4" />
                 <AlertTitle>Success</AlertTitle>
                 <AlertDescription>
                   Your action was completed successfully.
                 </AlertDescription>
               </Alert>
               <Alert className="border-yellow-500/50 text-yellow-600 dark:text-yellow-400">
-                <AlertCircle className="h-4 w-4" />
+                <HiExclamationCircle className="h-4 w-4" />
                 <AlertTitle>Warning</AlertTitle>
                 <AlertDescription>
                   Please review this important information.
                 </AlertDescription>
               </Alert>
               <Alert variant="destructive">
-                <XCircle className="h-4 w-4" />
+                <HiXCircle className="h-4 w-4" />
                 <AlertTitle>Error</AlertTitle>
                 <AlertDescription>
                   Something went wrong. Please try again.

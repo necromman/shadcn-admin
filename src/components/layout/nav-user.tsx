@@ -1,12 +1,12 @@
 import { Link } from '@tanstack/react-router'
 import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from 'lucide-react'
+  LuBadgeCheck,
+  LuBell,
+  LuChevronsUpDown,
+  LuCreditCard,
+  LuLogOut,
+  LuSparkles,
+} from 'react-icons/lu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -52,7 +52,7 @@ export function NavUser({ user }: NavUserProps) {
                 <span className='truncate font-semibold'>{user.name}</span>
                 <span className='truncate text-xs'>{user.email}</span>
               </div>
-              <ChevronsUpDown className='ms-auto size-4' />
+              <LuChevronsUpDown className='ms-auto size-4' />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -76,7 +76,7 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
+                <LuSparkles />
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -84,26 +84,26 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
                 <Link to='/settings/account'>
-                  <BadgeCheck />
+                  <LuBadgeCheck />
                   Account
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to='/settings'>
-                  <CreditCard />
+                  <LuCreditCard />
                   Billing
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to='/settings/notifications'>
-                  <Bell />
+                  <LuBell />
                   Notifications
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut />
+              <LuLogOut />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

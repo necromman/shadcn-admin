@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { type ThemeConfig } from '../core/types'
-import { Moon, Sun, Monitor } from 'lucide-react'
+import { HiMoon, HiSun, HiComputerDesktop } from 'react-icons/hi2'
 
 interface PreviewWindowProps {
   open: boolean
@@ -232,21 +232,21 @@ export function PreviewWindow({ open, onOpenChange, theme }: PreviewWindowProps)
                 size="sm"
                 onClick={() => handleModeChange('light')}
               >
-                <Sun className="h-4 w-4" />
+                <HiSun className="h-4 w-4" />
               </Button>
               <Button
                 variant={previewMode === 'dark' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => handleModeChange('dark')}
               >
-                <Moon className="h-4 w-4" />
+                <HiMoon className="h-4 w-4" />
               </Button>
               <Button
                 variant={previewMode === 'system' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => handleModeChange('system')}
               >
-                <Monitor className="h-4 w-4" />
+                <HiComputerDesktop className="h-4 w-4" />
               </Button>
             </div>
           </div>

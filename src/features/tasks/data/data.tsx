@@ -1,14 +1,14 @@
 import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUp,
-  Circle,
-  CheckCircle,
-  AlertCircle,
-  Timer,
-  HelpCircle,
-  CircleOff,
-} from 'lucide-react'
+  LuArrowDown,
+  LuArrowRight,
+  LuArrowUp,
+  LuCircle,
+  LuCircleCheck,
+  LuCircleAlert,
+  LuTimer,
+  LuCircleHelp,
+  LuCircleOff,
+} from 'react-icons/lu'
 
 export const labels = [
   {
@@ -29,27 +29,27 @@ export const statuses = [
   {
     label: 'Backlog',
     value: 'backlog' as const,
-    icon: HelpCircle,
+    icon: LuCircleHelp,
   },
   {
     label: 'Todo',
     value: 'todo' as const,
-    icon: Circle,
+    icon: LuCircle,
   },
   {
     label: 'In Progress',
     value: 'in progress' as const,
-    icon: Timer,
+    icon: LuTimer,
   },
   {
     label: 'Done',
     value: 'done' as const,
-    icon: CheckCircle,
+    icon: LuCircleCheck,
   },
   {
     label: 'Canceled',
     value: 'canceled' as const,
-    icon: CircleOff,
+    icon: LuCircleOff,
   },
 ]
 
@@ -57,21 +57,21 @@ export const priorities = [
   {
     label: 'Low',
     value: 'low' as const,
-    icon: ArrowDown,
+    icon: LuArrowDown,
   },
   {
     label: 'Medium',
     value: 'medium' as const,
-    icon: ArrowRight,
+    icon: LuArrowRight,
   },
   {
     label: 'High',
     value: 'high' as const,
-    icon: ArrowUp,
+    icon: LuArrowUp,
   },
   {
     label: 'Critical',
     value: 'critical' as const,
-    icon: AlertCircle,
+    icon: LuCircleAlert,
   },
 ]

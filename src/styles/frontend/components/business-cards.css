@@ -1,0 +1,53 @@
+/* Business Cards Animations */
+@keyframes scroll-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-scroll-right {
+  animation: scroll-right 40s linear infinite;
+}
+
+.animate-scroll-right:hover {
+  animation-play-state: paused;
+}
+
+/* Infinite Scroll Animation for Sponsors */
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(var(--scroll-distance, -50%));
+  }
+}
+
+.infinite-scroll-animation {
+  animation: infinite-scroll var(--animation-duration, 40s) linear infinite;
+}
+
+/* Business Card Enhancements */
+[data-section="frontend"] .business-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-section="frontend"] .business-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Subtle gradient backgrounds */
+[data-section="frontend"] .gradient-bg {
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+}
+
+/* Smooth focus states */
+[data-section="frontend"] .focus-ring:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 6px;
+}

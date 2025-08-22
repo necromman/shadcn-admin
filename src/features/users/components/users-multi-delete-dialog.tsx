@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { type Table } from '@tanstack/react-table'
-import { AlertTriangle } from 'lucide-react'
+import { LuTriangleAlert } from 'react-icons/lu'
 import { toast } from 'sonner'
 import { sleep } from '@/utils/sleep'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -55,7 +55,7 @@ export function UsersMultiDeleteDialog<TData>({
       disabled={value.trim() !== CONFIRM_WORD}
       title={
         <span className='text-destructive'>
-          <AlertTriangle
+          <LuTriangleAlert
             className='stroke-destructive me-1 inline-block'
             size={18}
           />{' '}

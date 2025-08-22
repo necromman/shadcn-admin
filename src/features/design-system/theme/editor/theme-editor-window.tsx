@@ -12,7 +12,7 @@ import { type ThemeConfig, type ColorScheme } from '../core/types'
 import { applyTheme, getContrastColor, getCurrentThemeColors } from '../core/theme-utils'
 import { themeRegistry } from '../core/theme-registry'
 import { defaultTheme } from '../presets/default'
-import { Palette, Download, RotateCcw, RefreshCw, Save, X, Globe, Building2, Sparkles } from 'lucide-react'
+import { HiSwatch, HiArrowDownTray, HiArrowPath, HiArrowsRightLeft, HiDocumentCheck, HiXMark, HiGlobeAlt, HiBuildingOffice2, HiSparkles } from 'react-icons/hi2'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { ThemeProvider } from '@/context/theme-provider'
@@ -328,7 +328,7 @@ export function ThemeEditorWindow() {
           <div className="container flex h-14 items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <Palette className="h-5 w-5" />
+                <HiSwatch className="h-5 w-5" />
                 <h1 className="text-xl font-semibold">테마 에디터</h1>
               </div>
               <Select value={selectedThemeId} onValueChange={(themeId) => {
@@ -378,7 +378,7 @@ export function ThemeEditorWindow() {
                 onClick={handleRevertChanges}
                 title="마지막 적용된 상태로 되돌리기"
               >
-                <RotateCcw className="h-4 w-4 mr-2" />
+                <HiArrowPath className="h-4 w-4 mr-2" />
                 변경 취소
               </Button>
               <Button 
@@ -387,15 +387,15 @@ export function ThemeEditorWindow() {
                 onClick={handleResetToDefault}
                 title="shadcn 기본 테마로 초기화"
               >
-                <RefreshCw className="h-4 w-4 mr-2" />
+                <HiArrowsRightLeft className="h-4 w-4 mr-2" />
                 기본 테마
               </Button>
               <Button size="sm" onClick={handleApplyTheme}>
-                <Save className="h-4 w-4 mr-2" />
+                <HiDocumentCheck className="h-4 w-4 mr-2" />
                 적용
               </Button>
               <Button variant="outline" size="sm" onClick={handleExport}>
-                <Download className="h-4 w-4 mr-2" />
+                <HiArrowDownTray className="h-4 w-4 mr-2" />
                 내보내기
               </Button>
               {window.opener && (
@@ -404,7 +404,7 @@ export function ThemeEditorWindow() {
                   size="icon"
                   onClick={() => window.close()}
                 >
-                  <X className="h-4 w-4" />
+                  <HiXMark className="h-4 w-4" />
                 </Button>
               )}
             </div>
@@ -457,7 +457,7 @@ export function ThemeEditorWindow() {
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="frontend" id="frontend" />
                           <Label htmlFor="frontend" className="flex items-center gap-2 cursor-pointer">
-                            <Globe className="h-4 w-4" />
+                            <HiGlobeAlt className="h-4 w-4" />
                             프론트엔드
                             <span className="text-xs text-muted-foreground">(일반 사용자용)</span>
                           </Label>
@@ -465,7 +465,7 @@ export function ThemeEditorWindow() {
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="backoffice" id="backoffice" />
                           <Label htmlFor="backoffice" className="flex items-center gap-2 cursor-pointer">
-                            <Building2 className="h-4 w-4" />
+                            <HiBuildingOffice2 className="h-4 w-4" />
                             백오피스
                             <span className="text-xs text-muted-foreground">(관리자용)</span>
                           </Label>
@@ -473,7 +473,7 @@ export function ThemeEditorWindow() {
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="both" id="both" />
                           <Label htmlFor="both" className="flex items-center gap-2 cursor-pointer">
-                            <Sparkles className="h-4 w-4" />
+                            <HiSparkles className="h-4 w-4" />
                             공통
                             <span className="text-xs text-muted-foreground">(양쪽 모두 사용)</span>
                           </Label>

@@ -12,22 +12,22 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Separator } from '@/components/ui/separator'
 import { 
-  Clock, 
-  Users, 
-  TrendingUp, 
-  ArrowRight,
-  Download,
-  Share2,
-  Heart,
-  MessageCircle,
-  Bookmark,
-  MoreHorizontal,
-  Calendar,
-  MapPin,
-  Star,
-  CheckCircle2,
-  AlertCircle
-} from 'lucide-react'
+  HiClock, 
+  HiUsers, 
+  HiArrowRight,
+  HiShare,
+  HiHeart,
+  HiChatBubbleLeftEllipsis,
+  HiBookmark,
+  HiEllipsisHorizontal,
+  HiCalendarDays,
+  HiMapPin,
+  HiStar,
+  HiCheckCircle,
+  HiExclamationCircle,
+  HiArrowTrendingUp,
+  HiArrowDownTray
+} from 'react-icons/hi2'
 
 export function DSActionCards() {
   const [isLiked, setIsLiked] = useState(false)
@@ -66,11 +66,11 @@ export function DSActionCards() {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <HiUsers className="h-4 w-4 text-muted-foreground" />
               <span>12명 참여중</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <HiClock className="h-4 w-4 text-muted-foreground" />
               <span>2일 남음</span>
             </div>
           </div>
@@ -90,10 +90,10 @@ export function DSActionCards() {
         <CardFooter className="flex gap-2">
           <Button className="flex-1">
             대시보드 열기
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <HiArrowRight className="ml-2 h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon">
-            <Share2 className="h-4 w-4" />
+            <HiShare className="h-4 w-4" />
           </Button>
         </CardFooter>
       </Card>
@@ -117,17 +117,17 @@ export function DSActionCards() {
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
+              <HiCalendarDays className="h-4 w-4" />
               <span>2024.03.15</span>
             </div>
             <div className="flex items-center gap-1">
-              <MapPin className="h-4 w-4" />
+              <HiMapPin className="h-4 w-4" />
               <span>서울</span>
             </div>
           </div>
           <div className="flex items-center gap-1">
             {[...Array(5)].map((_, i) => (
-              <Star
+              <HiStar
                 key={i}
                 className={`h-4 w-4 ${
                   i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
@@ -153,7 +153,7 @@ export function DSActionCards() {
               <CardDescription className="text-xs">2시간 전</CardDescription>
             </div>
             <Button variant="ghost" size="icon">
-              <MoreHorizontal className="h-4 w-4" />
+              <HiEllipsisHorizontal className="h-4 w-4" />
             </Button>
           </div>
         </CardHeader>
@@ -164,7 +164,7 @@ export function DSActionCards() {
           </p>
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="h-4 w-4 text-green-500" />
+              <HiArrowTrendingUp className="h-4 w-4 text-green-500" />
               <span className="text-sm font-medium">성능 개선</span>
             </div>
             <p className="text-xs text-muted-foreground">
@@ -182,15 +182,15 @@ export function DSActionCards() {
                 onClick={() => setIsLiked(!isLiked)}
                 className="gap-2"
               >
-                <Heart className={`h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
+                <HiHeart className={`h-4 w-4 ${isLiked ? 'text-red-500' : ''}`} />
                 <span className="text-xs">24</span>
               </Button>
               <Button variant="ghost" size="sm" className="gap-2">
-                <MessageCircle className="h-4 w-4" />
+                <HiChatBubbleLeftEllipsis className="h-4 w-4" />
                 <span className="text-xs">12</span>
               </Button>
               <Button variant="ghost" size="sm" className="gap-2">
-                <Share2 className="h-4 w-4" />
+                <HiShare className="h-4 w-4" />
               </Button>
             </div>
             <Button
@@ -198,7 +198,7 @@ export function DSActionCards() {
               size="sm"
               onClick={() => setIsBookmarked(!isBookmarked)}
             >
-              <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`} />
+              <HiBookmark className={`h-4 w-4 ${isBookmarked ? 'text-primary' : ''}`} />
             </Button>
           </div>
         </CardFooter>
@@ -216,7 +216,7 @@ export function DSActionCards() {
               <p className="text-sm text-muted-foreground">총 방문자</p>
               <p className="text-2xl font-bold">45.2K</p>
               <p className="text-xs text-green-500 flex items-center">
-                <TrendingUp className="h-3 w-3 mr-1" />
+                <HiArrowTrendingUp className="h-3 w-3 mr-1" />
                 +12.5%
               </p>
             </div>
@@ -224,7 +224,7 @@ export function DSActionCards() {
               <p className="text-sm text-muted-foreground">전환율</p>
               <p className="text-2xl font-bold">3.8%</p>
               <p className="text-xs text-green-500 flex items-center">
-                <TrendingUp className="h-3 w-3 mr-1" />
+                <HiArrowTrendingUp className="h-3 w-3 mr-1" />
                 +2.1%
               </p>
             </div>
@@ -240,7 +240,7 @@ export function DSActionCards() {
         </CardContent>
         <CardFooter className="flex gap-2">
           <Button variant="outline" className="flex-1">
-            <Download className="h-4 w-4 mr-2" />
+            <HiArrowDownTray className="h-4 w-4 mr-2" />
             다운로드
           </Button>
           <Button className="flex-1">
@@ -266,12 +266,12 @@ export function DSActionCards() {
         <CardContent className="space-y-3">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <HiCheckCircle className="h-4 w-4 text-green-500" />
               <span className="text-sm">빌드 완료</span>
               <span className="text-xs text-muted-foreground ml-auto">2분 전</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              <HiCheckCircle className="h-4 w-4 text-green-500" />
               <span className="text-sm">테스트 통과</span>
               <span className="text-xs text-muted-foreground ml-auto">1분 전</span>
             </div>
@@ -281,7 +281,7 @@ export function DSActionCards() {
               <span className="text-xs text-muted-foreground ml-auto">진행중</span>
             </div>
             <div className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4 text-gray-300" />
+              <HiExclamationCircle className="h-4 w-4 text-gray-300" />
               <span className="text-sm text-muted-foreground">캐시 무효화</span>
               <span className="text-xs text-muted-foreground ml-auto">대기중</span>
             </div>
@@ -312,7 +312,7 @@ export function DSActionCards() {
       <Card className="hover:shadow-lg transition-shadow border-yellow-200 bg-yellow-50/50 dark:border-yellow-900 dark:bg-yellow-950/20">
         <CardHeader>
           <div className="flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-500 mt-0.5" />
+            <HiExclamationCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-500 mt-0.5" />
             <div className="space-y-1">
               <CardTitle>시스템 점검 예정</CardTitle>
               <CardDescription>
@@ -328,11 +328,11 @@ export function DSActionCards() {
           </p>
           <div className="mt-4 space-y-2">
             <div className="flex items-center gap-2 text-sm">
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <HiClock className="h-4 w-4 text-muted-foreground" />
               <span>예상 소요 시간: 2시간</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <HiUsers className="h-4 w-4 text-muted-foreground" />
               <span>영향 받는 서비스: API, 대시보드</span>
             </div>
           </div>

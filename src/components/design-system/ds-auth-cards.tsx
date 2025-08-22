@@ -22,7 +22,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Separator } from '@/components/ui/separator'
-import { Github, Mail, Chrome, Lock, User, ArrowRight } from 'lucide-react'
+import { FaGithub, FaGoogle } from 'react-icons/fa'
+import { HiEnvelope, HiLockClosed, HiUser, HiArrowRight } from 'react-icons/hi2'
 import { cn } from '@/lib/utils'
 
 const loginSchema = z.object({
@@ -104,7 +105,7 @@ export function DSAuthCards() {
                     <FormLabel>이메일</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <HiEnvelope className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input 
                           placeholder="name@example.com" 
                           className="pl-9"
@@ -124,7 +125,7 @@ export function DSAuthCards() {
                     <FormLabel>비밀번호</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <HiLockClosed className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input 
                           type="password" 
                           placeholder="••••••••" 
@@ -179,11 +180,11 @@ export function DSAuthCards() {
           
           <div className="grid gap-2">
             <Button variant="outline" className="w-full" disabled={isLoading}>
-              <Github className="mr-2 h-4 w-4" />
+              <FaGithub className="mr-2 h-4 w-4" />
               GitHub로 계속하기
             </Button>
             <Button variant="outline" className="w-full" disabled={isLoading}>
-              <Chrome className="mr-2 h-4 w-4" />
+              <FaGoogle className="mr-2 h-4 w-4" />
               Google로 계속하기
             </Button>
           </div>
@@ -224,7 +225,7 @@ export function DSAuthCards() {
                     <FormLabel>이름</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <HiUser className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input 
                           placeholder="홍길동" 
                           className="pl-9"
@@ -244,7 +245,7 @@ export function DSAuthCards() {
                     <FormLabel>이메일</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <HiEnvelope className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input 
                           placeholder="name@example.com" 
                           className="pl-9"
@@ -264,7 +265,7 @@ export function DSAuthCards() {
                     <FormLabel>비밀번호</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <HiLockClosed className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input 
                           type="password" 
                           placeholder="••••••••" 
@@ -285,7 +286,7 @@ export function DSAuthCards() {
                     <FormLabel>비밀번호 확인</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <HiLockClosed className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input 
                           type="password" 
                           placeholder="••••••••" 
@@ -360,7 +361,7 @@ export function DSAuthCards() {
                 이메일
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <HiEnvelope className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="reset-email"
                   type="email"
@@ -377,7 +378,7 @@ export function DSAuthCards() {
               {isLoading ? '전송 중...' : (
                 <>
                   재설정 링크 전송
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <HiArrowRight className="ml-2 h-4 w-4" />
                 </>
               )}
             </Button>

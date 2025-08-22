@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { AlertTriangle } from 'lucide-react'
+import { LuTriangleAlert } from 'react-icons/lu'
 import { showSubmittedData } from '@/utils/show-submitted-data'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
@@ -37,7 +37,7 @@ export function UsersDeleteDialog({
       disabled={value.trim() !== currentRow.username}
       title={
         <span className='text-destructive'>
-          <AlertTriangle
+          <LuTriangleAlert
             className='stroke-destructive me-1 inline-block'
             size={18}
           />{' '}

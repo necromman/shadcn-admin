@@ -1,25 +1,27 @@
 import {
-  Construction,
-  LayoutDashboard,
-  Monitor,
-  Bug,
-  ListTodo,
-  FileX,
-  HelpCircle,
-  Lock,
-  Bell,
-  Package,
-  Palette,
-  ServerOff,
-  Settings,
-  Wrench,
-  UserCog,
-  UserX,
-  Users,
-  MessagesSquare,
-  ShieldCheck,
-} from 'lucide-react'
-import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
+  LuConstruction,
+  LuLayoutDashboard,
+  LuMonitor,
+  LuBug,
+  LuListTodo,
+  LuFileX,
+  LuCircleHelp,
+  LuLock,
+  LuBell,
+  LuPackage,
+  LuPalette,
+  LuServerOff,
+  LuSettings,
+  LuWrench,
+  LuUserCog,
+  LuUserX,
+  LuUsers,
+  LuMessageSquare,
+  LuShieldCheck,
+  LuAudioWaveform,
+  LuCommand,
+  LuLayoutList,
+} from 'react-icons/lu'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
 
@@ -32,17 +34,17 @@ export const sidebarData: SidebarData = {
   teams: [
     {
       name: 'Shadcn Admin',
-      logo: Command,
+      logo: LuCommand,
       plan: 'Vite + ShadcnUI',
     },
     {
       name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
+      logo: LuLayoutList,
       plan: 'Enterprise',
     },
     {
       name: 'Acme Corp.',
-      logo: AudioWaveform,
+      logo: LuAudioWaveform,
       plan: 'Startup',
     },
   ],
@@ -53,28 +55,28 @@ export const sidebarData: SidebarData = {
         {
           title: 'Dashboard',
           url: '/',
-          icon: LayoutDashboard,
+          icon: LuLayoutDashboard,
         },
         {
           title: 'Tasks',
           url: '/tasks',
-          icon: ListTodo,
+          icon: LuListTodo,
         },
         {
           title: 'Apps',
           url: '/apps',
-          icon: Package,
+          icon: LuPackage,
         },
         {
           title: 'Chats',
           url: '/chats',
           badge: '3',
-          icon: MessagesSquare,
+          icon: LuMessageSquare,
         },
         {
           title: 'Users',
           url: '/users',
-          icon: Users,
+          icon: LuUsers,
         },
         {
           title: 'Secured by Clerk',
@@ -101,7 +103,7 @@ export const sidebarData: SidebarData = {
       items: [
         {
           title: 'Auth',
-          icon: ShieldCheck,
+          icon: LuShieldCheck,
           items: [
             {
               title: 'Sign In',
@@ -127,32 +129,32 @@ export const sidebarData: SidebarData = {
         },
         {
           title: 'Errors',
-          icon: Bug,
+          icon: LuBug,
           items: [
             {
               title: 'Unauthorized',
               url: '/errors/unauthorized',
-              icon: Lock,
+              icon: LuLock,
             },
             {
               title: 'Forbidden',
               url: '/errors/forbidden',
-              icon: UserX,
+              icon: LuUserX,
             },
             {
               title: 'Not Found',
               url: '/errors/not-found',
-              icon: FileX,
+              icon: LuFileX,
             },
             {
               title: 'Internal Server Error',
               url: '/errors/internal-server-error',
-              icon: ServerOff,
+              icon: LuServerOff,
             },
             {
               title: 'Maintenance Error',
               url: '/errors/maintenance-error',
-              icon: Construction,
+              icon: LuConstruction,
             },
           ],
         },
@@ -163,39 +165,39 @@ export const sidebarData: SidebarData = {
       items: [
         {
           title: 'Settings',
-          icon: Settings,
+          icon: LuSettings,
           items: [
             {
               title: 'Profile',
               url: '/settings',
-              icon: UserCog,
+              icon: LuUserCog,
             },
             {
               title: 'Account',
               url: '/settings/account',
-              icon: Wrench,
+              icon: LuWrench,
             },
             {
               title: 'Appearance',
               url: '/settings/appearance',
-              icon: Palette,
+              icon: LuPalette,
             },
             {
               title: 'Notifications',
               url: '/settings/notifications',
-              icon: Bell,
+              icon: LuBell,
             },
             {
               title: 'Display',
               url: '/settings/display',
-              icon: Monitor,
+              icon: LuMonitor,
             },
           ],
         },
         {
           title: 'Help Center',
           url: '/help-center',
-          icon: HelpCircle,
+          icon: LuCircleHelp,
         },
       ],
     },

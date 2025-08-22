@@ -11,7 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { type ThemeConfig, type ThemeScope } from '../core/types'
 import { themeRegistry } from '../core/theme-registry'
-import { Globe, Building2, Sparkles } from 'lucide-react'
+import { HiGlobeAlt, HiBuildingOffice2, HiSparkles } from 'react-icons/hi2'
 
 interface ThemeSelectorProps {
   scopeFilter?: ThemeScope | 'all'
@@ -86,12 +86,12 @@ export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelec
   const getScopeIcon = (scope?: ThemeScope) => {
     switch (scope) {
       case 'frontend':
-        return <Globe className="h-3 w-3" />
+        return <HiGlobeAlt className="h-3 w-3" />
       case 'backoffice':
-        return <Building2 className="h-3 w-3" />
+        return <HiBuildingOffice2 className="h-3 w-3" />
       case 'both':
       default:
-        return <Sparkles className="h-3 w-3" />
+        return <HiSparkles className="h-3 w-3" />
     }
   }
 
@@ -142,7 +142,7 @@ export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelec
             {groupedThemes.both.length > 0 && (
               <SelectGroup>
                 <SelectLabel className="flex items-center gap-2">
-                  <Sparkles className="h-3 w-3" />
+                  <HiSparkles className="h-3 w-3" />
                   공통 테마
                 </SelectLabel>
                 {groupedThemes.both.map((theme) => (
@@ -161,7 +161,7 @@ export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelec
             {groupedThemes.frontend.length > 0 && (
               <SelectGroup>
                 <SelectLabel className="flex items-center gap-2">
-                  <Globe className="h-3 w-3" />
+                  <HiGlobeAlt className="h-3 w-3" />
                   프론트엔드 테마
                 </SelectLabel>
                 {groupedThemes.frontend.map((theme) => (
@@ -180,7 +180,7 @@ export function ThemeSelector({ scopeFilter = 'all', onThemeChange }: ThemeSelec
             {groupedThemes.backoffice.length > 0 && (
               <SelectGroup>
                 <SelectLabel className="flex items-center gap-2">
-                  <Building2 className="h-3 w-3" />
+                  <HiBuildingOffice2 className="h-3 w-3" />
                   백오피스 테마
                 </SelectLabel>
                 {groupedThemes.backoffice.map((theme) => (

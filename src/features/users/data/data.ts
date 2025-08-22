@@ -1,4 +1,4 @@
-import { Shield, UserCheck, Users, CreditCard } from 'lucide-react'
+import { LuShield, LuUserCheck, LuUsers, LuCreditCard } from 'react-icons/lu'
 import { type UserStatus } from './schema'
 
 export const callTypes = new Map<UserStatus, string>([
@@ -15,21 +15,21 @@ export const roles = [
   {
     label: 'Superadmin',
     value: 'superadmin',
-    icon: Shield,
+    icon: LuShield,
   },
   {
     label: 'Admin',
     value: 'admin',
-    icon: UserCheck,
+    icon: LuUserCheck,
   },
   {
     label: 'Manager',
     value: 'manager',
-    icon: Users,
+    icon: LuUsers,
   },
   {
     label: 'Cashier',
     value: 'cashier',
-    icon: CreditCard,
+    icon: LuCreditCard,
   },
 ] as const

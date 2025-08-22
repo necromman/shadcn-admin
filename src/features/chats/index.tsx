@@ -2,18 +2,18 @@ import { useState } from 'react'
 import { Fragment } from 'react/jsx-runtime'
 import { format } from 'date-fns'
 import {
-  ArrowLeft,
-  MoreVertical,
-  Edit,
-  Paperclip,
-  Phone,
-  ImagePlus,
-  Plus,
-  Search as SearchIcon,
-  Send,
-  Video,
-  MessagesSquare,
-} from 'lucide-react'
+  LuArrowLeft,
+  LuEllipsis,
+  LuPencil,
+  LuPaperclip,
+  LuPhone,
+  LuImagePlus,
+  LuPlus,
+  LuSearch,
+  LuSend,
+  LuVideo,
+  LuMessageSquare,
+} from 'react-icons/lu'
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -83,7 +83,7 @@ export function Chats() {
               <div className='flex items-center justify-between py-2'>
                 <div className='flex gap-2'>
                   <h1 className='text-2xl font-bold'>Inbox</h1>
-                  <MessagesSquare size={20} />
+                  <LuMessageSquare size={20} />
                 </div>
 
                 <Button
@@ -92,7 +92,7 @@ export function Chats() {
                   onClick={() => setCreateConversationDialog(true)}
                   className='rounded-lg'
                 >
-                  <Edit size={24} className='stroke-muted-foreground' />
+                  <LuPencil size={24} className='stroke-muted-foreground' />
                 </Button>
               </div>
 
@@ -102,7 +102,7 @@ export function Chats() {
                   'border-border flex h-10 w-full items-center space-x-0 rounded-md border ps-2'
                 )}
               >
-                <SearchIcon size={15} className='me-2 stroke-slate-500' />
+                <LuSearch size={15} className='me-2 stroke-slate-500' />
                 <span className='sr-only'>Search</span>
                 <input
                   type='text'
@@ -176,7 +176,7 @@ export function Chats() {
                     className='-ms-2 h-full sm:hidden'
                     onClick={() => setMobileSelectedUser(null)}
                   >
-                    <ArrowLeft className='rtl:rotate-180' />
+                    <LuArrowLeft className='rtl:rotate-180' />
                   </Button>
                   <div className='flex items-center gap-2 lg:gap-4'>
                     <Avatar className='size-9 lg:size-11'>
@@ -204,21 +204,21 @@ export function Chats() {
                     variant='ghost'
                     className='hidden size-8 rounded-full sm:inline-flex lg:size-10'
                   >
-                    <Video size={22} className='stroke-muted-foreground' />
+                    <LuVideo size={22} className='stroke-muted-foreground' />
                   </Button>
                   <Button
                     size='icon'
                     variant='ghost'
                     className='hidden size-8 rounded-full sm:inline-flex lg:size-10'
                   >
-                    <Phone size={22} className='stroke-muted-foreground' />
+                    <LuPhone size={22} className='stroke-muted-foreground' />
                   </Button>
                   <Button
                     size='icon'
                     variant='ghost'
                     className='h-10 rounded-md sm:h-8 sm:w-4 lg:h-10 lg:w-6'
                   >
-                    <MoreVertical className='stroke-muted-foreground sm:size-5' />
+                    <LuEllipsis className='stroke-muted-foreground sm:size-5' />
                   </Button>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export function Chats() {
                         variant='ghost'
                         className='h-8 rounded-md'
                       >
-                        <Plus size={20} className='stroke-muted-foreground' />
+                        <LuPlus size={20} className='stroke-muted-foreground' />
                       </Button>
                       <Button
                         size='icon'
@@ -276,7 +276,7 @@ export function Chats() {
                         variant='ghost'
                         className='hidden h-8 rounded-md lg:inline-flex'
                       >
-                        <ImagePlus
+                        <LuImagePlus
                           size={20}
                           className='stroke-muted-foreground'
                         />
@@ -287,7 +287,7 @@ export function Chats() {
                         variant='ghost'
                         className='hidden h-8 rounded-md lg:inline-flex'
                       >
-                        <Paperclip
+                        <LuPaperclip
                           size={20}
                           className='stroke-muted-foreground'
                         />
@@ -306,11 +306,11 @@ export function Chats() {
                       size='icon'
                       className='hidden sm:inline-flex'
                     >
-                      <Send size={20} />
+                      <LuSend size={20} />
                     </Button>
                   </div>
                   <Button className='h-full sm:hidden'>
-                    <Send size={18} /> Send
+                    <LuSend size={18} /> Send
                   </Button>
                 </form>
               </div>
@@ -323,7 +323,7 @@ export function Chats() {
             >
               <div className='flex flex-col items-center space-y-6'>
                 <div className='border-border flex size-16 items-center justify-center rounded-full border-2'>
-                  <MessagesSquare className='size-8' />
+                  <LuMessageSquare className='size-8' />
                 </div>
                 <div className='space-y-2 text-center'>
                   <h1 className='text-xl font-semibold'>Your messages</h1>

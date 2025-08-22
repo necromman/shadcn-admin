@@ -1,4 +1,5 @@
-import { Github, Twitter, Linkedin, Mail } from 'lucide-react'
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa'
+import { HiEnvelope } from 'react-icons/hi2'
 
 export function DSFooter() {
   const footerLinks = {
@@ -9,10 +10,10 @@ export function DSFooter() {
   }
 
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Mail, href: '#', label: 'Email' },
+    { icon: FaGithub, href: '#', label: 'GitHub' },
+    { icon: FaTwitter, href: '#', label: 'Twitter' },
+    { icon: FaLinkedin, href: '#', label: 'LinkedIn' },
+    { icon: HiEnvelope, href: '#', label: 'Email' },
   ]
 
   return (

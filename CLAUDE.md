@@ -296,113 +296,160 @@ src/
 8. 빌드 및 검증
 9. 리팩토링
 
-## 🎯 디자인 시스템 탭별 스타일 가이드
+## 🎯 스타일 작성 가이드
 
-### 프론트/백오피스 탭 구조
-디자인 시스템 페이지는 **프론트 탭**과 **백오피스 탭**으로 구분되며, 각각 독립적인 스타일 시스템을 가집니다.
+### 핵심 원칙
+1. **shadcn/ui 우선**: 기본 shadcn 컴포넌트와 Tailwind 클래스를 최대한 활용
+2. **최소 커스텀 스타일**: 꼭 필요한 경우에만 추가 스타일 작성
+3. **격리된 스타일**: 다른 컴포넌트에 영향을 주지 않도록 스코프 제한
+4. **테마 시스템 활용**: 하드코딩된 색상 대신 CSS 변수 사용
 
-#### 폴더 구조
+### 스타일 작성 위치
 ```
-src/
-├── features/design-system/
-│   ├── frontend-section.tsx    # 프론트 탭 컴포넌트
-│   ├── backoffice-section.tsx  # 백오피스 탭 컴포넌트
-│   └── component-showcase.tsx  # 공통 컴포넌트 쇼케이스
-├── styles/
-│   └── frontend/               # 프론트 전용 스타일 시스템
-│       ├── index.css           # 메인 엔트리 포인트
-│       ├── components/         # 컴포넌트별 스타일
-│       │   ├── cards.css      # 카드 스타일 (글래스모피즘 등)
-│       │   ├── forms.css      # 폼/입력 필드 스타일
-│       │   ├── buttons.css    # 버튼 스타일
-│       │   ├── auth.css       # 인증 컴포넌트 스타일
-│       │   └── navigation.css # 네비게이션 스타일
-│       ├── animations/         # 애니메이션 정의
-│       │   └── transitions.css # 트랜지션 효과
-│       └── utilities/          # 유틸리티 클래스
-│           └── helpers.css    # 헬퍼 클래스
+src/styles/
+├── globals.css          # 전역 스타일 (수정 금지)
+├── frontend/            # 프론트엔드 전용 스타일
+│   └── [필요시 작성]
+└── backoffice/          # 백오피스 전용 스타일
+    └── [필요시 작성]
 ```
 
-### 프론트 탭 스타일링 원칙
+### 스타일 작성 규칙
 
-#### 1. 독립적인 스타일 시스템
-- **프론트 탭 전용 CSS**: `src/styles/frontend/` 폴더 내 모든 스타일
-- **클래스 접두사**: 모든 프론트 전용 클래스는 `.frontend-` 접두사 사용
-- **CSS 변수**: `--frontend-` 접두사로 독립적인 변수 정의
-- **백오피스 영향 없음**: 프론트 스타일이 백오피스 탭에 영향을 주지 않음
-
-#### 2. 테마 시스템 연동
+#### 1. 컴포넌트별 격리
 ```css
-/* 테마 색상을 활용하면서 프론트만의 스타일 적용 */
-.frontend-card {
-  /* 테마 색상 변수 사용 */
-  background: hsl(var(--card));
-  color: hsl(var(--foreground));
-  
-  /* 프론트 전용 스타일 */
-  border-radius: var(--frontend-radius-lg);
-  box-shadow: var(--frontend-shadow-md);
+/* ❌ Bad: 전역 영향 */
+.card {
+  padding: 20px;
+}
+
+/* ✅ Good: 스코프 제한 */
+.ds-business-card {
+  padding: 20px;
+}
+
+/* ✅ Better: data 속성 활용 */
+[data-component="business-card"] {
+  padding: 20px;
 }
 ```
 
-#### 3. 프론트 스타일 특징
-- **모던한 디자인**: 글래스모피즘, 그라데이션, 부드러운 그림자
-- **애니메이션**: 페이드인, 팝인, 호버 효과 등 다양한 트랜지션
-- **반응형**: 모바일 퍼스트로 설계된 반응형 스타일
-- **접근성**: ARIA 속성과 키보드 네비게이션 지원
-
-### 프론트 탭 작업 가이드
-
-#### 1. 컴포넌트에 스타일 적용
+#### 2. shadcn 컴포넌트 확장
 ```tsx
-// frontend-section.tsx
-import '@/styles/frontend/index.css'
+/* ❌ Bad: 새로운 컴포넌트 생성 */
+<div className="custom-card">...</div>
 
-// 프론트 전용 클래스 추가
-<Card className="frontend-card frontend-card-hover">
-  {/* 내용 */}
+/* ✅ Good: shadcn Card 확장 */
+<Card className="relative overflow-hidden">
+  <CardHeader className="pb-3">...</CardHeader>
 </Card>
 
-<Input className="frontend-input frontend-input-glass" />
-<Button className="frontend-button frontend-button-primary" />
+/* ✅ Best: Tailwind 유틸리티 활용 */
+<Card className="hover:shadow-lg transition-shadow">...</Card>
 ```
 
-#### 2. 새로운 스타일 추가
+#### 3. 프론트/백오피스 구분
+```tsx
+// 프론트엔드 섹션
+<div data-section="frontend">
+  {/* 프론트 전용 스타일 적용 */}
+</div>
+
+// 백오피스 섹션  
+<div data-section="backoffice">
+  {/* 백오피스 전용 스타일 적용 */}
+</div>
+```
+
+#### 4. 필수 스타일만 작성
 ```css
-/* src/styles/frontend/components/새로운파일.css */
-.frontend-새로운클래스 {
-  /* shadcn 기본 스타일 오버라이드 */
-  /* 테마 변수 활용 */
-  /* 프론트 전용 효과 추가 */
+/* ❌ Bad: 과도한 커스터마이징 */
+.custom-button {
+  background: linear-gradient(...);
+  box-shadow: 0 0 20px ...;
+  animation: pulse 2s infinite;
+  /* 10줄 이상의 스타일... */
+}
+
+/* ✅ Good: 최소한의 오버라이드 */
+.specific-case-button {
+  min-width: 200px; /* 특정 요구사항 */
 }
 ```
 
-#### 3. 스타일 유틸리티 활용
-```html
-<!-- 글래스모피즘 효과 -->
-<div className="frontend-glass">
+### 스타일 우선순위
+1. **Tailwind 인라인 클래스** - 가장 우선
+   ```tsx
+   <Button className="min-w-[200px] hover:scale-105">
+   ```
 
-<!-- 그라데이션 텍스트 -->
-<h1 className="frontend-text-gradient">
+2. **shadcn 컴포넌트 variant** - 두 번째 선택
+   ```tsx
+   <Button variant="outline" size="lg">
+   ```
 
-<!-- 애니메이션 효과 -->
-<div className="frontend-animate-fade-in-up">
+3. **data 속성 스타일** - 특수한 경우
+   ```css
+   [data-state="active"] { ... }
+   ```
 
-<!-- 그림자 효과 -->
-<div className="frontend-shadow-xl frontend-glow-sm">
+4. **커스텀 CSS 클래스** - 최후의 수단
+   ```css
+   .very-specific-requirement { ... }
+   ```
+
+### 테마 변수 활용
+```css
+/* ❌ Bad: 하드코딩된 색상 */
+.custom-element {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+/* ✅ Good: 테마 변수 사용 */
+.custom-element {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
 ```
 
-### 중요 원칙
-1. **shadcn 기반 필수**: 모든 컴포넌트는 shadcn/ui를 기반으로 하며, 스타일만 오버라이드
-2. **테마 연동**: 색상은 항상 테마 시스템의 CSS 변수 사용 (--primary, --background 등)
-3. **백오피스 독립성**: 백오피스 탭은 기본 shadcn 스타일 유지, 프론트 스타일 영향 없음
-4. **재사용성**: `src/styles/frontend/` 폴더만 복사하면 다른 프로젝트에서도 즉시 사용 가능
+### 반응형 디자인
+```css
+/* Tailwind 브레이크포인트 활용 */
+/* sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px */
 
-### 프론트 스타일 시스템 사용법
-1. **스타일 임포트**: `import '@/styles/frontend/index.css'`
-2. **컨테이너 설정**: `<div className="frontend-section">`
-3. **클래스 적용**: 기존 shadcn 클래스 + `frontend-*` 클래스 추가
-4. **커스터마이징**: 필요시 `src/styles/frontend/` 내 CSS 파일 수정
+/* ✅ Tailwind 클래스 사용 (권장) */
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+
+/* 커스텀 CSS가 필요한 경우 */
+@media (min-width: 768px) {
+  .specific-layout {
+    /* 태블릿 이상 */
+  }
+}
+```
+
+### 성능 고려사항
+1. **CSS-in-JS 지양**: 런타임 오버헤드 방지
+2. **불필요한 애니메이션 제한**: 필수적인 UX 개선 요소만
+3. **will-change 신중히 사용**: 메모리 사용량 고려
+4. **복잡한 선택자 피하기**: 성능 최적화
+
+### 스타일 작성 체크리스트
+- [ ] Tailwind 클래스로 해결 가능한가?
+- [ ] shadcn 컴포넌트 variant로 충분한가?
+- [ ] 다른 컴포넌트에 영향을 주지 않는가?
+- [ ] 테마 변수를 활용했는가?
+- [ ] 반응형을 고려했는가?
+- [ ] 최소한의 코드로 작성했는가?
+
+### 금지 사항
+- ❌ `!important` 사용 (극히 예외적인 경우 제외)
+- ❌ 인라인 스타일 직접 작성 (`style={{}}`)
+- ❌ 전역 요소 선택자 (`div`, `button` 등)
+- ❌ 깊은 중첩 선택자 (3단계 이상)
+- ❌ ID 선택자 사용 (#id)
+- ❌ 하드코딩된 색상값
 
 ## ⚠️ 주의사항
 - **작업 범위 엄수**: `src/features/design-system/` 폴더만 수정

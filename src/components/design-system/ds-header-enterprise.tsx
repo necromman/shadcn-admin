@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Menu, ChevronDown } from 'lucide-react'
+import { HiOutlineBars3, HiChevronDown } from 'react-icons/hi2'
 import { useState, useEffect, useRef } from 'react'
 import {
   Sheet,
@@ -116,7 +116,7 @@ export function DSHeaderEnterprise() {
                   onMouseEnter={() => item.subItems && setActiveDropdown(item.label)}
                 >
                   {item.label}
-                  {item.subItems && <ChevronDown className="h-3 w-3" />}
+                  {item.subItems && <HiChevronDown className="h-3 w-3" />}
                 </button>
                 
                 {item.subItems && activeDropdown === item.label && (
@@ -153,7 +153,7 @@ export function DSHeaderEnterprise() {
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
                 <Button variant="ghost" size="icon" className="relative">
-                  <Menu className="h-5 w-5" />
+                  <HiOutlineBars3 className="h-5 w-5" />
                   <span className="sr-only">메뉴 열기</span>
                 </Button>
               </SheetTrigger>
@@ -180,7 +180,7 @@ export function DSHeaderEnterprise() {
                               )}
                             >
                               <span>{item.label}</span>
-                              <ChevronDown className={cn(
+                              <HiChevronDown className={cn(
                                 "h-5 w-5 transition-transform duration-200",
                                 mobileSubmenu === item.label && "rotate-180"
                               )} />

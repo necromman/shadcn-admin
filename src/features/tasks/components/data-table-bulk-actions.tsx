@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { type Table } from '@tanstack/react-table'
-import { Trash2, CircleArrowUp, ArrowUpDown, Download } from 'lucide-react'
+import { LuTrash2, LuCircleArrowUp, LuArrowUpDown, LuDownload } from 'react-icons/lu'
 import { toast } from 'sonner'
 import { sleep } from '@/utils/sleep'
 import { Button } from '@/components/ui/button'
@@ -83,7 +83,7 @@ export function DataTableBulkActions<TData>({
                   aria-label='Update status'
                   title='Update status'
                 >
-                  <CircleArrowUp />
+                  <LuCircleArrowUp />
                   <span className='sr-only'>Update status</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -119,7 +119,7 @@ export function DataTableBulkActions<TData>({
                   aria-label='Update priority'
                   title='Update priority'
                 >
-                  <ArrowUpDown />
+                  <LuArrowUpDown />
                   <span className='sr-only'>Update priority</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -154,7 +154,7 @@ export function DataTableBulkActions<TData>({
               aria-label='Export tasks'
               title='Export tasks'
             >
-              <Download />
+              <LuDownload />
               <span className='sr-only'>Export tasks</span>
             </Button>
           </TooltipTrigger>
@@ -173,7 +173,7 @@ export function DataTableBulkActions<TData>({
               aria-label='Delete selected tasks'
               title='Delete selected tasks'
             >
-              <Trash2 />
+              <LuTrash2 />
               <span className='sr-only'>Delete selected tasks</span>
             </Button>
           </TooltipTrigger>

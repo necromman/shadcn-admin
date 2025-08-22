@@ -15,7 +15,9 @@
       "Bash(pnpm list:*)",
       "Bash(pnpm remove:*)",
       "Bash(sed:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\styles\\frontend\\animations\\infinite-scroll.css\")",
+      "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\styles\\frontend\\animations\\sponsors-scroll.css\")"
     ],
     "deny": [],
     "ask": []

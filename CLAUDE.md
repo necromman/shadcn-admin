@@ -64,6 +64,134 @@
 - 이슈 및 해결 방법
 ```
 
+## 🆕 디자인 시스템 새 섹션/카테고리 추가 체크리스트
+
+### 필수 체크 항목 (순서대로 진행)
+새로운 섹션을 추가할 때 반드시 다음 5가지를 모두 확인해야 합니다:
+
+#### 1. 컴포넌트 파일 생성 ✅
+```tsx
+// src/components/design-system/ds-[component-name].tsx
+export function DS[ComponentName]() {
+  return <div>...</div>
+}
+```
+
+#### 2. 컴포넌트 Import 추가 ✅
+```tsx
+// src/features/design-system/frontend-section-new.tsx
+import { DS[ComponentName] } from '@/components/design-system/ds-[component-name]'
+```
+
+#### 3. COMPONENT_MAP에 매핑 추가 ✅ (가장 중요!)
+```tsx
+// src/features/design-system/frontend-section-new.tsx
+const COMPONENT_MAP: Record<CategoryType, React.ComponentType | null> = {
+  // ...
+  'new-section': DS[ComponentName],  // ← 반드시 추가!
+  // ...
+}
+```
+
+#### 4. 카테고리 타입 정의 추가 ✅
+```tsx
+// src/features/design-system/types/frontend-category.ts
+export type CategoryType = 
+  | 'existing-section'
+  | 'new-section'  // ← 새 타입 추가
+  // ...
+```
+
+#### 5. DEFAULT_CATEGORIES에 추가 ✅
+```tsx
+// src/features/design-system/types/frontend-category.ts
+export const DEFAULT_CATEGORIES: CategoryConfig[] = [
+  // ...
+  {
+    id: 'new-section',
+    title: '새 섹션',
+    description: '섹션 설명',
+    order: 5,  // 적절한 순서
+    enabled: true,  // 기본 표시 여부
+    movable: true,  // 순서 변경 가능 여부
+  },
+  // ...
+]
+```
+
+#### 6. CATEGORY_DESCRIPTIONS에 설명 추가 ✅
+```tsx
+// src/features/design-system/frontend-section-new.tsx
+const CATEGORY_DESCRIPTIONS: Record<CategoryType, { title: string; description: string }> = {
+  // ...
+  'new-section': {
+    title: '섹션 제목',
+    description: '섹션에 대한 상세 설명'
+  },
+  // ...
+}
+```
+
+### ⚠️ 로컬스토리지 캐시 문제 해결
+
+#### 문제 증상
+- 새로 추가한 섹션이 브라우저에 표시되지 않음
+- 시크릿/프라이빗 모드에서는 정상 표시됨
+- 다른 사용자 브라우저에서는 보이지 않음
+
+#### 원인
+- 로컬스토리지에 이전 카테고리 설정이 캐시되어 있음
+- 새로운 카테고리가 기존 저장된 설정에 포함되지 않음
+
+#### 해결 방법
+
+##### 방법 1: 버전 번호 증가 (권장) ⭐
+```tsx
+// src/features/design-system/frontend-section-new.tsx
+const STORAGE_VERSION = 'v3'  // v2 → v3으로 증가
+```
+- 버전 변경 시 모든 사용자의 캐시가 자동 초기화됨
+- 새 섹션 추가 시마다 버전 번호 증가 필요
+
+##### 방법 2: 수동 초기화 (개발 중)
+- 브라우저 개발자 도구 → Application → Local Storage
+- `frontend-categories` 항목 삭제
+- 페이지 새로고침
+
+##### 방법 3: UI에서 초기화
+- 카테고리 관리 버튼(⚙️) 클릭
+- "초기화" 버튼 클릭
+
+### 🔍 디버깅 체크리스트
+섹션이 표시되지 않을 때 확인 사항:
+
+1. **콘솔 에러 확인**
+   - 컴포넌트 import 에러
+   - TypeScript 타입 에러
+
+2. **COMPONENT_MAP 확인** (90% 원인)
+   ```tsx
+   console.log(COMPONENT_MAP['new-section'])  // undefined면 매핑 누락
+   ```
+
+3. **카테고리 설정 확인**
+   ```tsx
+   console.log(categories.find(c => c.id === 'new-section'))
+   ```
+
+4. **로컬스토리지 확인**
+   ```javascript
+   localStorage.getItem('frontend-categories')
+   ```
+
+### 📝 완성도 체크리스트
+- [ ] 컴포넌트가 정상 렌더링되는가?
+- [ ] 반응형 디자인이 적용되었는가?
+- [ ] 다크모드에서 정상 동작하는가?
+- [ ] 접기/펼치기가 정상 동작하는가?
+- [ ] 카테고리 관리에서 on/off 가능한가?
+- [ ] 빌드 에러가 없는가? (`pnpm run build`)
+
 ## 🚫 Git 커밋 규칙
 - AI 서명 절대 포함하지 말 것
 - 커밋 메시지는 간결하고 명확하게 작성

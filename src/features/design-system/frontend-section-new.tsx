@@ -10,6 +10,7 @@ import type { CategoryConfig, CategoryType } from './types/frontend-category'
 // 기존 컴포넌트들 import
 import { DSAnnouncementBarVariants } from '@/components/design-system/ds-announcement-bar'
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
+import { DSIntegratedSearch } from '@/components/design-system/ds-integrated-search'
 import { DSHeroVariants } from '@/components/design-system/ds-hero-enterprise'
 import { DSFooter } from '@/components/design-system/ds-footer'
 import { DSAuthCards } from '@/components/design-system/ds-auth-cards'
@@ -114,6 +115,7 @@ function CollapsibleSection({
 const COMPONENT_MAP: Record<CategoryType, React.ComponentType | null> = {
   'announcement-bar': DSAnnouncementBarVariants,
   'header': DSHeaderEnterprise,
+  'search': DSIntegratedSearch,
   'hero': DSHeroVariants,
   'notice-preview': null,
   'board-preview': null,
@@ -134,6 +136,10 @@ const CATEGORY_DESCRIPTIONS: Record<CategoryType, { title: string; description: 
   'header': {
     title: 'Enterprise Header (GNB)',
     description: '대규모 서비스를 위한 엔터프라이즈급 GNB. 다단계 드롭다운 메뉴와 완벽한 모바일 대응.'
+  },
+  'search': {
+    title: '통합 검색 시스템',
+    description: '카테고리별 통합 검색, 실시간 자동완성, 인기/최근 검색어, 추천 태그 기능을 포함한 엔터프라이즈급 검색 시스템.'
   },
   'hero': {
     title: '히어로 섹션',
@@ -186,15 +192,58 @@ export const FrontendSection = forwardRef<{
 
   // localStorage에서 설정 불러오기
   useEffect(() => {
-    const savedCategories = localStorage.getItem('frontend-categories')
+    // 버전 관리를 통한 캐시 무효화
+    const STORAGE_VERSION = 'v2' // 버전 변경 시 캐시 자동 초기화
+    const STORAGE_KEY = 'frontend-categories'
+    const VERSION_KEY = 'frontend-categories-version'
+    
+    const currentVersion = localStorage.getItem(VERSION_KEY)
+    
+    // 버전이 다르거나 없으면 초기화
+    if (currentVersion !== STORAGE_VERSION) {
+      console.log('Resetting categories due to version change')
+      localStorage.removeItem(STORAGE_KEY)
+      localStorage.setItem(VERSION_KEY, STORAGE_VERSION)
+      setCategories(DEFAULT_CATEGORIES)
+      setExpandedCategories(new Set(DEFAULT_CATEGORIES.filter(c => c.enabled).map(c => c.id)))
+      return
+    }
+    
+    const savedCategories = localStorage.getItem(STORAGE_KEY)
     if (savedCategories) {
       try {
         const parsed = JSON.parse(savedCategories)
-        setCategories(parsed)
-        setExpandedCategories(new Set(parsed.filter((c: CategoryConfig) => c.enabled).map((c: CategoryConfig) => c.id)))
+        // 새로운 카테고리가 추가되었는지 확인
+        const savedIds = new Set(parsed.map((c: CategoryConfig) => c.id))
+        const defaultIds = new Set(DEFAULT_CATEGORIES.map(c => c.id))
+        
+        // 새로운 카테고리가 있으면 병합
+        if (DEFAULT_CATEGORIES.some(dc => !savedIds.has(dc.id))) {
+          const mergedCategories = [...parsed]
+          DEFAULT_CATEGORIES.forEach(dc => {
+            if (!savedIds.has(dc.id)) {
+              mergedCategories.push(dc)
+            }
+          })
+          // order 기준으로 정렬
+          mergedCategories.sort((a, b) => a.order - b.order)
+          setCategories(mergedCategories)
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedCategories))
+          setExpandedCategories(new Set(mergedCategories.filter((c: CategoryConfig) => c.enabled).map((c: CategoryConfig) => c.id)))
+        } else {
+          setCategories(parsed)
+          setExpandedCategories(new Set(parsed.filter((c: CategoryConfig) => c.enabled).map((c: CategoryConfig) => c.id)))
+        }
       } catch {
-        // Failed to load categories
+        // Failed to load categories - use defaults
+        console.error('Failed to parse saved categories, using defaults')
+        setCategories(DEFAULT_CATEGORIES)
+        setExpandedCategories(new Set(DEFAULT_CATEGORIES.filter(c => c.enabled).map(c => c.id)))
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_CATEGORIES))
       }
+    } else {
+      // 저장된 설정이 없으면 기본값 저장
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_CATEGORIES))
     }
   }, [])
 

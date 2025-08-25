@@ -4,7 +4,7 @@ import { useState, forwardRef, useImperativeHandle } from 'react'
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 // import { DSHeader } from '@/components/design-system/ds-header'
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
-import { DSHero } from '@/components/design-system/ds-hero'
+import { DSIntegratedSearch } from '@/components/design-system/ds-integrated-search'
 import { DSFooter } from '@/components/design-system/ds-footer'
 import { DSAuthCards } from '@/components/design-system/ds-auth-cards'
 import { DSBusinessCards } from '@/components/design-system/ds-business-cards'
@@ -109,7 +109,7 @@ function CollapsibleSection({
 export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) => {
   const sections = [
     'navigation',
-    'hero',
+    'search',
     'auth',
     'action',
     'portfolio',
@@ -214,29 +214,26 @@ export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) =>
         </div>
       </CollapsibleSection>
 
-      {/* Hero & Landing Section */}
+      {/* Integrated Search Section */}
       <CollapsibleSection
-        title="Hero & Landing"
+        title="통합 검색 시스템"
         bgColor="odd"
-        isExpanded={expandedSections.has('hero')}
-        onToggle={() => toggleSection('hero')}
-        fullWidthContent={true}
+        isExpanded={expandedSections.has('search')}
+        onToggle={() => toggleSection('search')}
       >
-        <div className="container mb-8">
-          <div className="rounded-lg border bg-card p-6 frontend-card frontend-card-hover frontend-animate-fade-in-up">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-primary" />
-                <h3 className="text-xl font-semibold">Hero Section</h3>
-              </div>
-              <p className="text-sm text-muted-foreground pl-4">
-                강렬한 첫인상을 위한 히어로 섹션. 그라데이션 배경과 CTA 버튼으로 전환율 극대화.
-              </p>
+        <div className="rounded-lg border bg-card p-6 mb-8 frontend-card frontend-card-hover frontend-animate-fade-in-up">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-primary" />
+              <h3 className="text-xl font-semibold">Integrated Search System</h3>
             </div>
+            <p className="text-sm text-muted-foreground pl-4">
+              카테고리별 통합 검색, 실시간 자동완성, 인기/최근 검색어, 추천 태그 기능을 포함한 엔터프라이즈급 검색 시스템.
+            </p>
           </div>
         </div>
-        <div className="w-full pb-8">
-          <DSHero />
+        <div className="rounded-xl border bg-background p-8 frontend-glass frontend-animate-fade-in">
+          <DSIntegratedSearch />
         </div>
       </CollapsibleSection>
 

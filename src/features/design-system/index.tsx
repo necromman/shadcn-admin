@@ -5,17 +5,31 @@ import { BackofficeSection } from './backoffice-section'
 import { ThemeToggleButton } from '@/components/theme-toggle-button'
 import { ThemeSelector } from './theme/components/theme-selector'
 import { Button } from '@/components/ui/button'
-import { HiSwatch, HiViewColumns, HiSquares2X2 } from 'react-icons/hi2'
+import { HiSwatch, HiViewColumns, HiSquares2X2, HiEllipsisVertical, HiAdjustmentsHorizontal } from 'react-icons/hi2'
 import { applyTheme, resetTheme } from './theme/core/theme-utils'
 import { type ThemeConfig } from './theme/core/types'
 import { themeRegistry } from './theme/core/theme-registry'
 import { defaultTheme } from './theme/presets/default'
 import { custom_themeTheme } from './theme/presets/theme-custom-theme'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { CategoryManagerDialog } from './components/category-manager-dialog'
+import type { CategoryConfig } from './types/frontend-category'
 
 export function DesignSystemPage() {
   const [activeTab, setActiveTab] = useState('frontend')
   const [allExpanded, setAllExpanded] = useState(false)
-  const frontendSectionRef = useRef<{ toggleAll: () => void } | null>(null)
+  const [showCategoryManager, setShowCategoryManager] = useState(false)
+  const [categories, setCategories] = useState<CategoryConfig[]>([])
+  const frontendSectionRef = useRef<{ 
+    toggleAll: () => void;
+    getCategories: () => CategoryConfig[];
+    updateCategories: (categories: CategoryConfig[]) => void;
+    resetCategories: () => void;
+  } | null>(null)
   
   // 컴포넌트 마운트 시 테마 등록 및 초기화
   useEffect(() => {
@@ -130,37 +144,91 @@ export function DesignSystemPage() {
             </Tabs>
           </div>
           <div className="flex items-center gap-2">
-            {activeTab === 'frontend' && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  frontendSectionRef.current?.toggleAll()
-                  setAllExpanded(!allExpanded)
-                }}
-                className="h-8 w-8"
-                title={allExpanded ? "모두 접기" : "모두 펼치기"}
-              >
-                {allExpanded ? (
-                  <HiViewColumns className="h-4 w-4" />
-                ) : (
-                  <HiSquares2X2 className="h-4 w-4" />
-                )}
-              </Button>
-            )}
+            <ThemeToggleButton />
             <ThemeSelector 
               scopeFilter={activeTab === 'frontend' ? 'frontend' : activeTab === 'backoffice' ? 'backoffice' : 'all'}
             />
+            
+            {/* Frontend 전용 버튼들 */}
+            {activeTab === 'frontend' && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    frontendSectionRef.current?.toggleAll()
+                    setAllExpanded(!allExpanded)
+                  }}
+                  className="h-8 w-8"
+                  title={allExpanded ? "모두 접기" : "모두 펼치기"}
+                >
+                  {allExpanded ? (
+                    <HiViewColumns className="h-4 w-4" />
+                  ) : (
+                    <HiSquares2X2 className="h-4 w-4" />
+                  )}
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    if (frontendSectionRef.current) {
+                      setCategories(frontendSectionRef.current.getCategories())
+                    }
+                    setShowCategoryManager(true)
+                  }}
+                  className="h-8 w-8"
+                  title="카테고리 관리"
+                >
+                  <HiAdjustmentsHorizontal className="h-4 w-4" />
+                </Button>
+              </>
+            )}
+            
+            {/* 테마 에디터 버튼 */}
             <Button
-              variant="outline"
-              size="sm"
+              variant="ghost"
+              size="icon"
               onClick={openThemeEditor}
-              className="gap-2"
+              className="h-8 w-8"
+              title="테마 에디터"
             >
               <HiSwatch className="h-4 w-4" />
-              테마 에디터
             </Button>
-            <ThemeToggleButton />
+            
+            {/* 더보기 드롭다운 메뉴 (숨김 처리, 나중에 사용 가능) */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 hidden"
+                  title="더보기"
+                >
+                  <HiEllipsisVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {/* 나중에 필요한 메뉴 항목들 추가 가능 */}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            {/* 카테고리 관리자 다이얼로그 */}
+            <CategoryManagerDialog
+              categories={categories}
+              onCategoriesChange={(newCategories) => {
+                frontendSectionRef.current?.updateCategories(newCategories)
+              }}
+              onReset={() => {
+                if (frontendSectionRef.current) {
+                  frontendSectionRef.current.resetCategories()
+                  setCategories(frontendSectionRef.current.getCategories())
+                }
+              }}
+              open={showCategoryManager}
+              onOpenChange={setShowCategoryManager}
+            />
           </div>
         </div>
       </div>

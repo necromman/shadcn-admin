@@ -3,7 +3,6 @@
 import { useState, forwardRef, useImperativeHandle, useEffect } from 'react'
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { Button } from '@/components/ui/button'
-import { CategoryManager } from './components/category-manager'
 import { CategoryPlaceholder } from '@/components/design-system/placeholders/category-placeholder'
 import { DEFAULT_CATEGORIES } from './types/frontend-category'
 import type { CategoryConfig, CategoryType } from './types/frontend-category'
@@ -174,7 +173,12 @@ const CATEGORY_DESCRIPTIONS: Record<CategoryType, { title: string; description: 
   }
 }
 
-export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) => {
+export const FrontendSection = forwardRef<{ 
+  toggleAll: () => void;
+  getCategories: () => CategoryConfig[];
+  updateCategories: (categories: CategoryConfig[]) => void;
+  resetCategories: () => void;
+}>((_, ref) => {
   const [categories, setCategories] = useState<CategoryConfig[]>(DEFAULT_CATEGORIES)
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set(DEFAULT_CATEGORIES.filter(c => c.enabled).map(c => c.id))
@@ -230,7 +234,10 @@ export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) =>
   }
 
   useImperativeHandle(ref, () => ({
-    toggleAll
+    toggleAll,
+    getCategories: () => categories,
+    updateCategories: handleCategoriesChange,
+    resetCategories: handleReset
   }))
 
   // 활성화되고 정렬된 카테고리
@@ -396,11 +403,6 @@ export const FrontendSection = forwardRef<{ toggleAll: () => void }>((_, ref) =>
                 accessibility features, and responsive design.
               </p>
             </div>
-            <CategoryManager 
-              categories={categories}
-              onCategoriesChange={handleCategoriesChange}
-              onReset={handleReset}
-            />
           </div>
         </div>
       </section>

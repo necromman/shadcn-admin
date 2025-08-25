@@ -21,7 +21,8 @@ type AuthenticatedLayoutProps = {
 }
 
 export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
-  const defaultOpen = getCookie('sidebar_state') !== 'false'
+  // 초기값을 미니마이즈 상태(collapsed)로 설정
+  const defaultOpen = getCookie('sidebar_state') === 'true' ? true : false
   return (
     <SearchProvider>
       <SidebarProvider defaultOpen={defaultOpen}>

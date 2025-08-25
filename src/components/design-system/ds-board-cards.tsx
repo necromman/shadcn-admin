@@ -18,25 +18,25 @@ interface BoardItem {
 
 export function DSBoardCards() {
   const notices: BoardItem[] = [
-    { id: 1, title: '2024년 항만 시설 사용료 인상 안내', date: '2024-01-15', category: '요금', isImportant: true, isNew: true },
-    { id: 2, title: '신규 물류센터 운영 시작 공지', date: '2024-01-14', category: '시설', isNew: true },
-    { id: 3, title: '겨울철 안전 작업 수칙 안내', date: '2024-01-13', category: '안전' },
-    { id: 4, title: '전자통관 시스템 업데이트 일정', date: '2024-01-12', category: '시스템' },
-    { id: 5, title: '2024년 정기 안전교육 일정 안내', date: '2024-01-10', category: '교육' }
+    { id: 1, title: '2025년 항만 시설 사용료 인상 안내', date: '2025-01-15', category: '요금', isImportant: true, isNew: true },
+    { id: 2, title: '신규 물류센터 운영 시작 공지', date: '2025-01-14', category: '시설', isNew: true },
+    { id: 3, title: '겨울철 안전 작업 수칙 안내', date: '2025-01-13', category: '안전' },
+    { id: 4, title: '전자통관 시스템 업데이트 일정', date: '2025-01-12', category: '시스템' },
+    { id: 5, title: '2025년 정기 안전교육 일정 안내', date: '2025-01-10', category: '교육' }
   ]
 
   const biddings: BoardItem[] = [
-    { id: 1, title: '항만 크레인 정비 용역 입찰 공고', date: '2024-01-16', category: '용역', isNew: true },
-    { id: 2, title: '물류창고 A동 리모델링 공사', date: '2024-01-15', category: '공사', isNew: true },
-    { id: 3, title: '보안 시스템 구축 사업자 선정', date: '2024-01-14', category: 'IT' },
-    { id: 4, title: '구내식당 운영 위탁업체 모집', date: '2024-01-13', category: '운영' }
+    { id: 1, title: '항만 크레인 정비 용역 입찰 공고', date: '2025-01-16', category: '용역', isNew: true },
+    { id: 2, title: '물류창고 A동 리모델링 공사', date: '2025-01-15', category: '공사', isNew: true },
+    { id: 3, title: '보안 시스템 구축 사업자 선정', date: '2025-01-14', category: 'IT' },
+    { id: 4, title: '구내식당 운영 위탁업체 모집', date: '2025-01-13', category: '운영' }
   ]
 
   const news: BoardItem[] = [
-    { id: 1, title: '항만 물동량 전년 대비 15% 증가', date: '2024-01-16', views: 1250, isNew: true },
-    { id: 2, title: '스마트 항만 구축 사업 본격 추진', date: '2024-01-15', views: 890, isNew: true },
-    { id: 3, title: '친환경 항만 인증 획득', date: '2024-01-14', views: 756 },
-    { id: 4, title: '글로벌 선사와 전략적 제휴 체결', date: '2024-01-12', views: 623 }
+    { id: 1, title: '항만 물동량 전년 대비 15% 증가', date: '2025-01-16', views: 1250, isNew: true },
+    { id: 2, title: '스마트 항만 구축 사업 본격 추진', date: '2025-01-15', views: 890, isNew: true },
+    { id: 3, title: '친환경 항만 인증 획득', date: '2025-01-14', views: 756 },
+    { id: 4, title: '글로벌 선사와 전략적 제휴 체결', date: '2025-01-12', views: 623 }
   ]
 
   const renderBoardItem = (item: BoardItem, showViews = false) => (

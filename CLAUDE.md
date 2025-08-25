@@ -192,6 +192,12 @@ const STORAGE_VERSION = 'v3'  // v2 → v3으로 증가
 - [ ] 카테고리 관리에서 on/off 가능한가?
 - [ ] 빌드 에러가 없는가? (`pnpm run build`)
 
+## 🏢 브랜드명 사용 규칙
+- **회사명/브랜드명은 항상 "BRAND"로 표기**
+- 테크컴퍼니, 회사명, 기업명 등 구체적인 이름 사용 금지
+- 예시에서도 일관되게 BRAND 사용
+- 로고나 회사 표시가 필요한 모든 곳에 BRAND 표기
+
 ## 🚫 Git 커밋 규칙
 - AI 서명 절대 포함하지 말 것
 - 커밋 메시지는 간결하고 명확하게 작성
@@ -234,6 +240,48 @@ components/
 ```
 
 ## 💅 UI 개발 규칙
+
+### 🎯 shadcn/ui 컴포넌트 사용 필수
+**모든 UI 요소는 반드시 shadcn/ui 컴포넌트를 사용해야 함**
+- ❌ **절대 금지**: HTML 네이티브 요소 직접 사용
+  ```tsx
+  // ❌ Bad - 네이티브 HTML input 사용
+  <input type="checkbox" checked={value} onChange={...} />
+  <label>...</label>
+  
+  // ✅ Good - shadcn/ui 컴포넌트 사용
+  import { Checkbox } from '@/components/ui/checkbox'
+  import { Label } from '@/components/ui/label'
+  
+  <div className="flex items-center space-x-2">
+    <Checkbox id="terms" checked={value} onCheckedChange={setValue} />
+    <Label htmlFor="terms">...</Label>
+  </div>
+  ```
+
+- **필수 import 체크리스트**:
+  - Checkbox → `@/components/ui/checkbox`
+  - Label → `@/components/ui/label`
+  - Button → `@/components/ui/button`
+  - Input → `@/components/ui/input`
+  - Select → `@/components/ui/select`
+  - Switch → `@/components/ui/switch`
+  - RadioGroup → `@/components/ui/radio-group`
+  - 기타 모든 UI 요소는 shadcn/ui 사용
+
+- **체크박스 표준 패턴**:
+  ```tsx
+  <div className="flex items-center space-x-2">
+    <Checkbox 
+      id="unique-id"
+      checked={state}
+      onCheckedChange={(checked) => setState(checked as boolean)}
+    />
+    <Label htmlFor="unique-id" className="cursor-pointer">
+      레이블 텍스트
+    </Label>
+  </div>
+  ```
 
 ### 컴포넌트 크기 제한
 - **단일 컴포넌트 파일은 300줄 이하**

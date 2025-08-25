@@ -112,5 +112,5 @@ className={`flex ${isAnimating ? 'animate-scroll-right space-x-8' : 'justify-cen
 5. 성능 최적화 (필요시)
 
 ---
-*생성일: 2024-12-22*
+*생성일: 2025-12-22*
 *작성자: Claude Code Assistant*

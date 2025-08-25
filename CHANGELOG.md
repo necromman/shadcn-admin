@@ -106,7 +106,7 @@
 - **style**: update global scrollbar style (#82)
 - toolbar filter placeholder typo in user table (#76)
 
-## v1.0.3 (2024-12-28)
+## v1.0.3 (2025-12-28)
 
 ### Fix
 
@@ -118,7 +118,7 @@
 
 - optimize states in users/tasks context (#71)
 
-## v1.0.2 (2024-12-25)
+## v1.0.2 (2025-12-25)
 
 ### Fix
 
@@ -128,7 +128,7 @@
 
 - analyze and remove unused files/exports with knip (#67)
 
-## v1.0.1 (2024-12-14)
+## v1.0.1 (2025-12-14)
 
 ### Fix
 
@@ -146,7 +146,7 @@
 
 - remove unnecessary layout-backup file
 
-## v1.0.0 (2024-12-09)
+## v1.0.0 (2025-12-09)
 
 ### BREAKING CHANGE
 
@@ -185,7 +185,7 @@ but introduces breaking changes.
 - update layouts and extract common layout
 - reorganize project to feature-based structure
 
-## v1.0.0-beta.5 (2024-11-11)
+## v1.0.0-beta.5 (2025-11-11)
 
 ### Feat
 
@@ -196,7 +196,7 @@ but introduces breaking changes.
 - ensure site syncs with system theme changes (#49)
 - recent sales responsive on ipad view (#40)
 
-## v1.0.0-beta.4 (2024-09-22)
+## v1.0.0-beta.4 (2025-09-22)
 
 ### Feat
 
@@ -209,7 +209,7 @@ but introduces breaking changes.
 - solve asChild attribute issue in custom button (#31)
 - improve custom Button component (#28)
 
-## v1.0.0-beta.3 (2024-08-25)
+## v1.0.0-beta.3 (2025-08-25)
 
 ### Feat
 
@@ -227,13 +227,13 @@ but introduces breaking changes.
 - update layouts and solve overflow issues (#11)
 - sync pin inputs programmatically
 
-## v1.0.0-beta.2 (2024-03-18)
+## v1.0.0-beta.2 (2025-03-18)
 
 ### Feat
 
 - implement custom pin-input component (#2)
 
-## v1.0.0-beta.1 (2024-02-08)
+## v1.0.0-beta.1 (2025-02-08)
 
 ### Feat
 

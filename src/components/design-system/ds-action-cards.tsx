@@ -118,7 +118,7 @@ export function DSActionCards() {
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <HiCalendarDays className="h-4 w-4" />
-              <span>2024.03.15</span>
+              <span>2025.03.15</span>
             </div>
             <div className="flex items-center gap-1">
               <HiMapPin className="h-4 w-4" />
@@ -208,7 +208,7 @@ export function DSActionCards() {
       <Card className="hover:shadow-lg transition-shadow">
         <CardHeader className="pb-3">
           <CardTitle>월간 리포트</CardTitle>
-          <CardDescription>2024년 3월 성과 분석</CardDescription>
+          <CardDescription>2025년 3월 성과 분석</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">

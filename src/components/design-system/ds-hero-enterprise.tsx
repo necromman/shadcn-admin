@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 import { 
   HiArrowRight, 
   HiPlayCircle, 
@@ -12,171 +14,203 @@ import {
   HiUsers,
   HiChartBar,
   HiDocumentText,
-  HiPhone
+  HiPhone,
+  HiSparkles,
+  HiRocketLaunch,
+  HiBeaker
 } from 'react-icons/hi2'
 
 // 팝업 컴포넌트
 interface PopupProps {
-  type: 'notice' | 'advertisement'
+  type: 'text' | 'image'
   onClose: () => void
-  backgroundImage?: string
+  imageUrl?: string
 }
 
-function HeroPopup({ type, onClose, backgroundImage }: PopupProps) {
-  if (type === 'advertisement') {
+function HeroPopup({ type, onClose, imageUrl }: PopupProps) {
+  // 이미지 중심 팝업 (제품 출시/이벤트)
+  if (type === 'image') {
     return (
-      <div className="absolute left-6 top-24 z-20 w-[420px] animate-in slide-in-from-left-5 duration-500">
-        <Card className="relative overflow-hidden border-0 shadow-2xl">
-          {/* 배경 이미지 */}
-          {backgroundImage && (
-            <div 
-              className="absolute inset-0 opacity-10"
-              style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}
-            />
-          )}
-          
-          {/* 닫기 버튼 */}
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/20 backdrop-blur flex items-center justify-center text-white hover:bg-black/30 transition-colors"
-          >
-            <HiXMark className="w-5 h-5" />
-          </button>
-          
-          {/* 광고 콘텐츠 */}
-          <div className="relative p-6 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
-            <div className="space-y-4">
-              <Badge className="bg-white/20 text-white border-white/30 backdrop-blur">
-                🎊 기간 한정 특가
+      <div className="absolute inset-x-0 top-0 z-40 flex justify-center p-8">
+        <div className="w-full max-w-md animate-in slide-in-from-top-5 duration-500 group">
+          <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0">
+            {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-background/80 hover:bg-background border flex items-center justify-center transition-all opacity-0 hover:opacity-100 group-hover:opacity-100"
+              aria-label="닫기"
+            >
+              <HiXMark className="w-4 h-4" />
+            </button>
+            
+            {/* 상단 라벨 */}
+            <div className="px-6 pt-6 pb-3">
+              <Badge variant="secondary" className="mb-3">
+                <HiSparkles className="w-3 h-3 mr-1" />
+                신제품 출시
               </Badge>
-              
-              <div>
-                <h3 className="text-2xl font-bold mb-2">
-                  연말 빅세일 최대 70% 할인
-                </h3>
-                <p className="text-white/90">
-                  엔터프라이즈 플랜 연간 구독 시 추가 3개월 무료!
-                </p>
-              </div>
-              
-              <div className="flex items-center gap-3 text-sm">
-                <div className="flex items-center gap-1">
-                  <HiClock className="w-4 h-4" />
-                  <span>12월 31일까지</span>
-                </div>
-                <div className="w-px h-4 bg-white/30" />
-                <div className="flex items-center gap-1">
-                  <HiUsers className="w-4 h-4" />
-                  <span>선착순 100개 기업</span>
-                </div>
-              </div>
-              
-              <div className="pt-2 space-y-2">
-                <Button className="w-full bg-white text-purple-600 hover:bg-white/90">
-                  지금 구매하기
-                  <HiArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button variant="ghost" className="w-full text-white hover:bg-white/10">
-                  자세히 알아보기
-                </Button>
-              </div>
+              <h2 className="text-xl font-bold">
+                AI 워크플로우 자동화 솔루션
+                <span className="text-primary"> Pro 2.0</span> 출시
+              </h2>
             </div>
-          </div>
-          
-          {/* 하단 타이머 */}
-          <div className="relative bg-black/80 text-white p-3">
-            <div className="flex items-center justify-center gap-4 text-sm">
-              <span className="text-white/60">남은 시간</span>
-              <div className="flex gap-2 font-mono font-bold">
-                <span className="bg-white/10 px-2 py-1 rounded">23</span>
-                <span>:</span>
-                <span className="bg-white/10 px-2 py-1 rounded">59</span>
-                <span>:</span>
-                <span className="bg-white/10 px-2 py-1 rounded">47</span>
+            
+            {/* 이미지 영역 */}
+            <div className="px-6 pb-4">
+              <div className="relative rounded-lg overflow-hidden bg-muted aspect-[16/9]">
+                {imageUrl ? (
+                  <img 
+                    src={imageUrl} 
+                    alt="Product"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <HiRocketLaunch className="w-16 h-16 mx-auto mb-2 text-muted-foreground" />
+                      <div className="text-sm text-muted-foreground">Product Image</div>
+                    </div>
+                  </div>
+                )}
               </div>
+              
+              <p className="mt-3 text-sm text-muted-foreground">
+                업무 생산성을 200% 향상시키는 차세대 AI 솔루션을 만나보세요.
+                지금 가입하시면 3개월 무료 체험 혜택을 드립니다.
+              </p>
             </div>
-          </div>
-        </Card>
+            
+            {/* CTA 버튼 */}
+            <div className="px-6 pb-4">
+              <Button className="w-full" size="lg">
+                자세히 알아보기
+                <HiArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+            
+            {/* 하단 옵션 */}
+            <div className="flex border-t bg-background mt-auto">
+              <button 
+                className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
+                onClick={onClose}
+              >
+                오늘 하루 보지 않기
+              </button>
+              <div className="w-px bg-border" />
+              <button 
+                className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
+                onClick={onClose}
+              >
+                닫기
+              </button>
+            </div>
+          </Card>
+        </div>
       </div>
     )
   }
   
-  // 공지 타입 팝업
+  // 텍스트 중심 팝업 (공지사항/업데이트)
   return (
-    <div className="absolute left-6 top-24 z-20 w-[400px] animate-in slide-in-from-left-5 duration-500">
-      <Card className="relative overflow-hidden border-primary/20 bg-background/95 backdrop-blur shadow-xl">
-        {/* 배경 이미지 */}
-        {backgroundImage && (
-          <div 
-            className="absolute inset-0 opacity-5"
-            style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}
-          />
-        )}
-        
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary/80 to-primary/60" />
-        
-        <div className="relative p-5">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-base font-semibold">중요 공지사항</span>
+    <div className="absolute inset-x-0 top-0 z-40 flex justify-center p-8">
+      <div className="w-full max-w-lg animate-in slide-in-from-top-5 duration-500 group">
+        <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0">
+          {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-background/80 hover:bg-background border flex items-center justify-center transition-all opacity-0 hover:opacity-100 group-hover:opacity-100"
+            aria-label="닫기"
+          >
+            <HiXMark className="w-4 h-4" />
+          </button>
+          
+          {/* 헤더 */}
+          <div className="border-b px-6 py-4">
+            <Badge className="mb-2">중요 공지</Badge>
+            <h2 className="text-2xl font-bold">2025년 1분기 주요 업데이트</h2>
+          </div>
+          
+          {/* 콘텐츠 */}
+          <div className="px-6 pt-6 pb-4 space-y-4">
+            {/* 주요 업데이트 항목들 */}
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <HiCheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold">새로운 대시보드 UI 출시</h3>
+                  <p className="text-sm text-muted-foreground">
+                    더욱 직관적이고 사용하기 쉬운 인터페이스로 업그레이드되었습니다.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <HiShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold">보안 강화 업데이트</h3>
+                  <p className="text-sm text-muted-foreground">
+                    2단계 인증 및 암호화 기술이 강화되어 더욱 안전해졌습니다.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                  <HiBeaker className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold">AI 기능 베타 테스트</h3>
+                  <p className="text-sm text-muted-foreground">
+                    선착순 1,000명에게 AI 어시스턴트 베타 테스트 기회를 제공합니다.
+                  </p>
+                </div>
+              </div>
             </div>
-            <button
+            
+            {/* 추가 정보 */}
+            <div className="rounded-lg border bg-muted/50 p-4">
+              <div className="flex items-center gap-2 text-sm">
+                <HiClock className="w-4 h-4 text-muted-foreground" />
+                <span className="text-muted-foreground">업데이트 일정:</span>
+                <span className="font-medium">2025년 1월 15일 00:00 KST</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* 액션 버튼 */}
+          <div className="px-6 pb-4">
+            <div className="flex gap-3">
+              <Button className="flex-1" size="lg">
+                업데이트 내용 자세히 보기
+              </Button>
+              <Button variant="outline" size="lg" onClick={onClose}>
+                나중에 확인
+              </Button>
+            </div>
+          </div>
+          
+          {/* 하단 옵션 */}
+          <div className="flex border-t bg-background mt-auto">
+            <button 
+              className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
               onClick={onClose}
-              className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <HiXMark className="w-5 h-5" />
+              오늘 하루 보지 않기
+            </button>
+            <div className="w-px bg-border" />
+            <button 
+              className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
+              onClick={onClose}
+            >
+              닫기
             </button>
           </div>
-          
-          <div className="space-y-4">
-            <div className="p-3 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800">
-              <div className="flex items-start gap-3">
-                <HiCheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium text-green-900 dark:text-green-100">시스템 업데이트 완료</p>
-                  <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                    v2.5.0 업데이트가 성공적으로 완료되었습니다. 새로운 대시보드와 향상된 성능을 경험해보세요.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
-              <div className="flex items-start gap-3">
-                <HiShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium text-blue-900 dark:text-blue-100">보안 정책 변경</p>
-                  <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                    2024년 1월 1일부터 2단계 인증이 의무화됩니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800">
-              <div className="flex items-start gap-3">
-                <HiUsers className="w-5 h-5 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium text-purple-900 dark:text-purple-100">신규 기능 출시</p>
-                  <p className="text-sm text-purple-700 dark:text-purple-300 mt-1">
-                    팀 협업을 위한 실시간 편집 기능이 추가되었습니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-5 pt-4 border-t flex gap-2">
-            <Button size="sm" className="flex-1">
-              자세히 보기
-            </Button>
-            <Button size="sm" variant="outline" className="flex-1">
-              모든 공지 확인
-            </Button>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </div>
   )
 }
@@ -184,11 +218,12 @@ function HeroPopup({ type, onClose, backgroundImage }: PopupProps) {
 // 메인 히어로 섹션
 export function DSHeroEnterprise() {
   const [showPopup, setShowPopup] = useState(true)
-  const [popupType, setPopupType] = useState<'notice' | 'advertisement'>('notice')
-  const [popupBackground, setPopupBackground] = useState('')
+  const [popupType, setPopupType] = useState<'text' | 'image'>('text')
+  const [popupImageUrl, setPopupImageUrl] = useState('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80')
   const [heroStyle, setHeroStyle] = useState<'gradient' | 'image' | 'video'>('image')
   const [heroBackground, setHeroBackground] = useState('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80')
   const [showStats, setShowStats] = useState(true)
+  const [enableBlur, setEnableBlur] = useState(true)
 
   return (
     <>
@@ -237,62 +272,77 @@ export function DSHeroEnterprise() {
                   />
                 </div>
               )}
-              
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showStats}
-                  onChange={(e) => setShowStats(e.target.checked)}
-                  className="rounded"
-                />
-                <span className="text-sm">통계 표시</span>
-              </label>
             </div>
             
-            {/* 두 번째 줄: 팝업 설정 */}
+            {/* 두 번째 줄: 통계 및 팝업 설정 */}
             <div className="flex flex-wrap items-center gap-4 pt-2 border-t">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showPopup}
-                  onChange={(e) => setShowPopup(e.target.checked)}
-                  className="rounded"
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="show-stats"
+                  checked={showStats}
+                  onCheckedChange={(checked) => setShowStats(checked as boolean)}
                 />
-                <span className="text-sm font-medium">팝업 표시</span>
-              </label>
+                <Label htmlFor="show-stats" className="text-sm font-medium cursor-pointer">
+                  통계 표시
+                </Label>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="show-popup"
+                  checked={showPopup}
+                  onCheckedChange={(checked) => setShowPopup(checked as boolean)}
+                />
+                <Label htmlFor="show-popup" className="text-sm font-medium cursor-pointer">
+                  팝업 표시
+                </Label>
+              </div>
               
               {showPopup && (
                 <>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="enable-blur"
+                      checked={enableBlur}
+                      onCheckedChange={(checked) => setEnableBlur(checked as boolean)}
+                    />
+                    <Label htmlFor="enable-blur" className="text-sm cursor-pointer">
+                      배경 블러
+                    </Label>
+                  </div>
+                  
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium">팝업 타입:</span>
                     <div className="flex gap-2">
                       <Button
                         size="sm"
-                        variant={popupType === 'notice' ? 'default' : 'outline'}
-                        onClick={() => setPopupType('notice')}
+                        variant={popupType === 'text' ? 'default' : 'outline'}
+                        onClick={() => setPopupType('text')}
                       >
-                        공지사항
+                        텍스트 중심
                       </Button>
                       <Button
                         size="sm"
-                        variant={popupType === 'advertisement' ? 'default' : 'outline'}
-                        onClick={() => setPopupType('advertisement')}
+                        variant={popupType === 'image' ? 'default' : 'outline'}
+                        onClick={() => setPopupType('image')}
                       >
-                        광고
+                        이미지 중심
                       </Button>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">팝업 배경:</span>
-                    <input
-                      type="text"
-                      value={popupBackground}
-                      onChange={(e) => setPopupBackground(e.target.value)}
-                      placeholder="배경 이미지 URL (선택사항)"
-                      className="px-2 py-1 text-sm border rounded-md w-64"
-                    />
-                  </div>
+                  {popupType === 'image' && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">이미지 URL:</span>
+                      <input
+                        type="text"
+                        value={popupImageUrl}
+                        onChange={(e) => setPopupImageUrl(e.target.value)}
+                        placeholder="https://... (선택사항)"
+                        className="px-2 py-1 text-sm border rounded-md w-64"
+                      />
+                    </div>
+                  )}
                 </>
               )}
             </div>
@@ -302,44 +352,49 @@ export function DSHeroEnterprise() {
 
       {/* 메인 히어로 섹션 */}
       <section className="relative w-full overflow-hidden">
+        {/* 팝업 활성화 시 블러 오버레이 */}
+        {showPopup && enableBlur && (
+          <div className="absolute inset-0 z-30 bg-background/20 backdrop-blur-sm" />
+        )}
+        
         {/* 배경 */}
         <div className="absolute inset-0">
           {heroStyle === 'gradient' && (
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-background" />
+            <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20" />
           )}
           {heroStyle === 'image' && (
             <div 
-              className="absolute inset-0 bg-cover bg-center opacity-20"
+              className="absolute inset-0 bg-cover bg-center opacity-10 dark:opacity-5"
               style={{ backgroundImage: `url(${heroBackground})` }}
             />
           )}
           {heroStyle === 'video' && (
-            <div className="absolute inset-0 bg-primary/5">
-              <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                <HiPlayCircle className="w-32 h-32 text-primary/30" />
+            <div className="absolute inset-0 bg-muted/5">
+              <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                <HiPlayCircle className="w-32 h-32 text-muted-foreground" />
               </div>
             </div>
           )}
         </div>
 
-        {/* 팝업 알림 */}
+        {/* 팝업 알림 - 히어로 섹션 내부에만 표시 */}
         {showPopup && (
           <HeroPopup 
             type={popupType}
             onClose={() => setShowPopup(false)}
-            backgroundImage={popupBackground}
+            imageUrl={popupImageUrl}
           />
         )}
 
         {/* 메인 콘텐츠 */}
-        <div className="container relative z-10 py-24 md:py-32 lg:py-40">
+        <div className={`container relative z-10 py-24 md:py-32 lg:py-40 transition-all duration-300 ${showPopup && enableBlur ? 'blur-sm' : ''}`}>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* 왼쪽: 텍스트 콘텐츠 */}
             <div className="space-y-8">
               <div className="flex items-center gap-3">
                 <Badge variant="secondary" className="px-3 py-1">
                   <HiClock className="w-3 h-3 mr-1" />
-                  2024 신제품 출시
+                  2025 신제품 출시
                 </Badge>
                 <Badge variant="outline" className="px-3 py-1">
                   업계 1위
@@ -392,7 +447,7 @@ export function DSHeroEnterprise() {
             {/* 오른쪽: 통계 카드 */}
             {showStats && (
               <div className="grid grid-cols-2 gap-4">
-                <Card className="p-6 bg-background/50 backdrop-blur border-primary/10">
+                <Card className="p-6 bg-background/80 backdrop-blur border">
                   <HiUsers className="w-8 h-8 text-primary mb-3" />
                   <div className="space-y-1">
                     <p className="text-3xl font-bold">10,000+</p>
@@ -401,7 +456,7 @@ export function DSHeroEnterprise() {
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-background/50 backdrop-blur border-primary/10">
+                <Card className="p-6 bg-background/80 backdrop-blur border">
                   <HiChartBar className="w-8 h-8 text-primary mb-3" />
                   <div className="space-y-1">
                     <p className="text-3xl font-bold">99.9%</p>
@@ -410,7 +465,7 @@ export function DSHeroEnterprise() {
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-background/50 backdrop-blur border-primary/10">
+                <Card className="p-6 bg-background/80 backdrop-blur border">
                   <HiDocumentText className="w-8 h-8 text-primary mb-3" />
                   <div className="space-y-1">
                     <p className="text-3xl font-bold">500+</p>
@@ -419,7 +474,7 @@ export function DSHeroEnterprise() {
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-background/50 backdrop-blur border-primary/10">
+                <Card className="p-6 bg-background/80 backdrop-blur border">
                   <HiShieldCheck className="w-8 h-8 text-primary mb-3" />
                   <div className="space-y-1">
                     <p className="text-3xl font-bold">ISO 27001</p>
@@ -432,7 +487,7 @@ export function DSHeroEnterprise() {
           </div>
 
           {/* 하단 고객사 로고 */}
-          <div className="mt-16 pt-8 border-t">
+          <div className={`mt-16 pt-8 border-t transition-all duration-300 ${showPopup && enableBlur ? 'blur-sm' : ''}`}>
             <p className="text-center text-sm text-muted-foreground mb-6">
               국내외 주요 기업들이 신뢰하는 솔루션
             </p>
@@ -454,75 +509,22 @@ export function DSHeroEnterprise() {
 // 다양한 스타일의 히어로 섹션 변형
 export function DSHeroVariants() {
   return (
-    <div className="space-y-12">
-      {/* 엔터프라이즈 히어로 */}
-      <div className="space-y-4">
-        <div className="container">
-          <div className="rounded-lg border bg-card dark:bg-card p-4 shadow-sm dark:shadow-none transition-colors">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                <h3 className="text-base font-semibold text-foreground">엔터프라이즈 히어로</h3>
-              </div>
-              <p className="text-sm text-muted-foreground pl-3.5">
-                대기업 및 공공기관을 위한 전문적인 히어로 섹션. 팝업 알림, 통계 카드, 고객사 로고 등 포함.
-              </p>
-            </div>
-          </div>
-        </div>
-        <DSHeroEnterprise />
-      </div>
-
-      {/* 기본 히어로 */}
-      <div className="space-y-4">
-        <div className="container">
-          <div className="rounded-lg border bg-card dark:bg-card p-4 shadow-sm dark:shadow-none transition-colors">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                <h3 className="text-base font-semibold text-foreground">심플 히어로</h3>
-              </div>
-              <p className="text-sm text-muted-foreground pl-3.5">
-                스타트업 및 중소기업을 위한 깔끔한 히어로 섹션. 핵심 메시지와 CTA에 집중.
-              </p>
-            </div>
-          </div>
-        </div>
-        <SimpleHero />
-      </div>
-    </div>
-  )
-}
-
-// 심플한 히어로 섹션
-function SimpleHero() {
-  return (
-    <section className="relative w-full py-20 overflow-hidden">
+    <div className="space-y-4">
+      {/* 엔터프라이즈 히어로만 표시 */}
       <div className="container">
-        <div className="max-w-3xl mx-auto text-center space-y-6">
-          <Badge className="mb-4">
-            ✨ 새로운 기능 출시
-          </Badge>
-          
-          <h1 className="text-4xl md:text-5xl font-bold">
-            더 나은 내일을 위한
-            <span className="text-primary"> 디지털 혁신</span>
-          </h1>
-          
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            복잡한 업무를 간단하게. AI와 자동화 기술로 비즈니스 프로세스를 혁신하세요.
-          </p>
-          
-          <div className="flex justify-center gap-4">
-            <Button size="lg">
-              시작하기
-            </Button>
-            <Button size="lg" variant="outline">
-              자세히 알아보기
-            </Button>
+        <div className="rounded-lg border bg-card dark:bg-card p-4 shadow-sm dark:shadow-none transition-colors">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              <h3 className="text-base font-semibold text-foreground">엔터프라이즈 히어로</h3>
+            </div>
+            <p className="text-sm text-muted-foreground pl-3.5">
+              대기업 및 공공기관을 위한 전문적인 히어로 섹션. 팝업 알림, 통계 카드, 고객사 로고 등 포함.
+            </p>
           </div>
         </div>
       </div>
-    </section>
+      <DSHeroEnterprise />
+    </div>
   )
 }

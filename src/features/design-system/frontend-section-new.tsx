@@ -12,9 +12,9 @@ import { DSAnnouncementBarVariants } from '@/components/design-system/ds-announc
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
 import { DSIntegratedSearch } from '@/components/design-system/ds-integrated-search'
 import { DSHeroVariants } from '@/components/design-system/ds-hero-enterprise'
+import { DSNoticePreview } from '@/components/design-system/ds-notice-preview'
 import { DSFooter } from '@/components/design-system/ds-footer'
 import { DSAuthCards } from '@/components/design-system/ds-auth-cards'
-import { DSBusinessCards } from '@/components/design-system/ds-business-cards'
 import { DSPortfolioSection } from '@/components/design-system/ds-portfolio-section'
 import { ComponentShowcase } from './component-showcase'
 
@@ -117,10 +117,9 @@ const COMPONENT_MAP: Record<CategoryType, React.ComponentType | null> = {
   'header': DSHeaderEnterprise,
   'search': DSIntegratedSearch,
   'hero': DSHeroVariants,
-  'notice-preview': null,
+  'notice-preview': DSNoticePreview,
   'board-preview': null,
   'content': null,
-  'business': DSBusinessCards,
   'portfolio': DSPortfolioSection,
   'auth': DSAuthCards,
   'components': ComponentShowcase,
@@ -146,20 +145,16 @@ const CATEGORY_DESCRIPTIONS: Record<CategoryType, { title: string; description: 
     description: '엔터프라이즈급 히어로 섹션. 팝업 알림, 배경 스타일 선택, 통계 카드 등 다양한 옵션 제공. 한글 콘텐츠로 구성된 전문적인 레이아웃.'
   },
   'notice-preview': {
-    title: '공지사항 미리보기',
-    description: '최신 공지사항을 요약하여 표시하는 컴포넌트. 리스트, 카드, 타임라인 등 다양한 레이아웃 지원.'
+    title: '최신소식 미리보기',
+    description: '최신 소식과 게시판별 업데이트를 요약하여 표시하는 컴포넌트. 공지사항, 이벤트, 게시판 글 등을 한눈에 확인.'
   },
   'board-preview': {
     title: '게시판 미리보기',
     description: '인기 게시글, 최신 게시글 등을 미리보기 형태로 표시. 탭, 캐러셀, 그리드 레이아웃 제공.'
   },
-  'business': {
-    title: 'Business Solutions',
-    description: '서비스 소개, 가격표, 팀 멤버, 고객 후기 등 비즈니스 필수 카드 컴포넌트 모음.'
-  },
   'portfolio': {
-    title: 'Portfolio & Showcase',
-    description: '작업물, 프로젝트, 파트너사를 효과적으로 보여주는 포트폴리오 섹션. 필터링과 정렬 기능 포함.'
+    title: '쇼케이스',
+    description: '비즈니스 파트너사와 스폰서를 효과적으로 보여주는 쇼케이스 섹션. 카드 레이아웃과 슬라이더로 구성.'
   },
   'content': {
     title: '콘텐츠 섹션',
@@ -192,11 +187,25 @@ export const FrontendSection = forwardRef<{
 
   // localStorage에서 설정 불러오기
   useEffect(() => {
-    // 버전 관리를 통한 캐시 무효화
-    const STORAGE_VERSION = 'v2' // 버전 변경 시 캐시 자동 초기화
     const STORAGE_KEY = 'frontend-categories'
     const VERSION_KEY = 'frontend-categories-version'
     
+    // 개발 모드에서는 항상 초기화 (페이지 새로고침 시)
+    const isDevelopment = import.meta.env.DEV
+    
+    if (isDevelopment) {
+      // 개발 모드: 항상 기본값 사용, localStorage는 무시
+      console.log('[DEV] Using default categories (ignoring localStorage)')
+      setCategories(DEFAULT_CATEGORIES)
+      setExpandedCategories(new Set(DEFAULT_CATEGORIES.filter(c => c.enabled).map(c => c.id)))
+      // 개발 모드에서도 localStorage 정리
+      localStorage.removeItem(STORAGE_KEY)
+      localStorage.removeItem(VERSION_KEY)
+      return
+    }
+    
+    // 프로덕션 모드: 버전 관리를 통한 캐시 무효화
+    const STORAGE_VERSION = 'v3' // 게시판 미리보기 섹션 제거
     const currentVersion = localStorage.getItem(VERSION_KEY)
     
     // 버전이 다르거나 없으면 초기화
@@ -250,7 +259,10 @@ export const FrontendSection = forwardRef<{
   // 설정 저장
   const handleCategoriesChange = (newCategories: CategoryConfig[]) => {
     setCategories(newCategories)
-    localStorage.setItem('frontend-categories', JSON.stringify(newCategories))
+    // 개발 모드에서는 localStorage에 저장하지 않음
+    if (!import.meta.env.DEV) {
+      localStorage.setItem('frontend-categories', JSON.stringify(newCategories))
+    }
   }
 
   const handleReset = () => {
@@ -381,7 +393,7 @@ export const FrontendSection = forwardRef<{
           <div className="container mb-8">
             {renderDescription()}
           </div>
-          <div className="w-full pb-12">
+          <div className="w-full">
             {Component && <Component />}
           </div>
         </CollapsibleSection>

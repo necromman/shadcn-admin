@@ -33,27 +33,50 @@ import {
   type NavGroup as NavGroupProps,
 } from './types'
 
-export function NavGroup({ title, items }: NavGroupProps) {
+export function NavGroup({ title, items, collapsible, defaultOpen = true }: NavGroupProps) {
   const { state, isMobile } = useSidebar()
   const href = useLocation({ select: (location) => location.href })
+  
+  const content = (
+    <SidebarMenu>
+      {items.map((item) => {
+        const key = `${item.title}-${item.url}`
+
+        if (!item.items)
+          return <SidebarMenuLink key={key} item={item} href={href} />
+
+        if (state === 'collapsed' && !isMobile)
+          return (
+            <SidebarMenuCollapsedDropdown key={key} item={item} href={href} />
+          )
+
+        return <SidebarMenuCollapsible key={key} item={item} href={href} />
+      })}
+    </SidebarMenu>
+  )
+
+  if (collapsible) {
+    return (
+      <Collapsible defaultOpen={defaultOpen} className="group/collapsible">
+        <SidebarGroup>
+          <CollapsibleTrigger asChild>
+            <SidebarGroupLabel className="flex w-full items-center justify-between cursor-pointer hover:bg-accent/50 px-2 py-1 rounded">
+              {title}
+              <LuChevronRight className="h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+            </SidebarGroupLabel>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            {content}
+          </CollapsibleContent>
+        </SidebarGroup>
+      </Collapsible>
+    )
+  }
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{title}</SidebarGroupLabel>
-      <SidebarMenu>
-        {items.map((item) => {
-          const key = `${item.title}-${item.url}`
-
-          if (!item.items)
-            return <SidebarMenuLink key={key} item={item} href={href} />
-
-          if (state === 'collapsed' && !isMobile)
-            return (
-              <SidebarMenuCollapsedDropdown key={key} item={item} href={href} />
-            )
-
-          return <SidebarMenuCollapsible key={key} item={item} href={href} />
-        })}
-      </SidebarMenu>
+      {content}
     </SidebarGroup>
   )
 }

@@ -5,7 +5,6 @@ import { LayoutProvider } from '@/context/layout-provider'
 import { SearchProvider } from '@/context/search-provider'
 import {
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarInset,
   SidebarProvider,
@@ -15,8 +14,7 @@ import { AppSidebar } from '@/components/layout/app-sidebar'
 import { SkipToMain } from '@/components/skip-to-main'
 import { sidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
-import { NavUser } from './nav-user'
-import { TeamSwitcher } from './team-switcher'
+import { ProstLogo } from './prost-logo'
 
 type AuthenticatedLayoutProps = {
   children?: React.ReactNode
@@ -31,16 +29,13 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
           <SkipToMain />
           <AppSidebar>
             <SidebarHeader>
-              <TeamSwitcher teams={sidebarData.teams} />
+              <ProstLogo />
             </SidebarHeader>
             <SidebarContent>
               {sidebarData.navGroups.map((props) => (
                 <NavGroup key={props.title} {...props} />
               ))}
             </SidebarContent>
-            <SidebarFooter>
-              <NavUser user={sidebarData.user} />
-            </SidebarFooter>
             <SidebarRail />
           </AppSidebar>
           <SidebarInset

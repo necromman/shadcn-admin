@@ -1,23 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect, useRef } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { FrontendSection } from '@/features/design-system/frontend-section'
-import { BackofficeSection } from '@/features/design-system/backoffice-section'
+import { FrontendSection } from './frontend-section-new'
+import { BackofficeSection } from './backoffice-section'
 import { ThemeToggleButton } from '@/components/theme-toggle-button'
-import { ThemeSelector } from '@/features/design-system/theme/components/theme-selector'
+import { ThemeSelector } from './theme/components/theme-selector'
 import { Button } from '@/components/ui/button'
 import { HiSwatch, HiViewColumns, HiSquares2X2 } from 'react-icons/hi2'
-import { applyTheme, resetTheme } from '@/features/design-system/theme/core/theme-utils'
-import { type ThemeConfig } from '@/features/design-system/theme/core/types'
-import { themeRegistry } from '@/features/design-system/theme/core/theme-registry'
-import { defaultTheme } from '@/features/design-system/theme/presets/default'
-import { custom_themeTheme } from '@/features/design-system/theme/presets/theme-custom-theme'
+import { applyTheme, resetTheme } from './theme/core/theme-utils'
+import { type ThemeConfig } from './theme/core/types'
+import { themeRegistry } from './theme/core/theme-registry'
+import { defaultTheme } from './theme/presets/default'
+import { custom_themeTheme } from './theme/presets/theme-custom-theme'
 
-export const Route = createFileRoute('/design-system')({
-  component: DesignSystemPage,
-})
-
-function DesignSystemPage() {
+export function DesignSystemPage() {
   const [activeTab, setActiveTab] = useState('frontend')
   const [allExpanded, setAllExpanded] = useState(false)
   const frontendSectionRef = useRef<{ toggleAll: () => void } | null>(null)
@@ -61,9 +56,10 @@ function DesignSystemPage() {
   
   // 테마 에디터에서 메시지 받기
   useEffect(() => {
-    const handleThemeMessage = (data: any) => {
-      if (data.type === 'APPLY_THEME' && data.theme) {
-        const theme = data.theme as ThemeConfig
+    const handleThemeMessage = (data: unknown) => {
+      const message = data as { type: string; theme?: ThemeConfig }
+    if (message.type === 'APPLY_THEME' && message.theme) {
+        const theme = message.theme
         
         // 테마 적용 (현재 다크 모드 상태 반영) - 임시 적용만
         applyTheme(theme)
@@ -80,7 +76,7 @@ function DesignSystemPage() {
             document.documentElement.classList.add('dark')
           }, 0)
         }
-      } else if (data.type === 'RESET_THEME') {
+      } else if (message.type === 'RESET_THEME') {
         resetTheme()
       }
     }
@@ -97,8 +93,8 @@ function DesignSystemPage() {
       channel.onmessage = (event) => {
         handleThemeMessage(event.data)
       }
-    } catch (error) {
-      console.error('Failed to create BroadcastChannel:', error)
+    } catch {
+      // BroadcastChannel not supported
     }
     
     window.addEventListener('message', handleMessage)

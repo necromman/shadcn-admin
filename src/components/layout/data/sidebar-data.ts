@@ -50,11 +50,13 @@ export const sidebarData: SidebarData = {
   ],
   navGroups: [
     {
-      title: 'General',
+      title: 'Old (참조용)',
+      collapsible: true,
+      defaultOpen: false,
       items: [
         {
           title: 'Dashboard',
-          url: '/',
+          url: '/old',
           icon: LuLayoutDashboard,
         },
         {
@@ -78,29 +80,6 @@ export const sidebarData: SidebarData = {
           url: '/users',
           icon: LuUsers,
         },
-        {
-          title: 'Secured by Clerk',
-          icon: ClerkLogo,
-          items: [
-            {
-              title: 'Sign In',
-              url: '/clerk/sign-in',
-            },
-            {
-              title: 'Sign Up',
-              url: '/clerk/sign-up',
-            },
-            {
-              title: 'User Management',
-              url: '/clerk/user-management',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      title: 'Pages',
-      items: [
         {
           title: 'Auth',
           icon: LuShieldCheck,
@@ -158,11 +137,6 @@ export const sidebarData: SidebarData = {
             },
           ],
         },
-      ],
-    },
-    {
-      title: 'Other',
-      items: [
         {
           title: 'Settings',
           icon: LuSettings,
@@ -198,6 +172,24 @@ export const sidebarData: SidebarData = {
           title: 'Help Center',
           url: '/help-center',
           icon: LuCircleHelp,
+        },
+        {
+          title: 'Secured by Clerk',
+          icon: ClerkLogo,
+          items: [
+            {
+              title: 'Sign In',
+              url: '/clerk/sign-in',
+            },
+            {
+              title: 'Sign Up',
+              url: '/clerk/sign-up',
+            },
+            {
+              title: 'User Management',
+              url: '/clerk/user-management',
+            },
+          ],
         },
       ],
     },

@@ -252,8 +252,8 @@ export function ThemeEditorWindow() {
           type: 'APPLY_THEME', 
           theme: themeConfig 
         }, window.location.origin)
-      } catch (error) {
-        console.error('Failed to send message via postMessage:', error)
+      } catch {
+        // Failed to send message via postMessage
       }
     }
     
@@ -265,8 +265,8 @@ export function ThemeEditorWindow() {
         theme: themeConfig 
       })
       channel.close()
-    } catch (error) {
-      console.error('Failed to send message via BroadcastChannel:', error)
+    } catch {
+      // BroadcastChannel not supported
     }
   }
   

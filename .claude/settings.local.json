@@ -17,7 +17,8 @@
       "Bash(sed:*)",
       "Bash(find:*)",
       "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\styles\\frontend\\animations\\infinite-scroll.css\")",
-      "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\styles\\frontend\\animations\\sponsors-scroll.css\")"
+      "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\styles\\frontend\\animations\\sponsors-scroll.css\")",
+      "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\routes\\design-system.tsx\")"
     ],
     "deny": [],
     "ask": []

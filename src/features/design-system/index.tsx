@@ -124,26 +124,26 @@ export function DesignSystemPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center justify-between">
-          <div className="flex items-center gap-6">
+        <div className="container flex flex-col sm:flex-row sm:h-14 items-start sm:items-center justify-between py-3 sm:py-0 gap-3 sm:gap-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 w-full sm:w-auto">
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold">
                 P
               </div>
               <div>
-                <h1 className="text-xl font-bold">PROST SPV</h1>
+                <h1 className="text-lg sm:text-xl font-bold">PROST SPV</h1>
                 <p className="text-xs text-muted-foreground -mt-1">Static Proto View</p>
               </div>
             </div>
-            <div className="h-8 w-px bg-border" />
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-[400px]">
+            <div className="hidden sm:block h-8 w-px bg-border" />
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full sm:w-[400px]">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="frontend">Frontend</TabsTrigger>
                 <TabsTrigger value="backoffice">Backoffice</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 self-end sm:self-auto">
             <ThemeToggleButton />
             <ThemeSelector 
               scopeFilter={activeTab === 'frontend' ? 'frontend' : activeTab === 'backoffice' ? 'backoffice' : 'all'}

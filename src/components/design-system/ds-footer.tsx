@@ -1,4 +1,4 @@
-import { FaGithub, FaTwitter, FaLinkedin, FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa'
+import { FaLinkedin, FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa'
 import { RiKakaoTalkFill } from 'react-icons/ri'
 import { SiNaver } from 'react-icons/si'
 import { HiEnvelope, HiPhone, HiMapPin } from 'react-icons/hi2'

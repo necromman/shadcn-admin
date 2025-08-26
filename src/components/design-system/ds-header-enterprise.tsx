@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { HiOutlineBars3, HiChevronDown } from 'react-icons/hi2'
+import { HiOutlineBars3, HiChevronDown, HiCog6Tooth } from 'react-icons/hi2'
 import { useState, useEffect, useRef } from 'react'
 import {
   Sheet,
@@ -8,6 +8,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 
 interface SubMenuItem {
@@ -99,6 +101,66 @@ export function DSHeaderEnterprise() {
 
   return (
     <>
+      {/* 콘텐츠 표시 옵션 - 표준 스타일 */}
+      <div className="container mb-4">
+        <div className="bg-slate-100 dark:bg-muted/30 border-2 border-dotted border-slate-300 dark:border-border/50 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <HiCog6Tooth className="h-4 w-4 text-slate-600 dark:text-muted-foreground" />
+            <span className="text-sm font-semibold text-slate-700 dark:text-muted-foreground">콘텐츠 표시 옵션</span>
+          </div>
+          
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="enable-blur"
+                checked={enableBlur}
+                onCheckedChange={(checked) => setEnableBlur(checked as boolean)}
+                className="h-4 w-4 border-slate-400 dark:border-border"
+              />
+              <Label
+                htmlFor="enable-blur"
+                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+              >
+                드롭다운 배경 블러
+              </Label>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="show-all-menus"
+                checked={showAllMenus}
+                onCheckedChange={(checked) => setShowAllMenus(checked as boolean)}
+                className="h-4 w-4 border-slate-400 dark:border-border"
+              />
+              <Label
+                htmlFor="show-all-menus"
+                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+              >
+                전체 메뉴 한번에 표시
+              </Label>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="hover-enabled"
+                checked={hoverEnabled}
+                onCheckedChange={(checked) => setHoverEnabled(checked as boolean)}
+                className="h-4 w-4 border-slate-400 dark:border-border"
+              />
+              <Label
+                htmlFor="hover-enabled"
+                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+              >
+                마우스오버 메뉴 활성화
+              </Label>
+            </div>
+          </div>
+          
+          <p className="text-xs text-slate-500 dark:text-muted-foreground mt-3 pl-0.5">
+            헤더 네비게이션의 동작을 설정할 수 있습니다
+          </p>
+        </div>
+      </div>
       {/* 드롭다운 활성화 시 배경 블러 오버레이 */}
       {enableBlur && (activeDropdown || megaMenuOpen) && (
         <div 
@@ -119,74 +181,7 @@ export function DSHeaderEnterprise() {
                 <span className="text-xl font-bold">Enterprise</span>
               </div>
               
-              {/* 토글 버튼들 */}
-              <div className="hidden lg:flex items-center gap-4 ml-4 pl-4 border-l">
-                {/* 배경 블러 토글 */}
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-sm text-muted-foreground">배경 블러</span>
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={enableBlur}
-                    onClick={() => setEnableBlur(!enableBlur)}
-                    className={cn(
-                      "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
-                      enableBlur ? "bg-primary" : "bg-muted"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "inline-block h-3 w-3 transform rounded-full bg-background transition-transform",
-                        enableBlur ? "translate-x-5" : "translate-x-1"
-                      )}
-                    />
-                  </button>
-                </label>
-                
-                {/* 모든 메뉴 표시 토글 */}
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-sm text-muted-foreground">전체 메뉴</span>
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={showAllMenus}
-                    onClick={() => setShowAllMenus(!showAllMenus)}
-                    className={cn(
-                      "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
-                      showAllMenus ? "bg-primary" : "bg-muted"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "inline-block h-3 w-3 transform rounded-full bg-background transition-transform",
-                        showAllMenus ? "translate-x-5" : "translate-x-1"
-                      )}
-                    />
-                  </button>
-                </label>
-                
-                {/* 마우스오버 토글 */}
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <span className="text-sm text-muted-foreground">마우스오버</span>
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={hoverEnabled}
-                    onClick={() => setHoverEnabled(!hoverEnabled)}
-                    className={cn(
-                      "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
-                      hoverEnabled ? "bg-primary" : "bg-muted"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "inline-block h-3 w-3 transform rounded-full bg-background transition-transform",
-                        hoverEnabled ? "translate-x-5" : "translate-x-1"
-                      )}
-                    />
-                  </button>
-                </label>
-              </div>
+              {/* 헤더 내 토글 버튼 제거 */}
             </div>
             
             <nav className="hidden lg:flex items-center gap-1" ref={dropdownRef}>

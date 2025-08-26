@@ -43,7 +43,7 @@ export function DSIntegratedSearch() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('검색:', searchQuery)
+    // Handle search functionality here
   }
 
   const handleTagClick = (tag: string) => {
@@ -60,7 +60,7 @@ export function DSIntegratedSearch() {
             isFocused ? "border-primary shadow-lg shadow-primary/20" : "border-border"
           )}>
             {/* 검색 입력 - 크기 대폭 확대 */}
-            <div className="flex items-center p-8 gap-4">
+            <div className="flex items-center px-3 py-2 gap-4">
               <HiMagnifyingGlass className="h-7 w-7 text-muted-foreground flex-shrink-0" />
               <Input
                 type="text"

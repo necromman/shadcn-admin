@@ -11,9 +11,6 @@ import {
   HiCheckCircle,
   HiShieldCheck,
   HiClock,
-  HiUsers,
-  HiChartBar,
-  HiDocumentText,
   HiPhone,
   HiSparkles,
   HiRocketLaunch,
@@ -36,7 +33,12 @@ function HeroPopup({ type, onClose, imageUrl }: PopupProps) {
           <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0">
             {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
             <button
-              onClick={onClose}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onClose()
+              }}
               className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-background/80 hover:bg-background border flex items-center justify-center transition-all opacity-0 hover:opacity-100 group-hover:opacity-100"
               aria-label="닫기"
             >
@@ -91,15 +93,25 @@ function HeroPopup({ type, onClose, imageUrl }: PopupProps) {
             {/* 하단 옵션 */}
             <div className="flex border-t bg-background mt-auto">
               <button 
+                type="button"
                 className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
-                onClick={onClose}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onClose()
+                }}
               >
                 오늘 하루 보지 않기
               </button>
               <div className="w-px bg-border" />
               <button 
+                type="button"
                 className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
-                onClick={onClose}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onClose()
+                }}
               >
                 닫기
               </button>
@@ -117,7 +129,12 @@ function HeroPopup({ type, onClose, imageUrl }: PopupProps) {
         <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0">
           {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
           <button
-            onClick={onClose}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onClose()
+            }}
             className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-background/80 hover:bg-background border flex items-center justify-center transition-all opacity-0 hover:opacity-100 group-hover:opacity-100"
             aria-label="닫기"
           >
@@ -187,7 +204,11 @@ function HeroPopup({ type, onClose, imageUrl }: PopupProps) {
               <Button className="flex-1" size="lg">
                 업데이트 내용 자세히 보기
               </Button>
-              <Button variant="outline" size="lg" onClick={onClose}>
+              <Button variant="outline" size="lg" onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onClose()
+              }}>
                 나중에 확인
               </Button>
             </div>
@@ -196,15 +217,25 @@ function HeroPopup({ type, onClose, imageUrl }: PopupProps) {
           {/* 하단 옵션 */}
           <div className="flex border-t bg-background mt-auto">
             <button 
+              type="button"
               className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
-              onClick={onClose}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onClose()
+              }}
             >
               오늘 하루 보지 않기
             </button>
             <div className="w-px bg-border" />
             <button 
+              type="button"
               className="flex-1 py-5 text-sm text-muted-foreground hover:bg-muted transition-colors"
-              onClick={onClose}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onClose()
+              }}
             >
               닫기
             </button>
@@ -227,9 +258,14 @@ export function DSHeroEnterprise() {
 
   return (
     <>
-      {/* 히어로 설정 컨트롤 */}
+      {/* 콘텐츠 표시 옵션 - 표준 스타일 */}
       <div className="container mb-6">
-        <Card className="p-4 bg-muted/30">
+        <div className="bg-slate-100 dark:bg-muted/30 border-2 border-dotted border-slate-300 dark:border-border/50 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <HiBeaker className="h-4 w-4 text-slate-600 dark:text-muted-foreground" />
+            <span className="text-sm font-semibold text-slate-700 dark:text-muted-foreground">콘텐츠 표시 옵션</span>
+          </div>
+          
           <div className="space-y-4">
             {/* 첫 번째 줄: 히어로 설정 */}
             <div className="flex flex-wrap items-center gap-4">
@@ -281,9 +317,10 @@ export function DSHeroEnterprise() {
                   id="show-stats"
                   checked={showStats}
                   onCheckedChange={(checked) => setShowStats(checked as boolean)}
+                  className="h-4 w-4 border-slate-400 dark:border-border"
                 />
-                <Label htmlFor="show-stats" className="text-sm font-medium cursor-pointer">
-                  통계 표시
+                <Label htmlFor="show-stats" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
+                  통계 카드 표시
                 </Label>
               </div>
               
@@ -291,10 +328,15 @@ export function DSHeroEnterprise() {
                 <Checkbox 
                   id="show-popup"
                   checked={showPopup}
-                  onCheckedChange={(checked) => setShowPopup(checked as boolean)}
+                  onCheckedChange={(checked) => {
+                    if (typeof checked === 'boolean') {
+                      setShowPopup(checked)
+                    }
+                  }}
+                  className="h-4 w-4 border-slate-400 dark:border-border"
                 />
-                <Label htmlFor="show-popup" className="text-sm font-medium cursor-pointer">
-                  팝업 표시
+                <Label htmlFor="show-popup" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
+                  팝업 알림 표시
                 </Label>
               </div>
               
@@ -305,9 +347,10 @@ export function DSHeroEnterprise() {
                       id="enable-blur"
                       checked={enableBlur}
                       onCheckedChange={(checked) => setEnableBlur(checked as boolean)}
+                      className="h-4 w-4 border-slate-400 dark:border-border"
                     />
-                    <Label htmlFor="enable-blur" className="text-sm cursor-pointer">
-                      배경 블러
+                    <Label htmlFor="enable-blur" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
+                      배경 블러 효과
                     </Label>
                   </div>
                   
@@ -346,8 +389,12 @@ export function DSHeroEnterprise() {
                 </>
               )}
             </div>
+            
+            <p className="text-xs text-slate-500 dark:text-muted-foreground mt-3 pl-0.5">
+              히어로 섹션의 다양한 요소를 설정할 수 있습니다
+            </p>
           </div>
-        </Card>
+        </div>
       </div>
 
       {/* 메인 히어로 섹션 */}
@@ -444,44 +491,165 @@ export function DSHeroEnterprise() {
               </div>
             </div>
 
-            {/* 오른쪽: 통계 카드 */}
+            {/* 오른쪽: Linear 스타일 카드 */}
             {showStats && (
-              <div className="grid grid-cols-2 gap-4">
-                <Card className="p-6 bg-background/80 backdrop-blur border">
-                  <HiUsers className="w-8 h-8 text-primary mb-3" />
-                  <div className="space-y-1">
-                    <p className="text-3xl font-bold">10,000+</p>
-                    <p className="text-sm text-muted-foreground">활성 사용자</p>
-                    <p className="text-xs text-green-500">↑ 23% 증가</p>
+              <div className="grid grid-cols-2 gap-5">
+                {/* OpenAI 스타일 카드 */}
+                <a className="relative group block" href="#">
+                  <div className="relative flex flex-col h-full">
+                    {/* 카드 배경 */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 overflow-hidden">
+                      <img 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 dark:opacity-30"
+                        src="https://webassets.linear.app/images/ornj730p/production/14886f4b7fda983a8bb5ca58f754efe99eb20be4-264x224.svg"
+                        alt=""
+                      />
+                    </div>
+                    
+                    {/* 콘텐츠 */}
+                    <div className="relative flex flex-col h-full p-6 min-h-[280px]">
+                      {/* 아이콘 */}
+                      <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white dark:bg-gray-800 shadow-lg mb-auto">
+                        <svg className="w-7 h-7 text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" />
+                        </svg>
+                      </div>
+                      
+                      {/* 텍스트 */}
+                      <div className="mt-auto space-y-4">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white leading-tight">
+                          빠른 실행과 복잡성 해결: BRAND 규모의 시스템 구축
+                        </h3>
+                        
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">스토리 읽기</span>
+                          <svg className="w-4 h-4 text-gray-900 dark:text-white transition-transform group-hover:translate-x-1" 
+                               width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M10.3262 4.51988C10.061 4.20167 9.58809 4.15868 9.26988 4.42385C8.95167 4.68903 8.90868 5.16195 9.17385 5.48016L10.6487 7.25L3.75 7.25C3.33579 7.25 3 7.58579 3 8C3 8.41421 3.33579 8.75 3.75 8.75H10.6488L9.17385 10.5199C8.90868 10.8381 8.95167 11.311 9.26988 11.5762C9.58809 11.8414 10.061 11.7984 10.3262 11.4802L12.8262 8.48016C13.058 8.20202 13.058 7.79802 12.8262 7.51988L10.3262 4.51988Z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </Card>
+                </a>
 
-                <Card className="p-6 bg-background/80 backdrop-blur border">
-                  <HiChartBar className="w-8 h-8 text-primary mb-3" />
-                  <div className="space-y-1">
-                    <p className="text-3xl font-bold">99.9%</p>
-                    <p className="text-sm text-muted-foreground">서비스 가동률</p>
-                    <p className="text-xs text-blue-500">업계 최고 수준</p>
+                {/* Ramp 스타일 카드 */}
+                <a className="relative group block" href="#">
+                  <div className="relative flex flex-col h-full">
+                    {/* 카드 배경 */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-purple-50 to-purple-100 dark:from-purple-950 dark:to-gray-950 overflow-hidden">
+                      <img 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 dark:opacity-30"
+                        src="https://webassets.linear.app/images/ornj730p/production/55b5622d01e51e774769e6a1634930514721e481-264x224.svg?q=95&auto=format&dpr=2"
+                        alt=""
+                      />
+                    </div>
+                    
+                    {/* 콘텐츠 */}
+                    <div className="relative flex flex-col h-full p-6 min-h-[280px]">
+                      {/* 아이콘 */}
+                      <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white dark:bg-gray-800 shadow-lg mb-auto">
+                        <svg className="w-7 h-7 text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                      
+                      {/* 텍스트 */}
+                      <div className="mt-auto space-y-4">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white leading-tight">
+                          BRAND가 가장 빠른 제품 도구를 선택한 이유
+                        </h3>
+                        
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">스토리 읽기</span>
+                          <svg className="w-4 h-4 text-gray-900 dark:text-white transition-transform group-hover:translate-x-1" 
+                               width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M10.3262 4.51988C10.061 4.20167 9.58809 4.15868 9.26988 4.42385C8.95167 4.68903 8.90868 5.16195 9.17385 5.48016L10.6487 7.25L3.75 7.25C3.33579 7.25 3 7.58579 3 8C3 8.41421 3.33579 8.75 3.75 8.75H10.6488L9.17385 10.5199C8.90868 10.8381 8.95167 11.311 9.26988 11.5762C9.58809 11.8414 10.061 11.7984 10.3262 11.4802L12.8262 8.48016C13.058 8.20202 13.058 7.79802 12.8262 7.51988L10.3262 4.51988Z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </Card>
+                </a>
 
-                <Card className="p-6 bg-background/80 backdrop-blur border">
-                  <HiDocumentText className="w-8 h-8 text-primary mb-3" />
-                  <div className="space-y-1">
-                    <p className="text-3xl font-bold">500+</p>
-                    <p className="text-sm text-muted-foreground">대기업 고객사</p>
-                    <p className="text-xs text-purple-500">삼성, LG, 현대 등</p>
+                {/* Brex 스타일 카드 */}
+                <a className="relative group block" href="#">
+                  <div className="relative flex flex-col h-full">
+                    {/* 카드 배경 */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-950 dark:to-gray-950 overflow-hidden">
+                      <img 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 dark:opacity-30"
+                        src="https://webassets.linear.app/images/ornj730p/production/112f1325621c7c8f895bb3c06b194a8b8ace74f7-264x224.svg?q=95&auto=format&dpr=2"
+                        alt=""
+                      />
+                    </div>
+                    
+                    {/* 콘텐츠 */}
+                    <div className="relative flex flex-col h-full p-6 min-h-[280px]">
+                      {/* 아이콘 */}
+                      <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white dark:bg-gray-800 shadow-lg mb-auto">
+                        <svg className="w-7 h-7 text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M9 17V7m0 10l3-3m-3 3l-3-3m13 3V7m0 10l-3-3m3 3l3-3" />
+                          <path d="M3 7h18M3 17h18" />
+                        </svg>
+                      </div>
+                      
+                      {/* 텍스트 */}
+                      <div className="mt-auto space-y-4">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white leading-tight">
+                          "하나의 로드맵": BRAND가 분산된 계획을 통합한 방법
+                        </h3>
+                        
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">스토리 읽기</span>
+                          <svg className="w-4 h-4 text-gray-900 dark:text-white transition-transform group-hover:translate-x-1" 
+                               width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M10.3262 4.51988C10.061 4.20167 9.58809 4.15868 9.26988 4.42385C8.95167 4.68903 8.90868 5.16195 9.17385 5.48016L10.6487 7.25L3.75 7.25C3.33579 7.25 3 7.58579 3 8C3 8.41421 3.33579 8.75 3.75 8.75H10.6488L9.17385 10.5199C8.90868 10.8381 8.95167 11.311 9.26988 11.5762C9.58809 11.8414 10.061 11.7984 10.3262 11.4802L12.8262 8.48016C13.058 8.20202 13.058 7.79802 12.8262 7.51988L10.3262 4.51988Z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </Card>
+                </a>
 
-                <Card className="p-6 bg-background/80 backdrop-blur border">
-                  <HiShieldCheck className="w-8 h-8 text-primary mb-3" />
-                  <div className="space-y-1">
-                    <p className="text-3xl font-bold">ISO 27001</p>
-                    <p className="text-sm text-muted-foreground">보안 인증</p>
-                    <p className="text-xs text-green-500">국제 표준 준수</p>
+                {/* Scale 스타일 카드 */}
+                <a className="relative group block" href="#">
+                  <div className="relative flex flex-col h-full">
+                    {/* 카드 배경 */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-pink-50 to-pink-100 dark:from-pink-950 dark:to-gray-950 overflow-hidden">
+                      <img 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 dark:opacity-30"
+                        src="https://webassets.linear.app/images/ornj730p/production/977ec25f3db253d02740e6aee3cce21dc38e3080-264x224.svg?q=95&auto=format&dpr=2"
+                        alt=""
+                      />
+                    </div>
+                    
+                    {/* 콘텐츠 */}
+                    <div className="relative flex flex-col h-full p-6 min-h-[280px]">
+                      {/* 아이콘 */}
+                      <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white dark:bg-gray-800 shadow-lg mb-auto">
+                        <svg className="w-7 h-7 text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M3 13h2l3-9 4 18 4-11h5" />
+                        </svg>
+                      </div>
+                      
+                      {/* 텍스트 */}
+                      <div className="mt-auto space-y-4">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white leading-tight">
+                          Linear가 Scale의 고속 성장을 가속화
+                        </h3>
+                        
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">스토리 읽기</span>
+                          <svg className="w-4 h-4 text-gray-900 dark:text-white transition-transform group-hover:translate-x-1" 
+                               width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M10.3262 4.51988C10.061 4.20167 9.58809 4.15868 9.26988 4.42385C8.95167 4.68903 8.90868 5.16195 9.17385 5.48016L10.6487 7.25L3.75 7.25C3.33579 7.25 3 7.58579 3 8C3 8.41421 3.33579 8.75 3.75 8.75H10.6488L9.17385 10.5199C8.90868 10.8381 8.95167 11.311 9.26988 11.5762C9.58809 11.8414 10.061 11.7984 10.3262 11.4802L12.8262 8.48016C13.058 8.20202 13.058 7.79802 12.8262 7.51988L10.3262 4.51988Z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </Card>
+                </a>
               </div>
             )}
           </div>

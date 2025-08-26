@@ -118,7 +118,6 @@ const COMPONENT_MAP: Record<CategoryType, React.ComponentType | null> = {
   'search': DSIntegratedSearch,
   'hero': DSHeroVariants,
   'notice-preview': DSNoticePreview,
-  'board-preview': null,
   'content': null,
   'portfolio': DSPortfolioSection,
   'auth': DSAuthCards,
@@ -129,7 +128,7 @@ const COMPONENT_MAP: Record<CategoryType, React.ComponentType | null> = {
 // 카테고리별 설명
 const CATEGORY_DESCRIPTIONS: Record<CategoryType, { title: string; description: string }> = {
   'announcement-bar': {
-    title: '공지사항 & 프로모션 바',
+    title: '프리 헤더',
     description: '헤더 상단에 표시되는 공지사항, 이벤트, 프로모션 배너. 다양한 스타일과 애니메이션 효과 제공.'
   },
   'header': {
@@ -147,10 +146,6 @@ const CATEGORY_DESCRIPTIONS: Record<CategoryType, { title: string; description: 
   'notice-preview': {
     title: '최신소식 미리보기',
     description: '최신 소식과 게시판별 업데이트를 요약하여 표시하는 컴포넌트. 공지사항, 이벤트, 게시판 글 등을 한눈에 확인.'
-  },
-  'board-preview': {
-    title: '게시판 미리보기',
-    description: '인기 게시글, 최신 게시글 등을 미리보기 형태로 표시. 탭, 캐러셀, 그리드 레이아웃 제공.'
   },
   'portfolio': {
     title: '쇼케이스',
@@ -195,7 +190,6 @@ export const FrontendSection = forwardRef<{
     
     if (isDevelopment) {
       // 개발 모드: 항상 기본값 사용, localStorage는 무시
-      console.log('[DEV] Using default categories (ignoring localStorage)')
       setCategories(DEFAULT_CATEGORIES)
       setExpandedCategories(new Set(DEFAULT_CATEGORIES.filter(c => c.enabled).map(c => c.id)))
       // 개발 모드에서도 localStorage 정리
@@ -210,7 +204,6 @@ export const FrontendSection = forwardRef<{
     
     // 버전이 다르거나 없으면 초기화
     if (currentVersion !== STORAGE_VERSION) {
-      console.log('Resetting categories due to version change')
       localStorage.removeItem(STORAGE_KEY)
       localStorage.setItem(VERSION_KEY, STORAGE_VERSION)
       setCategories(DEFAULT_CATEGORIES)
@@ -224,7 +217,6 @@ export const FrontendSection = forwardRef<{
         const parsed = JSON.parse(savedCategories)
         // 새로운 카테고리가 추가되었는지 확인
         const savedIds = new Set(parsed.map((c: CategoryConfig) => c.id))
-        const defaultIds = new Set(DEFAULT_CATEGORIES.map(c => c.id))
         
         // 새로운 카테고리가 있으면 병합
         if (DEFAULT_CATEGORIES.some(dc => !savedIds.has(dc.id))) {
@@ -245,7 +237,6 @@ export const FrontendSection = forwardRef<{
         }
       } catch {
         // Failed to load categories - use defaults
-        console.error('Failed to parse saved categories, using defaults')
         setCategories(DEFAULT_CATEGORIES)
         setExpandedCategories(new Set(DEFAULT_CATEGORIES.filter(c => c.enabled).map(c => c.id)))
         localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_CATEGORIES))

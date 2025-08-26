@@ -31,7 +31,7 @@ export interface CategoryManagerState {
 export const DEFAULT_CATEGORIES: CategoryConfig[] = [
   {
     id: 'announcement-bar',
-    title: '공지/광고 바',
+    title: '프리 헤더',
     description: '헤더 상단에 표시되는 공지사항 또는 프로모션 배너',
     order: 1,
     enabled: true,

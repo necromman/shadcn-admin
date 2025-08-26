@@ -514,6 +514,69 @@ src/
 8. 빌드 및 검증
 9. 리팩토링
 
+## 📊 콘텐츠 표시 옵션 표준
+
+### 디자인 시스템 섹션의 설정 옵션 구현 가이드
+
+모든 디자인 시스템 컴포넌트에서 설정/옵션이 필요한 경우 다음 표준을 따라야 합니다:
+
+#### 1. 콘텐츠 표시 옵션 UI 표준
+```tsx
+// 표준 스타일 클래스
+const optionContainerClass = "bg-slate-100 dark:bg-muted/30 border-2 border-dotted border-slate-300 dark:border-border/50 rounded-lg p-4"
+const optionHeaderClass = "flex items-center gap-2 mb-3"
+const optionIconClass = "h-4 w-4 text-slate-600 dark:text-muted-foreground"
+const optionTitleClass = "text-sm font-semibold text-slate-700 dark:text-muted-foreground"
+const checkboxClass = "h-4 w-4 border-slate-400 dark:border-border"
+const labelClass = "cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+const helpTextClass = "text-xs text-slate-500 dark:text-muted-foreground mt-3 pl-0.5"
+```
+
+#### 2. 구현 패턴
+```tsx
+// 항상 보이는 옵션 패널 (스위치 없음)
+<div className={optionContainerClass}>
+  <div className={optionHeaderClass}>
+    <HiCog6Tooth className={optionIconClass} />
+    <span className={optionTitleClass}>콘텐츠 표시 옵션</span>
+  </div>
+  
+  <div className="flex flex-wrap gap-4">
+    <div className="flex items-center space-x-2">
+      <Checkbox id="option1" className={checkboxClass} />
+      <Label htmlFor="option1" className={labelClass}>
+        옵션 이름 (아이콘 없음)
+      </Label>
+    </div>
+  </div>
+  
+  <p className={helpTextClass}>
+    설명 텍스트
+  </p>
+</div>
+```
+
+#### 3. 핵심 원칙
+- **항상 보이기**: 설정 패널은 기본적으로 항상 표시 (토글 스위치 없음)
+- **도트 보더**: 2px 도트 보더로 유틸리티 영역임을 명확히 표시
+- **라이트/다크 모드 대비**: 라이트 모드에서 더 진한 색상 사용
+- **컴팩트한 레이아웃**: p-4 패딩, h-4 w-4 체크박스
+- **아이콘 없는 라벨**: 체크박스 라벨에 아이콘 제외
+- **명확한 구분**: 다른 콘텐츠와 시각적으로 명확히 구분
+
+#### 4. 색상 시스템
+- **라이트 모드**:
+  - 배경: `bg-slate-100`
+  - 보더: `border-slate-300`
+  - 텍스트: `text-slate-700`
+  - 설명: `text-slate-500`
+  
+- **다크 모드**:
+  - 배경: `dark:bg-muted/30`
+  - 보더: `dark:border-border/50`
+  - 텍스트: `dark:text-muted-foreground`
+  - 라벨: `dark:text-slate-300`
+
 ## 🎯 스타일 작성 가이드
 
 ### 핵심 원칙

@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { HiXMark, HiMegaphone, HiSparkles, HiArrowRight } from 'react-icons/hi2'
+import { HiXMark, HiMegaphone, HiSparkles, HiArrowRight, HiCog6Tooth } from 'react-icons/hi2'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 
 export function DSAnnouncementBar() {
   const [isVisible, setIsVisible] = useState(true)
@@ -62,9 +64,83 @@ export function DSAnnouncementBar() {
 
 // 다양한 스타일의 공지 바 예시
 export function DSAnnouncementBarVariants() {
+  const [showVariants, setShowVariants] = useState({
+    basic: true,
+    simple: false,
+    event: false
+  })
+
+  const toggleVariant = (variant: keyof typeof showVariants) => {
+    setShowVariants(prev => ({
+      ...prev,
+      [variant]: !prev[variant]
+    }))
+  }
+
   return (
     <div className="space-y-8">
+      {/* 콘텐츠 표시 옵션 - 표준 스타일 */}
+      <div className="container">
+        <div className="bg-slate-100 dark:bg-muted/30 border-2 border-dotted border-slate-300 dark:border-border/50 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <HiCog6Tooth className="h-4 w-4 text-slate-600 dark:text-muted-foreground" />
+            <span className="text-sm font-semibold text-slate-700 dark:text-muted-foreground">콘텐츠 표시 옵션</span>
+          </div>
+          
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="show-basic"
+                checked={showVariants.basic}
+                onCheckedChange={() => toggleVariant('basic')}
+                className="h-4 w-4 border-slate-400 dark:border-border"
+              />
+              <Label
+                htmlFor="show-basic"
+                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+              >
+                기본 공지 바
+              </Label>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="show-simple"
+                checked={showVariants.simple}
+                onCheckedChange={() => toggleVariant('simple')}
+                className="h-4 w-4 border-slate-400 dark:border-border"
+              />
+              <Label
+                htmlFor="show-simple"
+                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+              >
+                심플 공지 바
+              </Label>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="show-event"
+                checked={showVariants.event}
+                onCheckedChange={() => toggleVariant('event')}
+                className="h-4 w-4 border-slate-400 dark:border-border"
+              />
+              <Label
+                htmlFor="show-event"
+                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+              >
+                이벤트 프로모션 바
+              </Label>
+            </div>
+          </div>
+          
+          <p className="text-xs text-slate-500 dark:text-muted-foreground mt-3 pl-0.5">
+            프리 헤더의 다양한 스타일을 선택하여 표시할 수 있습니다
+          </p>
+        </div>
+      </div>
       {/* 기본 공지 */}
+      {showVariants.basic && (
       <div className="space-y-4">
         <div className="container">
           <div className="rounded-lg border bg-card dark:bg-card p-4 shadow-sm dark:shadow-none transition-colors">
@@ -81,8 +157,10 @@ export function DSAnnouncementBarVariants() {
         </div>
         <DSAnnouncementBar />
       </div>
+      )}
       
       {/* 심플 공지 */}
+      {showVariants.simple && (
       <div className="space-y-4">
         <div className="container">
           <div className="rounded-lg border bg-card dark:bg-card p-4 shadow-sm dark:shadow-none transition-colors">
@@ -99,8 +177,10 @@ export function DSAnnouncementBarVariants() {
         </div>
         <SimpleAnnouncementBar />
       </div>
+      )}
       
       {/* 이벤트 공지 */}
+      {showVariants.event && (
       <div className="space-y-4">
         <div className="container">
           <div className="rounded-lg border bg-card dark:bg-card p-4 shadow-sm dark:shadow-none transition-colors">
@@ -117,6 +197,7 @@ export function DSAnnouncementBarVariants() {
         </div>
         <EventAnnouncementBar />
       </div>
+      )}
     </div>
   )
 }

@@ -45,12 +45,14 @@ type PopupLayout = 'stack' | 'vertical' | 'horizontal'
 interface PopupProps {
   data: PopupData
   onClose: (id: string) => void
-  position: { x: number, y: number }
+  position: { x: number, y: number, debug?: string, debugInfo?: any }
   zIndex: number
+  showDebug?: boolean
+  animationSpeed?: 'slow' | 'normal' | 'fast'
 }
 
 // 팝업 컴포넌트 (반응형 지원)
-function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
+function HeroPopup({ data, onClose, position, zIndex, showDebug = false, animationSpeed = 'normal' }: PopupProps) {
   // 모바일 감지
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   
@@ -131,6 +133,13 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
     )
   }
   
+  // 애니메이션 속도 설정
+  const animationDuration = {
+    slow: 'duration-1000',
+    normal: 'duration-500',
+    fast: 'duration-200'
+  }[animationSpeed]
+  
   // 데스크톱에서는 팝업으로 표시
   if (data.type === 'image') {
     return (
@@ -142,7 +151,13 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
           zIndex 
         }}
       >
-        <div className="animate-in slide-in-from-top-5 duration-500 group" style={{ width: '440px' }}>
+        {/* 디버그 정보 표시 */}
+        {showDebug && (
+          <div className="absolute -top-8 left-0 text-xs bg-black/80 text-white px-2 py-1 rounded z-50 whitespace-nowrap">
+            {position.debug} | X:{position.x} Y:{position.y}
+          </div>
+        )}
+        <div className={`animate-in slide-in-from-top-5 ${animationDuration} group`} style={{ width: '440px' }}>
           <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0" style={{ height: '580px' }}>
             {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
             <button
@@ -169,9 +184,9 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
               </h2>
             </div>
             
-            {/* 이미지 영역 */}
-            <div className="px-6 pb-4">
-              <div className="relative rounded-lg overflow-hidden bg-muted h-[200px]">
+            {/* 이미지 영역과 콘텐츠 - 높이 증가 */}
+            <div className="px-6 pb-4 flex-1 flex flex-col">
+              <div className="relative rounded-lg overflow-hidden bg-muted h-[200px] flex-shrink-0">
                 {data.imageUrl ? (
                   <img 
                     src={data.imageUrl} 
@@ -188,7 +203,7 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
                 )}
               </div>
               
-              <div className="mt-3 text-sm text-muted-foreground overflow-y-auto max-h-[150px]">
+              <div className="mt-3 text-sm text-muted-foreground overflow-y-auto flex-1">
                 {data.content}
               </div>
             </div>
@@ -243,7 +258,13 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
         zIndex 
       }}
     >
-      <div className="animate-in slide-in-from-top-5 duration-500 group" style={{ width: '440px' }}>
+      {/* 디버그 정보 표시 */}
+      {showDebug && (
+        <div className="absolute -top-8 left-0 text-xs bg-black/80 text-white px-2 py-1 rounded z-50 whitespace-nowrap">
+          {position.debug} | X:{position.x} Y:{position.y}
+        </div>
+      )}
+      <div className={`animate-in slide-in-from-top-5 ${animationDuration} group`} style={{ width: '440px' }}>
         <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0" style={{ height: '580px' }}>
           {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
           <button
@@ -268,25 +289,16 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
             <h2 className="text-2xl font-bold">{data.title}</h2>
           </div>
           
-          {/* 콘텐츠 */}
-          <div className="px-6 pt-6 pb-4 overflow-y-auto" style={{ maxHeight: '350px' }}>
+          {/* 콘텐츠 - 높이 증가 */}
+          <div className="px-6 pt-6 pb-4 overflow-y-auto flex-1">
             {data.content}
           </div>
           
-          {/* 액션 버튼 */}
+          {/* 액션 버튼 - 자세히 보기만 남김 */}
           <div className="px-6 pb-4">
-            <div className="flex gap-3">
-              <Button className="flex-1" size="lg">
-                업데이트 내용 자세히 보기
-              </Button>
-              <Button variant="outline" size="lg" onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                onClose(data.id)
-              }}>
-                나중에 확인
-              </Button>
-            </div>
+            <Button className="w-full" size="lg">
+              자세히 보기
+            </Button>
           </div>
           
           {/* 하단 옵션 */}
@@ -498,7 +510,9 @@ export function DSHeroEnterpriseV2() {
     maxPopups: 3,
     position: 'left' as PopupPosition,
     layout: 'horizontal' as PopupLayout,
-    enableBlur: true
+    enableBlur: true,
+    showDebug: false,  // 디버깅 정보 표시 여부
+    animationSpeed: 'normal' as 'slow' | 'normal' | 'fast'
   })
 
   // 히어로 섹션 설정
@@ -513,75 +527,127 @@ export function DSHeroEnterpriseV2() {
     ))
   }
 
-  // 위치 계산 함수 (반응형 고려, 일정한 간격 유지)
-  const calculatePosition = (index: number, position: PopupPosition, layout: PopupLayout) => {
+  // 개선된 위치 계산 함수 - 단순하고 명확한 로직
+  const calculatePosition = (index: number, position: PopupPosition, layout: PopupLayout, totalPopups: number) => {
     // 모바일에서는 위치 계산 불필요
     if (window.innerWidth < 768) {
-      return { x: 0, y: 0 }
+      return { x: 0, y: 0, debug: 'mobile' }
     }
     
-    // 데스크톱 팝업 크기와 간격 통일
-    const POPUP_WIDTH = 440  // 팝업 가로 크기 고정
-    const POPUP_HEIGHT = 580 // 팝업 세로 크기 증가 (내용 모두 표시)
-    const POPUP_GAP = 5      // 팝업 간 간격 축소
-    const SCREEN_MARGIN = 40 // 화면 가장자리 여백
-    const HERO_HEIGHT = 700  // 히어로 영역 높이 증가
+    // 데스크톱 팝업 크기와 간격 상수
+    const POPUP_WIDTH = 440     // 팝업 고정 너비
+    const POPUP_HEIGHT = 580    // 팝업 고정 높이
+    const POPUP_GAP = 10        // 팝업 간 간격 (줄임)
+    const SCREEN_MARGIN = 40    // 화면 가장자리 여백 (왼쪽/오른쪽용)
+    const HERO_HEIGHT = 700     // 히어로 영역 높이
+    const CONTAINER_PADDING = 100  // 컨테이너 좌우 패딩 보정값 (중앙/오른쪽 정렬시 사용)
     
-    // 기본 위치 설정 (세로 중앙 정렬)
-    let baseX = SCREEN_MARGIN
-    let baseY = (HERO_HEIGHT - POPUP_HEIGHT) / 2
+    // 기본 Y 위치는 항상 중앙 정렬
+    const baseY = (HERO_HEIGHT - POPUP_HEIGHT) / 2
     
-    // 위치에 따른 기본 X 좌표 설정
-    switch (position) {
-      case 'center':
-        // 중앙: 팝업들을 중앙에 배치
-        const totalWidth = popupConfig.maxPopups * POPUP_WIDTH + (popupConfig.maxPopups - 1) * POPUP_GAP
-        baseX = (window.innerWidth - totalWidth) / 2
-        break
-      case 'right':
-        // 오른쪽: 화면 오른쪽에서 시작
-        baseX = window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN
-        break
-      case 'left':
-        // 왼쪽: 기본값 유지
-        break
-    }
+    // 레이아웃별 위치 계산
+    let x = 0
+    let y = baseY
     
-    // 레이아웃에 따른 오프셋 계산
-    let offsetX = 0
-    let offsetY = 0
-    
-    switch (layout) {
-      case 'stack': // 겹치기 (계단형)
-        // 일정한 간격으로 계단형 배치
-        offsetX = index * 30
-        offsetY = index * 30
-        break
-        
-      case 'horizontal': // 가로 배치
-        // 일정한 간격으로 가로 배치
-        offsetX = index * (POPUP_WIDTH + POPUP_GAP)
-        
-        // 화면 범위를 벗어나면 다음 줄로 이동
-        const maxX = window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN
-        if (baseX + offsetX > maxX) {
-          const col = Math.floor(offsetX / (POPUP_WIDTH + POPUP_GAP))
-          const row = Math.floor((baseX + offsetX) / (maxX + POPUP_GAP))
-          offsetX = (col % Math.floor((maxX - baseX) / (POPUP_WIDTH + POPUP_GAP))) * (POPUP_WIDTH + POPUP_GAP)
-          offsetY = row * (POPUP_HEIGHT + POPUP_GAP)
+    if (layout === 'stack') {
+      // 겹치기: 계단형 배치
+      const STACK_OFFSET = 40  // 각 팝업마다 오프셋
+      
+      // 전체 스택 너비 계산 (마지막 팝업 기준)
+      const totalStackWidth = POPUP_WIDTH + ((totalPopups - 1) * STACK_OFFSET)
+      
+      switch (position) {
+        case 'left':
+          // 왼쪽: 왼쪽 여백에서 시작
+          x = SCREEN_MARGIN + (index * STACK_OFFSET)
+          break
+        case 'center':
+          // 중앙: 스택 전체를 중앙 정렬 (컨테이너 패딩 고려)
+          const centerStart = (window.innerWidth - totalStackWidth - CONTAINER_PADDING) / 2
+          x = centerStart + (index * STACK_OFFSET)
+          break
+        case 'right':
+          // 오른쪽: 오른쪽 여백에서 시작 (컨테이너 패딩 고려)
+          const rightStart = window.innerWidth - SCREEN_MARGIN - totalStackWidth - CONTAINER_PADDING
+          x = rightStart + (index * STACK_OFFSET)
+          break
+      }
+      y = baseY + (index * STACK_OFFSET)
+      
+    } else if (layout === 'horizontal') {
+      // 가로 배치: 일렬로 배치
+      const totalWidth = (totalPopups * POPUP_WIDTH) + ((totalPopups - 1) * POPUP_GAP)
+      
+      switch (position) {
+        case 'left':
+          // 왼쪽: 왼쪽 여백에서 시작
+          x = SCREEN_MARGIN + (index * (POPUP_WIDTH + POPUP_GAP))
+          break
+        case 'center':
+          // 중앙: 전체 너비를 중앙 정렬 (컨테이너 패딩 고려)
+          const centerStart = (window.innerWidth - totalWidth - CONTAINER_PADDING) / 2
+          x = centerStart + (index * (POPUP_WIDTH + POPUP_GAP))
+          break
+        case 'right':
+          // 오른쪽: 오른쪽 여백 기준으로 정렬 (컨테이너 패딩 고려)
+          const rightStart = window.innerWidth - SCREEN_MARGIN - totalWidth - CONTAINER_PADDING
+          x = rightStart + (index * (POPUP_WIDTH + POPUP_GAP))
+          break
+      }
+      
+      // 화면 벗어남 방지 - 필요시 2열로
+      const maxX = window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN
+      if (x > maxX || x < SCREEN_MARGIN) {
+        // 화면 범위 내로 제한
+        if (position === 'center') {
+          // 중앙 정렬일 때 2열 처리 (컨테이너 패딩 고려)
+          const availableWidth = window.innerWidth - CONTAINER_PADDING
+          const itemsPerRow = Math.floor(availableWidth / (POPUP_WIDTH + POPUP_GAP))
+          const row = Math.floor(index / itemsPerRow)
+          const col = index % itemsPerRow
+          const rowItems = Math.min(totalPopups - row * itemsPerRow, itemsPerRow)
+          const rowWidth = (rowItems * POPUP_WIDTH) + ((rowItems - 1) * POPUP_GAP)
+          
+          x = (window.innerWidth - rowWidth - CONTAINER_PADDING) / 2 + (col * (POPUP_WIDTH + POPUP_GAP))
+          y = baseY + (row * (POPUP_HEIGHT / 2))
+        } else {
+          // 왼쪽/오른쪽은 화면 범위 내로 제한
+          x = Math.max(SCREEN_MARGIN, Math.min(x, maxX))
         }
-        break
-        
-      case 'vertical': // 세로 배치
-        // 일정한 간격으로 세로 배치
-        offsetY = index * (POPUP_HEIGHT + POPUP_GAP) / 3 // 약간 겹치게 하여 공간 효율
-        break
+      }
+      
+    } else if (layout === 'vertical') {
+      // 세로 배치: 위아래로 배치
+      const VERTICAL_OVERLAP = POPUP_HEIGHT * 0.3  // 30% 겹침
+      const effectiveHeight = POPUP_HEIGHT - VERTICAL_OVERLAP
+      const totalHeight = POPUP_HEIGHT + ((totalPopups - 1) * effectiveHeight)
+      
+      // X 위치 설정
+      switch (position) {
+        case 'left':
+          x = SCREEN_MARGIN
+          break
+        case 'center':
+          x = (window.innerWidth - POPUP_WIDTH - CONTAINER_PADDING) / 2
+          break
+        case 'right':
+          x = window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN - CONTAINER_PADDING / 2
+          break
+      }
+      
+      // Y 위치: 전체 높이를 중앙 정렬
+      const startY = (HERO_HEIGHT - totalHeight) / 2
+      y = startY + (index * effectiveHeight)
     }
     
-    // 최종 위치 반환 (화면 범위 내로 제한)
-    return {
-      x: Math.max(SCREEN_MARGIN, Math.min(baseX + offsetX, window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN)),
-      y: Math.max(POPUP_GAP, Math.min(baseY + offsetY, HERO_HEIGHT - POPUP_HEIGHT))
+    // 최종 범위 체크 (안전장치)
+    x = Math.max(20, Math.min(x, window.innerWidth - POPUP_WIDTH - 20))
+    y = Math.max(20, Math.min(y, HERO_HEIGHT - POPUP_HEIGHT - 20))
+    
+    return { 
+      x: Math.round(x),  // 정수로 반올림
+      y: Math.round(y), 
+      debug: `${position}-${layout}-${index+1}/${totalPopups}`
     }
   }
 
@@ -718,18 +784,57 @@ export function DSHeroEnterpriseV2() {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="enable-blur-popups"
-                  checked={popupConfig.enableBlur}
-                  onCheckedChange={(checked) => 
-                    setPopupConfig(prev => ({ ...prev, enableBlur: checked as boolean }))
-                  }
-                  className="h-4 w-4 border-slate-400 dark:border-border"
-                />
-                <Label htmlFor="enable-blur-popups" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                  배경 블러 효과
-                </Label>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="enable-blur-popups"
+                    checked={popupConfig.enableBlur}
+                    onCheckedChange={(checked) => 
+                      setPopupConfig(prev => ({ ...prev, enableBlur: checked as boolean }))
+                    }
+                    className="h-4 w-4 border-slate-400 dark:border-border"
+                  />
+                  <Label htmlFor="enable-blur-popups" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
+                    배경 블러 효과
+                  </Label>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="show-debug"
+                    checked={popupConfig.showDebug}
+                    onCheckedChange={(checked) => 
+                      setPopupConfig(prev => ({ ...prev, showDebug: checked as boolean }))
+                    }
+                    className="h-4 w-4 border-slate-400 dark:border-border"
+                  />
+                  <Label htmlFor="show-debug" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
+                    디버그 정보
+                  </Label>
+                </div>
+              </div>
+              
+              {/* 애니메이션 속도 */}
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm text-slate-600 dark:text-slate-400 min-w-[80px]">애니메이션:</span>
+                <div className="flex gap-2">
+                  {[
+                    { value: 'slow', label: '느리게', duration: '1000ms' },
+                    { value: 'normal', label: '보통', duration: '500ms' },
+                    { value: 'fast', label: '빠르게', duration: '200ms' }
+                  ].map(speed => (
+                    <Button
+                      key={speed.value}
+                      size="sm"
+                      variant={popupConfig.animationSpeed === speed.value ? 'default' : 'outline'}
+                      onClick={() => setPopupConfig(prev => ({ ...prev, animationSpeed: speed.value as 'slow' | 'normal' | 'fast' }))}
+                      className="h-8 px-4"
+                      title={`애니메이션 ${speed.duration}`}
+                    >
+                      {speed.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -822,8 +927,10 @@ export function DSHeroEnterpriseV2() {
             key={popup.id}
             data={popup}
             onClose={handleClosePopup}
-            position={calculatePosition(index, popupConfig.position, popupConfig.layout)}
+            position={calculatePosition(index, popupConfig.position, popupConfig.layout, visiblePopups.length)}
             zIndex={40 + index}
+            showDebug={popupConfig.showDebug}
+            animationSpeed={popupConfig.animationSpeed}
           />
         ))}
 

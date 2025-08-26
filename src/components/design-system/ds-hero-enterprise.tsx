@@ -248,7 +248,7 @@ function HeroPopup({ type, onClose, imageUrl }: PopupProps) {
 
 // 메인 히어로 섹션
 export function DSHeroEnterprise() {
-  const [showPopup, setShowPopup] = useState(true)
+  const [showPopup, setShowPopup] = useState(false)
   const [popupType, setPopupType] = useState<'text' | 'image'>('text')
   const [popupImageUrl, setPopupImageUrl] = useState('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80')
   const [heroStyle, setHeroStyle] = useState<'gradient' | 'image' | 'video'>('image')
@@ -344,12 +344,12 @@ export function DSHeroEnterprise() {
                 <>
                   <div className="flex items-center space-x-2">
                     <Checkbox 
-                      id="enable-blur"
+                      id="enable-blur-popup"
                       checked={enableBlur}
                       onCheckedChange={(checked) => setEnableBlur(checked as boolean)}
                       className="h-4 w-4 border-slate-400 dark:border-border"
                     />
-                    <Label htmlFor="enable-blur" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
+                    <Label htmlFor="enable-blur-popup" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
                       배경 블러 효과
                     </Label>
                   </div>

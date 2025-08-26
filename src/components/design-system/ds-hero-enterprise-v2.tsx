@@ -12,7 +12,6 @@ import {
   HiShieldCheck,
   HiClock,
   HiPhone,
-  HiSparkles,
   HiRocketLaunch,
   HiBeaker,
   HiBolt,
@@ -36,14 +35,11 @@ interface PopupData {
   isVisible: boolean
 }
 
-// 팝업 위치 타입
-type PopupPosition = 
-  | 'top-left' | 'top-center' | 'top-right'
-  | 'center-left' | 'center' | 'center-right'
-  | 'bottom-left' | 'bottom-center' | 'bottom-right'
+// 팝업 위치 타입 (단순화)
+type PopupPosition = 'left' | 'center' | 'right'
 
-// 팝업 배치 타입
-type PopupLayout = 'cascade' | 'vertical' | 'horizontal-lr' | 'horizontal-rl'
+// 팝업 배치 타입 (단순화)
+type PopupLayout = 'stack' | 'vertical' | 'horizontal'
 
 // 팝업 컴포넌트 Props
 interface PopupProps {
@@ -53,9 +49,89 @@ interface PopupProps {
   zIndex: number
 }
 
-// 팝업 컴포넌트
+// 팝업 컴포넌트 (반응형 지원)
 function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
-  // 이미지 중심 팝업 (제품 출시/이벤트)
+  // 모바일 감지
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  // 모바일에서는 풀스크린 모달로 표시
+  if (isMobile) {
+    return (
+      <div 
+        className="fixed inset-0 flex items-end"
+        style={{ zIndex }}
+      >
+        {/* 오버레이 */}
+        <div 
+          className="absolute inset-0 bg-black/50"
+          onClick={() => onClose(data.id)}
+        />
+        
+        {/* 바텀 시트 */}
+        <div className="relative w-full max-h-[90vh] animate-in slide-in-from-bottom duration-300">
+          <Card className="rounded-t-2xl rounded-b-none border-b-0 bg-background overflow-hidden">
+            {/* 드래그 핸들 */}
+            <div className="flex justify-center py-2">
+              <div className="w-12 h-1 rounded-full bg-muted-foreground/20" />
+            </div>
+            
+            {/* 헤더 */}
+            <div className="px-6 pb-4">
+              <div className="flex items-start justify-between">
+                <div>
+                  <Badge variant={data.badgeVariant || (data.type === 'image' ? 'secondary' : 'default')} className="mb-2">
+                    {data.badgeIcon && <data.badgeIcon className="w-3 h-3 mr-1" />}
+                    {data.badge}
+                  </Badge>
+                  <h2 className="text-xl font-bold">{data.title}</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    onClose(data.id)
+                  }}
+                  className="w-8 h-8 rounded-full hover:bg-muted flex items-center justify-center"
+                >
+                  <HiXMark className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            
+            {/* 콘텐츠 */}
+            <div className="px-6 pb-6 overflow-y-auto max-h-[60vh]">
+              {data.type === 'image' && data.imageUrl && (
+                <div className="rounded-lg overflow-hidden bg-muted mb-4">
+                  <img 
+                    src={data.imageUrl} 
+                    alt="Content"
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
+              {data.content}
+            </div>
+            
+            {/* 액션 버튼 */}
+            <div className="px-6 pb-6">
+              <Button className="w-full" size="lg">
+                자세히 알아보기
+                <HiArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+  
+  // 데스크톱에서는 팝업으로 표시
   if (data.type === 'image') {
     return (
       <div 
@@ -66,8 +142,8 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
           zIndex 
         }}
       >
-        <div className="w-full max-w-md animate-in slide-in-from-top-5 duration-500 group">
-          <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0">
+        <div className="animate-in slide-in-from-top-5 duration-500 group" style={{ width: '440px' }}>
+          <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0" style={{ height: '580px' }}>
             {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
             <button
               type="button"
@@ -95,7 +171,7 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
             
             {/* 이미지 영역 */}
             <div className="px-6 pb-4">
-              <div className="relative rounded-lg overflow-hidden bg-muted aspect-[16/9]">
+              <div className="relative rounded-lg overflow-hidden bg-muted h-[200px]">
                 {data.imageUrl ? (
                   <img 
                     src={data.imageUrl} 
@@ -112,7 +188,7 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
                 )}
               </div>
               
-              <div className="mt-3 text-sm text-muted-foreground">
+              <div className="mt-3 text-sm text-muted-foreground overflow-y-auto max-h-[150px]">
                 {data.content}
               </div>
             </div>
@@ -167,8 +243,8 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
         zIndex 
       }}
     >
-      <div className="w-full max-w-lg animate-in slide-in-from-top-5 duration-500 group">
-        <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0">
+      <div className="animate-in slide-in-from-top-5 duration-500 group" style={{ width: '440px' }}>
+        <Card className="relative border shadow-lg bg-background overflow-hidden flex flex-col py-0" style={{ height: '580px' }}>
           {/* 오른쪽 상단 X 버튼 (호버시 표시) */}
           <button
             type="button"
@@ -193,7 +269,7 @@ function HeroPopup({ data, onClose, position, zIndex }: PopupProps) {
           </div>
           
           {/* 콘텐츠 */}
-          <div className="px-6 pt-6 pb-4">
+          <div className="px-6 pt-6 pb-4 overflow-y-auto" style={{ maxHeight: '350px' }}>
             {data.content}
           </div>
           
@@ -417,18 +493,17 @@ export function DSHeroEnterpriseV2() {
     }
   ])
 
-  // 팝업 설정 상태 (기본값 설정)
+  // 팝업 설정 상태 (단순화된 기본값)
   const [popupConfig, setPopupConfig] = useState({
     maxPopups: 3,
-    position: 'center-left' as PopupPosition,
-    layout: 'horizontal-lr' as PopupLayout,
-    allowOverlap: false,
+    position: 'left' as PopupPosition,
+    layout: 'horizontal' as PopupLayout,
     enableBlur: true
   })
 
   // 히어로 섹션 설정
   const [heroStyle, setHeroStyle] = useState<'gradient' | 'image' | 'video'>('image')
-  const [heroBackground, setHeroBackground] = useState('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80')
+  const heroBackground = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80'
   const [showStats, setShowStats] = useState(true)
 
   // 팝업 닫기 핸들러
@@ -438,63 +513,75 @@ export function DSHeroEnterpriseV2() {
     ))
   }
 
-  // 위치 계산 함수 (히어로 섹션 내부 기준)
+  // 위치 계산 함수 (반응형 고려, 일정한 간격 유지)
   const calculatePosition = (index: number, position: PopupPosition, layout: PopupLayout) => {
-    // 히어로 섹션의 높이를 고려한 위치 설정
-    const heroHeight = 600 // 히어로 섹션의 대략적인 높이
-    const popupWidth = 500
-    const popupHeight = 400
-    const padding = 20
-    
-    const basePositions = {
-      'top-left': { x: padding, y: padding },
-      'top-center': { x: (window.innerWidth - popupWidth) / 2, y: padding },
-      'top-right': { x: window.innerWidth - popupWidth - padding, y: padding },
-      'center-left': { x: padding, y: (heroHeight - popupHeight) / 2 },
-      'center': { x: (window.innerWidth - popupWidth) / 2, y: (heroHeight - popupHeight) / 2 },
-      'center-right': { x: window.innerWidth - popupWidth - padding, y: (heroHeight - popupHeight) / 2 },
-      'bottom-left': { x: padding, y: heroHeight - popupHeight - padding },
-      'bottom-center': { x: (window.innerWidth - popupWidth) / 2, y: heroHeight - popupHeight - padding },
-      'bottom-right': { x: window.innerWidth - popupWidth - padding, y: heroHeight - popupHeight - padding }
+    // 모바일에서는 위치 계산 불필요
+    if (window.innerWidth < 768) {
+      return { x: 0, y: 0 }
     }
-
-    const base = basePositions[position] || basePositions['center-left']
+    
+    // 데스크톱 팝업 크기와 간격 통일
+    const POPUP_WIDTH = 440  // 팝업 가로 크기 고정
+    const POPUP_HEIGHT = 580 // 팝업 세로 크기 증가 (내용 모두 표시)
+    const POPUP_GAP = 5      // 팝업 간 간격 축소
+    const SCREEN_MARGIN = 40 // 화면 가장자리 여백
+    const HERO_HEIGHT = 700  // 히어로 영역 높이 증가
+    
+    // 기본 위치 설정 (세로 중앙 정렬)
+    let baseX = SCREEN_MARGIN
+    let baseY = (HERO_HEIGHT - POPUP_HEIGHT) / 2
+    
+    // 위치에 따른 기본 X 좌표 설정
+    switch (position) {
+      case 'center':
+        // 중앙: 팝업들을 중앙에 배치
+        const totalWidth = popupConfig.maxPopups * POPUP_WIDTH + (popupConfig.maxPopups - 1) * POPUP_GAP
+        baseX = (window.innerWidth - totalWidth) / 2
+        break
+      case 'right':
+        // 오른쪽: 화면 오른쪽에서 시작
+        baseX = window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN
+        break
+      case 'left':
+        // 왼쪽: 기본값 유지
+        break
+    }
+    
+    // 레이아웃에 따른 오프셋 계산
     let offsetX = 0
     let offsetY = 0
-
-    if (popupConfig.allowOverlap) {
-      switch (layout) {
-        case 'cascade':
-          offsetX = index * 30
-          offsetY = index * 30
-          break
-        case 'vertical':
-          offsetY = index * 450
-          break
-        case 'horizontal-lr':
-          offsetX = index * 530
-          break
-        case 'horizontal-rl':
-          offsetX = -index * 530
-          break
-      }
-    } else {
-      switch (layout) {
-        case 'vertical':
-          offsetY = index * 450
-          break
-        case 'horizontal-lr':
-          offsetX = index * 530
-          break
-        case 'horizontal-rl':
-          offsetX = -index * 530
-          break
-      }
+    
+    switch (layout) {
+      case 'stack': // 겹치기 (계단형)
+        // 일정한 간격으로 계단형 배치
+        offsetX = index * 30
+        offsetY = index * 30
+        break
+        
+      case 'horizontal': // 가로 배치
+        // 일정한 간격으로 가로 배치
+        offsetX = index * (POPUP_WIDTH + POPUP_GAP)
+        
+        // 화면 범위를 벗어나면 다음 줄로 이동
+        const maxX = window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN
+        if (baseX + offsetX > maxX) {
+          const col = Math.floor(offsetX / (POPUP_WIDTH + POPUP_GAP))
+          const row = Math.floor((baseX + offsetX) / (maxX + POPUP_GAP))
+          offsetX = (col % Math.floor((maxX - baseX) / (POPUP_WIDTH + POPUP_GAP))) * (POPUP_WIDTH + POPUP_GAP)
+          offsetY = row * (POPUP_HEIGHT + POPUP_GAP)
+        }
+        break
+        
+      case 'vertical': // 세로 배치
+        // 일정한 간격으로 세로 배치
+        offsetY = index * (POPUP_HEIGHT + POPUP_GAP) / 3 // 약간 겹치게 하여 공간 효율
+        break
     }
-
+    
+    // 최종 위치 반환 (화면 범위 내로 제한)
     return {
-      x: Math.max(padding, Math.min(base.x + offsetX, window.innerWidth - popupWidth - padding)),
-      y: Math.max(padding, Math.min(base.y + offsetY, heroHeight - popupHeight - padding))
+      x: Math.max(SCREEN_MARGIN, Math.min(baseX + offsetX, window.innerWidth - POPUP_WIDTH - SCREEN_MARGIN)),
+      y: Math.max(POPUP_GAP, Math.min(baseY + offsetY, HERO_HEIGHT - POPUP_HEIGHT))
     }
   }
 
@@ -524,13 +611,19 @@ export function DSHeroEnterpriseV2() {
           </div>
           
           <div className="space-y-4">
-            {/* 팝업 관리 */}
+            {/* 팝업 관리 (단순화) */}
             <div className="space-y-3 pb-4 border-b">
               <div className="text-sm font-medium mb-2">팝업 설정</div>
               
+              {/* 데스크톱/모바일 구분 표시 */}
+              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                <span className="px-2 py-1 bg-muted rounded">💻 데스크톱: 팝업 형태</span>
+                <span className="px-2 py-1 bg-muted rounded">📱 모바일: 바텀 시트</span>
+              </div>
+              
               {/* 팝업 표시 개수 */}
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-slate-600 dark:text-slate-400 w-24">표시 개수:</span>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm text-slate-600 dark:text-slate-400 min-w-[80px]">표시 개수:</span>
                 <div className="flex gap-2">
                   {[1, 2, 3].map(num => (
                     <Button
@@ -540,7 +633,7 @@ export function DSHeroEnterpriseV2() {
                       onClick={() => {
                         setPopupConfig(prev => ({ ...prev, maxPopups: num }))
                       }}
-                      className="h-7 px-3"
+                      className="h-8 px-4"
                     >
                       {num}개
                     </Button>
@@ -548,89 +641,49 @@ export function DSHeroEnterpriseV2() {
                 </div>
               </div>
 
-              {/* 시작 위치 */}
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-slate-600 dark:text-slate-400 w-24">시작 위치:</span>
-                <div className="flex flex-wrap gap-2">
+              {/* 시작 위치 (단순화) - 데스크톱만 */}
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm text-slate-600 dark:text-slate-400 min-w-[80px]">위치 <span className="text-xs">(PC)</span>:</span>
+                <div className="flex gap-2">
                   {[
-                    { value: 'top-left', label: '상단 좌' },
-                    { value: 'top-center', label: '상단 중' },
-                    { value: 'top-right', label: '상단 우' },
-                    { value: 'center-left', label: '중앙 좌' },
-                    { value: 'center', label: '중앙' },
-                    { value: 'center-right', label: '중앙 우' },
-                    { value: 'bottom-left', label: '하단 좌' },
-                    { value: 'bottom-center', label: '하단 중' },
-                    { value: 'bottom-right', label: '하단 우' }
+                    { value: 'left', label: '왼쪽', icon: '◀' },
+                    { value: 'center', label: '중앙', icon: '■' },
+                    { value: 'right', label: '오른쪽', icon: '▶' }
                   ].map(pos => (
                     <Button
                       key={pos.value}
                       size="sm"
                       variant={popupConfig.position === pos.value ? 'default' : 'outline'}
                       onClick={() => setPopupConfig(prev => ({ ...prev, position: pos.value as PopupPosition }))}
-                      className="h-7 px-2 text-xs"
+                      className="h-8 px-4"
                     >
+                      <span className="mr-1">{pos.icon}</span>
                       {pos.label}
                     </Button>
                   ))}
                 </div>
               </div>
 
-              {/* 배치 방식 */}
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-slate-600 dark:text-slate-400 w-24">배치 방식:</span>
+              {/* 배치 방식 (단순화) - 데스크톱만 */}
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm text-slate-600 dark:text-slate-400 min-w-[80px]">배치 <span className="text-xs">(PC)</span>:</span>
                 <div className="flex gap-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="allow-overlap"
-                      checked={popupConfig.allowOverlap}
-                      onCheckedChange={(checked) => 
-                        setPopupConfig(prev => ({ ...prev, allowOverlap: checked as boolean }))
-                      }
-                      className="h-4 w-4 border-slate-400 dark:border-border"
-                    />
-                    <Label htmlFor="allow-overlap" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                      겹치기 허용
-                    </Label>
-                  </div>
-                  
-                  {popupConfig.allowOverlap ? (
+                  {[
+                    { value: 'stack', label: '겹치기', icon: '⬢' },
+                    { value: 'horizontal', label: '가로', icon: '↔' },
+                    { value: 'vertical', label: '세로', icon: '↕' }
+                  ].map(layout => (
                     <Button
+                      key={layout.value}
                       size="sm"
-                      variant={popupConfig.layout === 'cascade' ? 'default' : 'outline'}
-                      onClick={() => setPopupConfig(prev => ({ ...prev, layout: 'cascade' }))}
-                      className="h-7 px-3"
+                      variant={popupConfig.layout === layout.value ? 'default' : 'outline'}
+                      onClick={() => setPopupConfig(prev => ({ ...prev, layout: layout.value as PopupLayout }))}
+                      className="h-8 px-4"
                     >
-                      계단형
+                      <span className="mr-1">{layout.icon}</span>
+                      {layout.label}
                     </Button>
-                  ) : (
-                    <>
-                      <Button
-                        size="sm"
-                        variant={popupConfig.layout === 'vertical' ? 'default' : 'outline'}
-                        onClick={() => setPopupConfig(prev => ({ ...prev, layout: 'vertical' }))}
-                        className="h-7 px-3"
-                      >
-                        세로
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant={popupConfig.layout === 'horizontal-lr' ? 'default' : 'outline'}
-                        onClick={() => setPopupConfig(prev => ({ ...prev, layout: 'horizontal-lr' }))}
-                        className="h-7 px-3"
-                      >
-                        가로(좌→우)
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant={popupConfig.layout === 'horizontal-rl' ? 'default' : 'outline'}
-                        onClick={() => setPopupConfig(prev => ({ ...prev, layout: 'horizontal-rl' }))}
-                        className="h-7 px-3"
-                      >
-                        가로(우→좌)
-                      </Button>
-                    </>
-                  )}
+                  ))}
                 </div>
               </div>
 
@@ -736,8 +789,8 @@ export function DSHeroEnterpriseV2() {
         </div>
       </div>
 
-      {/* 메인 히어로 섹션 */}
-      <section className="relative w-full overflow-hidden min-h-[600px]">
+      {/* 메인 히어로 셉션 */}
+      <section className="relative w-full overflow-hidden min-h-[700px]">
         {/* 팝업 활성화 시 블러 오버레이 */}
         {visiblePopups.length > 0 && popupConfig.enableBlur && (
           <div className="absolute inset-0 z-30 bg-background/20 backdrop-blur-sm" />

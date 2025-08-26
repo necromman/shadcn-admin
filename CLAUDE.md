@@ -324,6 +324,66 @@ components/
 5. 타입 정의
 6. 스타일
 
+## 📁 파일 버전 관리 지침
+
+### 컴포넌트 버전 업그레이드 규칙
+**새 버전 생성 시 반드시 따라야 할 프로세스:**
+
+1. **기존 파일 백업 (필수)**
+   ```bash
+   # 원본 파일을 .bak 확장자로 백업
+   # 예시: ds-hero-enterprise.tsx → ds-hero-enterprise.tsx.bak
+   ```
+
+2. **버전 관리 규칙**
+   - v2, v3 등 새 버전 생성 전 **반드시 원본 백업**
+   - 백업 파일은 다음 세션에서 참조 가능하도록 유지
+   - 원본 구조와 디자인을 최대한 보존하면서 확장
+
+3. **파일 명명 규칙**
+   ```
+   원본: component-name.tsx
+   백업: component-name.tsx.bak
+   새버전: component-name-v2.tsx (또는 원본 파일명 유지)
+   ```
+
+4. **버전 업그레이드 시 원칙**
+   - ✅ **원본 디자인 보존**: 기존 UI/UX 최대한 유지
+   - ✅ **점진적 개선**: 기능 추가 시 기존 기능 보존
+   - ✅ **하위 호환성**: 기존 props와 인터페이스 유지
+   - ❌ **파괴적 변경 금지**: 원본 디자인 임의 변경 금지
+   - ❌ **단순화 금지**: 복잡한 디자인을 단순화하지 말 것
+
+5. **예시**
+   ```typescript
+   // ❌ Bad: 원본 삭제 후 새 버전 생성
+   // ds-hero-enterprise.tsx 삭제
+   // ds-hero-enterprise-v2.tsx 생성
+   
+   // ✅ Good: 백업 후 새 버전 생성
+   // ds-hero-enterprise.tsx → ds-hero-enterprise.tsx.bak
+   // ds-hero-enterprise-v2.tsx 생성 (원본 구조 보존)
+   ```
+
+6. **복원 가능성 확보**
+   - 백업 파일은 삭제하지 않음
+   - 다음 세션에서 "v1 버전 참조" 요청 시 .bak 파일 확인
+   - 필요 시 백업에서 복원 가능
+
+### 실제 적용 예시
+```bash
+# 1. 기존 파일 백업
+mv ds-hero-enterprise.tsx ds-hero-enterprise.tsx.bak
+
+# 2. 새 버전 생성 (원본 구조 복사 후 확장)
+cp ds-hero-enterprise.tsx.bak ds-hero-enterprise-v2.tsx
+
+# 3. v2 버전에서 기능 추가/개선
+# - 원본 UI 유지
+# - 새 기능 추가
+# - 기존 props 호환
+```
+
 ## 🔧 추가 권장사항
 
 ### 성능 최적화

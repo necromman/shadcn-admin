@@ -11,7 +11,7 @@ import type { CategoryConfig, CategoryType } from './types/frontend-category'
 import { DSAnnouncementBarVariants } from '@/components/design-system/ds-announcement-bar'
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
 import { DSIntegratedSearch } from '@/components/design-system/ds-integrated-search'
-import { DSHeroVariants } from '@/components/design-system/ds-hero-enterprise'
+import { DSHeroEnterpriseV2 } from '@/components/design-system/ds-hero-enterprise-v2'
 import { DSNoticePreview } from '@/components/design-system/ds-notice-preview'
 import { DSFooter } from '@/components/design-system/ds-footer'
 import { DSAuthCards } from '@/components/design-system/ds-auth-cards'
@@ -116,7 +116,7 @@ const COMPONENT_MAP: Record<CategoryType, React.ComponentType | null> = {
   'announcement-bar': DSAnnouncementBarVariants,
   'header': DSHeaderEnterprise,
   'search': DSIntegratedSearch,
-  'hero': DSHeroVariants,
+  'hero': DSHeroEnterpriseV2,
   'notice-preview': DSNoticePreview,
   'content': null,
   'portfolio': DSPortfolioSection,

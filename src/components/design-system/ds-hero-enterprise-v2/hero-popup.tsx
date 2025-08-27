@@ -17,18 +17,8 @@ export function HeroPopup({ data, onClose, position, zIndex, showDebug = false, 
   }, [])
   // 모바일에서는 풀스크린 모달로 표시
   if (isMobile) {
-    // 헤더 높이 동적 계산 (2줄일 때를 고려)
-    const headerHeight = window.innerWidth < 640 ? 120 : 70  // sm 브레이크포인트 기준
-    
     return (
       <>
-        {/* 헤더 오버레이 - 헤더를 어둡게 처리 */}
-        <div 
-          className="fixed inset-x-0 top-0 bg-black/50 z-40"
-          style={{ height: `${headerHeight}px` }}
-          onClick={() => onClose(data.id)}
-        />
-        
         {/* 메인 컨테이너 */}
         <div 
           className="fixed inset-0 flex items-end z-40"

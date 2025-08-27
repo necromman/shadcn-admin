@@ -18,7 +18,7 @@ export const custom_themeTheme: ThemeConfig = {
     "light": {
       "background": "0 0% 100%",
       "foreground": "222.2 84% 4.9%",
-      "primary": "222.2 47.4% 11.2%",
+      "primary": "222 83% 51%",
       "primary-foreground": "210 40% 98%",
       "secondary": "210 40% 96.1%",
       "secondary-foreground": "222.2 47.4% 11.2%",

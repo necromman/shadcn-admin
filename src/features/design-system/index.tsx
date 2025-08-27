@@ -1,22 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FrontendSection } from './frontend-section-new'
 import { BackofficeSection } from './backoffice-section'
-import { ThemeToggleButton } from '@/components/theme-toggle-button'
-import { ThemeSelector } from './theme/components/theme-selector'
-import { Button } from '@/components/ui/button'
-import { HiSwatch, HiViewColumns, HiSquares2X2, HiEllipsisVertical, HiAdjustmentsHorizontal } from 'react-icons/hi2'
 import { applyTheme, resetTheme } from './theme/core/theme-utils'
 import { type ThemeConfig } from './theme/core/types'
 import { themeRegistry } from './theme/core/theme-registry'
 import { defaultTheme } from './theme/presets/default'
 import { custom_themeTheme } from './theme/presets/theme-custom-theme'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { CategoryManagerDialog } from './components/category-manager-dialog'
+import { DesignSystemHeader } from './components/design-system-header'
 import type { CategoryConfig } from './types/frontend-category'
 
 export function DesignSystemPage() {
@@ -123,115 +114,39 @@ export function DesignSystemPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-[110] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex flex-col sm:flex-row sm:h-14 items-start sm:items-center justify-between py-3 sm:py-0 gap-3 sm:gap-0">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 w-full sm:w-auto">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold">
-                P
-              </div>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold">PROST SPV</h1>
-                <p className="text-xs text-muted-foreground -mt-1">Static Proto View</p>
-              </div>
-            </div>
-            <div className="hidden sm:block h-8 w-px bg-border" />
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full sm:w-[400px]">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="frontend">Frontend</TabsTrigger>
-                <TabsTrigger value="backoffice">Backoffice</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-          <div className="flex items-center gap-2 self-end sm:self-auto">
-            <ThemeToggleButton />
-            <ThemeSelector 
-              scopeFilter={activeTab === 'frontend' ? 'frontend' : activeTab === 'backoffice' ? 'backoffice' : 'all'}
-            />
-            
-            {/* Frontend 전용 버튼들 */}
-            {activeTab === 'frontend' && (
-              <>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
-                    frontendSectionRef.current?.toggleAll()
-                    setAllExpanded(!allExpanded)
-                  }}
-                  className="h-8 w-8"
-                  title={allExpanded ? "모두 접기" : "모두 펼치기"}
-                >
-                  {allExpanded ? (
-                    <HiViewColumns className="h-4 w-4" />
-                  ) : (
-                    <HiSquares2X2 className="h-4 w-4" />
-                  )}
-                </Button>
-                
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
-                    if (frontendSectionRef.current) {
-                      setCategories(frontendSectionRef.current.getCategories())
-                    }
-                    setShowCategoryManager(true)
-                  }}
-                  className="h-8 w-8"
-                  title="카테고리 관리"
-                >
-                  <HiAdjustmentsHorizontal className="h-4 w-4" />
-                </Button>
-              </>
-            )}
-            
-            {/* 테마 에디터 버튼 */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={openThemeEditor}
-              className="h-8 w-8"
-              title="테마 에디터"
-            >
-              <HiSwatch className="h-4 w-4" />
-            </Button>
-            
-            {/* 더보기 드롭다운 메뉴 (숨김 처리, 나중에 사용 가능) */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 hidden"
-                  title="더보기"
-                >
-                  <HiEllipsisVertical className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                {/* 나중에 필요한 메뉴 항목들 추가 가능 */}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
-            {/* 카테고리 관리자 다이얼로그 */}
-            <CategoryManagerDialog
-              categories={categories}
-              onCategoriesChange={(newCategories) => {
-                frontendSectionRef.current?.updateCategories(newCategories)
-              }}
-              onReset={() => {
-                if (frontendSectionRef.current) {
-                  frontendSectionRef.current.resetCategories()
-                  setCategories(frontendSectionRef.current.getCategories())
-                }
-              }}
-              open={showCategoryManager}
-              onOpenChange={setShowCategoryManager}
-            />
-          </div>
-        </div>
-      </div>
+      <DesignSystemHeader
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onOpenThemeEditor={openThemeEditor}
+        onToggleAll={() => {
+          frontendSectionRef.current?.toggleAll()
+          setAllExpanded(!allExpanded)
+        }}
+        onOpenCategoryManager={() => {
+          if (frontendSectionRef.current) {
+            setCategories(frontendSectionRef.current.getCategories())
+          }
+          setShowCategoryManager(true)
+        }}
+        allExpanded={allExpanded}
+        showCategoryButton={activeTab === 'frontend'}
+      />
+
+      {/* 카테고리 관리자 다이얼로그 */}
+      <CategoryManagerDialog
+        categories={categories}
+        onCategoriesChange={(newCategories) => {
+          frontendSectionRef.current?.updateCategories(newCategories)
+        }}
+        onReset={() => {
+          if (frontendSectionRef.current) {
+            frontendSectionRef.current.resetCategories()
+            setCategories(frontendSectionRef.current.getCategories())
+          }
+        }}
+        open={showCategoryManager}
+        onOpenChange={setShowCategoryManager}
+      />
 
       <main className="w-full">
         {activeTab === 'frontend' ? (

@@ -24,14 +24,14 @@ export function HeroPopup({ data, onClose, position, zIndex, showDebug = false, 
       <>
         {/* 헤더 오버레이 - 헤더를 어둡게 처리 */}
         <div 
-          className="fixed inset-x-0 top-0 bg-black/50 z-[111]"
+          className="fixed inset-x-0 top-0 bg-black/50 z-40"
           style={{ height: `${headerHeight}px` }}
           onClick={() => onClose(data.id)}
         />
         
         {/* 메인 컨테이너 */}
         <div 
-          className="fixed inset-0 flex items-end z-[100]"
+          className="fixed inset-0 flex items-end z-40"
         >
           {/* 전체 오버레이 */}
           <div 
@@ -40,7 +40,7 @@ export function HeroPopup({ data, onClose, position, zIndex, showDebug = false, 
           />
           
           {/* 바텀 시트 */}
-          <div className="relative w-full max-h-[90vh] animate-in slide-in-from-bottom duration-300 z-[101]">
+          <div className="relative w-full max-h-[90vh] animate-in slide-in-from-bottom duration-300 z-40">
           <Card className="rounded-t-2xl rounded-b-none border-b-0 bg-background overflow-hidden">
             {/* 드래그 핸들 */}
             <div className="flex justify-center py-2">

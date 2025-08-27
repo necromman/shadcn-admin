@@ -21,7 +21,9 @@
       "Bash(del \"D:\\PROJECT\\practice\\shadcn-admin\\src\\routes\\design-system.tsx\")",
       "Bash(powershell:*)",
       "Bash(move:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git log:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

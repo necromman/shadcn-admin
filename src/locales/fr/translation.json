@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "Solutions",
+      "products": "Produits",
+      "services": "Services",
+      "company": "Société",
+      "resources": "Ressources",
+      "support": "Support",
+      "contact": "Contact",
+      "pricing": "Tarifs",
+      "docs": "Docs",
+      "blog": "Blog"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "Solutions d'entreprise",
+        "business": "Solutions d'affaires",
+        "startup": "Pack Startup",
+        "cloud": "Services Cloud",
+        "onpremise": "Sur site",
+        "hybrid": "Hybride"
+      },
+      "products": {
+        "analytics": "Outils d'analyse",
+        "crm": "Gestion de la clientèle",
+        "erp": "Planification des ressources",
+        "cms": "Gestion de contenu",
+        "ecommerce": "Commerce électronique",
+        "security": "Sécurité"
+      },
+      "services": {
+        "consulting": "Conseil",
+        "implementation": "Mise en œuvre",
+        "training": "Formation",
+        "support": "Support",
+        "maintenance": "Maintenance",
+        "customization": "Personnalisation"
+      },
+      "company": {
+        "about": "À propos",
+        "team": "Notre équipe",
+        "careers": "Carrières",
+        "partners": "Partenaires",
+        "press": "Presse",
+        "contact": "Contact"
+      },
+      "resources": {
+        "docs": "Documentation",
+        "tutorials": "Tutoriels",
+        "api": "Référence API",
+        "community": "Communauté",
+        "case-studies": "Études de cas",
+        "white-papers": "Livres blancs"
+      }
+    }
+  }
+}

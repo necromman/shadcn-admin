@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "Soluzioni",
+      "products": "Prodotti",
+      "services": "Servizi",
+      "company": "Azienda",
+      "resources": "Risorse",
+      "support": "Supporto",
+      "contact": "Contatti",
+      "pricing": "Prezzi",
+      "docs": "Documenti",
+      "blog": "Blog"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "Soluzioni Enterprise",
+        "business": "Soluzioni Business",
+        "startup": "Pacchetto Startup",
+        "cloud": "Servizi Cloud",
+        "onpremise": "On-Premise",
+        "hybrid": "Ibrido"
+      },
+      "products": {
+        "analytics": "Strumenti di analisi",
+        "crm": "Gestione clienti",
+        "erp": "Pianificazione risorse",
+        "cms": "Gestione contenuti",
+        "ecommerce": "E-Commerce",
+        "security": "Sicurezza"
+      },
+      "services": {
+        "consulting": "Consulenza",
+        "implementation": "Implementazione",
+        "training": "Formazione",
+        "support": "Supporto",
+        "maintenance": "Manutenzione",
+        "customization": "Personalizzazione"
+      },
+      "company": {
+        "about": "Chi siamo",
+        "team": "Il nostro team",
+        "careers": "Lavora con noi",
+        "partners": "Partner",
+        "press": "Stampa",
+        "contact": "Contatti"
+      },
+      "resources": {
+        "docs": "Documentazione",
+        "tutorials": "Tutorial",
+        "api": "Riferimento API",
+        "community": "Comunità",
+        "case-studies": "Casi di studio",
+        "white-papers": "White Paper"
+      }
+    }
+  }
+}

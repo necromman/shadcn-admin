@@ -199,7 +199,7 @@ export const FrontendSection = forwardRef<{
     }
     
     // 프로덕션 모드: 버전 관리를 통한 캐시 무효화
-    const STORAGE_VERSION = 'v3' // 게시판 미리보기 섹션 제거
+    const STORAGE_VERSION = 'v4' // 헤더&네비게이션 → 헤더로 변경
     const currentVersion = localStorage.getItem(VERSION_KEY)
     
     // 버전이 다르거나 없으면 초기화

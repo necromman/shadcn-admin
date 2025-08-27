@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "ソリューション",
+      "products": "製品",
+      "services": "サービス",
+      "company": "会社情報",
+      "resources": "リソース",
+      "support": "サポート",
+      "contact": "お問い合わせ",
+      "pricing": "価格",
+      "docs": "ドキュメント",
+      "blog": "ブログ"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "エンタープライズソリューション",
+        "business": "ビジネスソリューション",
+        "startup": "スタートアップパッケージ",
+        "cloud": "クラウドサービス",
+        "onpremise": "オンプレミス",
+        "hybrid": "ハイブリッド"
+      },
+      "products": {
+        "analytics": "分析ツール",
+        "crm": "顧客管理",
+        "erp": "企業資源計画",
+        "cms": "コンテンツ管理",
+        "ecommerce": "Eコマース",
+        "security": "セキュリティ"
+      },
+      "services": {
+        "consulting": "コンサルティング",
+        "implementation": "実装",
+        "training": "トレーニング",
+        "support": "サポート",
+        "maintenance": "メンテナンス",
+        "customization": "カスタマイズ"
+      },
+      "company": {
+        "about": "会社概要",
+        "team": "チーム紹介",
+        "careers": "採用情報",
+        "partners": "パートナー",
+        "press": "プレスリリース",
+        "contact": "連絡先"
+      },
+      "resources": {
+        "docs": "ドキュメント",
+        "tutorials": "チュートリアル",
+        "api": "APIリファレンス",
+        "community": "コミュニティ",
+        "case-studies": "事例研究",
+        "white-papers": "ホワイトペーパー"
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "解决方案",
+      "products": "产品",
+      "services": "服务",
+      "company": "公司介绍",
+      "resources": "资源中心",
+      "support": "支持",
+      "contact": "联系我们",
+      "pricing": "价格",
+      "docs": "文档",
+      "blog": "博客"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "企业解决方案",
+        "business": "商业解决方案",
+        "startup": "创业套餐",
+        "cloud": "云服务",
+        "onpremise": "本地部署",
+        "hybrid": "混合部署"
+      },
+      "products": {
+        "analytics": "分析工具",
+        "crm": "客户管理",
+        "erp": "企业资源规划",
+        "cms": "内容管理",
+        "ecommerce": "电子商务",
+        "security": "安全"
+      },
+      "services": {
+        "consulting": "咨询",
+        "implementation": "实施",
+        "training": "培训",
+        "support": "支持",
+        "maintenance": "维护",
+        "customization": "定制化"
+      },
+      "company": {
+        "about": "关于我们",
+        "team": "团队介绍",
+        "careers": "招聘",
+        "partners": "合作伙伴",
+        "press": "新闻发布",
+        "contact": "联系方式"
+      },
+      "resources": {
+        "docs": "文档",
+        "tutorials": "教程",
+        "api": "API参考",
+        "community": "社区",
+        "case-studies": "案例研究",
+        "white-papers": "白皮书"
+      }
+    }
+  }
+}

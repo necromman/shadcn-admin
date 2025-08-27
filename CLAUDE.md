@@ -239,6 +239,99 @@ components/
 └── features/     # 기능별 컴포넌트
 ```
 
+## 📂 디자인 시스템 컴포넌트 구조 패턴
+
+### Feature-based Component Organization
+디자인 시스템 컴포넌트는 **Feature-based Component Organization** 패턴을 따름:
+
+#### 1. 파일 구조 원칙
+- **단순 컴포넌트**: 단일 파일로 관리
+  ```
+  ds-[component-name].tsx
+  ```
+- **복잡 컴포넌트**: 폴더 구조로 분리 (300줄 초과 시)
+  ```
+  ds-[component-name]/
+  ├── main.tsx              # 메인 컴포넌트
+  ├── types.ts              # 타입 정의
+  ├── utils.ts              # 유틸리티 함수
+  ├── constants.tsx         # 상수 데이터
+  ├── [sub-component].tsx   # 하위 컴포넌트
+  └── index.tsx            # Barrel export
+  ```
+
+#### 2. 폴더 변환 규칙
+컴포넌트가 복잡해지면 다음 프로세스로 폴더 구조로 변환:
+
+1. **기존 파일 백업**
+   ```bash
+   mv ds-component.tsx ds-component.tsx.bak
+   ```
+
+2. **폴더 구조 생성**
+   ```bash
+   mkdir ds-component/
+   ```
+
+3. **파일 분리 기준**
+   - `types.ts`: 모든 타입과 인터페이스
+   - `utils.ts`: 순수 함수, 계산 로직
+   - `constants.tsx`: 상수 데이터, 기본값
+   - `[sub-component].tsx`: 독립적인 UI 컴포넌트
+   - `main.tsx`: 메인 컴포넌트 로직
+   - `index.tsx`: 모든 export 관리
+
+4. **엔트리 파일 생성**
+   ```tsx
+   // ds-component.tsx (엔트리 포인트)
+   export { DSComponent } from './ds-component/main'
+   ```
+
+#### 3. Barrel Export 패턴
+```tsx
+// index.tsx
+export { MainComponent } from './main'
+export { SubComponent } from './sub-component'
+export { utilFunction } from './utils'
+export type { ComponentProps, ComponentState } from './types'
+```
+
+#### 4. 네이밍 컨벤션
+- **폴더명**: `ds-[feature-name]` (kebab-case)
+- **컴포넌트 파일**: `[component-name].tsx` (kebab-case)
+- **타입 파일**: `types.ts`
+- **유틸리티**: `utils.ts`
+- **상수**: `constants.tsx` 또는 `[data-name]-data.tsx`
+
+#### 5. 분리 기준
+- **300줄 초과**: 필수 분리
+- **3개 이상 하위 컴포넌트**: 폴더 구조 권장
+- **복잡한 타입 정의**: types.ts 분리
+- **5개 이상 유틸리티 함수**: utils.ts 분리
+
+#### 6. 장점
+- ✅ **점진적 복잡도 관리**: 작게 시작, 필요시 확장
+- ✅ **명확한 경계**: 각 파일의 책임 명확
+- ✅ **쉬운 리팩토링**: 폴더 단위 이동/삭제
+- ✅ **IDE 친화적**: 파일 탐색 용이
+- ✅ **Co-location**: 관련 파일 한 곳에 관리
+
+#### 7. 실제 적용 예시
+```
+src/components/design-system/
+├── ds-simple-card.tsx              # 단순 컴포넌트 (150줄)
+├── ds-hero-enterprise-v2/          # 복잡 컴포넌트 (1000줄+)
+│   ├── main.tsx                   # 메인 컴포넌트
+│   ├── types.ts                   # 타입 정의
+│   ├── hero-popup.tsx             # 팝업 컴포넌트
+│   ├── options-panel.tsx          # 옵션 패널
+│   ├── stats-cards.tsx            # 통계 카드
+│   ├── popup-data.tsx             # 팝업 데이터
+│   ├── utils.ts                   # 유틸리티
+│   └── index.tsx                  # Barrel export
+└── ds-hero-enterprise-v2.tsx      # 엔트리 포인트
+```
+
 ## 💅 UI 개발 규칙
 
 ### 🎯 shadcn/ui 컴포넌트 사용 필수

@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "솔루션",
+      "products": "제품",
+      "services": "서비스",
+      "company": "회사소개",
+      "resources": "자료실",
+      "support": "지원",
+      "contact": "문의하기",
+      "pricing": "가격",
+      "docs": "문서",
+      "blog": "블로그"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "엔터프라이즈 솔루션",
+        "business": "비즈니스 솔루션",
+        "startup": "스타트업 패키지",
+        "cloud": "클라우드 서비스",
+        "onpremise": "온프레미스",
+        "hybrid": "하이브리드"
+      },
+      "products": {
+        "analytics": "분석 도구",
+        "crm": "고객 관리",
+        "erp": "전사 자원 관리",
+        "cms": "콘텐츠 관리",
+        "ecommerce": "전자상거래",
+        "security": "보안"
+      },
+      "services": {
+        "consulting": "컨설팅",
+        "implementation": "구축",
+        "training": "교육",
+        "support": "지원",
+        "maintenance": "유지보수",
+        "customization": "커스터마이징"
+      },
+      "company": {
+        "about": "회사 소개",
+        "team": "팀 소개",
+        "careers": "채용",
+        "partners": "파트너",
+        "press": "보도자료",
+        "contact": "연락처"
+      },
+      "resources": {
+        "docs": "문서",
+        "tutorials": "튜토리얼",
+        "api": "API 참조",
+        "community": "커뮤니티",
+        "case-studies": "사례 연구",
+        "white-papers": "백서"
+      }
+    }
+  }
+}

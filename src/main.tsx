@@ -13,6 +13,8 @@ import { handleServerError } from '@/utils/handle-server-error'
 import { DirectionProvider } from './context/direction-provider'
 import { FontProvider } from './context/font-provider'
 import { ThemeProvider } from './context/theme-provider'
+// i18n
+import './lib/i18n/config'
 // Generated Routes
 import { routeTree } from './routeTree.gen'
 // Styles

@@ -11,6 +11,8 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
+import { LanguageSelector } from '@/components/design-system/language-selector'
 
 interface SubMenuItem {
   label: string
@@ -32,57 +34,59 @@ export function DSHeaderEnterprise() {
   const [showAllMenus, setShowAllMenus] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [hoverEnabled, setHoverEnabled] = useState(true) // 마우스오버 기본값 true
+  const [showLanguageSelector, setShowLanguageSelector] = useState(true) // 다국어 선택기 표시 기본값 true
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslation()
 
   const navItems: NavItem[] = [
     {
-      label: '제품',
+      label: t('header.nav.products'),
       href: '#',
       subItems: [
-        { label: '제품 소개', href: '#', description: '주요 제품 및 기능 소개' },
-        { label: '가격', href: '#', description: '플랜별 가격 정보' },
-        { label: '데모 체험', href: '#', description: '무료 체험판 신청' },
-        { label: '기술 사양', href: '#', description: '상세 기술 스펙' },
+        { label: t('header.submenus.products.analytics'), href: '#', description: '' },
+        { label: t('header.submenus.products.crm'), href: '#', description: '' },
+        { label: t('header.submenus.products.erp'), href: '#', description: '' },
+        { label: t('header.submenus.products.security'), href: '#', description: '' },
       ],
     },
     {
-      label: '솔루션',
+      label: t('header.nav.solutions'),
       href: '#',
       subItems: [
-        { label: '기업용', href: '#', description: '대기업 맞춤 솔루션' },
-        { label: '중소기업', href: '#', description: 'SMB 전용 패키지' },
-        { label: '스타트업', href: '#', description: '성장 단계별 지원' },
-        { label: '산업별', href: '#', description: '업종별 특화 솔루션' },
+        { label: t('header.submenus.solutions.enterprise'), href: '#', description: '' },
+        { label: t('header.submenus.solutions.business'), href: '#', description: '' },
+        { label: t('header.submenus.solutions.startup'), href: '#', description: '' },
+        { label: t('header.submenus.solutions.cloud'), href: '#', description: '' },
       ],
     },
     {
-      label: '리소스',
+      label: t('header.nav.resources'),
       href: '#',
       subItems: [
-        { label: '문서', href: '#', description: '기술 문서 및 가이드' },
-        { label: '블로그', href: '#', description: '최신 소식 및 인사이트' },
-        { label: '웨비나', href: '#', description: '온라인 세미나 일정' },
-        { label: '사례 연구', href: '#', description: '고객 성공 사례' },
+        { label: t('header.submenus.resources.docs'), href: '#', description: '' },
+        { label: t('header.submenus.resources.tutorials'), href: '#', description: '' },
+        { label: t('header.submenus.resources.community'), href: '#', description: '' },
+        { label: t('header.submenus.resources.white-papers'), href: '#', description: '' },
       ],
     },
     {
-      label: '고객지원',
+      label: t('header.nav.support'),
       href: '#',
       subItems: [
-        { label: '지원 센터', href: '#', description: '24/7 고객 지원' },
-        { label: 'FAQ', href: '#', description: '자주 묻는 질문' },
-        { label: '커뮤니티', href: '#', description: '사용자 커뮤니티' },
-        { label: '문의하기', href: '#', description: '1:1 문의 접수' },
+        { label: t('header.submenus.services.support'), href: '#', description: '' },
+        { label: t('header.submenus.services.training'), href: '#', description: '' },
+        { label: t('header.submenus.services.consulting'), href: '#', description: '' },
+        { label: t('header.submenus.services.maintenance'), href: '#', description: '' },
       ],
     },
     {
-      label: '회사소개',
+      label: t('header.nav.company'),
       href: '#',
       subItems: [
-        { label: '회사 정보', href: '#', description: '기업 소개 및 비전' },
-        { label: '채용', href: '#', description: '함께할 인재 모집' },
-        { label: '뉴스룸', href: '#', description: '언론 보도 자료' },
-        { label: '파트너', href: '#', description: '파트너십 프로그램' },
+        { label: t('header.submenus.company.about'), href: '#', description: '' },
+        { label: t('header.submenus.company.team'), href: '#', description: '' },
+        { label: t('header.submenus.company.careers'), href: '#', description: '' },
+        { label: t('header.submenus.company.partners'), href: '#', description: '' },
       ],
     },
   ]
@@ -154,10 +158,25 @@ export function DSHeaderEnterprise() {
                 마우스오버 메뉴 활성화
               </Label>
             </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="show-language-selector"
+                checked={showLanguageSelector}
+                onCheckedChange={(checked) => setShowLanguageSelector(checked as boolean)}
+                className="h-4 w-4 border-slate-400 dark:border-border"
+              />
+              <Label
+                htmlFor="show-language-selector"
+                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+              >
+                다국어 선택 표시
+              </Label>
+            </div>
           </div>
           
           <p className="text-xs text-slate-500 dark:text-muted-foreground mt-3 pl-0.5">
-            헤더 네비게이션의 동작을 설정할 수 있습니다
+            헤더 네비게이션의 동작과 다국어 설정을 관리할 수 있습니다
           </p>
         </div>
       </div>
@@ -299,8 +318,7 @@ export function DSHeaderEnterprise() {
 
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-2">
-              <Button variant="ghost" size="sm">로그인</Button>
-              <Button size="sm">시작</Button>
+              {showLanguageSelector && <LanguageSelector />}
             </div>
 
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -374,12 +392,7 @@ export function DSHeaderEnterprise() {
                     ))}
                   </div>
                   <div className="mt-auto pt-6 px-2 space-y-3 border-t">
-                    <Button variant="outline" size="lg" className="w-full justify-center font-medium">
-                      로그인
-                    </Button>
-                    <Button size="lg" className="w-full justify-center font-medium">
-                      시작
-                    </Button>
+                    {showLanguageSelector && <LanguageSelector className="w-full justify-center" />}
                     <p className="text-xs text-center text-muted-foreground mt-4">
                       문의: support@enterprise.com
                     </p>

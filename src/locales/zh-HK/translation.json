@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "解決方案",
+      "products": "產品",
+      "services": "服務",
+      "company": "公司介紹",
+      "resources": "資源中心",
+      "support": "支援",
+      "contact": "聯絡我們",
+      "pricing": "價格",
+      "docs": "文檔",
+      "blog": "網誌"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "企業解決方案",
+        "business": "商業解決方案",
+        "startup": "創業套餐",
+        "cloud": "雲端服務",
+        "onpremise": "本地部署",
+        "hybrid": "混合部署"
+      },
+      "products": {
+        "analytics": "分析工具",
+        "crm": "客戶管理",
+        "erp": "企業資源規劃",
+        "cms": "內容管理",
+        "ecommerce": "電子商務",
+        "security": "保安"
+      },
+      "services": {
+        "consulting": "諮詢",
+        "implementation": "實施",
+        "training": "培訓",
+        "support": "支援",
+        "maintenance": "維護",
+        "customization": "客製化"
+      },
+      "company": {
+        "about": "關於我們",
+        "team": "團隊介紹",
+        "careers": "招聘",
+        "partners": "合作夥伴",
+        "press": "新聞發佈",
+        "contact": "聯絡方式"
+      },
+      "resources": {
+        "docs": "文檔",
+        "tutorials": "教學",
+        "api": "API參考",
+        "community": "社群",
+        "case-studies": "案例研究",
+        "white-papers": "白皮書"
+      }
+    }
+  }
+}

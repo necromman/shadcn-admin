@@ -41,7 +41,7 @@ export const DEFAULT_CATEGORIES: CategoryConfig[] = [
   },
   {
     id: 'header',
-    title: '헤더 & 네비게이션',
+    title: '헤더',
     description: '사이트 헤더 및 메인 네비게이션 메뉴',
     order: 2,
     enabled: true,

@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "โซลูชั่น",
+      "products": "ผลิตภัณฑ์",
+      "services": "บริการ",
+      "company": "เกี่ยวกับบริษัท",
+      "resources": "ทรัพยากร",
+      "support": "การสนับสนุน",
+      "contact": "ติดต่อเรา",
+      "pricing": "ราคา",
+      "docs": "เอกสาร",
+      "blog": "บล็อก"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "โซลูชั่นองค์กร",
+        "business": "โซลูชั่นธุรกิจ",
+        "startup": "แพ็คเกจสตาร์ทอัพ",
+        "cloud": "บริการคลาวด์",
+        "onpremise": "ออนพรีไมซ์",
+        "hybrid": "ไฮบริด"
+      },
+      "products": {
+        "analytics": "เครื่องมือวิเคราะห์",
+        "crm": "การจัดการลูกค้า",
+        "erp": "การวางแผนทรัพยากรองค์กร",
+        "cms": "การจัดการเนื้อหา",
+        "ecommerce": "อีคอมเมิร์ซ",
+        "security": "ความปลอดภัย"
+      },
+      "services": {
+        "consulting": "ที่ปรึกษา",
+        "implementation": "การติดตั้ง",
+        "training": "การฝึกอบรม",
+        "support": "การสนับสนุน",
+        "maintenance": "การบำรุงรักษา",
+        "customization": "การปรับแต่ง"
+      },
+      "company": {
+        "about": "เกี่ยวกับเรา",
+        "team": "ทีมของเรา",
+        "careers": "ร่วมงานกับเรา",
+        "partners": "พันธมิตร",
+        "press": "ข่าวสาร",
+        "contact": "ติดต่อ"
+      },
+      "resources": {
+        "docs": "เอกสาร",
+        "tutorials": "บทเรียน",
+        "api": "การอ้างอิง API",
+        "community": "ชุมชน",
+        "case-studies": "กรณีศึกษา",
+        "white-papers": "เอกสารเชิงวิชาการ"
+      }
+    }
+  }
+}

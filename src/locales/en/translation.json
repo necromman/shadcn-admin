@@ -1,0 +1,58 @@
+{
+  "header": {
+    "nav": {
+      "solutions": "Solutions",
+      "products": "Products",
+      "services": "Services",
+      "company": "Company",
+      "resources": "Resources",
+      "support": "Support",
+      "contact": "Contact",
+      "pricing": "Pricing",
+      "docs": "Docs",
+      "blog": "Blog"
+    },
+    "submenus": {
+      "solutions": {
+        "enterprise": "Enterprise Solutions",
+        "business": "Business Solutions",
+        "startup": "Startup Package",
+        "cloud": "Cloud Services",
+        "onpremise": "On-Premise",
+        "hybrid": "Hybrid"
+      },
+      "products": {
+        "analytics": "Analytics Tools",
+        "crm": "Customer Management",
+        "erp": "Enterprise Resource Planning",
+        "cms": "Content Management",
+        "ecommerce": "E-Commerce",
+        "security": "Security"
+      },
+      "services": {
+        "consulting": "Consulting",
+        "implementation": "Implementation",
+        "training": "Training",
+        "support": "Support",
+        "maintenance": "Maintenance",
+        "customization": "Customization"
+      },
+      "company": {
+        "about": "About Us",
+        "team": "Our Team",
+        "careers": "Careers",
+        "partners": "Partners",
+        "press": "Press",
+        "contact": "Contact"
+      },
+      "resources": {
+        "docs": "Documentation",
+        "tutorials": "Tutorials",
+        "api": "API Reference",
+        "community": "Community",
+        "case-studies": "Case Studies",
+        "white-papers": "White Papers"
+      }
+    }
+  }
+}

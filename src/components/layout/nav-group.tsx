@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
 import { LuChevronRight } from 'react-icons/lu'
+import { cn } from '@/lib/utils'
 import {
   Collapsible,
   CollapsibleContent,
@@ -36,37 +37,46 @@ import {
 export function NavGroup({ title, items, collapsible, defaultOpen = true }: NavGroupProps) {
   const { state, isMobile } = useSidebar()
   const href = useLocation({ select: (location) => location.href })
-  
-  const content = (
-    <SidebarMenu>
-      {items.map((item) => {
-        const key = `${item.title}-${item.url}`
-
-        if (!item.items)
-          return <SidebarMenuLink key={key} item={item} href={href} />
-
-        if (state === 'collapsed' && !isMobile)
-          return (
-            <SidebarMenuCollapsedDropdown key={key} item={item} href={href} />
-          )
-
-        return <SidebarMenuCollapsible key={key} item={item} href={href} />
-      })}
-    </SidebarMenu>
-  )
 
   if (collapsible) {
     return (
       <Collapsible defaultOpen={defaultOpen} className="group/collapsible">
-        <SidebarGroup>
+        <SidebarGroup className={state === 'collapsed' ? 'py-1 px-2' : ''}>
           <CollapsibleTrigger asChild>
-            <SidebarGroupLabel className="flex w-full items-center justify-between cursor-pointer hover:bg-accent/50 px-2 py-1 rounded">
-              {title}
-              <LuChevronRight className="h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+            <SidebarGroupLabel className={cn(
+              "flex w-full items-center justify-between cursor-pointer hover:bg-accent/50 px-2 py-1 rounded",
+              state === 'collapsed' && "!opacity-100 !mt-0 flex-col gap-0.5 px-1 justify-center items-center h-auto py-1"
+            )}>
+              {state === 'collapsed' ? (
+                <>
+                  <span className="text-[10px] font-bold leading-none">{title.substring(0, 2).toUpperCase()}</span>
+                  <LuChevronRight className="h-3 w-3 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </>
+              ) : (
+                <>
+                  {title}
+                  <LuChevronRight className="h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </>
+              )}
             </SidebarGroupLabel>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            {content}
+            <SidebarMenu>
+              {items.map((item) => {
+                const key = `${item.title}-${item.url}`
+
+                // Hide items when category is collapsed
+                if (!item.items)
+                  return <SidebarMenuLink key={key} item={item} href={href} />
+
+                if (state === 'collapsed' && !isMobile)
+                  return (
+                    <SidebarMenuCollapsedDropdown key={key} item={item} href={href} />
+                  )
+
+                return <SidebarMenuCollapsible key={key} item={item} href={href} />
+              })}
+            </SidebarMenu>
           </CollapsibleContent>
         </SidebarGroup>
       </Collapsible>
@@ -74,9 +84,27 @@ export function NavGroup({ title, items, collapsible, defaultOpen = true }: NavG
   }
 
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>{title}</SidebarGroupLabel>
-      {content}
+    <SidebarGroup className={state === 'collapsed' ? 'py-1 px-2' : ''}>
+      <SidebarGroupLabel className={cn(
+        state === 'collapsed' && "!opacity-100 !mt-0 text-center text-[10px] font-bold px-1 h-auto py-1"
+      )}>
+        {state === 'collapsed' ? title.substring(0, 2).toUpperCase() : title}
+      </SidebarGroupLabel>
+      <SidebarMenu>
+        {items.map((item) => {
+          const key = `${item.title}-${item.url}`
+
+          if (!item.items)
+            return <SidebarMenuLink key={key} item={item} href={href} />
+
+          if (state === 'collapsed' && !isMobile)
+            return (
+              <SidebarMenuCollapsedDropdown key={key} item={item} href={href} />
+            )
+
+          return <SidebarMenuCollapsible key={key} item={item} href={href} />
+        })}
+      </SidebarMenu>
     </SidebarGroup>
   )
 }

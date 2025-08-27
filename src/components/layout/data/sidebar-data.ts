@@ -21,6 +21,8 @@ import {
   LuAudioWaveform,
   LuCommand,
   LuLayoutList,
+  LuUser,
+  LuUserPlus,
 } from 'react-icons/lu'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -49,6 +51,23 @@ export const sidebarData: SidebarData = {
     },
   ],
   navGroups: [
+    {
+      title: 'Frontend',
+      collapsible: true,
+      defaultOpen: true,
+      items: [
+        {
+          title: '로그인',
+          url: '/auth/login',
+          icon: LuUser,
+        },
+        {
+          title: '회원가입',
+          url: '/auth/signup',
+          icon: LuUserPlus,
+        },
+      ],
+    },
     {
       title: 'Old (참조용)',
       collapsible: true,

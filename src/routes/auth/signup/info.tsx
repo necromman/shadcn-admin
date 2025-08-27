@@ -312,7 +312,7 @@ function InfoPage() {
         <CardFooter className="flex justify-between">
           <Button 
             variant="outline"
-            onClick={() => navigate({ to: '/auth/signup/verify' })}
+            onClick={() => navigate({ to: '/auth/signup/verify-method' })}
           >
             이전
           </Button>

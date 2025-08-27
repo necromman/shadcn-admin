@@ -1,4 +1,4 @@
-import { ReactNode, ElementType } from 'react'
+import { type ReactNode, type ElementType } from 'react'
 
 // 팝업 데이터 타입
 export interface PopupData {

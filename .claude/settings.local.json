@@ -23,7 +23,21 @@
       "Bash(move:*)",
       "Bash(git add:*)",
       "Bash(git log:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "mcp__playwright__playwright_navigate",
+      "mcp__playwright__playwright_screenshot",
+      "mcp__playwright__playwright_get_visible_text",
+      "mcp__playwright__playwright_click",
+      "mcp__playwright__playwright_close",
+      "mcp__playwright__playwright_get_visible_html",
+      "Read(C:\\Users\\Administrator\\Downloads/**)",
+      "mcp__playwright__playwright_evaluate",
+      "Read(C:\\Users\\Administrator\\Downloads/**)",
+      "mcp__playwright__playwright_press_key",
+      "Read(C:\\Users\\Administrator\\Downloads/**)",
+      "Read(C:\\Users\\Administrator\\Downloads/**)",
+      "Read(C:\\Users\\Administrator\\Downloads/**)",
+      "Read(C:\\Users\\Administrator\\Downloads/**)"
     ],
     "deny": [],
     "ask": []

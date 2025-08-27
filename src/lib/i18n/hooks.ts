@@ -1,6 +1,6 @@
 import { useTranslation as useI18nTranslation } from 'react-i18next'
 import { changeLanguage } from './config'
-import { LanguageCode } from './types'
+import { type LanguageCode } from './types'
 
 export const useTranslation = () => {
   const { t, i18n, ready } = useI18nTranslation()

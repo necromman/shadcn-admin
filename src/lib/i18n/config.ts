@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import { DEFAULT_LANGUAGE, LanguageCode } from './types'
+import { DEFAULT_LANGUAGE, type LanguageCode } from './types'
 
 // Import all translation files
 import koTranslation from '@/locales/ko/translation.json'

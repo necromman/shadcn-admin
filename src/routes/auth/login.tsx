@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -30,6 +30,7 @@ const loginSchema = z.object({
 })
 
 function LoginPage() {
+  const navigate = useNavigate()
   const [loginMethod, setLoginMethod] = useState<LoginMethod>('id-password')
   const [isLoading, setIsLoading] = useState(false)
   
@@ -42,10 +43,9 @@ function LoginPage() {
     },
   })
 
-  const handleLogin = (data: z.infer<typeof loginSchema>) => {
+  const handleLogin = (_data: z.infer<typeof loginSchema>) => {
     setIsLoading(true)
     // Handle login logic here
-    console.log(data)
     setTimeout(() => setIsLoading(false), 2000)
   }
 
@@ -214,18 +214,14 @@ function LoginPage() {
               <div className="flex items-center justify-center space-x-6">
                 <button
                   className="text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => {
-                    // Handle find ID logic here
-                  }}
+                  onClick={() => navigate({ to: '/auth/find-account' })}
                 >
                   아이디 찾기
                 </button>
                 <span className="text-muted-foreground">•</span>
                 <button
                   className="text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => {
-                    // Handle password reset logic here
-                  }}
+                  onClick={() => navigate({ to: '/auth/find-account' })}
                 >
                   비밀번호 재설정
                 </button>

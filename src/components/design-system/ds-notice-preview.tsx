@@ -450,12 +450,7 @@ export function DSNoticePreview() {
               <Card key={board.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className={`p-2 rounded-lg ${colorClasses[board.color as keyof typeof colorClasses]}`}>
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <CardTitle className="text-lg">{board.type}</CardTitle>
-                    </div>
+                    <CardTitle className="text-lg">{board.type}</CardTitle>
                     <Button variant="ghost" size="sm" className="h-8 px-2">
                       <HiArrowRight className="h-4 w-4" />
                     </Button>

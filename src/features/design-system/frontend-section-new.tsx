@@ -10,6 +10,7 @@ import type { CategoryConfig, CategoryType } from './types/frontend-category'
 // 기존 컴포넌트들 import
 import { DSAnnouncementBarVariants } from '@/components/design-system/ds-announcement-bar'
 import { DSHeaderEnterprise } from '@/components/design-system/ds-header-enterprise'
+import { DSCarousel } from '@/components/design-system/ds-carousel'
 import { DSIntegratedSearch } from '@/components/design-system/ds-integrated-search'
 import { DSHeroEnterpriseV2 } from '@/components/design-system/ds-hero-enterprise-v2'
 import { DSNoticePreview } from '@/components/design-system/ds-notice-preview'
@@ -115,6 +116,7 @@ function CollapsibleSection({
 const COMPONENT_MAP: Record<CategoryType, React.ComponentType | null> = {
   'announcement-bar': DSAnnouncementBarVariants,
   'header': DSHeaderEnterprise,
+  'carousel': DSCarousel,
   'search': DSIntegratedSearch,
   'hero': DSHeroEnterpriseV2,
   'notice-preview': DSNoticePreview,
@@ -134,6 +136,10 @@ const CATEGORY_DESCRIPTIONS: Record<CategoryType, { title: string; description: 
   'header': {
     title: 'Enterprise Header (GNB)',
     description: '대규모 서비스를 위한 엔터프라이즈급 GNB. 다단계 드롭다운 메뉴와 완벽한 모바일 대응.'
+  },
+  'carousel': {
+    title: '메인 캐러셀',
+    description: '프로모션, 이벤트, 주요 콘텐츠를 보여주는 반응형 이미지 슬라이더. 자동 재생과 터치 지원 포함.'
   },
   'search': {
     title: '통합 검색 시스템',
@@ -199,7 +205,7 @@ export const FrontendSection = forwardRef<{
     }
     
     // 프로덕션 모드: 버전 관리를 통한 캐시 무효화
-    const STORAGE_VERSION = 'v4' // 헤더&네비게이션 → 헤더로 변경
+    const STORAGE_VERSION = 'v5' // 캐러셀 섹션 추가
     const currentVersion = localStorage.getItem(VERSION_KEY)
     
     // 버전이 다르거나 없으면 초기화
@@ -366,6 +372,26 @@ export const FrontendSection = forwardRef<{
             <div className="w-full border-y bg-background pb-4">
               {Component && <Component />}
             </div>
+          </div>
+        </CollapsibleSection>
+      )
+    }
+
+    if (category.id === 'carousel') {
+      return (
+        <CollapsibleSection
+          key={category.id}
+          title={category.title}
+          bgColor={bgColor}
+          isExpanded={isExpanded}
+          onToggle={() => toggleSection(category.id)}
+          fullWidthContent={true}
+        >
+          <div className="container mb-8">
+            {renderDescription()}
+          </div>
+          <div className="w-full">
+            {Component && <Component />}
           </div>
         </CollapsibleSection>
       )

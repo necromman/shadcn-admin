@@ -123,7 +123,7 @@ export function DesignSystemPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="sticky top-0 z-[110] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex flex-col sm:flex-row sm:h-14 items-start sm:items-center justify-between py-3 sm:py-0 gap-3 sm:gap-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 w-full sm:w-auto">
             <div className="flex items-center gap-3">

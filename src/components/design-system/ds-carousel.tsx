@@ -804,10 +804,17 @@ export function DSCarousel() {
                 <CarouselItem key={slide.id} className="pl-0">
                   <div 
                     className={cn(
-                      "relative w-full h-full",
+                      "relative w-full h-full select-none",
                       slide.bgColor || "bg-[#151515]"
                     )}
-                    style={{ height: `${appliedHeight}px` }}
+                    style={{ 
+                      height: `${appliedHeight}px`,
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none',
+                      userSelect: 'none',
+                      WebkitTouchCallout: 'none'
+                    }}
                   >
                     {/* Container 기준 레이아웃 */}
                     <div className="container mx-auto relative h-full">
@@ -874,7 +881,7 @@ export function DSCarousel() {
                                 <Button
                                   variant={slide.cta.variant || 'default'}
                                   className={cn(
-                                    "group min-w-[180px] text-base",
+                                    "group min-w-[180px] text-base pointer-events-auto",
                                     dynamicStyles.buttonHeight
                                   )}
                                   onClick={() => window.location.href = slide.cta?.link || '#'}
@@ -887,7 +894,7 @@ export function DSCarousel() {
                                 <Button
                                   variant="outline"
                                   className={cn(
-                                    "min-w-[180px] text-base bg-white/5 backdrop-blur-sm border-white/20 text-white hover:bg-white/10 hover:border-white/30",
+                                    "min-w-[180px] text-base bg-white/5 backdrop-blur-sm border-white/20 text-white hover:bg-white/10 hover:border-white/30 pointer-events-auto",
                                     dynamicStyles.buttonHeight
                                   )}
                                   onClick={() => window.location.href = slide.secondaryCta?.link || '#'}

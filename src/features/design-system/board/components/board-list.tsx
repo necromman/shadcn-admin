@@ -30,6 +30,7 @@ import { BiPin } from 'react-icons/bi'
 import { cn } from '@/lib/utils'
 import { type Post, type BoardConfig } from '../types/board.types'
 import type { TableDensity } from '../hooks/use-table-density'
+import { densityStyles } from '../hooks/use-table-density'
 import { useInfiniteScroll } from '../hooks/use-infinite-scroll'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
@@ -220,6 +221,8 @@ export const BoardList = React.memo(({
   const displayPaginationType = paginationType || config.display.paginationType || 'pagination'
   const displayTableDensity = tableDensity || config.display.tableDensity || 'normal'
   
+  // 밀도 스타일
+  const density = densityStyles[displayTableDensity]
   
   // 무한스크롤 훅
   const { setLoadingElement } = useInfiniteScroll({
@@ -353,11 +356,11 @@ export const BoardList = React.memo(({
                   )}
                   onClick={() => onPostClick(post)}
                 >
-                  <TableCell className="text-center text-muted-foreground">
+                  <TableCell className={cn("text-center text-muted-foreground", density.padding)}>
                     {post.isPinned ? '📌' : (currentPage - 1) * config.display.postsPerPage + index + 1}
                   </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
+                  <TableCell className={density.padding}>
+                    <div className={cn("flex items-center", density.gapSize)}>
                       <span>{post.title}</span>
                       {post.isPrivate && <span className="text-muted-foreground">🔒</span>}
                       {post.attachments.length > 0 && <span className="text-muted-foreground">📎</span>}
@@ -371,11 +374,11 @@ export const BoardList = React.memo(({
                   <TableCell>
                     <span className="text-sm">{post.author.name}</span>
                   </TableCell>
-                  <TableCell className="text-center text-muted-foreground">
+                  <TableCell className={cn("text-center text-muted-foreground", density.padding)}>
                     {post.metadata.views}
                   </TableCell>
                   {config.features.likes && (
-                    <TableCell className="text-center text-muted-foreground">
+                    <TableCell className={cn("text-center text-muted-foreground", density.padding)}>
                       {post.metadata.likes}
                     </TableCell>
                   )}

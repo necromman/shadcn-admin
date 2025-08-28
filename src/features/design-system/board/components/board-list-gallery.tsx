@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { type Post } from '../types/board.types'
 
@@ -19,12 +19,11 @@ export const BoardListGallery = React.memo(({
       {posts.map((post) => (
         <Card 
           key={post.id}
-          className="cursor-pointer overflow-hidden hover:bg-muted/50"
+          className="cursor-pointer overflow-hidden hover:bg-muted/50 p-0"
           onClick={() => onPostClick(post)}
         >
-          <CardContent className="p-0">
-            {/* 이미지 영역 - 와이어프레임 스타일 */}
-            <div className="aspect-square bg-muted flex items-center justify-center">
+          {/* 이미지 영역 - 와이어프레임 스타일 */}
+          <div className="aspect-square bg-muted flex items-center justify-center relative">
               {post.images && post.images.length > 0 ? (
                 <img 
                   src={post.images[0].thumbnailUrl || post.images[0].url} 
@@ -35,7 +34,6 @@ export const BoardListGallery = React.memo(({
                 <div className="text-4xl text-muted-foreground">🖼️</div>
               )}
             </div>
-          </CardContent>
           
           <CardFooter className="flex-col items-start p-3 space-y-2">
             <h3 className="font-medium text-sm line-clamp-1">

@@ -355,9 +355,9 @@ export const BoardControlPanel = React.memo(({
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div className="space-y-1">
               <Label className="text-xs text-slate-600 dark:text-muted-foreground">페이지당 게시글</Label>
-              <Select value={config.display.itemsPerPage.toString()} onValueChange={handlePageSizeChange}>
+              <Select value={config.display.itemsPerPage?.toString() || "10"} onValueChange={handlePageSizeChange}>
                 <SelectTrigger className="h-8 text-xs">
-                  <SelectValue />
+                  <SelectValue placeholder="선택" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="10">10개</SelectItem>

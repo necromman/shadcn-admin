@@ -2,7 +2,7 @@ import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
-import { HiArrowLeft, HiArrowRight } from "react-icons/hi2"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -194,8 +194,8 @@ CarouselItem.displayName = "CarouselItem"
 
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<typeof Button>
->(({ className, variant = "outline", size = "icon", ...props }, ref) => {
+  React.ComponentProps<typeof Button> & { iconSize?: number }
+>(({ className, variant = "outline", size = "icon", iconSize = 16, ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
   return (
@@ -214,7 +214,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <HiArrowLeft className="h-4 w-4" />
+      <ChevronLeft style={{ width: iconSize, height: iconSize }} />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -223,8 +223,8 @@ CarouselPrevious.displayName = "CarouselPrevious"
 
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<typeof Button>
->(({ className, variant = "outline", size = "icon", ...props }, ref) => {
+  React.ComponentProps<typeof Button> & { iconSize?: number }
+>(({ className, variant = "outline", size = "icon", iconSize = 16, ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
   return (
@@ -243,7 +243,7 @@ const CarouselNext = React.forwardRef<
       onClick={scrollNext}
       {...props}
     >
-      <HiArrowRight className="h-4 w-4" />
+      <ChevronRight style={{ width: iconSize, height: iconSize }} />
       <span className="sr-only">Next slide</span>
     </Button>
   )

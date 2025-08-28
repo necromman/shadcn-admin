@@ -37,7 +37,8 @@
       "Read(C:\\Users\\Administrator\\Downloads/**)",
       "Read(C:\\Users\\Administrator\\Downloads/**)",
       "Read(C:\\Users\\Administrator\\Downloads/**)",
-      "Read(C:\\Users\\Administrator\\Downloads/**)"
+      "Read(C:\\Users\\Administrator\\Downloads/**)",
+      "Bash(copy:*)"
     ],
     "deny": [],
     "ask": []

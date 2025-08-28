@@ -45,7 +45,14 @@ interface CarouselOptions {
   navigationSize: 'small' | 'medium' | 'large' | 'custom'
   customButtonSize: number
   customIconSize: number
-  navigationPosition: 'safe' | 'edge'
+  navigationPosition: 'safe' | 'edge' | 'custom'
+  // 버튼 위치 조절 옵션
+  buttonBasePercent: number   // 기준점 퍼센트 (50% = 중앙)
+  buttonLeftPosition: number  // 좌측 버튼 위치 (px)
+  buttonRightPosition: number // 우측 버튼 위치 (px)
+  // 인디케이터 패딩 조절 옵션
+  indicatorPaddingDesktop: number // 데스크톱 인디케이터 좌우 패딩
+  indicatorPaddingMobile: number  // 모바일 인디케이터 좌우 패딩
 }
 
 // 엔터프라이즈 슬라이드 데이터
@@ -118,7 +125,14 @@ export function DSCarousel() {
     navigationSize: 'large',  // 크게를 기본값으로
     customButtonSize: 64,
     customIconSize: 32,
-    navigationPosition: 'safe'
+    navigationPosition: 'custom',  // 커스텀으로 변경
+    // 버튼 위치 기본값
+    buttonBasePercent: 43,  // 기준점 43%로 변경
+    buttonLeftPosition: 80,  // 컨테이너 안쪽 80px
+    buttonRightPosition: 80, // 컨테이너 안쪽 80px
+    // 인디케이터 패딩 기본값
+    indicatorPaddingDesktop: 175,  // 175px로 변경
+    indicatorPaddingMobile: 45  // 45px로 변경
   })
   
   // PC 최소/최대 높이 제약
@@ -160,6 +174,43 @@ export function DSCarousel() {
     }
     return sizes[options.navigationSize] || 32
   }
+  
+  // 네비게이션 버튼 위치 계산
+  const getNavigationPosition = () => {
+    if (options.navigationPosition === 'edge') {
+      return {
+        left: '16px',
+        right: '16px'
+      }
+    }
+    
+    if (options.navigationPosition === 'custom') {
+      // 사용자 정의 위치 사용 (기준점 퍼센트 포함)
+      return {
+        left: `max(1rem, calc(${options.buttonBasePercent}% - 40rem + ${options.buttonLeftPosition}px))`,
+        right: `max(1rem, calc(${options.buttonBasePercent}% - 40rem + ${options.buttonRightPosition}px))`
+      }
+    }
+    
+    // safe 모드: 기본 위치 (컨테이너 안쪽)
+    return {
+      left: `max(1rem, calc(50% - 40rem + 80px))`,
+      right: `max(1rem, calc(50% - 40rem + 80px))`
+    }
+  }
+  
+  // 반응형 감지를 위한 상태
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
   
   // 동적 스타일 계산
   const dynamicStyles = useMemo(() => {
@@ -220,20 +271,18 @@ export function DSCarousel() {
     const styles = getHeightBasedStyles()
     const buttonSize = getButtonSize()
     
-    // Container 기준 정렬을 위한 패딩 계산
-    // safe 모드: 145px로 고정 (컨테이너 패딩 + 버튼 공간)
-    // edge 모드: 버튼 크기에 따라 동적 조정
-    const horizontalPadding = options.navigationPosition === 'safe'
-      ? 145 // safe 모드: 고정 145px (컨텐츠와 인디케이터 정렬)
-      : buttonSize + 20 // edge 모드: 버튼 크기 + 여백
+    // 컨텐츠 패딩은 고정값 사용 (145px)
+    const contentPaddingDesktop = 145
+    const contentPaddingMobile = 16
     
-    // 모바일용 패딩 (좌우 16px)
-    const mobileHorizontalPadding = 16
+    // 인디케이터 패딩 값
+    const indicatorPaddingDesktop = options.indicatorPaddingDesktop
+    const indicatorPaddingMobile = options.indicatorPaddingMobile
     
     // 컨텐츠 패딩 계산
     const contentPadding = {
-      horizontal: horizontalPadding,
-      mobileHorizontal: mobileHorizontalPadding,
+      horizontal: contentPaddingDesktop,
+      mobileHorizontal: contentPaddingMobile,
       vertical: Math.max(24, Math.min(height * 0.08, 60))
     }
     
@@ -242,10 +291,18 @@ export function DSCarousel() {
       buttonSize,
       contentPadding,
       verticalPadding: contentPadding.vertical,
-      horizontalPadding: contentPadding.horizontal,
-      mobileHorizontalPadding: contentPadding.mobileHorizontal
+      // 컨텐츠 패딩
+      contentPaddingDesktop,
+      contentPaddingMobile,
+      // 인디케이터 패딩
+      indicatorPaddingDesktop,
+      indicatorPaddingMobile,
+      // 하위 호환성
+      horizontalPadding: contentPaddingDesktop,
+      mobileHorizontalPadding: contentPaddingMobile
     }
-  }, [appliedHeight, options.navigationSize, options.customButtonSize, options.navigationPosition])
+  }, [appliedHeight, options.navigationSize, options.customButtonSize, options.navigationPosition, 
+      options.indicatorPaddingDesktop, options.indicatorPaddingMobile])
   
   // 인디케이터 스타일 클래스
   const getIndicatorClass = (isActive: boolean) => {
@@ -522,8 +579,196 @@ export function DSCarousel() {
                 >
                   캐러셀 가장자리
                 </Button>
+                <Button
+                  size="sm"
+                  variant={options.navigationPosition === 'custom' ? 'default' : 'outline'}
+                  onClick={() => setOptions(prev => ({ ...prev, navigationPosition: 'custom' }))}
+                  className="h-8 px-2 sm:px-3 text-xs sm:text-sm"
+                >
+                  커스텀
+                </Button>
               </div>
               <span className="text-xs text-slate-500 ml-2">(데스크톱만 적용)</span>
+            </div>
+            
+            {/* 위치 조절 섹션 */}
+            <div className="space-y-3 border-t border-slate-200 dark:border-border/50 pt-3 mt-3">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">위치 조절</span>
+              </div>
+              
+              {/* 좌우 네비게이션 버튼 위치 */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-medium text-slate-600 dark:text-slate-400">좌우 네비게이션 버튼 위치</span>
+                  {options.navigationPosition !== 'custom' && (
+                    <span className="text-xs text-amber-600 dark:text-amber-500">(커스텀 모드에서만 적용됨)</span>
+                  )}
+                </div>
+                
+                {/* 기준점 퍼센트 조절 */}
+                <div className="space-y-2">
+                  <Label className="text-xs text-slate-600 dark:text-slate-400">기준점 (화면 너비 기준)</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      min="30"
+                      max="70"
+                      value={options.buttonBasePercent}
+                      onChange={(e) => setOptions(prev => ({ ...prev, buttonBasePercent: parseInt(e.target.value) || 50 }))}
+                      className="w-20 h-8"
+                      disabled={options.navigationPosition !== 'custom'}
+                    />
+                    <span className="text-xs text-slate-500">%</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setOptions(prev => ({ ...prev, buttonBasePercent: 43 }))}
+                      className="h-8 px-2 text-xs"
+                      disabled={options.navigationPosition !== 'custom'}
+                    >
+                      기본(43%)
+                    </Button>
+                    <span className="text-xs text-slate-500">
+                      {options.buttonBasePercent < 50 ? '← 좌측으로 이동' : 
+                       options.buttonBasePercent > 50 ? '우측으로 이동 →' : '중앙'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-600 dark:text-slate-400">좌측 버튼</Label>
+                      <div className="flex items-center gap-2">
+                        <Input
+                          type="number"
+                          min="20"
+                          max="200"
+                          value={options.buttonLeftPosition}
+                          onChange={(e) => setOptions(prev => ({ ...prev, buttonLeftPosition: parseInt(e.target.value) || 80 }))}
+                          className="w-20 h-8"
+                          disabled={options.navigationPosition !== 'custom'}
+                        />
+                        <span className="text-xs text-slate-500">px</span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setOptions(prev => ({ ...prev, buttonLeftPosition: 80 }))}
+                          className="h-8 px-2 text-xs"
+                          disabled={options.navigationPosition !== 'custom'}
+                        >
+                          기본값
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-600 dark:text-slate-400">우측 버튼</Label>
+                      <div className="flex items-center gap-2">
+                        <Input
+                          type="number"
+                          min="20"
+                          max="200"
+                          value={options.buttonRightPosition}
+                          onChange={(e) => setOptions(prev => ({ ...prev, buttonRightPosition: parseInt(e.target.value) || 80 }))}
+                          className="w-20 h-8"
+                          disabled={options.navigationPosition !== 'custom'}
+                        />
+                        <span className="text-xs text-slate-500">px</span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setOptions(prev => ({ ...prev, buttonRightPosition: 80 }))}
+                          className="h-8 px-2 text-xs"
+                          disabled={options.navigationPosition !== 'custom'}
+                        >
+                          기본값
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setOptions(prev => ({ 
+                        ...prev, 
+                        buttonLeftPosition: prev.buttonRightPosition
+                      }))}
+                      className="h-8 px-3 text-xs"
+                      disabled={options.navigationPosition !== 'custom'}
+                    >
+                      좌측을 우측과 동기화
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setOptions(prev => ({ 
+                        ...prev, 
+                        buttonRightPosition: prev.buttonLeftPosition
+                      }))}
+                      className="h-8 px-3 text-xs"
+                      disabled={options.navigationPosition !== 'custom'}
+                    >
+                      우측을 좌측과 동기화
+                    </Button>
+                  </div>
+                </div>
+              
+              {/* 인디케이터 패딩 */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-slate-600 dark:text-slate-400">인디케이터 좌우 패딩</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-2">
+                    <Label className="text-xs text-slate-600 dark:text-slate-400">데스크톱</Label>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="number"
+                        min="50"
+                        max="250"
+                        value={options.indicatorPaddingDesktop}
+                        onChange={(e) => setOptions(prev => ({ ...prev, indicatorPaddingDesktop: parseInt(e.target.value) || 145 }))}
+                        className="w-20 h-8"
+                      />
+                      <span className="text-xs text-slate-500">px</span>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setOptions(prev => ({ ...prev, indicatorPaddingDesktop: 145 }))}
+                        className="h-8 px-2 text-xs"
+                      >
+                        기본값
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label className="text-xs text-slate-600 dark:text-slate-400">모바일</Label>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="number"
+                        min="8"
+                        max="50"
+                        value={options.indicatorPaddingMobile}
+                        onChange={(e) => setOptions(prev => ({ ...prev, indicatorPaddingMobile: parseInt(e.target.value) || 16 }))}
+                        className="w-20 h-8"
+                      />
+                      <span className="text-xs text-slate-500">px</span>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setOptions(prev => ({ ...prev, indicatorPaddingMobile: 16 }))}
+                        className="h-8 px-2 text-xs"
+                      >
+                        기본값
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -568,12 +813,14 @@ export function DSCarousel() {
                     <div className="container mx-auto relative h-full">
                       {/* 컨텐츠 영역 */}
                       <div 
-                        className="flex items-center h-full relative px-4 md:px-[145px]"
+                        className="flex items-center h-full relative"
                         style={{
                           paddingTop: dynamicStyles.verticalPadding + 'px',
                           paddingBottom: options.indicatorPosition === 'inside' 
                             ? (dynamicStyles.verticalPadding + INDICATOR_HEIGHT) + 'px'  // 인디케이터 공간만 확보
-                            : dynamicStyles.verticalPadding + 'px'
+                            : dynamicStyles.verticalPadding + 'px',
+                          paddingLeft: (isMobile ? dynamicStyles.contentPaddingMobile : dynamicStyles.contentPaddingDesktop) + 'px',
+                          paddingRight: (isMobile ? dynamicStyles.contentPaddingMobile : dynamicStyles.contentPaddingDesktop) + 'px'
                         }}
                       >
                         <div className={cn("w-full", dynamicStyles.contentSpacing)}>
@@ -668,9 +915,7 @@ export function DSCarousel() {
                 )}
                 style={{
                   ...getNavigationSizeStyle(),
-                  left: options.navigationPosition === 'edge' 
-                    ? '16px' 
-                    : `max(1rem, calc(45% - 37rem))`
+                  left: getNavigationPosition().left
                 }}
                 iconSize={getNavigationIconSize()}
               />
@@ -682,9 +927,7 @@ export function DSCarousel() {
                 )}
                 style={{
                   ...getNavigationSizeStyle(),
-                  right: options.navigationPosition === 'edge' 
-                    ? '16px' 
-                    : `max(1rem, calc(45% - 37rem))`
+                  right: getNavigationPosition().right
                 }}
                 iconSize={getNavigationIconSize()}
               />
@@ -701,10 +944,12 @@ export function DSCarousel() {
             >
               <div className="container mx-auto h-full relative">
                 <div 
-                  className="absolute bottom-0 left-0 right-0 flex items-center pointer-events-auto px-4 md:px-[145px]"
+                  className="absolute bottom-0 left-0 right-0 flex items-center pointer-events-auto"
                   style={{ 
                     height: `${INDICATOR_HEIGHT}px`,
-                    paddingBottom: '10px'
+                    paddingBottom: '10px',
+                    paddingLeft: (isMobile ? dynamicStyles.indicatorPaddingMobile : dynamicStyles.indicatorPaddingDesktop) + 'px',
+                    paddingRight: (isMobile ? dynamicStyles.indicatorPaddingMobile : dynamicStyles.indicatorPaddingDesktop) + 'px'
                   }}
                 >
                   <div className="flex items-center gap-4">

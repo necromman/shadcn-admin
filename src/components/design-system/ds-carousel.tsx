@@ -129,10 +129,7 @@ export function DSCarousel() {
   // 실제 적용 높이 계산
   const appliedHeight = Math.max(MIN_HEIGHT_PC, Math.min(options.height, MAX_HEIGHT))
   
-  // 컨텐츠 영역 실제 높이 계산
-  const contentAreaHeight = options.indicatorPosition === 'inside' 
-    ? appliedHeight - INDICATOR_HEIGHT 
-    : appliedHeight
+  // 컨텐츠 영역 높이는 항상 전체 높이와 같음 (인디케이터는 컨텐츠 내부에 포함)
   
   // 네비게이션 버튼 크기 스타일
   const getNavigationSizeStyle = () => {
@@ -222,11 +219,17 @@ export function DSCarousel() {
     
     const styles = getHeightBasedStyles()
     const buttonSize = getButtonSize()
-    const buttonSpacing = 20 // 버튼과 컨텐츠 간격
+    
+    // Container 기준 정렬을 위한 패딩 계산
+    // safe 모드: 145px로 고정 (컨테이너 패딩 + 버튼 공간)
+    // edge 모드: 버튼 크기에 따라 동적 조정
+    const horizontalPadding = options.navigationPosition === 'safe'
+      ? 145 // safe 모드: 고정 145px (컨텐츠와 인디케이터 정렬)
+      : buttonSize + 20 // edge 모드: 버튼 크기 + 여백
     
     // 컨텐츠 패딩 계산
     const contentPadding = {
-      horizontal: buttonSize + buttonSpacing,
+      horizontal: horizontalPadding,
       vertical: Math.max(24, Math.min(height * 0.08, 60))
     }
     
@@ -237,7 +240,7 @@ export function DSCarousel() {
       verticalPadding: contentPadding.vertical,
       horizontalPadding: contentPadding.horizontal
     }
-  }, [appliedHeight, options.navigationSize, options.customButtonSize])
+  }, [appliedHeight, options.navigationSize, options.customButtonSize, options.navigationPosition])
   
   // 인디케이터 스타일 클래스
   const getIndicatorClass = (isActive: boolean) => {
@@ -560,11 +563,11 @@ export function DSCarousel() {
                     <div className="container mx-auto relative h-full">
                       {/* 컨텐츠 영역 */}
                       <div 
-                        className="flex items-center h-full"
+                        className="flex items-center h-full relative"
                         style={{
                           paddingTop: dynamicStyles.verticalPadding + 'px',
                           paddingBottom: options.indicatorPosition === 'inside' 
-                            ? (dynamicStyles.verticalPadding + INDICATOR_HEIGHT + 10) + 'px'
+                            ? (dynamicStyles.verticalPadding + INDICATOR_HEIGHT) + 'px'  // 인디케이터 공간만 확보
                             : dynamicStyles.verticalPadding + 'px',
                           paddingLeft: dynamicStyles.horizontalPadding + 'px',
                           paddingRight: dynamicStyles.horizontalPadding + 'px'
@@ -646,80 +649,91 @@ export function DSCarousel() {
                           )}
                         </div>
                       </div>
-                      
-                      {/* 데스크톱 네비게이션 버튼 - Container 내부 배치 */}
-                      <div className="hidden md:block">
-                        {/* 좌측 버튼 */}
-                        <CarouselPrevious 
-                          className={cn(
-                            "absolute left-0 transition-all",
-                            "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
-                            "bg-transparent border-0 text-white hover:bg-black/5"
-                          )}
-                          style={{
-                            ...getNavigationSizeStyle(),
-                            top: `${contentAreaHeight / 2}px`,
-                            transform: 'translateY(-50%)'
-                          }}
-                          iconSize={getNavigationIconSize()}
-                        />
-                        {/* 우측 버튼 */}
-                        <CarouselNext 
-                          className={cn(
-                            "absolute right-0 transition-all",
-                            "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
-                            "bg-transparent border-0 text-white hover:bg-black/5"
-                          )}
-                          style={{
-                            ...getNavigationSizeStyle(),
-                            top: `${contentAreaHeight / 2}px`,
-                            transform: 'translateY(-50%)'
-                          }}
-                          iconSize={getNavigationIconSize()}
-                        />
-                      </div>
                     </div>
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
+            
+            {/* 고정된 네비게이션 버튼 - Container 기준 위치 */}
+            <>
+              <CarouselPrevious 
+                className={cn(
+                  "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20",
+                  "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
+                  "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
+                )}
+                style={{
+                  ...getNavigationSizeStyle(),
+                  left: options.navigationPosition === 'edge' 
+                    ? '16px' 
+                    : `max(1rem, calc(45% - 37rem))`
+                }}
+                iconSize={getNavigationIconSize()}
+              />
+              <CarouselNext 
+                className={cn(
+                  "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20",
+                  "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
+                  "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
+                )}
+                style={{
+                  ...getNavigationSizeStyle(),
+                  right: options.navigationPosition === 'edge' 
+                    ? '16px' 
+                    : `max(1rem, calc(45% - 37rem))`
+                }}
+                iconSize={getNavigationIconSize()}
+              />
+            </>
           </Carousel>
           
-          {/* 인디케이터 영역 - 내부 배치 시 하단 고정 (좌측 정렬) */}
+          {/* 고정된 인디케이터 - 내부 옵션일 때 */}
           {options.indicatorPosition === 'inside' && (
             <div 
-              className="absolute bottom-0 left-0 right-0 bg-black/20 backdrop-blur-sm"
+              className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none"
               style={{ 
                 height: `${INDICATOR_HEIGHT}px`,
-                zIndex: 10
               }}
             >
-              <div className="container mx-auto h-full flex items-center justify-start px-4 gap-4">
-                {/* 자동재생 버튼 */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setOptions(prev => ({ ...prev, autoPlay: !prev.autoPlay }))}
-                  className="h-8 w-8 bg-black/20 backdrop-blur-sm hover:bg-white/20 hover:text-white text-white border border-white/20"
-                  aria-label={options.autoPlay ? '일시정지' : '재생'}
+              <div className="container mx-auto h-full relative">
+                <div 
+                  className="absolute bottom-0 left-0 right-0 flex items-center pointer-events-auto"
+                  style={{ 
+                    height: `${INDICATOR_HEIGHT}px`,
+                    paddingLeft: dynamicStyles.horizontalPadding + 'px',  // 버튼 영역 회피
+                    paddingRight: dynamicStyles.horizontalPadding + 'px',
+                    paddingBottom: '10px'
+                  }}
                 >
-                  {options.autoPlay ? (
-                    <HiPause className="h-4 w-4 text-white" />
-                  ) : (
-                    <HiPlay className="h-4 w-4 text-white" />
-                  )}
-                </Button>
-                
-                {/* 인디케이터 (dots) */}
-                <div className="flex items-center gap-2">
-                  {SAMPLE_SLIDES.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => scrollTo(index)}
-                      className={getIndicatorClass(current === index)}
-                      aria-label={`Go to slide ${index + 1}`}
-                    />
-                  ))}
+                  <div className="flex items-center gap-4">
+                    {/* 자동재생 버튼 */}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setOptions(prev => ({ ...prev, autoPlay: !prev.autoPlay }))}
+                      className="h-8 w-8 bg-black/20 backdrop-blur-sm hover:bg-white/20 hover:text-white text-white border border-white/20"
+                      aria-label={options.autoPlay ? '일시정지' : '재생'}
+                    >
+                      {options.autoPlay ? (
+                        <HiPause className="h-4 w-4 text-white" />
+                      ) : (
+                        <HiPlay className="h-4 w-4 text-white" />
+                      )}
+                    </Button>
+                    
+                    {/* 인디케이터 (dots) */}
+                    <div className="flex items-center gap-2">
+                      {SAMPLE_SLIDES.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => scrollTo(index)}
+                          className={getIndicatorClass(current === index)}
+                          aria-label={`Go to slide ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

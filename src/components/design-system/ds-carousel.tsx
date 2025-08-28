@@ -227,9 +227,13 @@ export function DSCarousel() {
       ? 145 // safe 모드: 고정 145px (컨텐츠와 인디케이터 정렬)
       : buttonSize + 20 // edge 모드: 버튼 크기 + 여백
     
+    // 모바일용 패딩 (좌우 16px)
+    const mobileHorizontalPadding = 16
+    
     // 컨텐츠 패딩 계산
     const contentPadding = {
       horizontal: horizontalPadding,
+      mobileHorizontal: mobileHorizontalPadding,
       vertical: Math.max(24, Math.min(height * 0.08, 60))
     }
     
@@ -238,7 +242,8 @@ export function DSCarousel() {
       buttonSize,
       contentPadding,
       verticalPadding: contentPadding.vertical,
-      horizontalPadding: contentPadding.horizontal
+      horizontalPadding: contentPadding.horizontal,
+      mobileHorizontalPadding: contentPadding.mobileHorizontal
     }
   }, [appliedHeight, options.navigationSize, options.customButtonSize, options.navigationPosition])
   
@@ -563,14 +568,12 @@ export function DSCarousel() {
                     <div className="container mx-auto relative h-full">
                       {/* 컨텐츠 영역 */}
                       <div 
-                        className="flex items-center h-full relative"
+                        className="flex items-center h-full relative px-4 md:px-[145px]"
                         style={{
                           paddingTop: dynamicStyles.verticalPadding + 'px',
                           paddingBottom: options.indicatorPosition === 'inside' 
                             ? (dynamicStyles.verticalPadding + INDICATOR_HEIGHT) + 'px'  // 인디케이터 공간만 확보
-                            : dynamicStyles.verticalPadding + 'px',
-                          paddingLeft: dynamicStyles.horizontalPadding + 'px',
-                          paddingRight: dynamicStyles.horizontalPadding + 'px'
+                            : dynamicStyles.verticalPadding + 'px'
                         }}
                       >
                         <div className={cn("w-full", dynamicStyles.contentSpacing)}>
@@ -698,11 +701,9 @@ export function DSCarousel() {
             >
               <div className="container mx-auto h-full relative">
                 <div 
-                  className="absolute bottom-0 left-0 right-0 flex items-center pointer-events-auto"
+                  className="absolute bottom-0 left-0 right-0 flex items-center pointer-events-auto px-4 md:px-[145px]"
                   style={{ 
                     height: `${INDICATOR_HEIGHT}px`,
-                    paddingLeft: dynamicStyles.horizontalPadding + 'px',  // 버튼 영역 회피
-                    paddingRight: dynamicStyles.horizontalPadding + 'px',
                     paddingBottom: '10px'
                   }}
                 >

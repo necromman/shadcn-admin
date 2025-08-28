@@ -45,7 +45,7 @@ interface CarouselOptions {
   navigationSize: 'small' | 'medium' | 'large' | 'custom'
   customButtonSize: number
   customIconSize: number
-  navigationPosition: 'safe' | 'edge'  // safe: 안전영역, edge: 좌우 끝
+  navigationPosition: 'safe' | 'edge'
 }
 
 // 엔터프라이즈 슬라이드 데이터
@@ -111,32 +111,36 @@ export function DSCarousel() {
   const [current, setCurrent] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [options, setOptions] = useState<CarouselOptions>({
-    height: 300,  // 작게로 변경
-    indicatorStyle: 'square',  // 사각형으로 변경
-    indicatorPosition: 'inside',  // 내부로 변경
-    autoPlay: true,  // 자동재생 유지
-    navigationSize: 'custom',  // 커스텀으로 변경
-    customButtonSize: 48,  // 기본 커스텀 버튼 크기
-    customIconSize: 60,  // 아이콘 크기 60px로 설정
-    navigationPosition: 'safe'  // 기본값: 컨텐츠 내부
+    height: 400,
+    indicatorStyle: 'square',
+    indicatorPosition: 'inside',
+    autoPlay: true,
+    navigationSize: 'large',  // 크게를 기본값으로
+    customButtonSize: 64,
+    customIconSize: 32,
+    navigationPosition: 'safe'
   })
+  
+  // PC 최소/최대 높이 제약
+  const MIN_HEIGHT_PC = 300
+  const MAX_HEIGHT = 800
+  const INDICATOR_HEIGHT = 50
+  
+  // 실제 적용 높이 계산
+  const appliedHeight = Math.max(MIN_HEIGHT_PC, Math.min(options.height, MAX_HEIGHT))
+  
+  // 컨텐츠 영역 높이는 항상 전체 높이와 같음 (인디케이터는 컨텐츠 내부에 포함)
   
   // 네비게이션 버튼 크기 스타일
   const getNavigationSizeStyle = () => {
-    if (options.navigationSize === 'custom') {
-      return {
-        width: `${options.customButtonSize}px`,
-        height: `${options.customButtonSize}px`
-      }
-    }
-    
     const sizes = {
       small: 40,
       medium: 48,
-      large: 64
+      large: 64,
+      custom: options.customButtonSize
     }
     
-    const size = sizes[options.navigationSize] || 56
+    const size = sizes[options.navigationSize] || 64
     return {
       width: `${size}px`,
       height: `${size}px`
@@ -149,77 +153,101 @@ export function DSCarousel() {
       return options.customIconSize
     }
     
-    switch(options.navigationSize) {
-      case 'small':
-        return 20
-      case 'medium':
-        return 24
-      case 'large':
-        return 32
-      default:
-        return 28
+    const sizes = {
+      small: 20,
+      medium: 24,
+      large: 32
     }
+    return sizes[options.navigationSize] || 32
   }
   
-  // 높이에 따른 동적 스타일 계산
+  // 동적 스타일 계산
   const dynamicStyles = useMemo(() => {
-    const contentHeight = options.height
+    const height = appliedHeight
+    
+    // 높이별 스타일
+    const getHeightBasedStyles = () => {
+      if (height <= 350) {
+        return {
+          titleSize: 'text-2xl md:text-3xl lg:text-4xl',
+          subtitleSize: 'text-xs md:text-sm',
+          descriptionSize: 'text-sm md:text-base line-clamp-2',
+          buttonHeight: 'h-9',
+          contentSpacing: 'space-y-2 md:space-y-3',
+          ctaPadding: 'pt-3',
+        }
+      } else if (height <= 450) {
+        return {
+          titleSize: 'text-3xl md:text-4xl lg:text-5xl',
+          subtitleSize: 'text-sm md:text-base',
+          descriptionSize: 'text-base md:text-lg line-clamp-3',
+          buttonHeight: 'h-10',
+          contentSpacing: 'space-y-3 md:space-y-4',
+          ctaPadding: 'pt-4',
+        }
+      } else if (height <= 550) {
+        return {
+          titleSize: 'text-4xl md:text-5xl lg:text-6xl',
+          subtitleSize: 'text-base md:text-lg',
+          descriptionSize: 'text-lg md:text-xl',
+          buttonHeight: 'h-11',
+          contentSpacing: 'space-y-4 md:space-y-5',
+          ctaPadding: 'pt-5',
+        }
+      } else {
+        return {
+          titleSize: 'text-5xl md:text-6xl lg:text-7xl',
+          subtitleSize: 'text-lg md:text-xl',
+          descriptionSize: 'text-xl md:text-2xl',
+          buttonHeight: 'h-12',
+          contentSpacing: 'space-y-5 md:space-y-6',
+          ctaPadding: 'pt-6',
+        }
+      }
+    }
+    
+    // 버튼 크기 계산
+    const getButtonSize = () => {
+      const sizes = {
+        small: 40,
+        medium: 48,
+        large: 64,
+        custom: options.customButtonSize
+      }
+      return sizes[options.navigationSize] || 64
+    }
+    
+    const styles = getHeightBasedStyles()
+    const buttonSize = getButtonSize()
+    const buttonSpacing = 20 // 버튼과 컨텐츠 간격
+    
+    // 컨텐츠 패딩 계산
+    const contentPadding = {
+      horizontal: buttonSize + buttonSpacing,
+      vertical: Math.max(24, Math.min(height * 0.08, 60))
+    }
     
     return {
-      // 타이틀 크기: 작을 때는 더 작게, 클 때는 더 크게
-      titleSize: contentHeight <= 250 
-        ? 'text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl'
-        : contentHeight >= 500
-        ? 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl'
-        : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl',
-      
-      // 서브타이틀 크기
-      subtitleSize: contentHeight <= 250
-        ? 'text-xs sm:text-sm'
-        : contentHeight >= 500
-        ? 'text-base sm:text-lg'
-        : 'text-sm sm:text-base',
-      
-      // 설명 텍스트 크기  
-      descriptionSize: contentHeight <= 250
-        ? 'text-xs sm:text-sm md:text-sm lg:text-base'
-        : contentHeight >= 500
-        ? 'text-base sm:text-lg md:text-xl lg:text-2xl'
-        : 'text-sm sm:text-base md:text-lg lg:text-xl',
-      
-      // 버튼 크기
-      buttonSize: contentHeight <= 250 ? 'sm' : contentHeight >= 500 ? 'lg' : 'default',
-      buttonHeight: contentHeight <= 250 ? 'h-8 sm:h-9' : contentHeight >= 500 ? 'h-12 sm:h-14' : 'h-10 sm:h-11',
-      
-      // 여백 조절
-      contentSpacing: contentHeight <= 250 ? 'space-y-2' : contentHeight >= 500 ? 'space-y-6 sm:space-y-8' : 'space-y-4 sm:space-y-6',
-      ctaPadding: contentHeight <= 250 ? 'pt-2 sm:pt-3' : contentHeight >= 500 ? 'pt-6 sm:pt-8' : 'pt-4 sm:pt-6',
-      
-      // 컨테이너 패딩 (좌우 버튼 공간 확보를 위해 증가)
-      containerPadding: contentHeight <= 250 
-        ? 'px-8 sm:px-12 md:px-20 lg:px-24 xl:px-28'
-        : 'px-10 sm:px-16 md:px-24 lg:px-28 xl:px-32',
-      
-      // 최대 너비
-      maxWidth: contentHeight <= 250 ? 'max-w-3xl' : 'max-w-5xl'
+      ...styles,
+      buttonSize,
+      contentPadding,
+      verticalPadding: contentPadding.vertical,
+      horizontalPadding: contentPadding.horizontal
     }
-  }, [options.height])
+  }, [appliedHeight, options.navigationSize, options.customButtonSize])
   
   // 인디케이터 스타일 클래스
   const getIndicatorClass = (isActive: boolean) => {
     const baseClass = 'transition-all duration-300'
     
-    // 스타일별 크기 설정
     const sizeClass = options.indicatorStyle === 'square' 
-      ? (isActive ? 'w-8 h-2' : 'w-4 h-2')  // 사각형: 가로로 긴 모양
-      : (isActive ? 'w-8 h-2' : 'w-2 h-2')  // 원형: 작은 원에서 타원으로
+      ? (isActive ? 'w-8 h-2' : 'w-4 h-2')
+      : (isActive ? 'w-8 h-2' : 'w-2 h-2')
     
-    // 모양 설정 (원형 vs 사각형)
     const shapeClass = options.indicatorStyle === 'square' 
-      ? 'rounded-[2px]'  // 사각형: 매우 작은 radius로 거의 직사각형
-      : 'rounded-full'  // 원형: 완전한 원
+      ? 'rounded-[2px]'
+      : 'rounded-full'
     
-    // 내부 배치일 때 더 눈에 띄는 스타일
     if (options.indicatorPosition === 'inside') {
       const colorClass = isActive 
         ? 'bg-white border border-white/50' 
@@ -227,7 +255,6 @@ export function DSCarousel() {
       return cn(baseClass, sizeClass, shapeClass, colorClass)
     }
     
-    // 외부 배치일 때 기본 스타일
     const colorClass = isActive 
       ? 'bg-primary' 
       : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
@@ -267,7 +294,7 @@ export function DSCarousel() {
 
   return (
     <div className="w-full">
-      {/* 콘텐츠 표시 옵션 패널 - 캐러셀 위에 위치 */}
+      {/* 콘텐츠 표시 옵션 패널 */}
       <div className="container mb-6">
         <div className="bg-slate-100 dark:bg-muted/30 border-2 border-dotted border-slate-300 dark:border-border/50 rounded-lg p-4">
           <div className="flex items-center gap-2 mb-3">
@@ -283,19 +310,25 @@ export function DSCarousel() {
                 <div className="flex items-center gap-2">
                   <Input
                     type="number"
-                    min="200"
-                    max="800"
+                    min={MIN_HEIGHT_PC}
+                    max={MAX_HEIGHT}
                     step="50"
                     value={options.height}
-                    onChange={(e) => setOptions(prev => ({ ...prev, height: parseInt(e.target.value) || 400 }))}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value) || 400
+                      setOptions(prev => ({ ...prev, height: value }))
+                    }}
                     className="w-24 h-8"
                   />
                   <span className="text-sm text-slate-500">px</span>
+                  {options.height < MIN_HEIGHT_PC && (
+                    <span className="text-xs text-amber-600">최소 {MIN_HEIGHT_PC}px</span>
+                  )}
                 </div>
                 <div className="flex gap-2">
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant={options.height === 300 ? 'default' : 'outline'}
                     onClick={() => setOptions(prev => ({ ...prev, height: 300 }))}
                     className="h-8 px-2 sm:px-3 text-xs sm:text-sm"
                   >
@@ -303,7 +336,7 @@ export function DSCarousel() {
                   </Button>
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant={options.height === 400 ? 'default' : 'outline'}
                     onClick={() => setOptions(prev => ({ ...prev, height: 400 }))}
                     className="h-8 px-2 sm:px-3 text-xs sm:text-sm"
                   >
@@ -311,7 +344,7 @@ export function DSCarousel() {
                   </Button>
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant={options.height === 600 ? 'default' : 'outline'}
                     onClick={() => setOptions(prev => ({ ...prev, height: 600 }))}
                     className="h-8 px-2 sm:px-3 text-xs sm:text-sm"
                   >
@@ -495,241 +528,236 @@ export function DSCarousel() {
         onMouseLeave={handleMouseLeave}
         className={cn(
           "relative",
-          options.indicatorPosition === 'outside' && "mb-4"  // 인디케이터가 외부일 때 하단 여백
+          options.indicatorPosition === 'outside' && "mb-4"
         )}
       >
-        {/* 인디케이터가 내부일 때 전체 높이 조정 */}
         <div 
           className="relative overflow-hidden bg-[#151515]"
-          style={{ height: `${options.height}px` }}
+          style={{ height: `${appliedHeight}px` }}
         >
           <Carousel
             setApi={setApi}
-            className="w-full h-full relative"
+            className="w-full h-full"
             opts={{
               align: 'start',
               loop: true,
             }}
           >
-            <CarouselContent 
-              className="-ml-0"
-              style={{ height: `${options.height}px` }}
-            >
-              {SAMPLE_SLIDES.map((slide) => {
-                return (
-                  <CarouselItem key={slide.id} className="pl-0">
-                    {/* 단색 배경 */}
-                    <div 
-                      className={cn(
-                        "relative w-full h-full",
-                        slide.bgColor || "bg-[#151515]"
-                      )}
-                    >
-                      
-                      {/* 콘텐츠 영역 */}
+            <CarouselContent className="-ml-0 h-full">
+              {SAMPLE_SLIDES.map((slide) => (
+                <CarouselItem key={slide.id} className="pl-0">
+                  <div 
+                    className={cn(
+                      "relative w-full h-full",
+                      slide.bgColor || "bg-[#151515]"
+                    )}
+                    style={{ height: `${appliedHeight}px` }}
+                  >
+                    {/* Container 기준 레이아웃 */}
+                    <div className="container mx-auto relative h-full">
+                      {/* 컨텐츠 영역 */}
                       <div 
-                        className={cn(
-                          "relative flex items-center h-full overflow-hidden",
-                          options.indicatorPosition === 'outside' 
-                            ? "py-12 sm:py-16" 
-                            : "pt-6 sm:pt-8 pb-16"  // 인디케이터 내부일 때 하단 패딩 증가
-                        )}
+                        className="flex items-center h-full relative"
+                        style={{
+                          paddingTop: dynamicStyles.verticalPadding + 'px',
+                          paddingBottom: options.indicatorPosition === 'inside' 
+                            ? (dynamicStyles.verticalPadding + INDICATOR_HEIGHT) + 'px'  // 인디케이터 공간만 확보
+                            : dynamicStyles.verticalPadding + 'px',
+                          paddingLeft: dynamicStyles.horizontalPadding + 'px',
+                          paddingRight: dynamicStyles.horizontalPadding + 'px'
+                        }}
                       >
-                        <div className={cn("container mx-auto w-full", dynamicStyles.containerPadding)}>
-                          <div className={cn(dynamicStyles.maxWidth, dynamicStyles.contentSpacing)}>
-                            {/* 배지 */}
-                            {slide.badge && (
-                              <div className="flex items-center">
-                                <Badge 
-                                  variant="secondary" 
-                                  className="bg-primary/20 text-primary-foreground backdrop-blur-sm border-primary/30 px-5 py-2 text-xs font-bold uppercase tracking-wider"
-                                >
-                                  {slide.badge}
-                                </Badge>
-                              </div>
-                            )}
-                            
-                            {/* 부제목 */}
-                            {slide.subtitle && (
-                              <div className="space-y-2">
-                                <p className={cn(
-                                  dynamicStyles.subtitleSize,
-                                  "uppercase tracking-[0.2em] text-slate-400 dark:text-primary/70 font-semibold"
-                                )}>
-                                  {slide.subtitle}
-                                </p>
-                                <div className="h-0.5 w-16 bg-slate-400 dark:bg-primary/50" />
-                              </div>
-                            )}
-                            
-                            {/* 제목 */}
-                            <h2 className={cn(
-                              dynamicStyles.titleSize,
-                              "font-bold text-white leading-tight"
-                            )}>
-                              {slide.title}
-                            </h2>
-                            
-                            {/* 설명 */}
-                            {slide.description && (
+                        <div className={cn("w-full", dynamicStyles.contentSpacing)}>
+                          {/* 배지 */}
+                          {slide.badge && (
+                            <div className="flex items-center">
+                              <Badge 
+                                variant="secondary" 
+                                className="bg-primary/20 text-primary-foreground backdrop-blur-sm border-primary/30 px-5 py-2 text-xs font-bold uppercase tracking-wider"
+                              >
+                                {slide.badge}
+                              </Badge>
+                            </div>
+                          )}
+                          
+                          {/* 부제목 */}
+                          {slide.subtitle && (
+                            <div className="space-y-2">
                               <p className={cn(
-                                dynamicStyles.descriptionSize,
-                                "text-slate-300 leading-relaxed",
-                                options.height <= 300 ? "max-w-3xl" : "max-w-4xl"
+                                dynamicStyles.subtitleSize,
+                                "uppercase tracking-[0.2em] text-slate-400 dark:text-primary/70 font-semibold"
                               )}>
-                                {slide.description}
+                                {slide.subtitle}
                               </p>
-                            )}
-                            
-                            {/* CTA 버튼들 */}
-                            {(slide.cta || slide.secondaryCta) && (
-                              <div className={cn("flex flex-col sm:flex-row gap-4", dynamicStyles.ctaPadding)}>
-                                {slide.cta && (
-                                  <Button
-                                    variant={slide.cta.variant || 'default'}
-                                    size={dynamicStyles.buttonSize as 'default' | 'lg'}
-                                    className={cn(
-                                      "group min-w-[180px] text-base",
-                                      dynamicStyles.buttonHeight
-                                    )}
-                                    onClick={() => window.location.href = slide.cta?.link || '#'}
-                                  >
-                                    {slide.cta.text}
-                                    <HiArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                                  </Button>
-                                )}
-                                {slide.secondaryCta && (
-                                  <Button
-                                    variant="outline"
-                                    size={dynamicStyles.buttonSize as 'default' | 'lg'}
-                                    className={cn(
-                                      "min-w-[180px] text-base bg-white/5 backdrop-blur-sm border-white/20 text-white hover:bg-white/10 hover:border-white/30",
-                                      dynamicStyles.buttonHeight
-                                    )}
-                                    onClick={() => window.location.href = slide.secondaryCta?.link || '#'}
-                                  >
-                                    {slide.secondaryCta.text}
-                                  </Button>
-                                )}
-                              </div>
-                            )}
-                          </div>
+                              <div className="h-0.5 w-16 bg-slate-400 dark:bg-primary/50" />
+                            </div>
+                          )}
+                          
+                          {/* 제목 */}
+                          <h2 className={cn(
+                            dynamicStyles.titleSize,
+                            "font-bold text-white leading-tight"
+                          )}>
+                            {slide.title}
+                          </h2>
+                          
+                          {/* 설명 */}
+                          {slide.description && (
+                            <p className={cn(
+                              dynamicStyles.descriptionSize,
+                              "text-slate-300 leading-relaxed max-w-4xl"
+                            )}>
+                              {slide.description}
+                            </p>
+                          )}
+                          
+                          {/* CTA 버튼들 */}
+                          {(slide.cta || slide.secondaryCta) && (
+                            <div className={cn("flex flex-col sm:flex-row gap-4", dynamicStyles.ctaPadding)}>
+                              {slide.cta && (
+                                <Button
+                                  variant={slide.cta.variant || 'default'}
+                                  className={cn(
+                                    "group min-w-[180px] text-base",
+                                    dynamicStyles.buttonHeight
+                                  )}
+                                  onClick={() => window.location.href = slide.cta?.link || '#'}
+                                >
+                                  {slide.cta.text}
+                                  <HiArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                                </Button>
+                              )}
+                              {slide.secondaryCta && (
+                                <Button
+                                  variant="outline"
+                                  className={cn(
+                                    "min-w-[180px] text-base bg-white/5 backdrop-blur-sm border-white/20 text-white hover:bg-white/10 hover:border-white/30",
+                                    dynamicStyles.buttonHeight
+                                  )}
+                                  onClick={() => window.location.href = slide.secondaryCta?.link || '#'}
+                                >
+                                  {slide.secondaryCta.text}
+                                </Button>
+                              )}
+                            </div>
+                          )}
                         </div>
+                        
+                        {/* 인디케이터 - 컨텐츠 영역 내 절대 위치 */}
+                        {options.indicatorPosition === 'inside' && (
+                          <div 
+                            className="absolute bottom-0 left-0 right-0 flex items-center"
+                            style={{ 
+                              height: `${INDICATOR_HEIGHT}px`,
+                              paddingLeft: dynamicStyles.horizontalPadding + 'px',  // 버튼 영역 회피
+                              paddingRight: dynamicStyles.horizontalPadding + 'px',
+                              paddingBottom: '10px'
+                            }}
+                          >
+                            <div className="flex items-center gap-4">
+                              {/* 자동재생 버튼 */}
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => setOptions(prev => ({ ...prev, autoPlay: !prev.autoPlay }))}
+                                className="h-8 w-8 bg-black/20 backdrop-blur-sm hover:bg-white/20 hover:text-white text-white border border-white/20"
+                                aria-label={options.autoPlay ? '일시정지' : '재생'}
+                              >
+                                {options.autoPlay ? (
+                                  <HiPause className="h-4 w-4 text-white" />
+                                ) : (
+                                  <HiPlay className="h-4 w-4 text-white" />
+                                )}
+                              </Button>
+                              
+                              {/* 인디케이터 (dots) */}
+                              <div className="flex items-center gap-2">
+                                {SAMPLE_SLIDES.map((_, index) => (
+                                  <button
+                                    key={index}
+                                    onClick={() => scrollTo(index)}
+                                    className={getIndicatorClass(current === index)}
+                                    aria-label={`Go to slide ${index + 1}`}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* 데스크톱 네비게이션 버튼 - Container 내부 배치 */}
+                      <div className="hidden md:block">
+                        {/* 좌측 버튼 */}
+                        <CarouselPrevious 
+                          className={cn(
+                            "absolute left-0 transition-all z-20",
+                            "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
+                            "bg-transparent border-0 text-white hover:bg-black/5"
+                          )}
+                          style={{
+                            ...getNavigationSizeStyle(),
+                            top: '50%',  // 전체 높이의 중앙
+                            transform: 'translateY(-50%)'
+                          }}
+                          iconSize={getNavigationIconSize()}
+                        />
+                        {/* 우측 버튼 */}
+                        <CarouselNext 
+                          className={cn(
+                            "absolute right-0 transition-all z-20",
+                            "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
+                            "bg-transparent border-0 text-white hover:bg-black/5"
+                          )}
+                          style={{
+                            ...getNavigationSizeStyle(),
+                            top: '50%',  // 전체 높이의 중앙
+                            transform: 'translateY(-50%)'
+                          }}
+                          iconSize={getNavigationIconSize()}
+                        />
                       </div>
                     </div>
-                  </CarouselItem>
-              )
-            })}
-          </CarouselContent>
-          
-          {/* 데스크톱 네비게이션 버튼 */}
-          <div className="hidden md:block">
-            <div 
-              className={cn(
-                "absolute inset-0 pointer-events-none z-10",
-                options.navigationPosition === 'safe' && "container mx-auto"
-              )}
-              style={{ height: `${options.height}px` }}
-            >
-              <CarouselPrevious 
-                className={cn(
-                  "pointer-events-auto bg-transparent border-0 text-white hover:text-white/70 hover:bg-transparent transition-colors absolute",
-                  options.navigationPosition === 'safe' 
-                    ? "left-0" // 컨텐츠 내부: container의 좌우 끝
-                    : "left-4"  // 캐러셀 가장자리
-                )}
-                style={{
-                  ...getNavigationSizeStyle(),
-                  top: `${options.height / 2}px`,
-                  transform: 'translateY(-50%)'
-                }}
-                iconSize={getNavigationIconSize()}
-              />
-              <CarouselNext 
-                className={cn(
-                  "pointer-events-auto bg-transparent border-0 text-white hover:text-white/70 hover:bg-transparent transition-colors absolute",
-                  options.navigationPosition === 'safe' 
-                    ? "right-0" // 컨텐츠 내부: container의 좌우 끝
-                    : "right-4"  // 캐러셀 가장자리
-                )}
-                style={{
-                  ...getNavigationSizeStyle(),
-                  top: `${options.height / 2}px`,
-                  transform: 'translateY(-50%)'
-                }}
-                iconSize={getNavigationIconSize()}
-              />
-            </div>
-          </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
           </Carousel>
           
-          {/* 인디케이터 영역 - 내부 배치 시 하단에 고정 */}
-          {options.indicatorPosition === 'inside' && (
-            <div 
-              className="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-black/10"
-              style={{ height: '50px' }}
-            >
-              <div className="flex items-center gap-4">
-                {/* 자동재생 버튼 */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setOptions(prev => ({ ...prev, autoPlay: !prev.autoPlay }))}
-                  className="h-8 w-8 bg-black/20 backdrop-blur-sm hover:bg-white/20 hover:text-white text-white border border-white/20"
-                  aria-label={options.autoPlay ? '일시정지' : '재생'}
-                >
-                  {options.autoPlay ? (
-                    <HiPause className="h-4 w-4 text-white" />
-                  ) : (
-                    <HiPlay className="h-4 w-4 text-white" />
-                  )}
-                </Button>
-                
-                {/* 인디케이터 (dots) */}
-                <div className="flex items-center gap-2">
-                  {SAMPLE_SLIDES.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => scrollTo(index)}
-                      className={getIndicatorClass(current === index)}
-                      aria-label={`Go to slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
+          {/* 인디케이터 내부 배치는 각 슬라이드 내부에서 처리 */}
         </div>
       </div>
       
-      {/* 인디케이터와 자동재생 컨트롤 - 외부 배치 */}
+      {/* 인디케이터와 자동재생 컨트롤 - 외부 배치 (좌측 정렬) */}
       {options.indicatorPosition === 'outside' && (
-        <div className="flex items-center justify-center gap-4 mt-4">
-          {/* 자동재생 버튼 */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setOptions(prev => ({ ...prev, autoPlay: !prev.autoPlay }))}
-            className="h-8 w-8 hover:bg-accent hover:text-accent-foreground"
-            aria-label={options.autoPlay ? '일시정지' : '재생'}
-          >
-            {options.autoPlay ? (
-              <HiPause className="h-4 w-4" />
-            ) : (
-              <HiPlay className="h-4 w-4" />
-            )}
-          </Button>
-          
-          {/* 인디케이터 (dots) */}
-          <div className="flex items-center gap-2">
-            {SAMPLE_SLIDES.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollTo(index)}
-                className={getIndicatorClass(current === index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+        <div className="container mx-auto mt-4">
+          <div className="flex items-center justify-start px-4 gap-4">
+            {/* 자동재생 버튼 */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setOptions(prev => ({ ...prev, autoPlay: !prev.autoPlay }))}
+              className="h-8 w-8 hover:bg-accent hover:text-accent-foreground"
+              aria-label={options.autoPlay ? '일시정지' : '재생'}
+            >
+              {options.autoPlay ? (
+                <HiPause className="h-4 w-4" />
+              ) : (
+                <HiPlay className="h-4 w-4" />
+              )}
+            </Button>
+            
+            {/* 인디케이터 (dots) */}
+            <div className="flex items-center gap-2">
+              {SAMPLE_SLIDES.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => scrollTo(index)}
+                  className={getIndicatorClass(current === index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}

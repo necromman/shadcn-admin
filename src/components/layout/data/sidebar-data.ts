@@ -23,6 +23,9 @@ import {
   LuLayoutList,
   LuUser,
   LuUserPlus,
+  LuClipboardList,
+  LuNewspaper,
+  LuImage,
 } from 'react-icons/lu'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -56,6 +59,32 @@ export const sidebarData: SidebarData = {
       collapsible: true,
       defaultOpen: true,
       items: [
+        {
+          title: '게시판',
+          icon: LuClipboardList,
+          items: [
+            {
+              title: '공지사항',
+              url: '/board/notice',
+              icon: LuNewspaper,
+            },
+            {
+              title: '자유게시판',
+              url: '/board/general',
+              icon: LuMessageSquare,
+            },
+            {
+              title: 'FAQ',
+              url: '/board/faq',
+              icon: LuCircleHelp,
+            },
+            {
+              title: '갤러리',
+              url: '/board/gallery',
+              icon: LuImage,
+            },
+          ],
+        },
         {
           title: '로그인',
           url: '/auth/login',

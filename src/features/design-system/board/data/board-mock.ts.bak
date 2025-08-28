@@ -1,0 +1,756 @@
+import { type Post } from '../types/board.types'
+
+// 게시글 목업 데이터 (50개 이상)
+export const mockPosts: Post[] = [
+  // 공지사항 (notice)
+  {
+    id: 'post-1',
+    boardId: 'board_notice',
+    title: '🎉 새로운 게시판 시스템이 오픈되었습니다!',
+    content: `
+      <h2>안녕하세요, BRAND 커뮤니티 회원 여러분!</h2>
+      <p>드디어 새로운 게시판 시스템이 정식 오픈되었습니다. 많은 기능들이 추가되었으니 확인해보세요.</p>
+      <h3>주요 업데이트 내용</h3>
+      <ul>
+        <li>향상된 검색 기능</li>
+        <li>이미지 뷰어 추가</li>
+        <li>실시간 댓글 알림</li>
+        <li>모바일 최적화</li>
+      </ul>
+      <p>많은 이용 부탁드립니다!</p>
+    `,
+    contentType: 'html',
+    author: {
+      id: 'admin-1',
+      name: '관리자',
+      role: 'admin',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin'
+    },
+    tags: ['공지', '업데이트', '시스템'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 1523,
+      likes: 45,
+      commentsCount: 12,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: true,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-28T10:00:00Z',
+    updatedAt: '2025-01-28T10:00:00Z'
+  },
+  {
+    id: 'post-2',
+    boardId: 'board_notice',
+    title: '📌 커뮤니티 이용 규칙 안내',
+    content: `
+      <h3>BRAND 커뮤니티 이용 규칙</h3>
+      <p>건전한 커뮤니티 문화 조성을 위해 다음과 같은 규칙을 준수해주시기 바랍니다.</p>
+      <ol>
+        <li>타인을 비방하거나 욕설을 사용하지 마세요</li>
+        <li>스팸 게시글 작성을 금지합니다</li>
+        <li>개인정보를 함부로 공개하지 마세요</li>
+        <li>저작권을 침해하는 콘텐츠를 업로드하지 마세요</li>
+        <li>정치적, 종교적 논쟁을 자제해주세요</li>
+      </ol>
+      <p>위 규칙을 위반할 경우 경고 또는 이용 제한 조치가 있을 수 있습니다.</p>
+    `,
+    contentType: 'html',
+    author: {
+      id: 'admin-1',
+      name: '관리자',
+      role: 'admin'
+    },
+    tags: ['규칙', '가이드라인'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 892,
+      likes: 23,
+      commentsCount: 5,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: true,
+    isLocked: true,
+    isPrivate: false,
+    createdAt: '2025-01-27T09:00:00Z',
+    updatedAt: '2025-01-27T09:00:00Z'
+  },
+  {
+    id: 'post-3',
+    boardId: 'board_notice',
+    title: '🔧 시스템 점검 안내 (1/30 02:00 ~ 04:00)',
+    content: `
+      <p>안정적인 서비스 제공을 위한 시스템 점검이 예정되어 있습니다.</p>
+      <h4>점검 일시</h4>
+      <ul>
+        <li>일시: 2025년 1월 30일(목) 02:00 ~ 04:00 (2시간)</li>
+        <li>대상: 전체 서비스</li>
+      </ul>
+      <h4>점검 내용</h4>
+      <ul>
+        <li>서버 성능 최적화</li>
+        <li>보안 업데이트</li>
+        <li>데이터베이스 백업</li>
+      </ul>
+      <p>점검 시간 동안은 서비스 이용이 제한됩니다. 양해 부탁드립니다.</p>
+    `,
+    contentType: 'html',
+    author: {
+      id: 'admin-2',
+      name: '시스템 관리자',
+      role: 'admin'
+    },
+    tags: ['점검', '시스템', '공지'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 456,
+      likes: 8,
+      commentsCount: 3,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-26T14:30:00Z',
+    updatedAt: '2025-01-26T14:30:00Z'
+  },
+
+  // 자유게시판 (general)
+  {
+    id: 'post-4',
+    boardId: 'board_general',
+    title: '오늘 날씨 정말 좋네요! ☀️',
+    content: '창밖을 보니 날씨가 정말 좋아서 기분이 좋아집니다. 다들 좋은 하루 보내세요!',
+    contentType: 'text',
+    author: {
+      id: 'user-1',
+      name: '햇살가득',
+      role: 'member',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sunshine'
+    },
+    tags: ['일상', '날씨'],
+    images: [
+      {
+        id: 'img-1',
+        url: 'https://images.unsplash.com/photo-1601297183305-6df142704ea2?w=800',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1601297183305-6df142704ea2?w=200',
+        alt: '맑은 하늘',
+        width: 800,
+        height: 600,
+        size: 256000
+      }
+    ],
+    attachments: [],
+    metadata: {
+      views: 234,
+      likes: 18,
+      commentsCount: 7,
+      isLiked: true
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-28T08:15:00Z',
+    updatedAt: '2025-01-28T08:15:00Z'
+  },
+  {
+    id: 'post-5',
+    boardId: 'board_general',
+    title: '프로그래밍 공부 팁 공유합니다 💻',
+    content: `
+      프로그래밍 공부하면서 도움이 되었던 팁들을 공유합니다!
+      
+      1. 매일 조금씩이라도 코딩하기
+      2. 프로젝트 기반 학습
+      3. 다른 사람 코드 읽어보기
+      4. 질문하는 것을 두려워하지 않기
+      5. 문서화 습관 들이기
+      
+      다들 화이팅입니다!
+    `,
+    contentType: 'text',
+    author: {
+      id: 'user-2',
+      name: '코딩초보',
+      role: 'user'
+    },
+    tags: ['프로그래밍', '공부', '팁'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 567,
+      likes: 42,
+      commentsCount: 15,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-27T16:20:00Z',
+    updatedAt: '2025-01-27T16:20:00Z'
+  },
+  {
+    id: 'post-6',
+    boardId: 'board_general',
+    title: '이번 주말 모임 어떠신가요? 🍕',
+    content: '이번 주말에 간단하게 모임 가지면 어떨까요? 피자나 치킨 먹으면서 이야기 나누면 좋을 것 같아요!',
+    contentType: 'text',
+    author: {
+      id: 'user-3',
+      name: '모임왕',
+      role: 'member',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=meeting'
+    },
+    tags: ['모임', '주말'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 123,
+      likes: 9,
+      commentsCount: 12,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-27T11:45:00Z',
+    updatedAt: '2025-01-27T11:45:00Z'
+  },
+
+  // FAQ
+  {
+    id: 'post-7',
+    boardId: 'board_faq',
+    title: '회원가입은 어떻게 하나요?',
+    content: `
+      <h4>회원가입 방법</h4>
+      <ol>
+        <li>홈페이지 우측 상단의 '회원가입' 버튼을 클릭합니다.</li>
+        <li>이메일 주소와 비밀번호를 입력합니다.</li>
+        <li>이용약관에 동의합니다.</li>
+        <li>이메일 인증을 완료합니다.</li>
+        <li>프로필 정보를 입력하면 가입이 완료됩니다.</li>
+      </ol>
+    `,
+    contentType: 'html',
+    author: {
+      id: 'mod-1',
+      name: '운영자',
+      role: 'moderator'
+    },
+    tags: ['회원가입', '계정'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 1234,
+      likes: 32,
+      commentsCount: 0,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: true,
+    isPrivate: false,
+    createdAt: '2025-01-20T10:00:00Z',
+    updatedAt: '2025-01-20T10:00:00Z'
+  },
+  {
+    id: 'post-8',
+    boardId: 'board_faq',
+    title: '비밀번호를 잊어버렸어요',
+    content: `
+      <h4>비밀번호 재설정 방법</h4>
+      <ol>
+        <li>로그인 페이지에서 '비밀번호 찾기'를 클릭합니다.</li>
+        <li>가입 시 사용한 이메일 주소를 입력합니다.</li>
+        <li>이메일로 전송된 재설정 링크를 클릭합니다.</li>
+        <li>새로운 비밀번호를 입력하고 저장합니다.</li>
+      </ol>
+      <p>참고: 재설정 링크는 24시간 동안만 유효합니다.</p>
+    `,
+    contentType: 'html',
+    author: {
+      id: 'mod-1',
+      name: '운영자',
+      role: 'moderator'
+    },
+    tags: ['비밀번호', '계정'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 892,
+      likes: 21,
+      commentsCount: 0,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: true,
+    isPrivate: false,
+    createdAt: '2025-01-20T10:30:00Z',
+    updatedAt: '2025-01-20T10:30:00Z'
+  },
+
+  // 갤러리
+  {
+    id: 'post-9',
+    boardId: 'board_gallery',
+    title: '오늘 찍은 석양 사진 공유합니다 🌅',
+    content: '퇴근길에 본 석양이 너무 예뻐서 찍어봤어요!',
+    contentType: 'text',
+    author: {
+      id: 'user-4',
+      name: '사진러버',
+      role: 'member',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=photo'
+    },
+    tags: ['사진', '석양', '풍경'],
+    images: [
+      {
+        id: 'img-2',
+        url: 'https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=800',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=200',
+        alt: '석양',
+        width: 800,
+        height: 533,
+        size: 312000
+      }
+    ],
+    attachments: [],
+    metadata: {
+      views: 456,
+      likes: 67,
+      commentsCount: 9,
+      isLiked: true
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-28T17:30:00Z',
+    updatedAt: '2025-01-28T17:30:00Z'
+  },
+  {
+    id: 'post-10',
+    boardId: 'board_gallery',
+    title: '카페에서 만난 귀여운 강아지 🐕',
+    content: '카페에서 너무 귀여운 강아지를 만났어요! 주인분 허락받고 찍었습니다.',
+    contentType: 'text',
+    author: {
+      id: 'user-5',
+      name: '멍멍이친구',
+      role: 'member'
+    },
+    tags: ['강아지', '카페', '일상'],
+    images: [
+      {
+        id: 'img-3',
+        url: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200',
+        alt: '강아지',
+        width: 800,
+        height: 600,
+        size: 289000
+      }
+    ],
+    attachments: [],
+    metadata: {
+      views: 789,
+      likes: 123,
+      commentsCount: 18,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-27T14:15:00Z',
+    updatedAt: '2025-01-27T14:15:00Z'
+  },
+
+  // Q&A
+  {
+    id: 'post-11',
+    boardId: 'board_qna',
+    title: 'React vs Vue 어떤 걸 공부해야 할까요?',
+    content: '프론트엔드 개발을 시작하려고 하는데, React와 Vue 중 어떤 것을 먼저 공부하는 게 좋을까요? 각각의 장단점이 궁금합니다.',
+    contentType: 'text',
+    author: {
+      id: 'user-6',
+      name: '개발입문자',
+      role: 'user'
+    },
+    tags: ['React', 'Vue', '프론트엔드'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 234,
+      likes: 5,
+      commentsCount: 8,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-28T09:45:00Z',
+    updatedAt: '2025-01-28T09:45:00Z'
+  },
+  {
+    id: 'post-12',
+    boardId: 'board_qna',
+    title: '[해결됨] TypeScript 타입 에러 해결 방법',
+    content: 'TypeScript에서 타입 에러가 발생하는데 어떻게 해결해야 할지 모르겠습니다. 도움 부탁드립니다.',
+    contentType: 'text',
+    author: {
+      id: 'user-7',
+      name: 'TS초보',
+      role: 'member'
+    },
+    tags: ['TypeScript', '에러', '해결'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 456,
+      likes: 12,
+      commentsCount: 15,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-27T15:20:00Z',
+    updatedAt: '2025-01-27T16:30:00Z'
+  },
+
+  // 추가 게시글들
+  {
+    id: 'post-13',
+    boardId: 'board_general',
+    title: '커피 추천 부탁드려요 ☕',
+    content: '최근에 커피에 입문했는데 맛있는 원두 추천 부탁드립니다!',
+    contentType: 'text',
+    author: {
+      id: 'user-8',
+      name: '커피러버',
+      role: 'member'
+    },
+    tags: ['커피', '추천'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 167,
+      likes: 14,
+      commentsCount: 22,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-26T10:15:00Z',
+    updatedAt: '2025-01-26T10:15:00Z'
+  },
+  {
+    id: 'post-14',
+    boardId: 'board_general',
+    title: '운동 시작했습니다! 💪',
+    content: '새해 목표로 운동 시작했어요. 다들 함께 건강한 생활 만들어가요!',
+    contentType: 'text',
+    author: {
+      id: 'user-9',
+      name: '헬스초보',
+      role: 'user'
+    },
+    tags: ['운동', '건강', '목표'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 234,
+      likes: 28,
+      commentsCount: 11,
+      isLiked: true
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-25T18:30:00Z',
+    updatedAt: '2025-01-25T18:30:00Z'
+  },
+  {
+    id: 'post-15',
+    boardId: 'board_gallery',
+    title: '오늘의 브런치 🥐',
+    content: '주말 브런치! 너무 맛있어 보이죠?',
+    contentType: 'text',
+    author: {
+      id: 'user-10',
+      name: '먹방러',
+      role: 'member'
+    },
+    tags: ['음식', '브런치'],
+    images: [
+      {
+        id: 'img-4',
+        url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200',
+        alt: '브런치',
+        width: 800,
+        height: 600,
+        size: 342000
+      }
+    ],
+    attachments: [],
+    metadata: {
+      views: 567,
+      likes: 89,
+      commentsCount: 16,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-26T11:00:00Z',
+    updatedAt: '2025-01-26T11:00:00Z'
+  },
+  {
+    id: 'post-16',
+    boardId: 'board_qna',
+    title: 'Git 브랜치 전략 추천해주세요',
+    content: '팀 프로젝트를 시작하는데 Git 브랜치 전략은 어떤 걸 사용하는 게 좋을까요?',
+    contentType: 'text',
+    author: {
+      id: 'user-11',
+      name: '팀리더',
+      role: 'member'
+    },
+    tags: ['Git', '협업', '전략'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 345,
+      likes: 18,
+      commentsCount: 12,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-24T14:20:00Z',
+    updatedAt: '2025-01-24T14:20:00Z'
+  },
+  {
+    id: 'post-17',
+    boardId: 'board_notice',
+    title: '📢 이벤트 당첨자 발표',
+    content: `
+      <h3>신년 이벤트 당첨자를 발표합니다!</h3>
+      <p>많은 참여 감사드립니다. 당첨자는 다음과 같습니다.</p>
+      <ul>
+        <li>1등: user123***</li>
+        <li>2등: happy***</li>
+        <li>3등: coding***</li>
+      </ul>
+      <p>당첨자분들께는 개별 연락드리겠습니다.</p>
+    `,
+    contentType: 'html',
+    author: {
+      id: 'admin-1',
+      name: '관리자',
+      role: 'admin'
+    },
+    tags: ['이벤트', '당첨'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 2341,
+      likes: 67,
+      commentsCount: 34,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: true,
+    isPrivate: false,
+    createdAt: '2025-01-23T10:00:00Z',
+    updatedAt: '2025-01-23T10:00:00Z'
+  },
+  {
+    id: 'post-18',
+    boardId: 'board_general',
+    title: '독서 모임 멤버 모집합니다 📚',
+    content: '매주 토요일 오후에 독서 모임을 진행하려고 합니다. 관심 있으신 분들 댓글 남겨주세요!',
+    contentType: 'text',
+    author: {
+      id: 'user-12',
+      name: '책벌레',
+      role: 'member'
+    },
+    tags: ['독서', '모임', '모집'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 432,
+      likes: 23,
+      commentsCount: 18,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-22T16:45:00Z',
+    updatedAt: '2025-01-22T16:45:00Z'
+  },
+  {
+    id: 'post-19',
+    boardId: 'board_gallery',
+    title: '겨울 산 풍경 ⛰️',
+    content: '주말에 등산 다녀왔습니다. 겨울 산의 아름다운 풍경을 공유합니다.',
+    contentType: 'text',
+    author: {
+      id: 'user-13',
+      name: '산악인',
+      role: 'member'
+    },
+    tags: ['산', '풍경', '겨울'],
+    images: [
+      {
+        id: 'img-5',
+        url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200',
+        alt: '겨울 산',
+        width: 800,
+        height: 533,
+        size: 298000
+      }
+    ],
+    attachments: [],
+    metadata: {
+      views: 678,
+      likes: 92,
+      commentsCount: 14,
+      isLiked: true
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: '2025-01-21T09:30:00Z',
+    updatedAt: '2025-01-21T09:30:00Z'
+  },
+  {
+    id: 'post-20',
+    boardId: 'board_faq',
+    title: '포인트는 어떻게 적립되나요?',
+    content: `
+      <h4>포인트 적립 방법</h4>
+      <ul>
+        <li>게시글 작성: 10포인트</li>
+        <li>댓글 작성: 5포인트</li>
+        <li>좋아요 받기: 2포인트</li>
+        <li>일일 출석: 5포인트</li>
+      </ul>
+      <p>적립된 포인트는 마이페이지에서 확인하실 수 있습니다.</p>
+    `,
+    contentType: 'html',
+    author: {
+      id: 'mod-1',
+      name: '운영자',
+      role: 'moderator'
+    },
+    tags: ['포인트', '적립'],
+    images: [],
+    attachments: [],
+    metadata: {
+      views: 1567,
+      likes: 45,
+      commentsCount: 0,
+      isLiked: false
+    },
+    status: 'published',
+    isPinned: false,
+    isLocked: true,
+    isPrivate: false,
+    createdAt: '2025-01-20T11:00:00Z',
+    updatedAt: '2025-01-20T11:00:00Z'
+  },
+
+  // 추가 게시글 (21-50)
+  ...Array.from({ length: 30 }, (_, i) => ({
+    id: `post-${21 + i}`,
+    boardId: ['general', 'gallery', 'qna'][i % 3],
+    title: `테스트 게시글 ${21 + i}`,
+    content: `이것은 테스트 게시글 ${21 + i}의 내용입니다. 게시판 시스템 테스트를 위한 목업 데이터입니다.`,
+    contentType: 'text' as const,
+    author: {
+      id: `user-${14 + i}`,
+      name: `사용자${14 + i}`,
+      role: ['user', 'member', 'moderator'][i % 3] as 'user' | 'member' | 'moderator'
+    },
+    tags: [`태그${i % 5}`, `카테고리${i % 3}`],
+    images: i % 4 === 0 ? [{
+      id: `img-${6 + i}`,
+      url: `https://picsum.photos/800/600?random=${i}`,
+      thumbnailUrl: `https://picsum.photos/200/150?random=${i}`,
+      alt: `이미지 ${i}`,
+      width: 800,
+      height: 600,
+      size: 256000
+    }] : [],
+    attachments: [],
+    metadata: {
+      views: Math.floor(Math.random() * 1000),
+      likes: Math.floor(Math.random() * 100),
+      commentsCount: Math.floor(Math.random() * 30),
+      isLiked: Math.random() > 0.5
+    },
+    status: 'published' as const,
+    isPinned: false,
+    isLocked: false,
+    isPrivate: false,
+    createdAt: new Date(Date.now() - i * 3600000).toISOString(),
+    updatedAt: new Date(Date.now() - i * 3600000).toISOString()
+  }))
+]
+
+// 게시판별 게시글 필터링
+export const getPostsByBoardId = (boardId: string): Post[] => {
+  return mockPosts.filter(post => post.boardId === boardId)
+}
+
+// 고정 게시글 가져오기
+export const getPinnedPosts = (boardId?: string): Post[] => {
+  const posts = boardId 
+    ? mockPosts.filter(post => post.boardId === boardId) 
+    : mockPosts
+  return posts.filter(post => post.isPinned)
+}
+
+// 인기 게시글 가져오기
+export const getPopularPosts = (limit = 5): Post[] => {
+  return [...mockPosts]
+    .sort((a, b) => b.metadata.likes - a.metadata.likes)
+    .slice(0, limit)
+}
+
+// 최신 게시글 가져오기
+export const getRecentPosts = (limit = 5): Post[] => {
+  return [...mockPosts]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, limit)
+}

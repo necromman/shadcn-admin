@@ -52,6 +52,7 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedBoardTypeRouteImport } from './routes/_authenticated/board.$type'
 
 const ThemeEditorRoute = ThemeEditorRouteImport.update({
   id: '/theme-editor',
@@ -274,6 +275,11 @@ const AuthenticatedErrorsErrorRoute =
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedBoardTypeRoute = AuthenticatedBoardTypeRouteImport.update({
+  id: '/board/$type',
+  path: '/board/$type',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
@@ -296,6 +302,7 @@ export interface FileRoutesByFullPath {
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -336,6 +343,7 @@ export interface FileRoutesByTo {
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -382,6 +390,7 @@ export interface FileRoutesById {
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/board/$type': typeof AuthenticatedBoardTypeRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -427,6 +436,7 @@ export interface FileRouteTypes {
     | '/auth/find-account'
     | '/auth/login'
     | '/'
+    | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
     | '/settings/appearance'
@@ -467,6 +477,7 @@ export interface FileRouteTypes {
     | '/auth/find-account'
     | '/auth/login'
     | '/'
+    | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
     | '/settings/appearance'
@@ -512,6 +523,7 @@ export interface FileRouteTypes {
     | '/auth/find-account'
     | '/auth/login'
     | '/_authenticated/'
+    | '/_authenticated/board/$type'
     | '/_authenticated/errors/$error'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
@@ -855,6 +867,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/board/$type': {
+      id: '/_authenticated/board/$type'
+      path: '/board/$type'
+      fullPath: '/board/$type'
+      preLoaderRoute: typeof AuthenticatedBoardTypeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -885,6 +904,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedOldRoute: typeof AuthenticatedOldRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedBoardTypeRoute: typeof AuthenticatedBoardTypeRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
@@ -897,6 +917,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedOldRoute: AuthenticatedOldRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedBoardTypeRoute: AuthenticatedBoardTypeRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,

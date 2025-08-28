@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 @import './theme.css';
 @import './frontend/index.css';
+@import './board-animations.css';
 
 @custom-variant dark (&:is(.dark *));
 

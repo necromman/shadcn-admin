@@ -465,6 +465,41 @@ export const BoardControlPanel = React.memo(({
                 <span className="text-xs">무한스크롤</span>
               </div>
             </div>
+            
+            {/* 무한스크롤 딜레이 설정 (무한스크롤일 때만 표시) */}
+            {config.display.paginationType === 'infinite-scroll' && (
+              <div className="space-y-1 mt-2">
+                <Label className="text-xs text-slate-600 dark:text-muted-foreground">로드 딜레이 (밀리초)</Label>
+                <Select 
+                  value={(config.display.infiniteScrollDelay || 500).toString()} 
+                  onValueChange={(value) => {
+                    onConfigChange({
+                      ...config,
+                      display: {
+                        ...config.display,
+                        infiniteScrollDelay: parseInt(value)
+                      }
+                    })
+                  }}
+                >
+                  <SelectTrigger className="h-8 text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">딜레이 없음</SelectItem>
+                    <SelectItem value="200">200ms</SelectItem>
+                    <SelectItem value="500">500ms (기본)</SelectItem>
+                    <SelectItem value="1000">1초</SelectItem>
+                    <SelectItem value="1500">1.5초</SelectItem>
+                    <SelectItem value="2000">2초</SelectItem>
+                    <SelectItem value="3000">3초</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-slate-500 dark:text-muted-foreground">
+                  데이터 로드 시뮬레이션을 위한 딜레이 설정
+                </p>
+              </div>
+            )}
           </div>
 
           {/* 페이지당 게시글 수 및 정렬 */}

@@ -34,6 +34,7 @@ export const boardConfigs: BoardConfig[] = [
       excerptLength: 100,
       paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
+      infiniteScrollDelay: 500,
       tableDensity: 'normal'
     }
   },
@@ -69,6 +70,7 @@ export const boardConfigs: BoardConfig[] = [
       excerptLength: 150,
       paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
+      infiniteScrollDelay: 500,
       tableDensity: 'normal'
     }
   },
@@ -104,6 +106,7 @@ export const boardConfigs: BoardConfig[] = [
       excerptLength: 200,
       paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
+      infiniteScrollDelay: 500,
       tableDensity: 'normal'
     }
   },
@@ -139,6 +142,7 @@ export const boardConfigs: BoardConfig[] = [
       excerptLength: 0,
       paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
+      infiniteScrollDelay: 500,
       tableDensity: 'normal'
     }
   },
@@ -174,6 +178,7 @@ export const boardConfigs: BoardConfig[] = [
       excerptLength: 120,
       paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
+      infiniteScrollDelay: 500,
       tableDensity: 'normal'
     }
   }

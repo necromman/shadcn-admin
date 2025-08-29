@@ -396,11 +396,11 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
     
     dispatch({ type: 'SET_LOADING_MORE', payload: true })
     
-    // 다음 페이지 데이터 로드 시뮬레이션 (2초 딜레이)
+    // 다음 페이지 데이터 로드 시뮬레이션
     setTimeout(() => {
       dispatch({ type: 'APPEND_POSTS', payload: [] })
-    }, 2000)
-  }, [state.pagination.isLoadingMore, state.pagination.hasMore, state.pagination.loadedPages, state.pagination.totalPosts])
+    }, state.config.display.infiniteScrollDelay || 500)
+  }, [state.pagination.isLoadingMore, state.pagination.hasMore, state.pagination.loadedPages, state.pagination.totalPosts, state.config.display.infiniteScrollDelay])
 
 
   // 게시글 클릭 핸들러

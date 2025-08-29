@@ -29,6 +29,7 @@ export interface BoardConfig {
     excerptLength: number
     paginationType: 'pagination' | 'infinite-scroll'  // 페이지네이션 타입
     infiniteScrollThreshold: number  // 무한스크롤 트리거 거리
+    infiniteScrollDelay: number  // 무한스크롤 로드 딜레이 (ms)
     tableDensity: 'compact' | 'normal' | 'comfortable'  // 테이블 밀도
   }
 }

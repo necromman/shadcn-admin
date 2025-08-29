@@ -16,9 +16,15 @@ import { AuthProvider } from '@/features/design-system/board/contexts/auth-conte
 import type { BoardState, BoardAction, Post, BoardConfig, UserRole } from '@/features/design-system/board/types/board.types'
 import { HiPlus, HiArrowLeft } from 'react-icons/hi2'
 
-// 초기 상태
-const initialState: BoardState = {
-  config: boardConfigs[0],
+// 초기 상태 생성 함수
+const getInitialState = (boardType?: string): BoardState => {
+  // URL에서 받은 boardType에 해당하는 config 찾기
+  const config = boardType 
+    ? getBoardConfigByBoardType(boardType) || boardConfigs[0]
+    : boardConfigs[0]
+  
+  return {
+    config,
   posts: [],
   selectedPost: null,
   comments: [],
@@ -45,7 +51,8 @@ const initialState: BoardState = {
     selectedImages: [],
     imageViewerIndex: 0,
     error: null,
-  },
+    },
+  }
 }
 
 // 리듀서
@@ -178,8 +185,12 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
   }
 }
 
-export function DSBoard() {
-  const [state, dispatch] = useReducer(boardReducer, initialState)
+interface DSBoardProps {
+  boardType?: string
+}
+
+export function DSBoard({ boardType }: DSBoardProps = {}) {
+  const [state, dispatch] = useReducer(boardReducer, getInitialState(boardType))
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentUserRole] = React.useState<UserRole>('user')
   const canWrite = currentUserRole !== 'guest' && state.config.permissions.write.includes(currentUserRole)

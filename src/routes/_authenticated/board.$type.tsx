@@ -50,7 +50,7 @@ function BoardPage() {
             {!['notice', 'general', 'free', 'qna', 'faq', 'gallery', 'download'].includes(type) && '게시판을 이용해 소통하세요'}
           </p>
         </div>
-        <DSBoard />
+        <DSBoard boardType={type} />
       </Main>
     </>
   )

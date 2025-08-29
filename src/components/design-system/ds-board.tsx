@@ -195,6 +195,16 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
   const [currentUserRole] = React.useState<UserRole>('user')
   const canWrite = currentUserRole !== 'guest' && state.config.permissions.write.includes(currentUserRole)
 
+  // boardType prop 변경 시 config 업데이트
+  useEffect(() => {
+    if (boardType) {
+      const newConfig = getBoardConfigByBoardType(boardType)
+      if (newConfig && newConfig.type !== state.config.type) {
+        dispatch({ type: 'SET_CONFIG', payload: newConfig })
+      }
+    }
+  }, [boardType, state.config.type])
+
   // 게시판 타입 변경 시 데이터 로드
   useEffect(() => {
     loadBoardData(state.config.type)

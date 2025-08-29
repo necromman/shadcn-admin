@@ -25,24 +25,24 @@ const getInitialState = (boardType?: string): BoardState => {
   
   return {
     config,
-  posts: [],
-  selectedPost: null,
-  comments: [],
-  filters: {
-    searchQuery: '',
-    category: null,
-    tags: [],
-    sortBy: 'latest',
-    dateRange: [null, null],
-  },
-  pagination: {
-    currentPage: 1,
-    totalPages: 1,
-    totalPosts: 0,
-    pageSize: 10,
-    hasMore: false,
-    isLoadingMore: false,
-  },
+    posts: [],
+    selectedPost: null,
+    comments: [],
+    filters: {
+      searchQuery: '',
+      category: null,
+      tags: [],
+      sortBy: 'latest',
+      dateRange: [null, null],
+    },
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalPosts: 0,
+      pageSize: config.display.itemsPerPage, // config에서 가져오도록 수정
+      hasMore: false,
+      isLoadingMore: false,
+    },
   ui: {
     isLoading: false,
     isCreating: false,

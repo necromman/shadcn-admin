@@ -201,6 +201,11 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
       const newConfig = getBoardConfigByBoardType(boardType)
       if (newConfig && newConfig.type !== state.config.type) {
         dispatch({ type: 'SET_CONFIG', payload: newConfig })
+        // 페이지네이션도 새 config의 itemsPerPage로 업데이트
+        dispatch({ type: 'SET_PAGINATION', payload: { 
+          pageSize: newConfig.display.itemsPerPage,
+          currentPage: 1 
+        }})
       }
     }
   }, [boardType, state.config.type])

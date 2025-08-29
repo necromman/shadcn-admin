@@ -1,7 +1,15 @@
 'use client'
 
 import React from 'react'
-import { HiCog6Tooth } from 'react-icons/hi2'
+import { 
+  HiCog6Tooth, 
+  HiClipboardDocumentList, 
+  HiEye, 
+  HiClock,
+  HiSquares2X2,
+  HiShieldCheck,
+  HiSparkles
+} from 'react-icons/hi2'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
@@ -9,7 +17,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Switch } from '@/components/ui/switch'
 import { type BoardConfig, type UserRole } from '../types/board.types'
 import { boardConfigs } from '../data/board-configs'
-// import { useAuth } from '../contexts/auth-context' // AuthProvider가 래핑되지 않은 경우 에러 방지
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
@@ -26,10 +33,8 @@ export const BoardControlPanel = React.memo(({
   viewMode = 'list',
   currentUserRole: propRole
 }: BoardControlPanelProps) => {
-  // Auth Context 사용 (prop이 없으면 기본값 사용)
-  // const auth = useAuth() // AuthProvider가 없을 수 있으므로 주석 처리
-  const auth = null // 임시로 null 설정
   const currentUserRole = propRole || 'user'
+  
   const handleBoardTypeChange = (boardId: string) => {
     const newConfig = boardConfigs.find(c => c.id === boardId)
     if (newConfig) {
@@ -77,524 +82,438 @@ export const BoardControlPanel = React.memo(({
     })
   }
 
-  // 뷰 모드에 따른 제목 설정
-  const getPanelTitle = () => {
-    switch(viewMode) {
-      case 'detail': return '상세보기 설정'
-      case 'create': return '글쓰기 설정'
-      case 'edit': return '수정 설정'
-      default: return '게시판 설정'
-    }
-  }
-
   // 권한 체크 헬퍼
   const hasPermission = (permission: string[]) => {
     return permission.includes('all') || permission.includes(currentUserRole)
   }
 
+  // 섹션 헤더 컴포넌트
+  const SectionHeader = ({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description?: string }) => (
+    <div className="flex items-start gap-2 mb-3">
+      <Icon className="h-4 w-4 text-slate-600 dark:text-slate-400 mt-0.5" />
+      <div className="flex-1">
+        <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">{title}</h3>
+        {description && (
+          <p className="text-xs text-slate-500 dark:text-muted-foreground mt-0.5">{description}</p>
+        )}
+      </div>
+    </div>
+  )
+
   return (
-    <div className="bg-slate-100 dark:bg-muted/30 border-2 border-dotted border-slate-300 dark:border-border/50 rounded-lg p-4">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <HiCog6Tooth className="h-4 w-4 text-slate-600 dark:text-muted-foreground" />
-          <span className="text-sm font-semibold text-slate-700 dark:text-muted-foreground">
-            {getPanelTitle()}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          {auth && auth !== null && 'isImpersonating' in auth && (auth as {isImpersonating?: boolean}).isImpersonating && (
-            <Badge variant="outline" className="text-xs bg-yellow-100 dark:bg-yellow-900/20">
-              Impersonation
+    <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/50 dark:to-slate-800/30 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+      {/* 헤더 */}
+      <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/50 rounded-t-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <HiCog6Tooth className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+            <span className="text-base font-semibold text-slate-800 dark:text-slate-200">
+              게시판 컨트롤 패널
+            </span>
+            <Badge variant="outline" className="text-xs">
+              {viewMode === 'list' && '목록'}
+              {viewMode === 'detail' && '상세'}
+              {viewMode === 'create' && '작성'}
+              {viewMode === 'edit' && '수정'}
             </Badge>
-          )}
-          <span className="text-xs text-slate-500 dark:text-muted-foreground">
-            현재 모드: {viewMode} | 권한: {currentUserRole}
-          </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="text-xs">
+              {currentUserRole}
+            </Badge>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-4">
-        {/* 리스트 뷰에서만 게시판 타입 선택 가능 */}
+      {/* 본문 */}
+      <div className="p-5 space-y-5">
+        
+        {/* 게시판 타입 선택 섹션 - 리스트 뷰에서만 */}
         {viewMode === 'list' && (
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">게시판 타입</Label>
-          <Select value={config.id} onValueChange={handleBoardTypeChange}>
-            <SelectTrigger className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {boardConfigs.map(board => (
-                <SelectItem key={board.id} value={board.id}>
-                  <div className="flex items-center gap-2">
-                    <span>{board.name}</span>
-                    <span className="text-xs text-muted-foreground">({board.type})</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-slate-500 dark:text-muted-foreground">
-            {config.description}
-          </p>
-        </div>
+          <div className="bg-white dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+            <SectionHeader 
+              icon={HiClipboardDocumentList} 
+              title="게시판 타입" 
+              description="게시판 유형을 선택하세요"
+            />
+            <Select value={config.id} onValueChange={handleBoardTypeChange}>
+              <SelectTrigger className="w-full h-10">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {boardConfigs.map(board => (
+                  <SelectItem key={board.id} value={board.id}>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{board.name}</span>
+                      <Badge variant="outline" className="text-xs">{board.type}</Badge>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-slate-500 dark:text-muted-foreground mt-2">
+              {config.description}
+            </p>
+          </div>
         )}
 
-        {/* 권한 정보 표시 - 모든 뷰에서 표시 */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">권한 설정</Label>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="flex items-center gap-1">
-              <span className="text-slate-600 dark:text-muted-foreground">읽기:</span>
-              <span className={`font-medium ${hasPermission(config.permissions.read) ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                {hasPermission(config.permissions.read) ? '가능' : '불가'}
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-slate-600 dark:text-muted-foreground">쓰기:</span>
-              <span className={`font-medium ${hasPermission(config.permissions.write) ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                {hasPermission(config.permissions.write) ? '가능' : '불가'}
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-slate-600 dark:text-muted-foreground">댓글:</span>
-              <span className={`font-medium ${hasPermission(config.permissions.comment) ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                {hasPermission(config.permissions.comment) ? '가능' : '불가'}
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-slate-600 dark:text-muted-foreground">삭제:</span>
-              <span className={`font-medium ${hasPermission(config.permissions.delete) ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                {hasPermission(config.permissions.delete) ? '가능' : '불가'}
-              </span>
-            </div>
-          </div>
-          {/* 권한 상세 정보 */}
-          {viewMode === 'detail' && (
-            <div className="mt-2 p-2 bg-slate-50 dark:bg-muted/20 rounded text-xs">
-              <p className="text-slate-600 dark:text-muted-foreground">
-                현재 사용자 권한({currentUserRole})으로 이 게시글에서 할 수 있는 작업:
-              </p>
-              <ul className="mt-1 space-y-0.5">
-                {hasPermission(config.permissions.read) && <li>• 게시글 읽기</li>}
-                {hasPermission(config.permissions.comment) && <li>• 댓글 작성</li>}
-                {hasPermission(config.permissions.write) && <li>• 새 글 작성</li>}
-                {hasPermission(config.permissions.delete) && <li>• 게시글 삭제</li>}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        {/* 작성/수정 모드에서만 기능 설정 표시 */}
-        {(viewMode === 'create' || viewMode === 'edit') && (
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">사용 가능한 기능</Label>
+        {/* 권한 정보 섹션 */}
+        <div className="bg-white dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+          <SectionHeader 
+            icon={HiShieldCheck} 
+            title="권한 정보" 
+            description={`현재 권한: ${currentUserRole}`}
+          />
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="comments"
-                checked={config.features.comments}
-                onCheckedChange={() => handleFeatureToggle('comments')}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="comments" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                댓글 허용
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="likes"
-                checked={config.features.likes}
-                onCheckedChange={() => handleFeatureToggle('likes')}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="likes" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                좋아요
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="attachments"
-                checked={config.features.attachments}
-                onCheckedChange={() => handleFeatureToggle('attachments')}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="attachments" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                파일 첨부
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="images"
-                checked={config.features.images}
-                onCheckedChange={() => handleFeatureToggle('images')}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="images" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                이미지 업로드
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="mentions"
-                checked={config.features.mentions}
-                onCheckedChange={() => handleFeatureToggle('mentions')}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="mentions" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                @멘션
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="privatePost"
-                checked={config.features.privatePost}
-                onCheckedChange={() => handleFeatureToggle('privatePost')}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="privatePost" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                비공개 글
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="anonymousPost"
-                checked={config.features.anonymousPost}
-                onCheckedChange={() => handleFeatureToggle('anonymousPost')}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="anonymousPost" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                익명 작성
-              </Label>
-            </div>
+            {[
+              { label: '읽기', key: 'read' },
+              { label: '쓰기', key: 'write' },
+              { label: '댓글', key: 'comment' },
+              { label: '삭제', key: 'delete' }
+            ].map(({ label, key }) => (
+              <div key={key} className="flex items-center justify-between p-2 bg-slate-50 dark:bg-slate-900/50 rounded">
+                <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{label}</span>
+                <Badge 
+                  variant={hasPermission(config.permissions[key as keyof typeof config.permissions] as string[]) ? "default" : "secondary"}
+                  className="text-xs"
+                >
+                  {hasPermission(config.permissions[key as keyof typeof config.permissions] as string[]) ? '가능' : '불가'}
+                </Badge>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* 기능 설정 섹션 - 작성/수정 모드에서만 */}
+        {(viewMode === 'create' || viewMode === 'edit') && (
+          <div className="bg-white dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+            <SectionHeader 
+              icon={HiSparkles} 
+              title="게시글 기능" 
+              description="활성화할 기능을 선택하세요"
+            />
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { id: 'comments', label: '댓글 허용' },
+                { id: 'likes', label: '좋아요' },
+                { id: 'attachments', label: '파일 첨부' },
+                { id: 'images', label: '이미지 업로드' },
+                { id: 'mentions', label: '@멘션' },
+                { id: 'privatePost', label: '비공개 글' },
+                { id: 'anonymousPost', label: '익명 작성' }
+              ].map(({ id, label }) => (
+                <div key={id} className="flex items-center space-x-2 p-2 hover:bg-slate-50 dark:hover:bg-slate-900/50 rounded transition-colors">
+                  <Checkbox 
+                    id={id}
+                    checked={config.features[id as keyof typeof config.features]}
+                    onCheckedChange={() => handleFeatureToggle(id as keyof BoardConfig['features'])}
+                    className="h-4 w-4"
+                  />
+                  <Label 
+                    htmlFor={id} 
+                    className="cursor-pointer text-sm text-slate-700 dark:text-slate-300 flex-1"
+                  >
+                    {label}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
-        {/* 리스트 뷰에서만 표시 옵션 */}
+        {/* 표시 옵션 섹션 - 리스트 뷰에서만 */}
         {viewMode === 'list' && (
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">표시 옵션</Label>
-          
-          {/* 뷰 타입 선택 */}
-          <div className="space-y-2 mb-3">
-            <Label className="text-xs text-slate-600 dark:text-muted-foreground">뷰 타입</Label>
-            <RadioGroup 
-              value={config.display.viewType} 
-              onValueChange={handleViewTypeChange}
-              className="grid grid-cols-2 gap-3"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="table" id="table" className="h-4 w-4" />
-                <Label 
-                  htmlFor="table" 
-                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-                >
-                  테이블
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem 
-                  value="gallery" 
-                  id="gallery" 
-                  className="h-4 w-4"
-                  disabled={config.type !== 'gallery' && !config.features.images}
-                />
-                <Label 
-                  htmlFor="gallery" 
-                  className={cn(
-                    "cursor-pointer text-sm font-normal",
-                    (config.type !== 'gallery' && !config.features.images)
-                      ? "text-muted-foreground line-through"
-                      : "text-slate-700 dark:text-slate-300"
-                  )}
-                >
-                  갤러리
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="card" id="card" className="h-4 w-4" />
-                <Label 
-                  htmlFor="card" 
-                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-                >
-                  카드
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="list" id="list" className="h-4 w-4" />
-                <Label 
-                  htmlFor="list" 
-                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-                >
-                  리스트
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          {/* 테이블 밀도 설정 (테이블 뷰일 때만) */}
-          {config.display.viewType === 'table' && (
-            <div className="space-y-2 mb-3">
-              <Label className="text-xs text-slate-600 dark:text-muted-foreground">테이블 밀도</Label>
-              <RadioGroup
-                value={config.display.tableDensity || 'normal'}
-                onValueChange={(value) => {
-                  onConfigChange({
-                    ...config,
-                    display: {
-                      ...config.display,
-                      tableDensity: value as 'compact' | 'normal' | 'comfortable'
-                    }
-                  })
-                }}
-                className="flex gap-3"
+          <>
+            {/* 뷰 타입 섹션 */}
+            <div className="bg-white dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+              <SectionHeader 
+                icon={HiEye} 
+                title="뷰 타입" 
+                description="게시글 표시 방식을 선택하세요"
+              />
+              <RadioGroup 
+                value={config.display.viewType} 
+                onValueChange={handleViewTypeChange}
+                className="grid grid-cols-2 gap-3"
               >
-                <div className="flex items-center space-x-1">
-                  <RadioGroupItem value="compact" id="density-compact" className="h-3 w-3" />
-                  <Label htmlFor="density-compact" className="cursor-pointer text-xs">간결</Label>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <RadioGroupItem value="normal" id="density-normal" className="h-3 w-3" />
-                  <Label htmlFor="density-normal" className="cursor-pointer text-xs">보통</Label>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <RadioGroupItem value="comfortable" id="density-comfortable" className="h-3 w-3" />
-                  <Label htmlFor="density-comfortable" className="cursor-pointer text-xs">넓게</Label>
-                </div>
+                {[
+                  { value: 'table', label: '테이블' },
+                  { value: 'card', label: '카드' },
+                  { value: 'list', label: '리스트' },
+                  { value: 'gallery', label: '갤러리', disabled: config.type !== 'gallery' && !config.features.images }
+                ].map(({ value, label, disabled }) => (
+                  <div key={value} className={cn(
+                    "flex items-center space-x-2 p-2 rounded border",
+                    config.display.viewType === value 
+                      ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700" 
+                      : "bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700",
+                    "hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors"
+                  )}>
+                    <RadioGroupItem value={value} id={value} disabled={disabled} className="h-4 w-4" />
+                    <Label 
+                      htmlFor={value} 
+                      className={cn(
+                        "cursor-pointer text-sm",
+                        disabled ? "text-muted-foreground line-through" : "text-slate-700 dark:text-slate-300"
+                      )}
+                    >
+                      {label}
+                    </Label>
+                  </div>
+                ))}
               </RadioGroup>
-            </div>
-          )}
 
-          {/* 썸네일/미리보기 옵션 (카드, 리스트, 갤러리 뷰에서만) */}
-          {(config.display.viewType === 'card' || config.display.viewType === 'list' || config.display.viewType === 'gallery') && (
-            <div className="flex items-center gap-4 mb-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showThumbnail"
-                  checked={config.display.showThumbnail}
-                  disabled={!config.features.images && config.type !== 'gallery'}
-                  onCheckedChange={(checked) => {
-                    onConfigChange({
-                      ...config,
-                      display: {
-                        ...config.display,
-                        showThumbnail: checked as boolean
-                      }
-                    })
-                  }}
-                  className="h-4 w-4 border-slate-400 dark:border-border"
-                />
-                <Label 
-                  htmlFor="showThumbnail" 
-                  className={cn(
-                    "cursor-pointer text-sm font-normal",
-                    (!config.features.images && config.type !== 'gallery')
-                      ? "text-muted-foreground line-through"
-                      : "text-slate-700 dark:text-slate-300"
+              {/* 뷰 타입별 추가 옵션 */}
+              {config.display.viewType === 'table' && (
+                <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700">
+                  <Label className="text-xs text-slate-600 dark:text-slate-400 mb-2 block">테이블 밀도</Label>
+                  <RadioGroup
+                    value={config.display.tableDensity || 'normal'}
+                    onValueChange={(value) => {
+                      onConfigChange({
+                        ...config,
+                        display: {
+                          ...config.display,
+                          tableDensity: value as 'compact' | 'normal' | 'comfortable'
+                        }
+                      })
+                    }}
+                    className="flex gap-3"
+                  >
+                    {['compact', 'normal', 'comfortable'].map((density) => (
+                      <div key={density} className="flex items-center space-x-1">
+                        <RadioGroupItem value={density} id={`density-${density}`} className="h-3 w-3" />
+                        <Label htmlFor={`density-${density}`} className="cursor-pointer text-xs">
+                          {density === 'compact' && '간결'}
+                          {density === 'normal' && '보통'}
+                          {density === 'comfortable' && '넓게'}
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                </div>
+              )}
+
+              {/* 썸네일/미리보기 옵션 */}
+              {(config.display.viewType === 'card' || config.display.viewType === 'list' || config.display.viewType === 'gallery') && (
+                <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="showThumbnail"
+                      checked={config.display.showThumbnail}
+                      disabled={!config.features.images && config.type !== 'gallery'}
+                      onCheckedChange={(checked) => {
+                        onConfigChange({
+                          ...config,
+                          display: {
+                            ...config.display,
+                            showThumbnail: checked as boolean
+                          }
+                        })
+                      }}
+                      className="h-4 w-4"
+                    />
+                    <Label 
+                      htmlFor="showThumbnail" 
+                      className={cn(
+                        "cursor-pointer text-sm",
+                        (!config.features.images && config.type !== 'gallery')
+                          ? "text-muted-foreground line-through"
+                          : "text-slate-700 dark:text-slate-300"
+                      )}
+                    >
+                      썸네일 표시
+                    </Label>
+                  </div>
+                  {config.display.viewType !== 'gallery' && (
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="showExcerpt"
+                        checked={config.display.showExcerpt}
+                        onCheckedChange={(checked) => {
+                          onConfigChange({
+                            ...config,
+                            display: {
+                              ...config.display,
+                              showExcerpt: checked as boolean
+                            }
+                          })
+                        }}
+                        className="h-4 w-4"
+                      />
+                      <Label 
+                        htmlFor="showExcerpt" 
+                        className="cursor-pointer text-sm text-slate-700 dark:text-slate-300"
+                      >
+                        미리보기 표시
+                      </Label>
+                    </div>
                   )}
-                >
-                  썸네일 표시
-                </Label>
-              </div>
-              {config.display.viewType !== 'gallery' && (
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="showExcerpt"
-                    checked={config.display.showExcerpt}
+                </div>
+              )}
+            </div>
+
+            {/* 페이지네이션 섹션 */}
+            <div className="bg-white dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+              <SectionHeader 
+                icon={HiSquares2X2} 
+                title="페이지네이션" 
+                description="게시글 로딩 방식을 설정하세요"
+              />
+              
+              {/* 페이지네이션 타입 스위치 */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg mb-3">
+                <Label className="text-sm font-medium text-slate-700 dark:text-slate-300">로딩 방식</Label>
+                <div className="flex items-center gap-2">
+                  <span className={cn(
+                    "text-xs transition-colors",
+                    config.display.paginationType === 'pagination' 
+                      ? "text-slate-700 dark:text-slate-300 font-medium" 
+                      : "text-slate-400 dark:text-slate-600"
+                  )}>
+                    페이지
+                  </span>
+                  <Switch
+                    checked={config.display.paginationType === 'infinite-scroll'}
                     onCheckedChange={(checked) => {
                       onConfigChange({
                         ...config,
                         display: {
                           ...config.display,
-                          showExcerpt: checked as boolean
+                          paginationType: checked ? 'infinite-scroll' : 'pagination'
                         }
                       })
                     }}
-                    className="h-4 w-4 border-slate-400 dark:border-border"
                   />
-                  <Label 
-                    htmlFor="showExcerpt" 
-                    className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+                  <span className={cn(
+                    "text-xs transition-colors",
+                    config.display.paginationType === 'infinite-scroll' 
+                      ? "text-slate-700 dark:text-slate-300 font-medium" 
+                      : "text-slate-400 dark:text-slate-600"
+                  )}>
+                    무한스크롤
+                  </span>
+                </div>
+              </div>
+
+              {/* 무한스크롤 딜레이 설정 */}
+              {config.display.paginationType === 'infinite-scroll' && (
+                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800 mb-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <HiClock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    <Label className="text-xs font-medium text-amber-700 dark:text-amber-300">
+                      로드 딜레이 (개발용)
+                    </Label>
+                  </div>
+                  <Select 
+                    value={(config.display.infiniteScrollDelay || 500).toString()} 
+                    onValueChange={(value) => {
+                      onConfigChange({
+                        ...config,
+                        display: {
+                          ...config.display,
+                          infiniteScrollDelay: parseInt(value)
+                        }
+                      })
+                    }}
                   >
-                    미리보기 표시
-                  </Label>
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0">즉시 로드</SelectItem>
+                      <SelectItem value="200">200ms</SelectItem>
+                      <SelectItem value="500">500ms (기본)</SelectItem>
+                      <SelectItem value="1000">1초</SelectItem>
+                      <SelectItem value="1500">1.5초</SelectItem>
+                      <SelectItem value="2000">2초</SelectItem>
+                      <SelectItem value="3000">3초</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
+                    서버 응답 시뮬레이션용 딜레이
+                  </p>
                 </div>
               )}
-            </div>
-          )}
 
-          {/* 페이지네이션 타입 선택 */}
-          <div className="space-y-2 mb-3">
-            <div className="flex items-center justify-between">
-              <Label className="text-xs text-slate-600 dark:text-muted-foreground">페이지네이션 방식</Label>
-              <div className="flex items-center gap-2">
-                <span className="text-xs">페이지네이션</span>
-                <Switch
-                  checked={config.display.paginationType === 'infinite-scroll'}
-                  onCheckedChange={(checked) => {
-                    onConfigChange({
-                      ...config,
-                      display: {
-                        ...config.display,
-                        paginationType: checked ? 'infinite-scroll' : 'pagination'
-                      }
-                    })
-                  }}
-                />
-                <span className="text-xs">무한스크롤</span>
+              {/* 페이지당 아이템 수 & 정렬 */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label className="text-xs text-slate-600 dark:text-slate-400">페이지당 게시글</Label>
+                  <Select value={config.display.itemsPerPage.toString()} onValueChange={handlePageSizeChange}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[10, 12, 15, 20, 24, 30, 50].map(size => (
+                        <SelectItem key={size} value={size.toString()}>{size}개</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs text-slate-600 dark:text-slate-400">정렬 기준</Label>
+                  <Select value={config.display.sortBy} onValueChange={handleSortByChange}>
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="latest">최신순</SelectItem>
+                      <SelectItem value="oldest">오래된순</SelectItem>
+                      <SelectItem value="popular">인기순</SelectItem>
+                      <SelectItem value="comments">댓글순</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
-            
-            {/* 무한스크롤 딜레이 설정 (무한스크롤일 때만 표시) */}
-            {config.display.paginationType === 'infinite-scroll' && (
-              <div className="space-y-1 mt-2">
-                <Label className="text-xs text-slate-600 dark:text-muted-foreground">로드 딜레이 (밀리초)</Label>
-                <Select 
-                  value={(config.display.infiniteScrollDelay || 500).toString()} 
-                  onValueChange={(value) => {
-                    onConfigChange({
-                      ...config,
-                      display: {
-                        ...config.display,
-                        infiniteScrollDelay: parseInt(value)
-                      }
-                    })
-                  }}
-                >
-                  <SelectTrigger className="h-8 text-xs">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="0">딜레이 없음</SelectItem>
-                    <SelectItem value="200">200ms</SelectItem>
-                    <SelectItem value="500">500ms (기본)</SelectItem>
-                    <SelectItem value="1000">1초</SelectItem>
-                    <SelectItem value="1500">1.5초</SelectItem>
-                    <SelectItem value="2000">2초</SelectItem>
-                    <SelectItem value="3000">3초</SelectItem>
-                  </SelectContent>
-                </Select>
-                <p className="text-xs text-slate-500 dark:text-muted-foreground">
-                  데이터 로드 시뮬레이션을 위한 딜레이 설정
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* 페이지당 게시글 수 및 정렬 */}
-          <div className="grid grid-cols-2 gap-2 mb-3">
-            <div className="space-y-1">
-              <Label className="text-xs text-slate-600 dark:text-muted-foreground">페이지당 게시글</Label>
-              <Select value={config.display.itemsPerPage.toString()} onValueChange={handlePageSizeChange}>
-                <SelectTrigger className="h-8 text-xs">
-                  <SelectValue placeholder="선택" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10">10개</SelectItem>
-                  <SelectItem value="12">12개</SelectItem>
-                  <SelectItem value="15">15개</SelectItem>
-                  <SelectItem value="20">20개</SelectItem>
-                  <SelectItem value="24">24개</SelectItem>
-                  <SelectItem value="30">30개</SelectItem>
-                  <SelectItem value="50">50개</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1">
-              <Label className="text-xs text-slate-600 dark:text-muted-foreground">정렬 기준</Label>
-              <Select value={config.display.sortBy} onValueChange={handleSortByChange}>
-                <SelectTrigger className="h-8 text-xs">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="latest">최신순</SelectItem>
-                  <SelectItem value="oldest">오래된순</SelectItem>
-                  <SelectItem value="popular">인기순</SelectItem>
-                  <SelectItem value="comments">댓글많은순</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
+          </>
         )}
 
-        {/* 상세 뷰에서만 표시되는 옵션 */}
+        {/* 상세보기 옵션 - 상세 뷰에서만 */}
         {viewMode === 'detail' && (
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">상세보기 옵션</Label>
+          <div className="bg-white dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+            <SectionHeader 
+              icon={HiEye} 
+              title="상세보기 옵션" 
+              description="표시할 정보를 선택하세요"
+            />
             <div className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showAuthorInfo"
-                  defaultChecked
-                  className="h-4 w-4 border-slate-400 dark:border-border"
-                />
-                <Label 
-                  htmlFor="showAuthorInfo" 
-                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-                >
-                  작성자 정보 표시
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showRelatedPosts"
-                  defaultChecked
-                  className="h-4 w-4 border-slate-400 dark:border-border"
-                />
-                <Label 
-                  htmlFor="showRelatedPosts" 
-                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-                >
-                  관련 글 표시
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showTags"
-                  defaultChecked
-                  className="h-4 w-4 border-slate-400 dark:border-border"
-                />
-                <Label 
-                  htmlFor="showTags" 
-                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-                >
-                  태그 표시
-                </Label>
-              </div>
+              {[
+                { id: 'showAuthorInfo', label: '작성자 정보' },
+                { id: 'showRelatedPosts', label: '관련 게시글' },
+                { id: 'showTags', label: '태그' }
+              ].map(({ id, label }) => (
+                <div key={id} className="flex items-center space-x-2 p-2 hover:bg-slate-50 dark:hover:bg-slate-900/50 rounded transition-colors">
+                  <Checkbox 
+                    id={id}
+                    defaultChecked
+                    className="h-4 w-4"
+                  />
+                  <Label 
+                    htmlFor={id} 
+                    className="cursor-pointer text-sm text-slate-700 dark:text-slate-300"
+                  >
+                    {label}
+                  </Label>
+                </div>
+              ))}
             </div>
           </div>
         )}
       </div>
 
-      <p className="text-xs text-slate-500 dark:text-muted-foreground mt-3 pl-0.5">
-        {viewMode === 'list' && '게시판 타입과 기능을 실시간으로 변경하고 테스트할 수 있습니다.'}
-        {viewMode === 'detail' && '상세보기 화면의 표시 옵션을 설정할 수 있습니다.'}
-        {viewMode === 'create' && '새 게시글 작성 시 사용할 수 있는 기능을 설정합니다.'}
-        {viewMode === 'edit' && '게시글 수정 시 사용할 수 있는 기능을 설정합니다.'}
-      </p>
+      {/* 푸터 */}
+      <div className="px-5 py-3 border-t border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 rounded-b-xl">
+        <p className="text-xs text-slate-500 dark:text-muted-foreground">
+          {viewMode === 'list' && '💡 실시간으로 게시판 설정을 변경하고 테스트할 수 있습니다'}
+          {viewMode === 'detail' && '💡 상세보기 화면의 표시 옵션을 설정합니다'}
+          {viewMode === 'create' && '💡 새 게시글 작성 시 사용 가능한 기능들입니다'}
+          {viewMode === 'edit' && '💡 게시글 수정 시 사용 가능한 기능들입니다'}
+        </p>
+      </div>
     </div>
   )
 })
+
 BoardControlPanel.displayName = 'BoardControlPanel'

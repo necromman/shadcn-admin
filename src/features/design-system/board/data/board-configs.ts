@@ -27,12 +27,12 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'table',
-      itemsPerPage: 20,
+      itemsPerPage: 10,
       sortBy: 'latest' as const,
       showThumbnail: false,
       showExcerpt: true,
       excerptLength: 100,
-      paginationType: 'pagination',
+      paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
       tableDensity: 'normal'
     }
@@ -62,12 +62,12 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'card',
-      itemsPerPage: 12,
+      itemsPerPage: 10,
       sortBy: 'latest' as const,
       showThumbnail: true,
       showExcerpt: true,
       excerptLength: 150,
-      paginationType: 'pagination',
+      paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
       tableDensity: 'normal'
     }
@@ -97,12 +97,12 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'list',
-      itemsPerPage: 15,
+      itemsPerPage: 10,
       sortBy: 'latest' as const,
       showThumbnail: false,
       showExcerpt: true,
       excerptLength: 200,
-      paginationType: 'pagination',
+      paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
       tableDensity: 'normal'
     }
@@ -132,12 +132,12 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'gallery',
-      itemsPerPage: 24,
+      itemsPerPage: 10,
       sortBy: 'popular' as const,
       showThumbnail: true,
       showExcerpt: false,
       excerptLength: 0,
-      paginationType: 'pagination',
+      paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
       tableDensity: 'normal'
     }
@@ -167,12 +167,12 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'table',
-      itemsPerPage: 20,
+      itemsPerPage: 10,
       sortBy: 'latest' as const,
       showThumbnail: false,
       showExcerpt: true,
       excerptLength: 120,
-      paginationType: 'pagination',
+      paginationType: 'infinite-scroll',
       infiniteScrollThreshold: 200,
       tableDensity: 'normal'
     }

@@ -7,6 +7,7 @@ import { BoardGalleryView } from './views/board-gallery-view'
 import { BoardListView } from './views/board-list-view'
 import { BoardPagination } from './board-pagination'
 import { Loader2 } from 'lucide-react'
+import { useInfiniteScroll } from '../hooks/use-infinite-scroll'
 
 interface BoardRendererProps {
   posts: Post[]
@@ -20,6 +21,45 @@ interface BoardRendererProps {
   hasMore?: boolean
   isLoadingMore?: boolean
   isLoading?: boolean
+}
+
+// 무한스크롤 로더 컴포넌트
+function InfiniteScrollLoader({ 
+  hasMore, 
+  isLoadingMore, 
+  onLoadMore, 
+  posts 
+}: { 
+  hasMore?: boolean
+  isLoadingMore?: boolean
+  onLoadMore?: () => void
+  posts: Post[]
+}) {
+  const { setLoadingElement } = useInfiniteScroll({
+    hasMore: !!hasMore,
+    loading: !!isLoadingMore,
+    onLoadMore: onLoadMore || (() => {}),
+    enabled: true,
+    threshold: 200
+  })
+
+  return (
+    <div className="flex justify-center py-4">
+      {isLoadingMore && (
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      )}
+      {!isLoadingMore && hasMore && (
+        <div ref={setLoadingElement} className="h-10 flex items-center">
+          <span className="text-sm text-muted-foreground">스크롤하여 더 보기</span>
+        </div>
+      )}
+      {!hasMore && posts.length > 0 && (
+        <p className="text-sm text-muted-foreground">
+          모든 게시글을 불러왔습니다
+        </p>
+      )}
+    </div>
+  )
 }
 
 /**
@@ -40,16 +80,10 @@ export function BoardRenderer({
   isLoading = false
 }: BoardRendererProps) {
   // 현재 페이지에 표시할 게시글
+  // ds-board.tsx에서 이미 적절한 데이터를 전달하므로 그대로 사용
   const displayPosts = useMemo(() => {
-    if (config.display.paginationType === 'infinite-scroll') {
-      return posts // 무한스크롤은 전체 누적 posts 표시
-    }
-    
-    // 일반 페이지네이션은 현재 페이지 게시글만
-    const startIndex = (currentPage - 1) * config.display.itemsPerPage
-    const endIndex = startIndex + config.display.itemsPerPage
-    return posts.slice(startIndex, endIndex)
-  }, [posts, currentPage, config.display.itemsPerPage, config.display.paginationType])
+    return posts
+  }, [posts])
 
   // 뷰 컴포넌트 선택
   const ViewComponent = useMemo(() => {
@@ -107,24 +141,12 @@ export function BoardRenderer({
           onPageChange={onPageChange}
         />
       ) : (
-        <div className="flex justify-center py-4">
-          {isLoadingMore && (
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-          )}
-          {!isLoadingMore && hasMore && onLoadMore && (
-            <button
-              onClick={onLoadMore}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              더 보기
-            </button>
-          )}
-          {!hasMore && posts.length > 0 && (
-            <p className="text-sm text-muted-foreground">
-              모든 게시글을 불러왔습니다
-            </p>
-          )}
-        </div>
+        <InfiniteScrollLoader
+          hasMore={hasMore}
+          isLoadingMore={isLoadingMore}
+          onLoadMore={onLoadMore}
+          posts={posts}
+        />
       )}
     </div>
   )

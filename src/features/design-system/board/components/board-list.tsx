@@ -79,7 +79,7 @@ const Pagination = React.memo(({
     } else {
       // 현재 페이지를 중심으로 페이지 번호 표시
       let start = Math.max(1, currentPage - 2)
-      let end = Math.min(totalPages, start + maxPages - 1)
+      const end = Math.min(totalPages, start + maxPages - 1)
       
       if (end - start < maxPages - 1) {
         start = Math.max(1, end - maxPages + 1)
@@ -190,7 +190,7 @@ const Pagination = React.memo(({
 Pagination.displayName = 'Pagination'
 
 // 메모이제이션된 통계 뱃지 컴포넌트
-const StatsBadge = React.memo(({ icon: Icon, count }: { icon: any; count: number }) => (
+const StatsBadge = React.memo(({ icon: Icon, count }: { icon: React.ComponentType<{ className?: string }>; count: number }) => (
   <span className="flex items-center gap-1 text-xs text-muted-foreground">
     <Icon className="h-3 w-3" />
     {count.toLocaleString()}
@@ -204,6 +204,7 @@ export const BoardList = ({
   onPostClick,
   currentPage = 1,
   totalPages = 1,
+  totalPosts = 0,
   onPageChange,
   onLoadMore,
   hasMore = false,
@@ -258,23 +259,24 @@ export const BoardList = ({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={onPageChange}
-            totalItems={posts.length * totalPages}
+            totalItems={totalPosts || posts.length * totalPages}
             itemsPerPage={config.display.itemsPerPage}
           />
         )}
         
         {/* 무한스크롤 */}
         {displayPaginationType === 'infinite-scroll' && (
-          <div ref={setLoadingElement} className="flex justify-center p-4">
-            {isLoadingMore && (
+          <div ref={setLoadingElement} className="flex justify-center p-4 min-h-[60px]">
+            {isLoadingMore ? (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                더 불러오는 중...
+                더 불러오는 중... (2초 대기)
               </div>
-            )}
-            {!hasMore && posts.length > 0 && (
+            ) : hasMore ? (
+              <span className="text-sm text-muted-foreground">스크롤하여 더 보기</span>
+            ) : posts.length > 0 ? (
               <span className="text-sm text-muted-foreground">모든 공지사항을 불러왔습니다</span>
-            )}
+            ) : null}
           </div>
         )}
       </div>
@@ -303,23 +305,24 @@ export const BoardList = ({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={onPageChange}
-            totalItems={posts.length * totalPages}
+            totalItems={totalPosts || posts.length * totalPages}
             itemsPerPage={config.display.itemsPerPage}
           />
         )}
         
         {/* 무한스크롤 */}
         {displayPaginationType === 'infinite-scroll' && (
-          <div ref={setLoadingElement} className="flex justify-center p-4">
-            {isLoadingMore && (
+          <div ref={setLoadingElement} className="flex justify-center p-4 min-h-[60px]">
+            {isLoadingMore ? (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                더 불러오는 중...
+                더 불러오는 중... (2초 대기)
               </div>
-            )}
-            {!hasMore && posts.length > 0 && (
+            ) : hasMore ? (
+              <span className="text-sm text-muted-foreground">스크롤하여 더 보기</span>
+            ) : posts.length > 0 ? (
               <span className="text-sm text-muted-foreground">모든 게시글을 불러왔습니다</span>
-            )}
+            ) : null}
           </div>
         )}
       </div>
@@ -348,22 +351,23 @@ export const BoardList = ({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={onPageChange}
-            totalItems={posts.length * totalPages}
+            totalItems={totalPosts || posts.length * totalPages}
             itemsPerPage={config.display.itemsPerPage}
           />
         )}
         
         {displayPaginationType === 'infinite-scroll' && (
-          <div ref={setLoadingElement} className="flex justify-center p-4">
-            {isLoadingMore && (
+          <div ref={setLoadingElement} className="flex justify-center p-4 min-h-[60px]">
+            {isLoadingMore ? (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                더 불러오는 중...
+                더 불러오는 중... (2초 대기)
               </div>
-            )}
-            {!hasMore && posts.length > 0 && (
+            ) : hasMore ? (
+              <span className="text-sm text-muted-foreground">스크롤하여 더 보기</span>
+            ) : posts.length > 0 ? (
               <span className="text-sm text-muted-foreground">모든 작품을 불러왔습니다</span>
-            )}
+            ) : null}
           </div>
         )}
       </div>
@@ -439,7 +443,7 @@ export const BoardList = ({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={onPageChange}
-            totalItems={posts.length * totalPages}
+            totalItems={totalPosts || posts.length * totalPages}
             itemsPerPage={config.display.itemsPerPage}
           />
         )}
@@ -541,7 +545,7 @@ export const BoardList = ({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={onPageChange}
-            totalItems={posts.length * totalPages}
+            totalItems={totalPosts || posts.length * totalPages}
             itemsPerPage={config.display.itemsPerPage}
           />
         )}
@@ -626,7 +630,7 @@ export const BoardList = ({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={onPageChange}
-            totalItems={posts.length * totalPages}
+            totalItems={totalPosts || posts.length * totalPages}
             itemsPerPage={config.display.itemsPerPage}
           />
         )}

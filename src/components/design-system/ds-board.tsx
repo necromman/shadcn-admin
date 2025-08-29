@@ -11,7 +11,6 @@ import { BoardSearch } from '@/features/design-system/board/components/board-sea
 import { BoardFilters, type FilterOptions } from '@/features/design-system/board/components/board-filters'
 import { boardConfigs, getBoardConfigByBoardType } from '@/features/design-system/board/data/board-configs'
 import { mockPosts } from '@/features/design-system/board/data/board-mock'
-import { useInfiniteScroll } from '@/features/design-system/board/hooks/use-infinite-scroll'
 import { AuthProvider } from '@/features/design-system/board/contexts/auth-context'
 import type { BoardState, BoardAction, Post, BoardConfig, UserRole } from '@/features/design-system/board/types/board.types'
 import { HiPlus, HiArrowLeft } from 'react-icons/hi2'
@@ -26,6 +25,8 @@ const getInitialState = (boardType?: string): BoardState => {
   return {
     config,
     posts: [],
+    allPosts: [], // 전체 데이터 저장용
+    displayedPosts: [], // 현재 표시되는 데이터 (무한스크롤용)
     selectedPost: null,
     comments: [],
     filters: {
@@ -39,9 +40,10 @@ const getInitialState = (boardType?: string): BoardState => {
       currentPage: 1,
       totalPages: 1,
       totalPosts: 0,
-      pageSize: config.display.itemsPerPage, // config에서 가져오도록 수정
+      pageSize: config.display.itemsPerPage,
       hasMore: false,
       isLoadingMore: false,
+      loadedPages: 1, // 무한스크롤용: 로드된 페이지 수
     },
   ui: {
     isLoading: false,
@@ -68,25 +70,54 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
           currentPage: 1, // 설정 변경 시 첫 페이지로
         }
       }
-    case 'SET_POSTS':
+    case 'SET_POSTS': {
+      const totalPosts = action.payload.length
+      const pageSize = state.pagination.pageSize
+      const totalPages = Math.ceil(totalPosts / pageSize)
+      const isInfiniteScroll = state.config.display.paginationType === 'infinite-scroll'
+      
+      // 무한스크롤일 때는 첫 페이지만, 페이지네이션일 때는 전체 데이터 저장
+      let displayedPosts = action.payload
+      if (isInfiniteScroll) {
+        // 무한스크롤: 첫 페이지 데이터만 표시
+        displayedPosts = action.payload.slice(0, pageSize)
+      }
+      
       return {
         ...state,
-        posts: action.payload,
+        posts: action.payload,  // 전체 데이터 저장
+        allPosts: action.payload,  // 원본 데이터 저장
+        displayedPosts: isInfiniteScroll ? displayedPosts : action.payload, // 페이지네이션일 때는 전체 데이터
         pagination: {
           ...state.pagination,
-          totalPosts: action.payload.length,
-          totalPages: Math.ceil(action.payload.length / state.pagination.pageSize),
+          totalPosts,
+          totalPages,
+          hasMore: isInfiniteScroll && totalPosts > pageSize,
+          loadedPages: 1,
+          currentPage: state.pagination.currentPage || 1, // 현재 페이지 유지
         }
       }
-    case 'APPEND_POSTS':
+    }
+    case 'APPEND_POSTS': {
+      // 무한스크롤용: 다음 페이지 데이터 추가
+      const nextPageStart = state.pagination.loadedPages * state.pagination.pageSize
+      const nextPageEnd = Math.min(
+        nextPageStart + state.pagination.pageSize,
+        state.allPosts.length
+      )
+      const nextPagePosts = state.allPosts.slice(nextPageStart, nextPageEnd)
+      
       return {
         ...state,
-        posts: [...state.posts, ...action.payload],
+        displayedPosts: [...state.displayedPosts, ...nextPagePosts],
         pagination: {
           ...state.pagination,
-          hasMore: action.payload.length === state.pagination.pageSize,
+          loadedPages: state.pagination.loadedPages + 1,
+          hasMore: nextPageEnd < state.allPosts.length,
+          isLoadingMore: false,
         }
       }
+    }
     case 'ADD_POST':
       return {
         ...state,
@@ -195,48 +226,33 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
   const [currentUserRole] = React.useState<UserRole>('user')
   const canWrite = currentUserRole !== 'guest' && state.config.permissions.write.includes(currentUserRole)
 
-  // boardType prop 변경 시 config 업데이트
-  useEffect(() => {
-    if (boardType) {
-      const newConfig = getBoardConfigByBoardType(boardType)
-      if (newConfig && newConfig.type !== state.config.type) {
-        dispatch({ type: 'SET_CONFIG', payload: newConfig })
-        // 페이지네이션도 새 config의 itemsPerPage로 업데이트
-        dispatch({ type: 'SET_PAGINATION', payload: { 
-          pageSize: newConfig.display.itemsPerPage,
-          currentPage: 1 
-        }})
-      }
-    }
-  }, [boardType, state.config.type])
-
-  // 게시판 타입 변경 시 데이터 로드
-  useEffect(() => {
-    loadBoardData(state.config.type)
-  }, [state.config.type])
-
-  // 필터 변경 시 데이터 재로드
-  useEffect(() => {
-    filterAndSortPosts()
-  }, [state.filters, state.config.display.sortBy])
-
   // 데이터 로드 함수
   const loadBoardData = useCallback(async (boardType: string) => {
     dispatch({ type: 'SET_LOADING', payload: true })
     
+    // boardType을 boardId로 변환
+    const typeToIdMapping: Record<string, string> = {
+      'notice': 'board_notice',
+      'general': 'board_general',
+      'free': 'board_general',  // 호환성
+      'faq': 'board_faq',
+      'gallery': 'board_gallery',
+      'qna': 'board_qna'
+    }
+    
+    const boardId = typeToIdMapping[boardType] || `board_${boardType}`
+    
     // 시뮬레이션: 서버에서 데이터 로드
     setTimeout(() => {
-      const filteredPosts = mockPosts.filter(post => post.boardId === boardType)
-      const posts = filteredPosts.length > 0 ? filteredPosts : mockPosts.slice(0, 20)
-      
-      dispatch({ type: 'SET_POSTS', payload: posts })
+      const filteredPosts = mockPosts.filter(post => post.boardId === boardId)
+      dispatch({ type: 'SET_POSTS', payload: filteredPosts })
       dispatch({ type: 'SET_LOADING', payload: false })
     }, 500)
   }, [])
 
-  // 필터링 및 정렬
-  const filterAndSortPosts = useCallback(() => {
-    let filtered = [...mockPosts]
+  // 필터링 및 정렬 - useCallback 제거하여 무한 루프 방지
+  const filterAndSortPosts = () => {
+    let filtered = state.allPosts.length > 0 ? [...state.allPosts] : [...mockPosts]
     
     // 검색 필터
     if (state.filters.searchQuery) {
@@ -274,7 +290,36 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
     })
     
     dispatch({ type: 'SET_POSTS', payload: filtered })
-  }, [state.filters, state.config.display.sortBy])
+  }
+
+  // boardType prop 변경 시 config 업데이트
+  useEffect(() => {
+    if (boardType) {
+      const newConfig = getBoardConfigByBoardType(boardType)
+      if (newConfig && newConfig.type !== state.config.type) {
+        dispatch({ type: 'SET_CONFIG', payload: newConfig })
+        // 페이지네이션도 새 config의 itemsPerPage로 업데이트
+        dispatch({ type: 'SET_PAGINATION', payload: { 
+          pageSize: newConfig.display.itemsPerPage,
+          currentPage: 1 
+        }})
+      }
+    }
+  }, [boardType, state.config.type])
+
+  // 게시판 타입 변경 시 데이터 로드
+  useEffect(() => {
+    loadBoardData(state.config.type)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.config.type]) // loadBoardData는 의존성에서 제외
+
+  // 필터 변경 시 데이터 재로드
+  useEffect(() => {
+    if (state.allPosts.length > 0) {
+      filterAndSortPosts()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.filters, state.config.display.sortBy]) // filterAndSortPosts는 의존성에서 제외
 
   // 설정 변경 핸들러
   const handleConfigChange = useCallback((updates: Partial<BoardConfig>) => {
@@ -294,16 +339,35 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
       
       // 페이지네이션 타입 변경 시
       if (updates.display.paginationType) {
-        dispatch({ type: 'SET_PAGINATION', payload: { 
-          currentPage: 1,
-          hasMore: updates.display.paginationType === 'infinite-scroll'
-        }})
+        const isInfiniteScroll = updates.display.paginationType === 'infinite-scroll'
+        const pageSize = updates.display.itemsPerPage || state.pagination.pageSize
+        const allPosts = state.allPosts.length > 0 ? state.allPosts : state.posts
+        
+        if (isInfiniteScroll) {
+          // 무한스크롤로 변경 시 첫 페이지만 표시
+          dispatch({ type: 'SET_PAGINATION', payload: { 
+            currentPage: 1,
+            hasMore: allPosts.length > pageSize,
+            loadedPages: 1,
+            isLoadingMore: false
+          }})
+          dispatch({ type: 'SET_UI_STATE', payload: { 
+            isLoading: false 
+          }})
+          // displayedPosts를 첫 페이지만 표시하도록 설정
+          dispatch({ type: 'SET_POSTS', payload: allPosts })
+        } else {
+          // 일반 페이지네이션으로 변경 시
+          dispatch({ type: 'SET_PAGINATION', payload: { 
+            currentPage: 1,
+            hasMore: false,
+            loadedPages: 1,
+            isLoadingMore: false
+          }})
+        }
       }
       
-      // 정렬 변경 시 데이터 재정렬
-      if (updates.display.sortBy) {
-        filterAndSortPosts()
-      }
+      // 정렬 변경 시 데이터 재정렬은 useEffect에서 자동으로 처리됨
     }
     
     // 게시판 타입 변경 시
@@ -316,7 +380,7 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
     }
     
     dispatch({ type: 'SET_CONFIG', payload: newConfig })
-  }, [state.config, filterAndSortPosts])
+  }, [state.config, state.allPosts, state.posts, state.pagination.pageSize])
 
   // 페이지 변경 핸들러
   const handlePageChange = useCallback((page: number) => {
@@ -324,31 +388,20 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
     containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
 
-  // 무한스크롤 로드 더 보기
+  // 무한스크려 로드 더 보기
   const handleLoadMore = useCallback(() => {
-    if (state.pagination.isLoadingMore || !state.pagination.hasMore) return
+    if (state.pagination.isLoadingMore || !state.pagination.hasMore) {
+      return
+    }
     
     dispatch({ type: 'SET_LOADING_MORE', payload: true })
     
-    // 시뮬레이션: 추가 데이터 로드
+    // 다음 페이지 데이터 로드 시뮬레이션 (2초 딜레이)
     setTimeout(() => {
-      const nextPosts = mockPosts.slice(
-        state.posts.length, 
-        state.posts.length + state.config.display.itemsPerPage
-      )
-      dispatch({ type: 'APPEND_POSTS', payload: nextPosts })
-      dispatch({ type: 'SET_LOADING_MORE', payload: false })
-    }, 1000)
-  }, [state.posts.length, state.config.display.itemsPerPage, state.pagination])
+      dispatch({ type: 'APPEND_POSTS', payload: [] })
+    }, 2000)
+  }, [state.pagination.isLoadingMore, state.pagination.hasMore, state.pagination.loadedPages, state.pagination.totalPosts])
 
-  // 무한스크롤 훅 사용
-  const { setLoadingElement } = useInfiniteScroll({
-    hasMore: state.pagination.hasMore,
-    loading: state.pagination.isLoadingMore,
-    onLoadMore: handleLoadMore,
-    enabled: state.config.display.paginationType === 'infinite-scroll',
-    threshold: state.config.display.infiniteScrollThreshold || 100,
-  })
 
   // 게시글 클릭 핸들러
   const handlePostClick = useCallback((post: Post) => {
@@ -414,7 +467,7 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
               <BoardSearch
                 onSearch={(query) => {
                   dispatch({ type: 'SET_FILTER', payload: { searchQuery: query }})
-                  filterAndSortPosts()
+                  // filterAndSortPosts는 useEffect에서 자동으로 호출됨
                 }}
               />
               <BoardFilters
@@ -443,7 +496,18 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
 
             {/* 게시판 리스트 */}
             <BoardRenderer
-              posts={state.posts}
+              posts={(() => {
+                const isInfiniteScroll = state.config.display.paginationType === 'infinite-scroll'
+                if (isInfiniteScroll) {
+                  // 무한스크롤: displayedPosts 사용
+                  return state.displayedPosts
+                } else {
+                  // 페이지네이션: 현재 페이지의 데이터만 표시
+                  const start = (state.pagination.currentPage - 1) * state.pagination.pageSize
+                  const end = start + state.pagination.pageSize
+                  return state.posts.slice(start, end)
+                }
+              })()}
               config={state.config}
               onPostClick={handlePostClick}
               currentPage={state.pagination.currentPage}
@@ -456,10 +520,6 @@ export function DSBoard({ boardType }: DSBoardProps = {}) {
               isLoading={state.ui.isLoading}
             />
 
-            {/* 무한스크롤 타겟 */}
-            {state.config.display.paginationType === 'infinite-scroll' && (
-              <div ref={setLoadingElement} className="h-10" />
-            )}
           </>
         )
     }

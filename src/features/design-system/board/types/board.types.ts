@@ -123,6 +123,8 @@ export interface Comment {
 export interface BoardState {
   config: BoardConfig
   posts: Post[]
+  allPosts: Post[]  // 전체 데이터 저장용
+  displayedPosts: Post[]  // 무한스크롤시 현재 표시되는 데이터
   selectedPost: Post | null
   comments: Comment[]
   filters: {
@@ -139,6 +141,7 @@ export interface BoardState {
     pageSize: number
     hasMore: boolean  // 무한스크롤용
     isLoadingMore: boolean  // 추가 로딩 중
+    loadedPages: number  // 무한스크롤용: 로드된 페이지 수
   }
   ui: {
     isLoading: boolean

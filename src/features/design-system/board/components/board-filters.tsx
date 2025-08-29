@@ -67,7 +67,7 @@ export function BoardFilters({
   const [isOpen, setIsOpen] = useState(false)
   const [tempFilters, setTempFilters] = useState<FilterOptions>(filters)
 
-  const handleFilterChange = (key: keyof FilterOptions, value: any) => {
+  const handleFilterChange = (key: keyof FilterOptions, value: FilterOptions[keyof FilterOptions]) => {
     const newFilters = { ...tempFilters, [key]: value }
     setTempFilters(newFilters)
   }
@@ -116,7 +116,7 @@ export function BoardFilters({
               <Label className="text-sm font-medium mb-2">정렬 기준</Label>
               <Select
                 value={tempFilters.sortBy}
-                onValueChange={(value) => handleFilterChange('sortBy', value)}
+                onValueChange={(value) => handleFilterChange('sortBy', value as 'latest' | 'oldest' | 'popular' | 'views' | 'likes' | 'comments')}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -136,7 +136,7 @@ export function BoardFilters({
               <Label className="text-sm font-medium mb-2">보기 방식</Label>
               <RadioGroup
                 value={tempFilters.viewType}
-                onValueChange={(value) => handleFilterChange('viewType', value)}
+                onValueChange={(value) => handleFilterChange('viewType', value as 'table' | 'card' | 'gallery' | 'list')}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="table" id="table" />
@@ -244,7 +244,7 @@ export function BoardFilters({
                   <div key={status} className="flex items-center space-x-2">
                     <Checkbox
                       id={`status-${status}`}
-                      checked={tempFilters.status?.includes(status as any) ?? false}
+                      checked={tempFilters.status?.includes(status as 'published' | 'draft' | 'archived') ?? false}
                       onCheckedChange={(checked) => {
                         const current = tempFilters.status || []
                         const newStatus = checked

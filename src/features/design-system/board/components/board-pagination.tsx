@@ -36,7 +36,7 @@ export function BoardPagination({
     } else {
       // 현재 페이지를 중심으로 페이지 번호 표시
       let start = Math.max(1, currentPage - 2)
-      let end = Math.min(totalPages, start + maxPages - 1)
+      const end = Math.min(totalPages, start + maxPages - 1)
       
       if (end - start < maxPages - 1) {
         start = Math.max(1, end - maxPages + 1)

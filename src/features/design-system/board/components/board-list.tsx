@@ -29,7 +29,6 @@ import {
 import { BiPin } from 'react-icons/bi'
 import { cn } from '@/lib/utils'
 import { type Post, type BoardConfig } from '../types/board.types'
-import type { TableDensity } from '../hooks/use-table-density'
 import { densityStyles } from '../hooks/use-table-density'
 import { useInfiniteScroll } from '../hooks/use-infinite-scroll'
 import { formatDistanceToNow } from 'date-fns'
@@ -44,7 +43,6 @@ import { BoardListGallery } from './board-list-gallery'
 interface BoardListProps {
   posts: Post[]
   config: BoardConfig
-  viewType?: 'table' | 'card' | 'gallery' | 'list'
   onPostClick: (post: Post) => void
   currentPage?: number
   totalPages?: number
@@ -53,8 +51,6 @@ interface BoardListProps {
   onLoadMore?: () => void
   hasMore?: boolean
   isLoadingMore?: boolean
-  paginationType?: 'pagination' | 'infinite-scroll'
-  tableDensity?: TableDensity
 }
 
 // 메모이제이션된 페이지네이션 컴포넌트
@@ -202,24 +198,21 @@ const StatsBadge = React.memo(({ icon: Icon, count }: { icon: any; count: number
 ))
 StatsBadge.displayName = 'StatsBadge'
 
-export const BoardList = React.memo(({ 
+export const BoardList = ({ 
   posts, 
   config, 
-  viewType,
   onPostClick,
   currentPage = 1,
   totalPages = 1,
   onPageChange,
   onLoadMore,
   hasMore = false,
-  isLoadingMore = false,
-  paginationType = 'pagination',
-  tableDensity = 'normal'
+  isLoadingMore = false
 }: BoardListProps) => {
-  // viewType이 명시적으로 전달되면 사용, 아니면 config에서 가져오기
-  const displayViewType = viewType || config.display.viewType
-  const displayPaginationType = paginationType || config.display.paginationType || 'pagination'
-  const displayTableDensity = tableDensity || config.display.tableDensity || 'normal'
+  // config.display의 값을 직접 사용하여 항상 최신 상태 반영
+  const displayViewType = config.display.viewType
+  const displayPaginationType = config.display.paginationType || 'pagination'
+  const displayTableDensity = config.display.tableDensity || 'normal'
   
   // 밀도 스타일
   const density = densityStyles[displayTableDensity]
@@ -249,9 +242,14 @@ export const BoardList = React.memo(({
       <div className="space-y-4">
         <BoardListNotice 
           posts={posts} 
+          config={config}
           onPostClick={onPostClick}
           currentPage={currentPage}
-          itemsPerPage={config.display.itemsPerPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          onLoadMore={onLoadMore}
+          hasMore={hasMore}
+          isLoadingMore={isLoadingMore}
         />
         
         {/* 페이지네이션 */}
@@ -263,6 +261,21 @@ export const BoardList = React.memo(({
             totalItems={posts.length * totalPages}
             itemsPerPage={config.display.itemsPerPage}
           />
+        )}
+        
+        {/* 무한스크롤 */}
+        {displayPaginationType === 'infinite-scroll' && (
+          <div ref={setLoadingElement} className="flex justify-center p-4">
+            {isLoadingMore && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                더 불러오는 중...
+              </div>
+            )}
+            {!hasMore && posts.length > 0 && (
+              <span className="text-sm text-muted-foreground">모든 공지사항을 불러왔습니다</span>
+            )}
+          </div>
         )}
       </div>
     )
@@ -274,7 +287,14 @@ export const BoardList = React.memo(({
       <div className="space-y-4">
         <BoardListGeneral 
           posts={posts} 
+          config={config}
           onPostClick={onPostClick}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          onLoadMore={onLoadMore}
+          hasMore={hasMore}
+          isLoadingMore={isLoadingMore}
         />
         
         {/* 페이지네이션 */}
@@ -287,6 +307,21 @@ export const BoardList = React.memo(({
             itemsPerPage={config.display.itemsPerPage}
           />
         )}
+        
+        {/* 무한스크롤 */}
+        {displayPaginationType === 'infinite-scroll' && (
+          <div ref={setLoadingElement} className="flex justify-center p-4">
+            {isLoadingMore && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                더 불러오는 중...
+              </div>
+            )}
+            {!hasMore && posts.length > 0 && (
+              <span className="text-sm text-muted-foreground">모든 게시글을 불러왔습니다</span>
+            )}
+          </div>
+        )}
       </div>
     )
   }
@@ -297,7 +332,14 @@ export const BoardList = React.memo(({
       <div className="space-y-4">
         <BoardListGallery 
           posts={posts} 
+          config={config}
           onPostClick={onPostClick}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          onLoadMore={onLoadMore}
+          hasMore={hasMore}
+          isLoadingMore={isLoadingMore}
         />
         
         {/* 페이지네이션 또는 무한스크롤 */}
@@ -357,7 +399,7 @@ export const BoardList = React.memo(({
                   onClick={() => onPostClick(post)}
                 >
                   <TableCell className={cn("text-center text-muted-foreground", density.padding)}>
-                    {post.isPinned ? '📌' : (currentPage - 1) * config.display.postsPerPage + index + 1}
+                    {post.isPinned ? '📌' : (currentPage - 1) * config.display.itemsPerPage + index + 1}
                   </TableCell>
                   <TableCell className={density.padding}>
                     <div className={cn("flex items-center", density.gapSize)}>
@@ -713,6 +755,6 @@ export const BoardList = React.memo(({
       )}
     </div>
   )
-})
+}
 BoardList.displayName = 'BoardList'
 

@@ -14,13 +14,13 @@ import { HiXCircle, HiPlus, HiPaperClip, HiLockClosed, HiSpeakerphone, HiEye, Hi
 import type { Post, BoardConfig, PostImage, PostAttachment } from '../types/board.types'
 
 interface BoardFormProps {
-  config: BoardConfig
+  boardConfig: BoardConfig
   post?: Post | null
   onSubmit: (data: Partial<Post>) => void
   onCancel: () => void
 }
 
-export function BoardForm({ config, post, onSubmit, onCancel }: BoardFormProps) {
+export function BoardForm({ boardConfig: config, post, onSubmit, onCancel }: BoardFormProps) {
   const [title, setTitle] = useState(post?.title || '')
   const [content, setContent] = useState(post?.content || '')
   const [category, setCategory] = useState(post?.category || '')

@@ -27,7 +27,6 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'table',
-      postsPerPage: 20,
       itemsPerPage: 20,
       sortBy: 'latest' as const,
       showThumbnail: false,
@@ -63,7 +62,6 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'card',
-      postsPerPage: 12,
       itemsPerPage: 12,
       sortBy: 'latest' as const,
       showThumbnail: true,
@@ -99,7 +97,6 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'list',
-      postsPerPage: 15,
       itemsPerPage: 15,
       sortBy: 'latest' as const,
       showThumbnail: false,
@@ -135,7 +132,6 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'gallery',
-      postsPerPage: 24,
       itemsPerPage: 24,
       sortBy: 'popular' as const,
       showThumbnail: true,
@@ -171,7 +167,6 @@ export const boardConfigs: BoardConfig[] = [
     },
     display: {
       viewType: 'table',
-      postsPerPage: 20,
       itemsPerPage: 20,
       sortBy: 'latest' as const,
       showThumbnail: false,

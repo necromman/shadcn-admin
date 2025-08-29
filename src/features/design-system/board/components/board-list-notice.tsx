@@ -9,22 +9,27 @@ import {
   TableRow 
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { type Post } from '../types/board.types'
+import { type Post, type BoardConfig } from '../types/board.types'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
 
 interface BoardListNoticeProps {
   posts: Post[]
+  config: BoardConfig
   onPostClick: (post: Post) => void
   currentPage?: number
-  itemsPerPage?: number
+  totalPages?: number
+  onPageChange?: (page: number) => void
+  onLoadMore?: () => void
+  hasMore?: boolean
+  isLoadingMore?: boolean
 }
 
 export const BoardListNotice = React.memo(({ 
   posts, 
+  config,
   onPostClick,
-  currentPage = 1,
-  itemsPerPage = 10
+  currentPage = 1
 }: BoardListNoticeProps) => {
   
   const formatDate = (date: string) => {
@@ -71,7 +76,7 @@ export const BoardListNotice = React.memo(({
                   onClick={() => onPostClick(post)}
                 >
                   <TableCell className="text-center text-sm text-muted-foreground">
-                    {post.isPinned ? '📌' : (currentPage - 1) * itemsPerPage + index + 1}
+                    {post.isPinned ? '📌' : (currentPage - 1) * config.display.itemsPerPage + index + 1}
                   </TableCell>
                   <TableCell>
                     {priority === 'urgent' && (

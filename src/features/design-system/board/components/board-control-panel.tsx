@@ -11,6 +11,7 @@ import { type BoardConfig, type UserRole } from '../types/board.types'
 import { boardConfigs } from '../data/board-configs'
 // import { useAuth } from '../contexts/auth-context' // AuthProvider가 래핑되지 않은 경우 에러 방지
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 interface BoardControlPanelProps {
   config: BoardConfig
@@ -101,7 +102,7 @@ export const BoardControlPanel = React.memo(({
           </span>
         </div>
         <div className="flex items-center gap-2">
-          {auth && auth !== null && (auth as any).isImpersonating && (
+          {auth && auth !== null && 'isImpersonating' in auth && (auth as {isImpersonating?: boolean}).isImpersonating && (
             <Badge variant="outline" className="text-xs bg-yellow-100 dark:bg-yellow-900/20">
               Impersonation
             </Badge>
@@ -295,27 +296,61 @@ export const BoardControlPanel = React.memo(({
         <div className="space-y-2">
           <Label className="text-sm font-medium">표시 옵션</Label>
           
-          {/* 페이지네이션 타입 선택 */}
+          {/* 뷰 타입 선택 */}
           <div className="space-y-2 mb-3">
-            <div className="flex items-center justify-between">
-              <Label className="text-xs text-slate-600 dark:text-muted-foreground">페이지네이션 방식</Label>
-              <div className="flex items-center gap-2">
-                <span className="text-xs">페이지네이션</span>
-                <Switch
-                  checked={config.display.paginationType === 'infinite-scroll'}
-                  onCheckedChange={(checked) => {
-                    onConfigChange({
-                      ...config,
-                      display: {
-                        ...config.display,
-                        paginationType: checked ? 'infinite-scroll' : 'pagination'
-                      }
-                    })
-                  }}
-                />
-                <span className="text-xs">무한스크롤</span>
+            <Label className="text-xs text-slate-600 dark:text-muted-foreground">뷰 타입</Label>
+            <RadioGroup 
+              value={config.display.viewType} 
+              onValueChange={handleViewTypeChange}
+              className="grid grid-cols-2 gap-3"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="table" id="table" className="h-4 w-4" />
+                <Label 
+                  htmlFor="table" 
+                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+                >
+                  테이블
+                </Label>
               </div>
-            </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem 
+                  value="gallery" 
+                  id="gallery" 
+                  className="h-4 w-4"
+                  disabled={config.type !== 'gallery' && !config.features.images}
+                />
+                <Label 
+                  htmlFor="gallery" 
+                  className={cn(
+                    "cursor-pointer text-sm font-normal",
+                    (config.type !== 'gallery' && !config.features.images)
+                      ? "text-muted-foreground line-through"
+                      : "text-slate-700 dark:text-slate-300"
+                  )}
+                >
+                  갤러리
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="card" id="card" className="h-4 w-4" />
+                <Label 
+                  htmlFor="card" 
+                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+                >
+                  카드
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="list" id="list" className="h-4 w-4" />
+                <Label 
+                  htmlFor="list" 
+                  className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+                >
+                  리스트
+                </Label>
+              </div>
+            </RadioGroup>
           </div>
 
           {/* 테이블 밀도 설정 (테이블 뷰일 때만) */}
@@ -323,7 +358,7 @@ export const BoardControlPanel = React.memo(({
             <div className="space-y-2 mb-3">
               <Label className="text-xs text-slate-600 dark:text-muted-foreground">테이블 밀도</Label>
               <RadioGroup
-                value={config.display.tableDensity}
+                value={config.display.tableDensity || 'normal'}
                 onValueChange={(value) => {
                   onConfigChange({
                     ...config,
@@ -350,6 +385,87 @@ export const BoardControlPanel = React.memo(({
               </RadioGroup>
             </div>
           )}
+
+          {/* 썸네일/미리보기 옵션 (카드, 리스트, 갤러리 뷰에서만) */}
+          {(config.display.viewType === 'card' || config.display.viewType === 'list' || config.display.viewType === 'gallery') && (
+            <div className="flex items-center gap-4 mb-3">
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="showThumbnail"
+                  checked={config.display.showThumbnail}
+                  disabled={!config.features.images && config.type !== 'gallery'}
+                  onCheckedChange={(checked) => {
+                    onConfigChange({
+                      ...config,
+                      display: {
+                        ...config.display,
+                        showThumbnail: checked as boolean
+                      }
+                    })
+                  }}
+                  className="h-4 w-4 border-slate-400 dark:border-border"
+                />
+                <Label 
+                  htmlFor="showThumbnail" 
+                  className={cn(
+                    "cursor-pointer text-sm font-normal",
+                    (!config.features.images && config.type !== 'gallery')
+                      ? "text-muted-foreground line-through"
+                      : "text-slate-700 dark:text-slate-300"
+                  )}
+                >
+                  썸네일 표시
+                </Label>
+              </div>
+              {config.display.viewType !== 'gallery' && (
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="showExcerpt"
+                    checked={config.display.showExcerpt}
+                    onCheckedChange={(checked) => {
+                      onConfigChange({
+                        ...config,
+                        display: {
+                          ...config.display,
+                          showExcerpt: checked as boolean
+                        }
+                      })
+                    }}
+                    className="h-4 w-4 border-slate-400 dark:border-border"
+                  />
+                  <Label 
+                    htmlFor="showExcerpt" 
+                    className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
+                  >
+                    미리보기 표시
+                  </Label>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 페이지네이션 타입 선택 */}
+          <div className="space-y-2 mb-3">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs text-slate-600 dark:text-muted-foreground">페이지네이션 방식</Label>
+              <div className="flex items-center gap-2">
+                <span className="text-xs">페이지네이션</span>
+                <Switch
+                  checked={config.display.paginationType === 'infinite-scroll'}
+                  onCheckedChange={(checked) => {
+                    onConfigChange({
+                      ...config,
+                      display: {
+                        ...config.display,
+                        paginationType: checked ? 'infinite-scroll' : 'pagination'
+                      }
+                    })
+                  }}
+                />
+                <span className="text-xs">무한스크롤</span>
+              </div>
+            </div>
+          </div>
 
           {/* 페이지당 게시글 수 및 정렬 */}
           <div className="grid grid-cols-2 gap-2 mb-3">
@@ -380,96 +496,6 @@ export const BoardControlPanel = React.memo(({
                   <SelectItem value="comments">댓글많은순</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
-          </div>
-
-          {/* 뷰 타입 선택 */}
-          <RadioGroup 
-            value={config.display.viewType} 
-            onValueChange={handleViewTypeChange}
-            className="grid grid-cols-2 gap-3"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="table" id="table" className="h-4 w-4" />
-              <Label 
-                htmlFor="table" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                테이블
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="card" id="card" className="h-4 w-4" />
-              <Label 
-                htmlFor="card" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                카드
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="gallery" id="gallery" className="h-4 w-4" />
-              <Label 
-                htmlFor="gallery" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                갤러리
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="list" id="list" className="h-4 w-4" />
-              <Label 
-                htmlFor="list" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                리스트
-              </Label>
-            </div>
-          </RadioGroup>
-          <div className="flex items-center gap-4 text-xs">
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="showThumbnail"
-                checked={config.display.showThumbnail}
-                onCheckedChange={(checked) => {
-                  onConfigChange({
-                    ...config,
-                    display: {
-                      ...config.display,
-                      showThumbnail: checked as boolean
-                    }
-                  })
-                }}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="showThumbnail" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                썸네일 표시
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="showExcerpt"
-                checked={config.display.showExcerpt}
-                onCheckedChange={(checked) => {
-                  onConfigChange({
-                    ...config,
-                    display: {
-                      ...config.display,
-                      showExcerpt: checked as boolean
-                    }
-                  })
-                }}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label 
-                htmlFor="showExcerpt" 
-                className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300"
-              >
-                미리보기 표시
-              </Label>
             </div>
           </div>
         </div>

@@ -2,16 +2,30 @@
 import React from 'react'
 import { Card, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { type Post } from '../types/board.types'
+import { type Post, type BoardConfig } from '../types/board.types'
 
 interface BoardListGalleryProps {
   posts: Post[]
+  config: BoardConfig
   onPostClick: (post: Post) => void
+  currentPage?: number
+  totalPages?: number
+  onPageChange?: (page: number) => void
+  onLoadMore?: () => void
+  hasMore?: boolean
+  isLoadingMore?: boolean
 }
 
 export const BoardListGallery = React.memo(({ 
   posts, 
-  onPostClick
+  config: _config,
+  onPostClick,
+  currentPage: _currentPage = 1,
+  totalPages: _totalPages = 1,
+  onPageChange: _onPageChange,
+  onLoadMore: _onLoadMore,
+  hasMore: _hasMore = false,
+  isLoadingMore: _isLoadingMore = false
 }: BoardListGalleryProps) => {
 
   return (

@@ -22,7 +22,6 @@ export interface BoardConfig {
   permissions: BoardPermissions
   display: {
     viewType: 'table' | 'card' | 'gallery' | 'list'
-    postsPerPage: number
     itemsPerPage: number  // 페이지당 아이템 수
     sortBy: 'latest' | 'oldest' | 'popular' | 'comments'  // 정렬 기준
     showThumbnail: boolean

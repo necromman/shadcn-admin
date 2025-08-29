@@ -1,29 +1,25 @@
 'use client'
 
-import React, { useReducer, useMemo, useEffect, useCallback } from 'react'
+import React, { useReducer, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
 import { BoardControlPanel } from '@/features/design-system/board/components/board-control-panel'
-import { BoardList } from '@/features/design-system/board/components/board-list'
-import { BoardListVirtual } from '@/features/design-system/board/components/board-list-virtual'
-import { BoardLoading } from '@/features/design-system/board/components/board-loading'
-import { BoardError, BoardEmpty } from '@/features/design-system/board/components/board-error'
+import { BoardRenderer } from '@/features/design-system/board/components/board-renderer'
+import { BoardError } from '@/features/design-system/board/components/board-error'
 import { BoardForm } from '@/features/design-system/board/components/board-form'
 import { BoardDetail } from '@/features/design-system/board/components/board-detail'
 import { BoardSearch } from '@/features/design-system/board/components/board-search'
-import { BoardFilters } from '@/features/design-system/board/components/board-filters'
-import { boardConfigs, getBoardConfigByBoardType, defaultBoardConfig } from '@/features/design-system/board/data/board-configs'
+import { BoardFilters, type FilterOptions } from '@/features/design-system/board/components/board-filters'
+import { boardConfigs, getBoardConfigByBoardType } from '@/features/design-system/board/data/board-configs'
 import { mockPosts } from '@/features/design-system/board/data/board-mock'
-import { usePermissions } from '@/features/design-system/board/hooks/use-permissions'
+import { useInfiniteScroll } from '@/features/design-system/board/hooks/use-infinite-scroll'
 import { AuthProvider } from '@/features/design-system/board/contexts/auth-context'
 import type { BoardState, BoardAction, Post, BoardConfig, UserRole } from '@/features/design-system/board/types/board.types'
-import type { BoardPermissions } from '@/features/design-system/board/types/permission.types'
+import { HiPlus, HiArrowLeft } from 'react-icons/hi2'
 
 // 초기 상태
 const initialState: BoardState = {
   config: boardConfigs[0],
-  posts: mockPosts.slice(0, 10),
+  posts: [],
   selectedPost: null,
   comments: [],
   filters: {
@@ -35,10 +31,10 @@ const initialState: BoardState = {
   },
   pagination: {
     currentPage: 1,
-    totalPages: 5,
-    totalPosts: mockPosts.length,
+    totalPages: 1,
+    totalPosts: 0,
     pageSize: 10,
-    hasMore: true,
+    hasMore: false,
     isLoadingMore: false,
   },
   ui: {
@@ -52,415 +48,447 @@ const initialState: BoardState = {
   },
 }
 
-// Reducer
+// 리듀서
 function boardReducer(state: BoardState, action: BoardAction): BoardState {
   switch (action.type) {
     case 'SET_CONFIG':
-      return { ...state, config: action.payload }
+      return {
+        ...state,
+        config: action.payload,
+        pagination: {
+          ...state.pagination,
+          pageSize: action.payload.display.itemsPerPage,
+          currentPage: 1, // 설정 변경 시 첫 페이지로
+        }
+      }
     case 'SET_POSTS':
-      return { ...state, posts: action.payload }
+      return {
+        ...state,
+        posts: action.payload,
+        pagination: {
+          ...state.pagination,
+          totalPosts: action.payload.length,
+          totalPages: Math.ceil(action.payload.length / state.pagination.pageSize),
+        }
+      }
+    case 'APPEND_POSTS':
+      return {
+        ...state,
+        posts: [...state.posts, ...action.payload],
+        pagination: {
+          ...state.pagination,
+          hasMore: action.payload.length === state.pagination.pageSize,
+        }
+      }
     case 'ADD_POST':
-      return { ...state, posts: [action.payload, ...state.posts] }
+      return {
+        ...state,
+        posts: [action.payload, ...state.posts],
+        pagination: {
+          ...state.pagination,
+          totalPosts: state.pagination.totalPosts + 1,
+          totalPages: Math.ceil((state.pagination.totalPosts + 1) / state.pagination.pageSize),
+        }
+      }
     case 'UPDATE_POST':
       return {
         ...state,
-        posts: state.posts.map(p => p.id === action.payload.id ? action.payload : p),
-        selectedPost: state.selectedPost?.id === action.payload.id ? action.payload : state.selectedPost,
+        posts: state.posts.map(post =>
+          post.id === action.payload.id ? action.payload : post
+        ),
       }
     case 'DELETE_POST':
       return {
         ...state,
-        posts: state.posts.filter(p => p.id !== action.payload),
-        selectedPost: state.selectedPost?.id === action.payload ? null : state.selectedPost,
+        posts: state.posts.filter(post => post.id !== action.payload),
+        pagination: {
+          ...state.pagination,
+          totalPosts: state.pagination.totalPosts - 1,
+          totalPages: Math.ceil((state.pagination.totalPosts - 1) / state.pagination.pageSize),
+        }
       }
     case 'SELECT_POST':
-      return { ...state, selectedPost: action.payload }
+      return {
+        ...state,
+        selectedPost: action.payload,
+        ui: {
+          ...state.ui,
+          viewMode: action.payload ? 'detail' : 'list',
+        },
+      }
     case 'SET_FILTER':
-      return { ...state, filters: { ...state.filters, ...action.payload } }
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          ...action.payload,
+        },
+        pagination: {
+          ...state.pagination,
+          currentPage: 1, // 필터 변경 시 첫 페이지로
+        }
+      }
     case 'SET_PAGINATION':
-      return { ...state, pagination: { ...state.pagination, ...action.payload } }
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          ...action.payload,
+        },
+      }
     case 'SET_UI_STATE':
-      return { ...state, ui: { ...state.ui, ...action.payload } }
-    case 'SET_LOADING':
-      return { ...state, ui: { ...state.ui, isLoading: action.payload } }
-    case 'SET_ERROR':
-      return { ...state, ui: { ...state.ui, error: action.payload } }
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          ...action.payload,
+        },
+      }
     case 'SET_COMMENTS':
-      return { ...state, comments: action.payload }
-    case 'APPEND_POSTS':
-      return { ...state, posts: [...state.posts, ...action.payload] }
+      return {
+        ...state,
+        comments: action.payload,
+      }
+    case 'SET_LOADING':
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          isLoading: action.payload,
+        },
+      }
     case 'SET_LOADING_MORE':
-      return { ...state, pagination: { ...state.pagination, isLoadingMore: action.payload } }
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          isLoadingMore: action.payload,
+        },
+      }
+    case 'SET_ERROR':
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          error: action.payload,
+        },
+      }
     default:
       return state
   }
 }
 
-interface DSBoardProps {
-  boardType?: string
-}
-
-// 내부 컴포넌트 - AuthProvider로 감싸지지 않음
-function DSBoardInternal({ boardType }: DSBoardProps) {
-  // 기본값을 admin으로 설정 (최고 관리자)
-  const [currentUserRole, setCurrentUserRole] = React.useState<UserRole>('admin')
-  
+export function DSBoard() {
   const [state, dispatch] = useReducer(boardReducer, initialState)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [currentUserRole] = React.useState<UserRole>('user')
+  const canWrite = currentUserRole !== 'guest' && state.config.permissions.write.includes(currentUserRole)
 
-  // boardType이 변경될 때마다 config와 posts를 업데이트
+  // 게시판 타입 변경 시 데이터 로드
   useEffect(() => {
-    const newConfig = boardType ? getBoardConfigByBoardType(boardType) || defaultBoardConfig : defaultBoardConfig
+    loadBoardData(state.config.type)
+  }, [state.config.type])
+
+  // 필터 변경 시 데이터 재로드
+  useEffect(() => {
+    filterAndSortPosts()
+  }, [state.filters, state.config.display.sortBy])
+
+  // 데이터 로드 함수
+  const loadBoardData = useCallback(async (boardType: string) => {
+    dispatch({ type: 'SET_LOADING', payload: true })
     
-    // config 업데이트
-    dispatch({ type: 'SET_CONFIG', payload: newConfig })
+    // 시뮬레이션: 서버에서 데이터 로드
+    setTimeout(() => {
+      const filteredPosts = mockPosts.filter(post => post.boardId === boardType)
+      const posts = filteredPosts.length > 0 ? filteredPosts : mockPosts.slice(0, 20)
+      
+      dispatch({ type: 'SET_POSTS', payload: posts })
+      dispatch({ type: 'SET_LOADING', payload: false })
+    }, 500)
+  }, [])
+
+  // 필터링 및 정렬
+  const filterAndSortPosts = useCallback(() => {
+    let filtered = [...mockPosts]
     
-    // 해당 게시판의 posts 필터링
-    const filteredPosts = mockPosts
-      .filter(p => p.boardId === newConfig.id)
-      .slice(0, newConfig.display.itemsPerPage || 10)
-    dispatch({ type: 'SET_POSTS', payload: filteredPosts })
+    // 검색 필터
+    if (state.filters.searchQuery) {
+      filtered = filtered.filter(post =>
+        post.title.toLowerCase().includes(state.filters.searchQuery.toLowerCase()) ||
+        post.content.toLowerCase().includes(state.filters.searchQuery.toLowerCase())
+      )
+    }
     
-    // 페이지네이션 초기화
-    dispatch({ type: 'SET_PAGINATION', payload: {
-      currentPage: 1,
-      pageSize: newConfig.display.itemsPerPage || 10,
-      totalPosts: mockPosts.filter(p => p.boardId === newConfig.id).length,
-      totalPages: Math.ceil(mockPosts.filter(p => p.boardId === newConfig.id).length / (newConfig.display.itemsPerPage || 10))
-    }})
+    // 카테고리 필터
+    if (state.filters.category) {
+      filtered = filtered.filter(post => post.category === state.filters.category)
+    }
     
-    // UI 상태 초기화
-    dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'list' } })
-  }, [boardType])
-
-  // 권한 객체 생성 (config의 permissions를 BoardPermissions 형식으로 변환)
-  const boardPermissions: BoardPermissions = useMemo(() => ({
-    view: 'guest',
-    viewPrivate: 'member',
-    search: 'guest',
-    create: state.config.permissions.write.includes('user' as UserRole) ? 'user' : 
-            state.config.permissions.write.includes('member' as UserRole) ? 'member' : 
-            state.config.permissions.write.includes('moderator' as UserRole) ? 'moderator' : 'admin',
-    edit: 'user',
-    delete: 'user',
-    comment: state.config.permissions.comment.includes('user' as UserRole) ? 'user' : 
-              state.config.permissions.comment.includes('member' as UserRole) ? 'member' : 
-              state.config.permissions.comment.includes('moderator' as UserRole) ? 'moderator' : 'admin',
-    like: 'user',
-    report: 'user',
-    upload: 'user',
-    download: 'user',
-    pin: 'moderator',
-    lock: 'moderator',
-    deleteOthers: 'moderator',
-    editOthers: 'moderator'
-  }), [state.config.permissions])
-
-  // 권한 훅 사용
-  const permissions = usePermissions({
-    userRole: currentUserRole,
-    permissions: boardPermissions
-  })
-
-  const handleConfigChange = (newConfig: BoardConfig) => {
-    const oldConfig = state.config
-    dispatch({ type: 'SET_CONFIG', payload: newConfig })
+    // 태그 필터
+    if (state.filters.tags.length > 0) {
+      filtered = filtered.filter(post =>
+        state.filters.tags.some(tag => post.tags.includes(tag))
+      )
+    }
     
-    // 게시판 타입이 변경된 경우
-    if (oldConfig.id !== newConfig.id) {
-      const filteredPosts = mockPosts
-        .filter(p => p.boardId === newConfig.id)
-        .slice(0, newConfig.display.itemsPerPage)
-      dispatch({ type: 'SET_POSTS', payload: filteredPosts })
-      dispatch({ type: 'SET_PAGINATION', payload: { 
-        currentPage: 1, 
-        pageSize: newConfig.display.itemsPerPage,
-        totalPosts: filteredPosts.length,
-        totalPages: Math.ceil(filteredPosts.length / newConfig.display.itemsPerPage)
-      }})
-    }
-    // 페이지 크기가 변경된 경우
-    else if (oldConfig.display.itemsPerPage !== newConfig.display.itemsPerPage) {
-      const filteredPosts = mockPosts
-        .filter(p => p.boardId === newConfig.id)
-      const sortedPosts = sortPosts(filteredPosts, newConfig.display.sortBy)
-        .slice(0, newConfig.display.itemsPerPage)
-      dispatch({ type: 'SET_POSTS', payload: sortedPosts })
-      dispatch({ type: 'SET_PAGINATION', payload: { 
-        pageSize: newConfig.display.itemsPerPage,
-        totalPages: Math.ceil(filteredPosts.length / newConfig.display.itemsPerPage)
-      }})
-    }
-    // 정렬이 변경된 경우
-    else if (oldConfig.display.sortBy !== newConfig.display.sortBy) {
-      const filteredPosts = mockPosts
-        .filter(p => p.boardId === newConfig.id)
-      const sortedPosts = sortPosts(filteredPosts, newConfig.display.sortBy)
-        .slice(0, newConfig.display.itemsPerPage)
-      dispatch({ type: 'SET_POSTS', payload: sortedPosts })
-    }
-  }
+    // 정렬
+    filtered.sort((a, b) => {
+      switch (state.config.display.sortBy) {
+        case 'oldest':
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        case 'popular':
+          return b.metadata.views - a.metadata.views
+        case 'comments':
+          return b.metadata.commentsCount - a.metadata.commentsCount
+        case 'latest':
+        default:
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      }
+    })
+    
+    dispatch({ type: 'SET_POSTS', payload: filtered })
+  }, [state.filters, state.config.display.sortBy])
 
-  // 정렬 함수
-  const sortPosts = (posts: Post[], sortBy: string): Post[] => {
-    const sorted = [...posts]
-    switch (sortBy) {
-      case 'latest':
-        return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-      case 'oldest':
-        return sorted.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-      case 'popular':
-        return sorted.sort((a, b) => b.metadata.views - a.metadata.views)
-      case 'comments':
-        return sorted.sort((a, b) => b.metadata.commentsCount - a.metadata.commentsCount)
-      default:
-        return sorted
-    }
-  }
-
-  const handleViewPost = (post: Post) => {
-    dispatch({ type: 'SELECT_POST', payload: post })
-    dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'detail' } })
-  }
-
-  const handleCreatePost = () => {
-    dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'create', isCreating: true } })
-  }
-
-  const handleEditPost = () => {
-    dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'edit', isEditing: true } })
-  }
-
-  const handleSubmitPost = (data: Partial<Post>) => {
-    if (state.ui.isEditing && state.selectedPost) {
-      // 수정
-      const updatedPost = { ...state.selectedPost, ...data } as Post
-      dispatch({ type: 'UPDATE_POST', payload: updatedPost })
-    } else {
-      // 생성
-      const newPost = { ...data } as Post
-      dispatch({ type: 'ADD_POST', payload: newPost })
-    }
-    dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'list', isCreating: false, isEditing: false } })
-  }
-
-  const handleDeletePost = () => {
-    if (state.selectedPost) {
-      if (confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
-        dispatch({ type: 'DELETE_POST', payload: state.selectedPost.id })
-        dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'list' } })
+  // 설정 변경 핸들러
+  const handleConfigChange = useCallback((updates: Partial<BoardConfig>) => {
+    const newConfig = { ...state.config, ...updates }
+    
+    // display 속성 변경 처리
+    if (updates.display) {
+      newConfig.display = { ...state.config.display, ...updates.display }
+      
+      // 페이지당 아이템 수 변경 시
+      if (updates.display.itemsPerPage) {
+        dispatch({ type: 'SET_PAGINATION', payload: { 
+          pageSize: updates.display.itemsPerPage,
+          currentPage: 1 
+        }})
+      }
+      
+      // 페이지네이션 타입 변경 시
+      if (updates.display.paginationType) {
+        dispatch({ type: 'SET_PAGINATION', payload: { 
+          currentPage: 1,
+          hasMore: updates.display.paginationType === 'infinite-scroll'
+        }})
+      }
+      
+      // 정렬 변경 시 데이터 재정렬
+      if (updates.display.sortBy) {
+        filterAndSortPosts()
       }
     }
-  }
+    
+    // 게시판 타입 변경 시
+    if (updates.type && updates.type !== state.config.type) {
+      const newBoardConfig = getBoardConfigByBoardType(updates.type)
+      if (newBoardConfig) {
+        dispatch({ type: 'SET_CONFIG', payload: newBoardConfig })
+        return
+      }
+    }
+    
+    dispatch({ type: 'SET_CONFIG', payload: newConfig })
+  }, [state.config, filterAndSortPosts])
 
-  const handleBackToList = () => {
-    dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'list', isCreating: false, isEditing: false } })
-    dispatch({ type: 'SELECT_POST', payload: null })
-  }
+  // 페이지 변경 핸들러
+  const handlePageChange = useCallback((page: number) => {
+    dispatch({ type: 'SET_PAGINATION', payload: { currentPage: page }})
+    containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
 
-  const handlePageChange = (page: number) => {
-    dispatch({ type: 'SET_PAGINATION', payload: { currentPage: page } })
-    // 실제로는 API 호출
-    const start = (page - 1) * state.pagination.pageSize
-    const end = start + state.pagination.pageSize
-    const filteredPosts = mockPosts.filter(p => p.boardId === state.config.id)
-    dispatch({ type: 'SET_POSTS', payload: filteredPosts.slice(start, end) })
-  }
-
-  // 무한스크롤용 추가 데이터 로드
+  // 무한스크롤 로드 더 보기
   const handleLoadMore = useCallback(() => {
     if (state.pagination.isLoadingMore || !state.pagination.hasMore) return
     
     dispatch({ type: 'SET_LOADING_MORE', payload: true })
     
-    // API 호출 시뮬레이션
+    // 시뮬레이션: 추가 데이터 로드
     setTimeout(() => {
-      const currentLength = state.posts.length
-      const nextPosts = mockPosts
-        .filter(p => p.boardId === state.config.id)
-        .slice(currentLength, currentLength + state.config.display.itemsPerPage)
-      
-      if (nextPosts.length > 0) {
-        dispatch({ type: 'APPEND_POSTS', payload: nextPosts })
-        dispatch({ type: 'SET_PAGINATION', payload: {
-          hasMore: currentLength + nextPosts.length < mockPosts.filter(p => p.boardId === state.config.id).length
-        }})
-      } else {
-        dispatch({ type: 'SET_PAGINATION', payload: { hasMore: false } })
-      }
-      
+      const nextPosts = mockPosts.slice(
+        state.posts.length, 
+        state.posts.length + state.config.display.itemsPerPage
+      )
+      dispatch({ type: 'APPEND_POSTS', payload: nextPosts })
       dispatch({ type: 'SET_LOADING_MORE', payload: false })
     }, 1000)
-  }, [state.posts.length, state.pagination.isLoadingMore, state.pagination.hasMore, state.config.id])
+  }, [state.posts.length, state.config.display.itemsPerPage, state.pagination])
 
-  return (
-    <div className="space-y-6">
-      {/* 권한 전환 UI */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">현재 권한:</span>
-          <Select value={currentUserRole} onValueChange={(value) => setCurrentUserRole(value as UserRole)}>
-            <SelectTrigger className="w-32 h-8">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="admin">관리자</SelectItem>
-              <SelectItem value="moderator">모더레이터</SelectItem>
-              <SelectItem value="member">회원</SelectItem>
-              <SelectItem value="user">사용자</SelectItem>
-              <SelectItem value="guest">게스트</SelectItem>
-            </SelectContent>
-          </Select>
-          <Badge variant="outline" className="text-xs">
-            {currentUserRole === 'admin' ? '최고 관리자' : 'Impersonation 모드'}
-          </Badge>
-        </div>
-        {currentUserRole !== 'admin' && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setCurrentUserRole('admin')}
-          >
-            관리자로 돌아가기
-          </Button>
-        )}
-      </div>
+  // 무한스크롤 훅 사용
+  const { setLoadingElement } = useInfiniteScroll({
+    hasMore: state.pagination.hasMore,
+    loading: state.pagination.isLoadingMore,
+    onLoadMore: handleLoadMore,
+    enabled: state.config.display.paginationType === 'infinite-scroll',
+    threshold: state.config.display.infiniteScrollThreshold || 100,
+  })
 
-      {/* 컨트롤 패널 */}
-      <BoardControlPanel
-        config={state.config}
-        onConfigChange={handleConfigChange}
-        viewMode={state.ui.viewMode}
-        currentUserRole={currentUserRole}
-      />
+  // 게시글 클릭 핸들러
+  const handlePostClick = useCallback((post: Post) => {
+    dispatch({ type: 'SELECT_POST', payload: post })
+  }, [])
 
-      {/* 뷰 모드에 따른 컴포넌트 렌더링 */}
-      {state.ui.viewMode === 'list' && (
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-            <BoardSearch 
-              onSearch={(query) => dispatch({ type: 'SET_FILTER', payload: { searchQuery: query } })}
-              className="flex-1 max-w-full sm:max-w-md"
-            />
-            <div className="flex gap-2 w-full sm:w-auto">
+  // 뒤로가기 핸들러
+  const handleBack = useCallback(() => {
+    dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'list' }})
+    dispatch({ type: 'SELECT_POST', payload: null })
+  }, [])
+
+  // 현재 뷰 렌더링
+  const renderView = () => {
+    switch (state.ui.viewMode) {
+      case 'detail':
+        return state.selectedPost && (
+          <BoardDetail
+            post={state.selectedPost}
+            config={state.config}
+            onBack={handleBack}
+            onEdit={() => dispatch({ type: 'SET_UI_STATE', payload: { isEditing: true }})}
+            onDelete={() => {
+              dispatch({ type: 'DELETE_POST', payload: state.selectedPost!.id })
+              handleBack()
+            }}
+          />
+        )
+      
+      case 'create':
+        return (
+          <BoardForm
+            boardConfig={state.config}
+            onSubmit={(post) => {
+              const newPost = { ...post, id: post.id || Date.now().toString() } as Post
+              dispatch({ type: 'ADD_POST', payload: newPost })
+              dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'list', isCreating: false }})
+            }}
+            onCancel={() => dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'list', isCreating: false }})}
+          />
+        )
+      
+      case 'edit':
+        return state.selectedPost && (
+          <BoardForm
+            post={state.selectedPost}
+            boardConfig={state.config}
+            onSubmit={(post) => {
+              const updatedPost = { ...state.selectedPost, ...post } as Post
+              dispatch({ type: 'UPDATE_POST', payload: updatedPost })
+              dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'detail', isEditing: false }})
+            }}
+            onCancel={() => dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'detail', isEditing: false }})}
+          />
+        )
+      
+      case 'list':
+      default:
+        return (
+          <>
+            {/* 검색 및 필터 */}
+            <div className="space-y-4 mb-6">
+              <BoardSearch
+                onSearch={(query) => {
+                  dispatch({ type: 'SET_FILTER', payload: { searchQuery: query }})
+                  filterAndSortPosts()
+                }}
+              />
               <BoardFilters
                 filters={{
+                  categories: state.filters.category ? [state.filters.category] : [],
                   tags: state.filters.tags,
-                  sortBy: state.filters.sortBy as 'latest' | 'oldest' | 'popular' | 'comments',
-                  dateRange: {
+                  dateRange: state.filters.dateRange ? {
                     from: state.filters.dateRange[0],
                     to: state.filters.dateRange[1]
+                  } : undefined
+                }}
+                onFilterChange={(filters: FilterOptions) => {
+                  if (filters.dateRange) {
+                    const dateRange: [Date | null, Date | null] = [filters.dateRange.from, filters.dateRange.to]
+                    dispatch({ type: 'SET_FILTER', payload: { dateRange } })
+                  }
+                  if (filters.categories) {
+                    dispatch({ type: 'SET_FILTER', payload: { category: filters.categories[0] || null } })
+                  }
+                  if (filters.tags) {
+                    dispatch({ type: 'SET_FILTER', payload: { tags: filters.tags } })
                   }
                 }}
-                onFilterChange={(filters) => dispatch({ type: 'SET_FILTER', payload: {
-                  tags: filters.tags,
-                  sortBy: filters.sortBy as 'latest' | 'views' | 'likes' | 'comments',
-                  dateRange: [filters.dateRange?.from || null, filters.dateRange?.to || null]
-                }})}
               />
-              {permissions.can.create && (
-                <Button onClick={handleCreatePost} className="flex-1 sm:flex-initial">
-                  <span className="sm:hidden">작성</span>
-                  <span className="hidden sm:inline">게시글 작성</span>
-                </Button>
-              )}
             </div>
+
+            {/* 게시판 리스트 */}
+            <BoardRenderer
+              posts={state.posts}
+              config={state.config}
+              onPostClick={handlePostClick}
+              currentPage={state.pagination.currentPage}
+              totalPages={state.pagination.totalPages}
+              totalPosts={state.pagination.totalPosts}
+              onPageChange={handlePageChange}
+              onLoadMore={handleLoadMore}
+              hasMore={state.pagination.hasMore}
+              isLoadingMore={state.pagination.isLoadingMore}
+              isLoading={state.ui.isLoading}
+            />
+
+            {/* 무한스크롤 타겟 */}
+            {state.config.display.paginationType === 'infinite-scroll' && (
+              <div ref={setLoadingElement} className="h-10" />
+            )}
+          </>
+        )
+    }
+  }
+
+  return (
+    <AuthProvider>
+      <div className="container mx-auto py-6" ref={containerRef}>
+        <div className="space-y-6">
+          {/* 헤더 */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold">{state.config.name}</h1>
+              <p className="text-muted-foreground mt-1">{state.config.description}</p>
+            </div>
+            {state.ui.viewMode === 'list' && canWrite && (
+              <Button 
+                onClick={() => dispatch({ type: 'SET_UI_STATE', payload: { viewMode: 'create', isCreating: true }})}
+              >
+                <HiPlus className="mr-2 h-4 w-4" />
+                글쓰기
+              </Button>
+            )}
+            {state.ui.viewMode !== 'list' && (
+              <Button variant="ghost" onClick={handleBack}>
+                <HiArrowLeft className="mr-2 h-4 w-4" />
+                목록으로
+              </Button>
+            )}
           </div>
-          
-          {/* 로딩 상태 */}
-          {state.ui.isLoading && (
-            <BoardLoading 
-              viewType={state.config.display.viewType} 
-              itemCount={10}
+
+          {/* 컨트롤 패널 (리스트 뷰에서만) */}
+          {state.ui.viewMode === 'list' && (
+            <BoardControlPanel
+              config={state.config}
+              onConfigChange={handleConfigChange}
+              currentUserRole={currentUserRole}
             />
           )}
-          
-          {/* 에러 상태 */}
-          {state.ui.error && !state.ui.isLoading && (
+
+          {/* 에러 표시 */}
+          {state.ui.error && (
             <BoardError 
-              error={{
-                title: '오류 발생',
-                message: state.ui.error,
-                type: 'error'
-              }}
+              error={{ message: state.ui.error }}
               onRetry={() => {
                 dispatch({ type: 'SET_ERROR', payload: null })
-                dispatch({ type: 'SET_LOADING', payload: true })
-                // 데이터 다시 불러오기 시뮬레이션
-                setTimeout(() => {
-                  dispatch({ type: 'SET_LOADING', payload: false })
-                }, 1000)
+                loadBoardData(state.config.type)
               }}
             />
           )}
-          
-          {/* 빈 상태 */}
-          {!state.ui.isLoading && !state.ui.error && state.posts.length === 0 && (
-            <BoardEmpty 
-              onAction={permissions.can.create ? handleCreatePost : undefined}
-            />
-          )}
-          
-          {/* 게시글 목록 */}
-          {!state.ui.isLoading && !state.ui.error && state.posts.length > 0 && (
-            <>
-              {/* 100개 이상의 게시글이거나 table 뷰일 때 가상 스크롤링 사용 */}
-              {state.posts.length > 100 && state.config.display.viewType === 'table' ? (
-                <BoardListVirtual
-                  posts={state.posts}
-                  config={state.config}
-                  onPostClick={handleViewPost}
-                  enableVirtualization={true}
-                />
-              ) : (
-                <BoardList
-                  posts={state.posts}
-                  config={state.config}
-                  viewType={state.config.display.viewType}
-                  currentPage={state.pagination.currentPage}
-                  totalPages={state.pagination.totalPages}
-                  onPageChange={handlePageChange}
-                  onPostClick={handleViewPost}
-                  onLoadMore={handleLoadMore}
-                  hasMore={state.pagination.hasMore}
-                  isLoadingMore={state.pagination.isLoadingMore}
-                  paginationType={state.config.display.paginationType}
-                  tableDensity={state.config.display.tableDensity}
-                />
-              )}
-            </>
-          )}
+
+          {/* 메인 콘텐츠 */}
+          {renderView()}
         </div>
-      )}
-
-      {(state.ui.viewMode === 'create' || state.ui.viewMode === 'edit') && (
-        <BoardForm
-          config={state.config}
-          post={state.ui.viewMode === 'edit' ? state.selectedPost : null}
-          onSubmit={handleSubmitPost}
-          onCancel={handleBackToList}
-        />
-      )}
-
-      {state.ui.viewMode === 'detail' && state.selectedPost && (
-        <BoardDetail
-          post={state.selectedPost}
-          config={state.config}
-          onBack={handleBackToList}
-          onEdit={handleEditPost}
-          onDelete={handleDeletePost}
-          isAuthor={state.selectedPost.author.id === 'user_1'}
-          isAdmin={permissions.isAdmin}
-        />
-      )}
-    </div>
-  )
-}
-
-// 외부 export - AuthProvider로 감싸서 export
-export function DSBoard(props: DSBoardProps) {
-  return (
-    <AuthProvider defaultRole="admin">
-      <DSBoardInternal {...props} />
+      </div>
     </AuthProvider>
   )
 }

@@ -127,9 +127,9 @@ const DEFAULT_SETTINGS: DevSettings = {
     navigationSize: 'large',
     customButtonSize: 64,
     customIconSize: 32,
-    navigationPosition: 'custom',
-    // 버튼 위치 미세 조정
-    buttonBasePercent: 43,
+    navigationPosition: 'safe',  // 안전 영역으로 기본값 변경
+    // 버튼 위치 미세 조정 (custom 선택 시 사용)
+    buttonBasePercent: 50,
     buttonLeftPosition: 80,
     buttonRightPosition: 80,
   },

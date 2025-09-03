@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { HiXMark, HiClock, HiCalendarDays, HiExclamationTriangle, HiBookOpen } from 'react-icons/hi2'
+import { HiXMark, HiCalendarDays, HiExclamationTriangle, HiBookOpen } from 'react-icons/hi2'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'

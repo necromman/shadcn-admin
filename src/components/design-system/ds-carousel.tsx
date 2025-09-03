@@ -131,8 +131,8 @@ export function DSCarousel() {
     buttonLeftPosition: 80,  // 컨테이너 안쪽 80px
     buttonRightPosition: 80, // 컨테이너 안쪽 80px
     // 인디케이터 패딩 기본값
-    indicatorPaddingDesktop: 175,  // 175px로 변경
-    indicatorPaddingMobile: 45  // 45px로 변경
+    indicatorPaddingDesktop: 175,  // 175px로 변경 (메인과 동일)
+    indicatorPaddingMobile: 45  // 45px로 변경 (메인과 동일)
   })
   
   // PC 최소/최대 높이 제약

@@ -10,17 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThemeEditorRouteImport } from './routes/theme-editor'
-import { Route as LibraryRouteRouteImport } from './routes/library/route'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as LibraryIndexRouteImport } from './routes/library/index'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as LibraryRegisterRouteImport } from './routes/library/register'
-import { Route as LibraryLoginRouteImport } from './routes/library/login'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthFindAccountRouteImport } from './routes/auth/find-account'
 import { Route as AuthenticatedOldRouteImport } from './routes/_authenticated/old'
+import { Route as AuthenticatedDesignSystemRouteImport } from './routes/_authenticated/design-system'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -63,11 +60,6 @@ const ThemeEditorRoute = ThemeEditorRouteImport.update({
   path: '/theme-editor',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LibraryRouteRoute = LibraryRouteRouteImport.update({
-  id: '/library',
-  path: '/library',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
   path: '/clerk',
@@ -82,25 +74,10 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LibraryIndexRoute = LibraryIndexRouteImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => LibraryRouteRoute,
-} as any)
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const LibraryRegisterRoute = LibraryRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => LibraryRouteRoute,
-} as any)
-const LibraryLoginRoute = LibraryLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => LibraryRouteRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
@@ -117,6 +94,12 @@ const AuthenticatedOldRoute = AuthenticatedOldRouteImport.update({
   path: '/old',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDesignSystemRoute =
+  AuthenticatedDesignSystemRouteImport.update({
+    id: '/design-system',
+    path: '/design-system',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const errors503Route = errors503RouteImport.update({
   id: '/(errors)/503',
   path: '/503',
@@ -306,9 +289,9 @@ const AuthenticatedBoardTypeRoute = AuthenticatedBoardTypeRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
-  '/library': typeof LibraryRouteRouteWithChildren
   '/theme-editor': typeof ThemeEditorRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/auth/signup': typeof AuthSignupRouteRouteWithChildren
@@ -323,13 +306,10 @@ export interface FileRoutesByFullPath {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/design-system': typeof AuthenticatedDesignSystemRoute
   '/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
-  '/library/login': typeof LibraryLoginRoute
-  '/library/register': typeof LibraryRegisterRoute
-  '/': typeof AuthenticatedIndexRoute
-  '/library/': typeof LibraryIndexRoute
   '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -354,6 +334,7 @@ export interface FileRoutesByFullPath {
   '/auth/signup/': typeof AuthSignupIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/theme-editor': typeof ThemeEditorRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -367,13 +348,10 @@ export interface FileRoutesByTo {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/design-system': typeof AuthenticatedDesignSystemRoute
   '/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
-  '/library/login': typeof LibraryLoginRoute
-  '/library/register': typeof LibraryRegisterRoute
-  '/': typeof AuthenticatedIndexRoute
-  '/library': typeof LibraryIndexRoute
   '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -399,10 +377,10 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
-  '/library': typeof LibraryRouteRouteWithChildren
   '/theme-editor': typeof ThemeEditorRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/auth/signup': typeof AuthSignupRouteRouteWithChildren
@@ -418,13 +396,10 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
+  '/_authenticated/design-system': typeof AuthenticatedDesignSystemRoute
   '/_authenticated/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
-  '/library/login': typeof LibraryLoginRoute
-  '/library/register': typeof LibraryRegisterRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/library/': typeof LibraryIndexRoute
   '/_authenticated/board/$type': typeof AuthenticatedBoardTypeRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -451,9 +426,9 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/auth'
     | '/clerk'
-    | '/library'
     | '/theme-editor'
     | '/settings'
     | '/auth/signup'
@@ -468,13 +443,10 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/design-system'
     | '/old'
     | '/auth/find-account'
     | '/auth/login'
-    | '/library/login'
-    | '/library/register'
-    | '/'
-    | '/library/'
     | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
@@ -499,6 +471,7 @@ export interface FileRouteTypes {
     | '/auth/signup/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/auth'
     | '/theme-editor'
     | '/clerk'
@@ -512,13 +485,10 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/design-system'
     | '/old'
     | '/auth/find-account'
     | '/auth/login'
-    | '/library/login'
-    | '/library/register'
-    | '/'
-    | '/library'
     | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
@@ -543,10 +513,10 @@ export interface FileRouteTypes {
     | '/auth/signup'
   id:
     | '__root__'
+    | '/'
     | '/_authenticated'
     | '/auth'
     | '/clerk'
-    | '/library'
     | '/theme-editor'
     | '/_authenticated/settings'
     | '/auth/signup'
@@ -562,13 +532,10 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
+    | '/_authenticated/design-system'
     | '/_authenticated/old'
     | '/auth/find-account'
     | '/auth/login'
-    | '/library/login'
-    | '/library/register'
-    | '/_authenticated/'
-    | '/library/'
     | '/_authenticated/board/$type'
     | '/_authenticated/errors/$error'
     | '/_authenticated/settings/account'
@@ -594,10 +561,10 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   ClerkRouteRoute: typeof ClerkRouteRouteWithChildren
-  LibraryRouteRoute: typeof LibraryRouteRouteWithChildren
   ThemeEditorRoute: typeof ThemeEditorRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
@@ -618,13 +585,6 @@ declare module '@tanstack/react-router' {
       path: '/theme-editor'
       fullPath: '/theme-editor'
       preLoaderRoute: typeof ThemeEditorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/library': {
-      id: '/library'
-      path: '/library'
-      fullPath: '/library'
-      preLoaderRoute: typeof LibraryRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clerk': {
@@ -648,33 +608,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/library/': {
-      id: '/library/'
-      path: '/'
-      fullPath: '/library/'
-      preLoaderRoute: typeof LibraryIndexRouteImport
-      parentRoute: typeof LibraryRouteRoute
-    }
-    '/_authenticated/': {
-      id: '/_authenticated/'
+    '/': {
+      id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/library/register': {
-      id: '/library/register'
-      path: '/register'
-      fullPath: '/library/register'
-      preLoaderRoute: typeof LibraryRegisterRouteImport
-      parentRoute: typeof LibraryRouteRoute
-    }
-    '/library/login': {
-      id: '/library/login'
-      path: '/login'
-      fullPath: '/library/login'
-      preLoaderRoute: typeof LibraryLoginRouteImport
-      parentRoute: typeof LibraryRouteRoute
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/login': {
       id: '/auth/login'
@@ -695,6 +634,13 @@ declare module '@tanstack/react-router' {
       path: '/old'
       fullPath: '/old'
       preLoaderRoute: typeof AuthenticatedOldRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/design-system': {
+      id: '/_authenticated/design-system'
+      path: '/design-system'
+      fullPath: '/design-system'
+      preLoaderRoute: typeof AuthenticatedDesignSystemRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/(errors)/503': {
@@ -977,8 +923,8 @@ const AuthenticatedSettingsRouteRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedDesignSystemRoute: typeof AuthenticatedDesignSystemRoute
   AuthenticatedOldRoute: typeof AuthenticatedOldRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedBoardTypeRoute: typeof AuthenticatedBoardTypeRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
@@ -990,8 +936,8 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedDesignSystemRoute: AuthenticatedDesignSystemRoute,
   AuthenticatedOldRoute: AuthenticatedOldRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedBoardTypeRoute: AuthenticatedBoardTypeRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
@@ -1087,27 +1033,11 @@ const ClerkRouteRouteWithChildren = ClerkRouteRoute._addFileChildren(
   ClerkRouteRouteChildren,
 )
 
-interface LibraryRouteRouteChildren {
-  LibraryLoginRoute: typeof LibraryLoginRoute
-  LibraryRegisterRoute: typeof LibraryRegisterRoute
-  LibraryIndexRoute: typeof LibraryIndexRoute
-}
-
-const LibraryRouteRouteChildren: LibraryRouteRouteChildren = {
-  LibraryLoginRoute: LibraryLoginRoute,
-  LibraryRegisterRoute: LibraryRegisterRoute,
-  LibraryIndexRoute: LibraryIndexRoute,
-}
-
-const LibraryRouteRouteWithChildren = LibraryRouteRoute._addFileChildren(
-  LibraryRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   ClerkRouteRoute: ClerkRouteRouteWithChildren,
-  LibraryRouteRoute: LibraryRouteRouteWithChildren,
   ThemeEditorRoute: ThemeEditorRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,

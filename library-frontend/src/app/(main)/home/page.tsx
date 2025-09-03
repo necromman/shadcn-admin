@@ -63,11 +63,11 @@ export default function HomePage() {
           <CardContent>
             <ul className="space-y-3">
               {notices.map((notice) => (
-                <li key={notice.id} className="flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-800 p-2 rounded">
+                <li key={notice.id} className="flex justify-between items-center hover:bg-muted p-2 rounded transition-colors">
                   <Link to={`/news/notice/${notice.id}`} className="flex-1">
                     <span className="text-sm">{notice.title}</span>
                   </Link>
-                  <span className="text-xs text-gray-500">{notice.date}</span>
+                  <span className="text-xs text-muted-foreground">{notice.date}</span>
                 </li>
               ))}
             </ul>
@@ -84,7 +84,7 @@ export default function HomePage() {
               <h4 className="font-semibold flex items-center gap-2 mb-2">
                 <Clock className="h-4 w-4" /> 오늘의 개관시간
               </h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">평일: 09:00 - 22:00</p>
+              <p className="text-sm text-muted-foreground">평일: 09:00 - 22:00</p>
             </div>
             <div>
               <h4 className="font-semibold mb-2">열람실 좌석현황</h4>
@@ -131,7 +131,7 @@ export default function HomePage() {
                     className="w-full h-48 object-cover rounded-md mb-2"
                   />
                   <h4 className="font-semibold text-sm line-clamp-1">{book.title}</h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">{book.author}</p>
+                  <p className="text-xs text-muted-foreground">{book.author}</p>
                 </div>
               </Link>
             ))}

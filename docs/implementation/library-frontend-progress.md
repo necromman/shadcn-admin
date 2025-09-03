@@ -15,24 +15,30 @@
 - **작업 대상**: library-frontend 폴더 내의 파일들만 수정
 - **원본 보호**: shadcn-admin 프로젝트의 파일은 읽기 전용
 
-## 🐛 현재 이슈 (2025-01-03 발견)
-### 다크모드 관련 문제
-1. **배경색 미적용 문제**
-   - 다크모드 전환 시 일부 컴포넌트 배경색이 변경되지 않음
-   - 특히 카드, 드롭다운, 모달 배경이 흰색으로 유지됨
+## ✅ 해결된 이슈 (2025-09-03 해결)
+### 다크모드 관련 문제 해결
+1. **ThemeProvider 구현 완료**
+   - React Context API를 통한 테마 관리 시스템 구축
+   - 쿠키 기반 테마 저장 기능 추가
+   - 시스템 테마 자동 감지 및 적용
    
-2. **드롭다운 배경 투명 문제**
-   - 네비게이션 드롭다운 메뉴 배경이 투명하게 표시
-   - `bg-popover` 클래스가 제대로 적용되지 않음
+2. **CSS 변수 시스템 정비**
+   - 라이트/다크 모드 CSS 변수 정의 완료
+   - chart 색상 변수 추가
+   - 모든 컴포넌트에서 테마 변수 사용
    
-3. **텍스트 색상 대비 문제**
-   - 일부 텍스트가 다크모드에서 읽기 어려움
-   - 특히 회색 계열 텍스트의 대비가 부족
+3. **컴포넌트 스타일 개선**
+   - 하드코딩된 gray 색상을 테마 변수로 교체
+   - bg-background, text-muted-foreground 등 표준 클래스 사용
+   - 드롭다운 및 팝오버 bg-popover 클래스 적용 확인
 
-### 예상 원인
-- Tailwind CSS 다크모드 설정 누락 가능성
-- CSS 변수 정의 누락
-- 컴포넌트별 다크모드 클래스 미적용
+### 수정된 파일
+- `src/App.tsx` - ThemeProvider 추가
+- `src/index.css` - CSS 변수 업데이트
+- `src/context/theme-provider.tsx` - 테마 프로바이더 구현
+- `src/components/theme-toggle.tsx` - 테마 토글 컴포넌트
+- `src/components/layout/main-layout.tsx` - 배경색 테마 변수 사용
+- `src/app/(main)/home/page.tsx` - 하드코딩 색상 제거
 
 ## ✅ 완료된 작업
 

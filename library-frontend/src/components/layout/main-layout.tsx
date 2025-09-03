@@ -6,7 +6,7 @@ export function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col">
       <LibraryHeader />
-      <main className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <main className="flex-1 bg-background">
         <Outlet />
       </main>
       <LibraryFooter />

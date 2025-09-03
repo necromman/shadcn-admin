@@ -113,7 +113,7 @@ export function LibraryHeader() {
   // - 'always': 항상 표시
   // - 'desktop': 데스크톱에서만 표시
   // - 'none': 표시하지 않음
-  const SHOW_SEARCH_BAR = 'desktop';
+  const SHOW_SEARCH_BAR: 'always' | 'desktop' | 'none' = 'desktop';
   
   // [옵션 4] 알림 기능 활성화
   // - true: 알림 아이콘과 뱃지 표시
@@ -128,7 +128,7 @@ export function LibraryHeader() {
   // [옵션 6] 드롭다운 메뉴 트리거 방식
   // - 'hover': 마우스 오버 시 표시 (데스크톱)
   // - 'click': 클릭 시 표시
-  const DROPDOWN_TRIGGER = 'hover';
+  const DROPDOWN_TRIGGER: 'hover' | 'click' = 'hover';
   
   // [옵션 7] 서브메뉴 설명 표시
   // - true: 각 서브메뉴 항목의 설명 표시
@@ -213,7 +213,7 @@ export function LibraryHeader() {
                 className="relative"
                 onMouseEnter={() => DROPDOWN_TRIGGER === 'hover' && setActiveDropdown(menu.title)}
                 onMouseLeave={() => DROPDOWN_TRIGGER === 'hover' && setActiveDropdown(null)}
-                onClick={() => DROPDOWN_TRIGGER === 'click' && setActiveDropdown(activeDropdown === menu.title ? null : menu.title)}
+                onClick={() => (DROPDOWN_TRIGGER as string) === 'click' && setActiveDropdown(activeDropdown === menu.title ? null : menu.title)}
               >
                 <button
                   className={cn(
@@ -225,7 +225,7 @@ export function LibraryHeader() {
                   onClick={() => {
                     if (!menu.subItems) {
                       navigate(menu.href)
-                    } else if (DROPDOWN_TRIGGER === 'click') {
+                    } else if ((DROPDOWN_TRIGGER as string) === 'click') {
                       setActiveDropdown(activeDropdown === menu.title ? null : menu.title)
                     }
                   }}
@@ -269,7 +269,7 @@ export function LibraryHeader() {
             설정: SHOW_SEARCH_BAR (라인 112)
             ========================================
           */}
-          {(SHOW_SEARCH_BAR === 'always' || SHOW_SEARCH_BAR === 'desktop') && (
+          {((SHOW_SEARCH_BAR as string) === 'always' || (SHOW_SEARCH_BAR as string) === 'desktop') && (
           <form onSubmit={handleSearch} className={`${SHOW_SEARCH_BAR === 'desktop' ? 'hidden md:flex' : 'flex'} items-center space-x-2 flex-1 max-w-md mx-8`}>
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />

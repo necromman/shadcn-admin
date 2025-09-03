@@ -1,5 +1,29 @@
 # 프로젝트 개발 지침
 
+## ⛔ 절대 수정 금지 영역 (최우선 규칙)
+
+### 🚨 디자인 시스템 원본 보호
+**다음 폴더/파일은 절대 수정 금지 - 참조용으로만 사용:**
+- `src/components/layout/` - 레이아웃 컴포넌트 원본
+- `src/components/ui/` - shadcn 기본 컴포넌트 
+- `src/features/auth/`, `src/features/dashboard/` 등 - 기존 기능 폴더
+- `src/routes/` 내 기존 라우트 파일들
+- `library-frontend/` - **사용하지 않는 폴더 (작업 대상 아님)**
+- 기타 디자인 시스템 외부의 모든 파일
+
+**수정 가능한 영역 (엄격히 제한):**
+- ✅ `src/features/design-system/` - 디자인 시스템 개발 전용
+- ✅ `src/components/design-system/` - 디자인 시스템 컴포넌트 전용
+- ✅ `docs/` - 문서 작성 가능
+
+### ⚠️ 원본 수정 시 발생하는 문제
+- 기존 기능 파괴
+- 다른 페이지/라우트 영향
+- 프로덕션 배포 시 심각한 버그
+- 원본 복구 불가능
+
+**반드시 기존 컴포넌트를 참조만 하고, 디자인 시스템 폴더 내에서 새로 구현할 것**
+
 ## 🔴 중요: 프로젝트 작업 범위
 **현재 프로젝트는 디자인 시스템 개발에 집중**
 - **작업 대상 폴더**: `src/features/design-system/` 
@@ -677,6 +701,46 @@ src/
 8. 빌드 및 검증
 9. 리팩토링
 
+## 🚨 표시 옵션 구현 중요 지침
+
+### ⚠️ 절대 금지사항
+- **메인 화면에 표시 옵션 직접 출력 금지**
+- 캐러셀, 히어로 등의 표시 옵션은 절대 메인 화면에 직접 표시하지 않음
+- 사용자가 보는 화면에 개발자 옵션이 노출되면 안 됨
+
+### ✅ 올바른 구현 방법
+1. **개발자 설정 패널에만 구현**
+   - 모든 표시 옵션은 개발자 설정 드로어/패널 내부에만 구현
+   - 예: 도서관 개발자 설정의 캐러셀 탭
+   - Ctrl+Shift+D 같은 단축키로만 접근 가능하도록
+
+2. **디자인 시스템은 예외**
+   - `/design-system` 경로는 개발자용 쇼케이스이므로 표시 옵션 노출 가능
+   - 실제 서비스 페이지(/, /library 등)에서는 절대 노출 금지
+
+3. **상태 관리**
+   - 표시 옵션은 Context API나 상태 관리를 통해 제어
+   - 개발자 설정에서만 변경 가능
+   - 로컬스토리지 등을 통해 설정값 저장
+
+### 예시 구현 패턴
+```tsx
+// ❌ Bad: 메인 화면에 직접 표시
+<LibraryCarousel />
+<div className="container">
+  <OptionsPanel /> {/* 절대 금지! */}
+</div>
+
+// ✅ Good: 개발자 설정 패널에만 구현
+// dev-settings-panel.tsx
+<TabsContent value="carousel">
+  <CarouselOptions />
+</TabsContent>
+
+// carousel.tsx - 옵션을 context에서 가져옴
+const { options } = useDevSettings()
+```
+
 ## 📊 콘텐츠 표시 옵션 표준
 
 ### 디자인 시스템 섹션의 설정 옵션 구현 가이드
@@ -895,363 +959,6 @@ src/styles/
 - ❌ ID 선택자 사용 (#id)
 - ❌ 하드코딩된 색상값
 
-## 🚨 library-frontend 프로젝트 작업 지침
-
-### 🔴 절대 수정 금지 파일
-**`src/features/design-system/frontend-section-new.tsx`는 참조용 원본 파일**
-- ⛔ **절대 수정 금지**: 이 파일은 디자인 시스템의 원본
-- 📖 **참조만 허용**: UI 패턴과 구조 참고용으로만 사용
-- 🔒 **원본 보호**: 어떤 경우에도 이 파일을 변경하지 말 것
-
-### 작업 대상 프로젝트 확인
-**library-frontend는 독립된 별도 프로젝트**
-- **프로젝트 위치**: `D:\PROJECT\practice\shadcn-admin\library-frontend`
-- **개발 서버**: http://localhost:5175/
-- **작업 대상**: library-frontend 폴더 내의 파일들만 수정
-- **스타일링 후순위**: 기능 구현 우선, 스타일링은 나중에
-
-### 기존 리소스 활용 원칙
-1. **원본 디자인 시스템 참조**
-   - `frontend-section-new.tsx`의 구조와 패턴 참고
-   - 원본은 읽기만, 수정은 library-frontend에서
-   - 컴포넌트 구조와 스타일 패턴 학습용
-
-2. **library-frontend 내에서만 작업**
-   - `library-frontend/src/components/` - 새 컴포넌트 생성
-   - `library-frontend/src/app/` - 새 페이지 생성
-   - `library-frontend/src/lib/` - 유틸리티 함수
-   - 모든 수정은 library-frontend 폴더 내에서만
-
-3. **shadcn/ui 컴포넌트 필수 사용**
-   - 모든 UI는 shadcn/ui 기반
-   - 커스텀 스타일링 최소화
-   - 기존 테마 시스템 준수
-
-### 개발 우선순위
-1. **기능 구현** (1순위)
-   - 컴포넌트 로직과 상호작용
-   - 데이터 바인딩과 상태 관리
-   - 이벤트 핸들링
-
-2. **구조 설계** (2순위)
-   - 컴포넌트 계층 구조
-   - Props 인터페이스 정의
-   - 재사용성 고려
-
-3. **스타일링** (3순위 - 나중에)
-   - 기본 shadcn 스타일 유지
-   - 세부 디자인은 추후 조정
-   - 반응형은 기본만 적용
-
-### 금지 사항
-- ❌ **frontend-section-new.tsx 수정 절대 금지**
-- ❌ shadcn-admin 원본 프로젝트 파일 수정
-- ❌ 기존 라우팅 시스템 변경
-- ❌ 새로운 CSS 프레임워크 도입
-- ❌ 과도한 스타일링 작업
-
-### 필수 준수 사항
-- ✅ **frontend-section-new.tsx는 읽기 전용**
-- ✅ library-frontend 폴더 내에서만 작업
-- ✅ shadcn/ui 컴포넌트만 사용
-- ✅ TypeScript 타입 안정성 유지
-- ✅ 작업 완료 후 progress.md 문서 업데이트
-- ✅ **개발자 옵션 설정 구현 (아래 지침 참조)**
-
-### 🎛️ library-frontend 통합 개발자 설정 시스템
-
-**library-frontend 프로젝트는 통합 개발자 설정 시스템을 사용합니다**
-
-#### 설정 시스템 구조
-```
-src/
-├── context/
-│   └── dev-settings-provider.tsx   # 설정 컨텍스트 및 프로바이더
-├── components/
-│   └── dev-settings-panel.tsx      # 설정 UI (플로팅 버튼 + 드로어)
-```
-
-#### 설정 추가 방법
-
-##### 1. 타입 정의 추가 (dev-settings-provider.tsx)
-```typescript
-// 새 섹션 인터페이스 추가
-export interface NewSectionSettings {
-  option1: boolean
-  option2: string
-  option3: number
-}
-
-// DevSettings에 추가
-export interface DevSettings {
-  header: HeaderSettings
-  hero: HeroSettings
-  footer: FooterSettings
-  general: GeneralSettings
-  newSection: NewSectionSettings  // 새 섹션 추가
-}
-
-// DEFAULT_SETTINGS에 기본값 추가
-const DEFAULT_SETTINGS: DevSettings = {
-  // ...기존 설정
-  newSection: {
-    option1: true,
-    option2: 'default',
-    option3: 100,
-  }
-}
-```
-
-##### 2. UI 패널 추가 (dev-settings-panel.tsx)
-```tsx
-// TabsList에 탭 추가
-<TabsList className="grid w-full grid-cols-5 p-1">
-  <TabsTrigger value="header">헤더</TabsTrigger>
-  <TabsTrigger value="hero">히어로</TabsTrigger>
-  <TabsTrigger value="footer">푸터</TabsTrigger>
-  <TabsTrigger value="general">일반</TabsTrigger>
-  <TabsTrigger value="newSection">새섹션</TabsTrigger>
-</TabsList>
-
-// TabsContent 추가
-<TabsContent value="newSection" className="px-6 py-4 space-y-6">
-  <SettingSection title="설정 제목" description="설정 설명">
-    {/* 설정 UI 구현 */}
-  </SettingSection>
-</TabsContent>
-```
-
-##### 3. 컴포넌트에서 사용
-```tsx
-import { useDevSettings } from '@/context/dev-settings-provider'
-
-function MyComponent() {
-  const { settings } = useDevSettings()
-  const { option1, option2, option3 } = settings.newSection
-  
-  // 설정값 활용
-  if (option1) {
-    // ...
-  }
-}
-```
-
-#### 사용 방법
-1. 개발자 모드 활성화: 설정 패널에서 토글
-2. 설정 패널 열기: 왼쪽 상단 플로팅 버튼 클릭
-3. 섹션별 설정 조정
-4. 설정은 쿠키에 30일간 저장
-
-#### 주요 기능
-- **중앙 집중식 설정 관리**: 모든 개발 옵션을 한 곳에서 관리
-- **영속성**: 쿠키 기반 설정 저장 (30일)
-- **확장성**: 새 섹션/옵션 추가 용이
-- **개발자 친화적 UI**: 플로팅 버튼 + 드로어 인터페이스
-- **섹션별 초기화**: 각 섹션 독립적 초기화 가능
-
-### 🎛️ 개발자 옵션 설정 구현 지침 (레거시 - 개별 컴포넌트용)
-
-**통합 설정 시스템을 사용할 수 없는 경우에만 아래 방식 사용**
-
-#### 1. 설정 옵션 구현 패턴
-```tsx
-// ========================================
-// 개발자 설정 옵션 (Developer Configuration)
-// ========================================
-const DEVELOPER_CONFIG = {
-  // 기능 토글
-  enableSearch: true,          // 검색 기능 활성화
-  enableNotification: true,    // 알림 기능 활성화
-  enableDarkMode: true,        // 다크모드 지원
-  
-  // 표시 옵션
-  showBanner: true,            // 상단 배너 표시
-  showFooterLinks: true,       // 푸터 링크 표시
-  maxItemsToShow: 10,          // 최대 표시 항목 수
-  
-  // 스타일 옵션
-  headerStyle: 'fixed',        // 'fixed' | 'static' | 'sticky'
-  layoutWidth: 'container',    // 'full' | 'container' | 'narrow'
-  
-  // 데이터 소스
-  useRealData: false,          // true: 실제 API, false: 더미 데이터
-  apiEndpoint: '/api/v1',      // API 엔드포인트
-}
-
-// 사용 예시
-if (DEVELOPER_CONFIG.enableSearch) {
-  // 검색 컴포넌트 렌더링
-}
-```
-
-#### 2. 컴포넌트별 옵션 주석 규칙
-```tsx
-export function LibraryHeader() {
-  // ========================================
-  // 개발자 설정 영역 시작
-  // ========================================
-  
-  // [옵션 1] 네비게이션 메뉴 구성
-  // - true: 전체 메뉴 표시
-  // - false: 간소화된 메뉴만 표시
-  const SHOW_FULL_NAVIGATION = true;
-  
-  // [옵션 2] 검색바 위치
-  // - 'header': 헤더에 표시
-  // - 'hero': 히어로 섹션에 표시
-  // - 'both': 양쪽 모두 표시
-  const SEARCH_BAR_POSITION = 'header';
-  
-  // [옵션 3] 사용자 메뉴 항목
-  // - 배열에서 항목 추가/제거로 조절
-  const USER_MENU_ITEMS = [
-    'myLibrary',    // My Library 링크
-    'notifications', // 알림
-    'settings',      // 설정
-    'logout'        // 로그아웃
-  ];
-  
-  // ========================================
-  // 개발자 설정 영역 끝
-  // ========================================
-  
-  // 컴포넌트 로직...
-}
-```
-
-#### 3. 섹션별 옵션 구현 예시
-
-##### 네비게이션 옵션
-```tsx
-// library-frontend/src/components/layout/library-header.tsx
-
-// ========================================
-// 네비게이션 설정 (Navigation Settings)
-// ========================================
-const NAV_CONFIG = {
-  // 드롭다운 동작 방식
-  dropdownTrigger: 'hover',     // 'hover' | 'click'
-  
-  // 모바일 메뉴 스타일
-  mobileMenuStyle: 'drawer',    // 'drawer' | 'dropdown' | 'fullscreen'
-  
-  // 메뉴 항목 표시 제어
-  showSubMenuDescriptions: true, // 서브메뉴 설명 표시 여부
-  maxSubMenuItems: 5,           // 서브메뉴 최대 항목 수
-  
-  // 메뉴 애니메이션
-  enableAnimations: true,        // 애니메이션 활성화
-  animationDuration: 200,        // 애니메이션 지속 시간(ms)
-}
-```
-
-##### 게시판 옵션
-```tsx
-// library-frontend/src/components/board/board-list.tsx
-
-// ========================================
-// 게시판 설정 (Board Settings)
-// ========================================
-const BOARD_CONFIG = {
-  // 표시 설정
-  itemsPerPage: 20,              // 페이지당 항목 수
-  showThumbnails: true,          // 썸네일 표시
-  showAuthor: true,              // 작성자 표시
-  showViewCount: true,           // 조회수 표시
-  
-  // 기능 설정
-  enableSearch: true,            // 검색 기능
-  enableFilters: true,           // 필터 기능
-  enableSorting: true,           // 정렬 기능
-  
-  // 레이아웃
-  layout: 'list',                // 'list' | 'grid' | 'card'
-  columns: 3,                    // 그리드 레이아웃 컬럼 수
-}
-```
-
-##### 푸터 옵션
-```tsx
-// library-frontend/src/components/layout/library-footer.tsx
-
-// ========================================
-// 푸터 설정 (Footer Settings)  
-// ========================================
-const FOOTER_CONFIG = {
-  // 섹션 표시 제어
-  sections: {
-    info: true,          // 도서관 정보
-    quickLinks: true,    // 빠른 링크
-    contact: true,       // 연락처
-    social: true,        // 소셜 미디어
-    newsletter: false,   // 뉴스레터 구독
-  },
-  
-  // 링크 설정
-  maxQuickLinks: 6,      // 최대 빠른 링크 수
-  externalLinksNewTab: true, // 외부 링크 새 탭 열기
-}
-```
-
-#### 4. 주석 작성 규칙
-
-##### 필수 주석 형식
-```tsx
-// ========================================
-// [섹션명] 설정 ([Section] Settings)
-// 설명: 이 섹션의 동작을 제어하는 설정입니다
-// 팁: 개발/프로덕션 환경에 따라 조절하세요
-// ========================================
-
-// [옵션명]: [설명]
-// - 가능한 값: value1 | value2 | value3
-// - 기본값: defaultValue
-// - 영향: 이 옵션을 변경하면 [무엇]이 변경됩니다
-const OPTION_NAME = 'defaultValue';
-```
-
-##### 조건부 렌더링 주석
-```tsx
-{/* 
-  ========================================
-  조건부 렌더링: 검색바
-  설정: DEVELOPER_CONFIG.enableSearch
-  위치: 파일 상단 15번 라인
-  ========================================
-*/}
-{DEVELOPER_CONFIG.enableSearch && (
-  <SearchBar />
-)}
-```
-
-#### 5. 환경별 설정 분리
-```tsx
-// config/development.ts
-export const DEV_CONFIG = {
-  showDebugInfo: true,
-  enableMockData: true,
-  apiDelay: 1000, // 개발 환경 API 지연 시뮬레이션
-}
-
-// config/production.ts  
-export const PROD_CONFIG = {
-  showDebugInfo: false,
-  enableMockData: false,
-  apiDelay: 0,
-}
-
-// 사용
-const CONFIG = process.env.NODE_ENV === 'development' 
-  ? DEV_CONFIG 
-  : PROD_CONFIG;
-```
-
-#### 6. 옵션 문서화 요구사항
-- 모든 설정 옵션은 파일 상단에 집중 배치
-- 각 옵션마다 명확한 설명과 가능한 값 명시
-- 옵션 변경 시 영향 범위 설명
-- 관련 컴포넌트 위치 표시
-- 기본값과 권장값 구분 표시
 
 ## ⚠️ 주의사항
 - **작업 범위 엄수**: `src/features/design-system/` 폴더만 수정
@@ -1265,4 +972,3 @@ const CONFIG = process.env.NODE_ENV === 'development'
 - **프로덕션 레디 상태 유지**
 - **디자인 시스템은 즉시 사용 가능한 완성도로 구현**
 - **프론트/백오피스 스타일 독립성 유지**
-- **library-frontend 프로젝트는 기능 우선, 스타일링 후순위**

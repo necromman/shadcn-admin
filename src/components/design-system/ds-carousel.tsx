@@ -122,14 +122,14 @@ export function DSCarousel() {
     indicatorStyle: 'square',
     indicatorPosition: 'inside',
     autoPlay: true,
-    navigationSize: 'large',  // 크게를 기본값으로
-    customButtonSize: 64,
-    customIconSize: 32,
+    navigationSize: 'medium',  // 중간 크기를 기본값으로
+    customButtonSize: 48,
+    customIconSize: 24,
     navigationPosition: 'custom',  // 커스텀으로 변경
     // 버튼 위치 기본값
-    buttonBasePercent: 43,  // 기준점 43%로 변경
-    buttonLeftPosition: 80,  // 컨테이너 안쪽 80px
-    buttonRightPosition: 80, // 컨테이너 안쪽 80px
+    buttonBasePercent: 42,  // 기준점 42%로 변경
+    buttonLeftPosition: 90,  // 컨테이너 안쪽 90px
+    buttonRightPosition: 90, // 컨테이너 안쪽 90px
     // 인디케이터 패딩 기본값
     indicatorPaddingDesktop: 175,  // 175px로 변경 (메인과 동일)
     indicatorPaddingMobile: 45  // 45px로 변경 (메인과 동일)
@@ -185,17 +185,17 @@ export function DSCarousel() {
     }
     
     if (options.navigationPosition === 'custom') {
-      // 사용자 정의 위치 사용 (기준점 퍼센트 포함)
+      // 커스텀 위치: 컨테이너 안쪽 기준으로 계산
       return {
-        left: `max(1rem, calc(${options.buttonBasePercent}% - 40rem + ${options.buttonLeftPosition}px))`,
-        right: `max(1rem, calc(${options.buttonBasePercent}% - 40rem + ${options.buttonRightPosition}px))`
+        left: `${options.buttonLeftPosition}px`,
+        right: `${options.buttonRightPosition}px`
       }
     }
     
-    // safe 모드: 기본 위치 (컨테이너 안쪽)
+    // safe 모드: 컨테이너 안쪽 80px
     return {
-      left: `max(1rem, calc(50% - 40rem + 80px))`,
-      right: `max(1rem, calc(50% - 40rem + 80px))`
+      left: '80px',
+      right: '80px'
     }
   }
   
@@ -737,7 +737,7 @@ export function DSCarousel() {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => setOptions(prev => ({ ...prev, indicatorPaddingDesktop: 145 }))}
+                        onClick={() => setOptions(prev => ({ ...prev, indicatorPaddingDesktop: 175 }))}
                         className="h-8 px-2 text-xs"
                       >
                         기본값
@@ -912,33 +912,35 @@ export function DSCarousel() {
               ))}
             </CarouselContent>
             
-            {/* 고정된 네비게이션 버튼 - Container 기준 위치 */}
-            <>
-              <CarouselPrevious 
-                className={cn(
-                  "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20",
-                  "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
-                  "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
-                )}
-                style={{
-                  ...getNavigationSizeStyle(),
-                  left: getNavigationPosition().left
-                }}
-                iconSize={getNavigationIconSize()}
-              />
-              <CarouselNext 
-                className={cn(
-                  "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20",
-                  "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
-                  "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
-                )}
-                style={{
-                  ...getNavigationSizeStyle(),
-                  right: getNavigationPosition().right
-                }}
-                iconSize={getNavigationIconSize()}
-              />
-            </>
+            {/* 네비게이션 버튼 - 컨테이너 내부에 위치 */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="container mx-auto relative h-full">
+                <CarouselPrevious 
+                  className={cn(
+                    "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20 pointer-events-auto",
+                    "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
+                    "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
+                  )}
+                  style={{
+                    ...getNavigationSizeStyle(),
+                    left: '16px'
+                  }}
+                  iconSize={getNavigationIconSize()}
+                />
+                <CarouselNext 
+                  className={cn(
+                    "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20 pointer-events-auto",
+                    "dark:bg-white/10 dark:backdrop-blur-sm dark:border dark:border-white/20 dark:text-white dark:hover:bg-white/20 dark:hover:border-white/30",
+                    "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
+                  )}
+                  style={{
+                    ...getNavigationSizeStyle(),
+                    right: '16px'
+                  }}
+                  iconSize={getNavigationIconSize()}
+                />
+              </div>
+            </div>
           </Carousel>
           
           {/* 고정된 인디케이터 - 내부 옵션일 때 */}

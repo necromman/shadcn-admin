@@ -124,14 +124,14 @@ const DEFAULT_SETTINGS: DevSettings = {
     indicatorPaddingDesktop: 175,
     indicatorPaddingMobile: 45,
     // 네비게이션 버튼 설정
-    navigationSize: 'large',
-    customButtonSize: 64,
-    customIconSize: 32,
-    navigationPosition: 'safe',  // 안전 영역으로 기본값 변경
-    // 버튼 위치 미세 조정 (custom 선택 시 사용)
-    buttonBasePercent: 50,
-    buttonLeftPosition: 80,
-    buttonRightPosition: 80,
+    navigationSize: 'medium',  // 중간 크기를 기본값으로 (세종샘물도서관 스타일)
+    customButtonSize: 48,
+    customIconSize: 24,
+    navigationPosition: 'custom',  // 커스텀으로 변경 (디자인 시스템과 동일)
+    // 버튼 위치 미세 조정 - 세종샘물도서관 스타일에 맞게 조정
+    buttonBasePercent: 42,  // 기준점 42%로 변경
+    buttonLeftPosition: 90,  // 컨테이너 안쪽 90px
+    buttonRightPosition: 90,  // 컨테이너 안쪽 90px
   },
   hero: {
     showBanner: true,

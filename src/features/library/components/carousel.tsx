@@ -98,21 +98,21 @@ export function LibraryCarousel() {
   const [isMobile, setIsMobile] = useState(false)
   const { settings } = useLibraryDevSettings()
   
-  // 개발자 설정에서 가져온 옵션 사용
+  // 개발자 설정에서 가져온 옵션 사용 (디자인 시스템과 동일한 기본값)
   const options = useMemo<CarouselOptions>(() => ({
     height: settings.carousel.height,
     indicatorStyle: settings.carousel.indicatorStyle,
     indicatorPosition: settings.carousel.indicatorPosition,
     autoPlay: settings.carousel.autoPlay,
-    navigationSize: settings.carousel.navigationSize,
-    customButtonSize: settings.carousel.customButtonSize,
-    customIconSize: settings.carousel.customIconSize,
-    navigationPosition: settings.carousel.navigationPosition,
-    buttonBasePercent: settings.carousel.buttonBasePercent,
-    buttonLeftPosition: settings.carousel.buttonLeftPosition,
-    buttonRightPosition: settings.carousel.buttonRightPosition,
-    indicatorPaddingDesktop: settings.carousel.indicatorPaddingDesktop,
-    indicatorPaddingMobile: settings.carousel.indicatorPaddingMobile
+    navigationSize: settings.carousel.navigationSize || 'large',  // 크게를 기본값으로
+    customButtonSize: settings.carousel.customButtonSize || 64,
+    customIconSize: settings.carousel.customIconSize || 32,
+    navigationPosition: settings.carousel.navigationPosition || 'custom',  // 커스텀으로 변경
+    buttonBasePercent: settings.carousel.buttonBasePercent || 43,  // 기준점 43%로 변경
+    buttonLeftPosition: settings.carousel.buttonLeftPosition || 80,  // 컨테이너 안쪽 80px
+    buttonRightPosition: settings.carousel.buttonRightPosition || 80,  // 컨테이너 안쪽 80px
+    indicatorPaddingDesktop: settings.carousel.indicatorPaddingDesktop || 175,  // 175px로 변경 (메인과 동일)
+    indicatorPaddingMobile: settings.carousel.indicatorPaddingMobile || 45  // 45px로 변경 (메인과 동일)
   }), [settings.carousel])
   
   // PC 최소/최대 높이 제약
@@ -240,16 +240,17 @@ export function LibraryCarousel() {
     }
     
     if (options.navigationPosition === 'custom') {
+      // 커스텀 위치: 컨테이너 안쪽 기준으로 계산
       return {
-        left: `max(1rem, calc(${options.buttonBasePercent}% - 40rem + ${options.buttonLeftPosition}px))`,
-        right: `max(1rem, calc(${options.buttonBasePercent}% - 40rem + ${options.buttonRightPosition}px))`
+        left: `${options.buttonLeftPosition}px`,
+        right: `${options.buttonRightPosition}px`
       }
     }
     
-    // safe 모드: 기본 위치
+    // safe 모드: 컨테이너 안쪽 80px
     return {
-      left: `max(1rem, calc(50% - 40rem + 80px))`,
-      right: `max(1rem, calc(50% - 40rem + 80px))`
+      left: '80px',
+      right: '80px'
     }
   }
   
@@ -401,32 +402,34 @@ export function LibraryCarousel() {
               ))}
             </CarouselContent>
             
-            {/* 네비게이션 버튼 */}
+            {/* 네비게이션 버튼 - 컨테이너 내부에 위치 */}
             {settings.carousel.showArrows && (
-              <>
-                <CarouselPrevious 
-                  className={cn(
-                    "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20",
-                    "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
-                  )}
-                  style={{
-                    ...getNavigationSizeStyle(),
-                    left: getNavigationPosition().left
-                  }}
-                  iconSize={getNavigationIconSize()}
-                />
-                <CarouselNext 
-                  className={cn(
-                    "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20",
-                    "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
-                  )}
-                  style={{
-                    ...getNavigationSizeStyle(),
-                    right: getNavigationPosition().right
-                  }}
-                  iconSize={getNavigationIconSize()}
-                />
-              </>
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="container mx-auto relative h-full">
+                  <CarouselPrevious 
+                    className={cn(
+                      "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20 pointer-events-auto",
+                      "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
+                    )}
+                    style={{
+                      ...getNavigationSizeStyle(),
+                      left: '16px'
+                    }}
+                    iconSize={getNavigationIconSize()}
+                  />
+                  <CarouselNext 
+                    className={cn(
+                      "hidden md:flex absolute top-1/2 -translate-y-1/2 transition-all z-20 pointer-events-auto",
+                      "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 hover:border-white/30"
+                    )}
+                    style={{
+                      ...getNavigationSizeStyle(),
+                      right: '16px'
+                    }}
+                    iconSize={getNavigationIconSize()}
+                  />
+                </div>
+              </div>
             )}
           </Carousel>
           

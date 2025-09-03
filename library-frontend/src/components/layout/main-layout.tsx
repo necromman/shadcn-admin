@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
-import { LibraryHeader } from './library-header'
+import { LibraryHeaderEnterprise } from './library-header-enterprise'
 import { LibraryFooter } from './library-footer'
 
 export function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col">
-      <LibraryHeader />
+      <LibraryHeaderEnterprise />
       <main className="flex-1 bg-background">
         <Outlet />
       </main>

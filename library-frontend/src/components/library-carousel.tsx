@@ -64,9 +64,9 @@ const LIBRARY_SLIDES: CarouselSlide[] = [
   {
     id: 'slide-1',
     title: '세종샘물도서관 시스템 오픈',
-    subtitle: 'System Launch',
+    // subtitle: 'System Launch',
     description: '세종공동캠퍼스 도서관리 시스템이 정식 오픈했습니다. 엑셀로 관리하던 도서 대출/반납이 이제 온라인으로 간편하게! 모바일과 PC에서 언제든지 도서 검색과 예약이 가능합니다.',
-    badge: 'NEW',
+    // badge: 'NEW',
     bgColor: 'bg-[#151515]',
     link: '/guide/system',
     linkText: '시스템 소개',
@@ -76,7 +76,7 @@ const LIBRARY_SLIDES: CarouselSlide[] = [
   {
     id: 'slide-2',
     title: '온라인 도서 대출 서비스 시작',
-    subtitle: 'Digital Service',
+    // subtitle: 'Digital Service',
     description: '이제 도서관에 직접 방문하지 않아도 온라인으로 도서 대출 신청이 가능합니다. 검색부터 예약, 연장까지 모든 과정을 웹사이트에서 처리하세요. 대출 가능 권수는 1인당 5권입니다.',
     bgColor: 'bg-[#151515]',
     link: '/services/loan',
@@ -87,7 +87,7 @@ const LIBRARY_SLIDES: CarouselSlide[] = [
   {
     id: 'slide-3',
     title: '열람실 좌석 예약 시스템',
-    subtitle: 'Seat Reservation',
+    // subtitle: 'Seat Reservation',
     description: '열람실 좌석을 실시간으로 확인하고 예약하세요. 제1열람실(100석), 제2열람실(80석), 스터디룸(10실) 모두 온라인 예약 가능. 당일 예약은 4시간, 시험기간에는 연장 이용이 가능합니다.',
     bgColor: 'bg-[#151515]',
     link: '/facilities/seat',
@@ -98,9 +98,9 @@ const LIBRARY_SLIDES: CarouselSlide[] = [
   {
     id: 'slide-4',
     title: '신입생 도서관 이용 교육',
-    subtitle: 'Orientation Program',
+    // subtitle: 'Orientation Program',
     description: '2024학년도 신입생을 위한 도서관 이용 교육을 실시합니다. 시스템 사용법, 도서 검색 방법, 학술DB 이용법 등을 안내합니다. 선착순 50명, 참가자에게는 도서 대출 우선권을 제공합니다.',
-    badge: 'EVENT',
+    // badge: 'EVENT',
     bgColor: 'bg-[#151515]',
     link: '/events/orientation',
     linkText: '교육 신청',

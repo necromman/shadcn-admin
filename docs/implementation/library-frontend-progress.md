@@ -15,6 +15,48 @@
 - **작업 대상**: library-frontend 폴더 내의 파일들만 수정
 - **원본 보호**: shadcn-admin 프로젝트의 파일은 읽기 전용
 
+## ✅ 해결된 이슈 (최신 업데이트)
+
+### 통합 개발자 설정 시스템 구현 (2025-09-03)
+1. **통합 설정 관리 시스템**
+   - DevSettingsProvider 구현으로 중앙 설정 관리
+   - 플로팅 버튼과 드로어 UI로 개발자 친화적 인터페이스
+   - 쿠키 기반 설정 영속성 (30일 유지)
+   
+2. **확장 가능한 구조**
+   - 섹션별 설정 분리 (헤더, 히어로, 푸터, 일반)
+   - 각 섹션별 독립적 초기화 기능
+   - 새로운 설정 추가 용이한 타입 구조
+   
+3. **구현된 기능**
+   - 개발자 모드 토글 (설정 패널 표시/숨김)
+   - 헤더 설정: 표시 요소, 네비게이션 동작, 스타일
+   - 히어로 설정: 배너 옵션, 자동재생, 슬라이드 간격
+   - 푸터 설정: 섹션별 표시 여부
+   - 일반 설정: 애니메이션, 디버그, 모의 데이터
+
+### 헤더 스타일 문제 해결 (2025-09-03)
+1. **스크롤 시 헤더 배경 표시 문제**
+   - 라이트 모드: `bg-white` + `shadow-sm`
+   - 다크 모드: `bg-zinc-950`
+   - 메인 콘텐츠: `bg-gray-50 dark:bg-zinc-900` 로 대비 향상
+   
+2. **드롭다운/모바일 메뉴 배경 개선**
+   - 명시적 배경색 지정으로 가시성 향상
+   - Sheet 컴포넌트 다크모드 스타일 최적화
+
+## ✅ 해결된 이슈 (2025-09-03 해결)
+
+### TanStack Router 시도 및 롤백 (2025-09-03)
+1. **TanStack Router 설치 시도**
+   - 원본 shadcn-admin과 동일하게 TanStack Router 적용 시도
+   - React 19와 호환성 문제 발생 (useContext hook 에러)
+   
+2. **React Router DOM으로 롤백**
+   - TanStack Router는 React 19를 아직 완전히 지원하지 않음
+   - 안정성을 위해 React Router DOM v7 유지 결정
+   - 모든 라우팅 기능 정상 작동 확인
+
 ## ✅ 해결된 이슈 (2025-09-03 해결)
 ### 다크모드 관련 문제 해결
 1. **ThemeProvider 구현 완료**
@@ -32,6 +74,12 @@
    - bg-background, text-muted-foreground 등 표준 클래스 사용
    - 드롭다운 및 팝오버 bg-popover 클래스 적용 확인
 
+4. **드롭다운 메뉴 배경 투명 문제 해결** (최신 업데이트)
+   - `dropdown-menu.tsx`의 하드코딩된 배경색 제거
+   - `bg-white dark:bg-zinc-900` → `bg-popover` 변경
+   - DropdownMenuContent와 DropdownMenuSubContent 모두 수정
+   - 라이트/다크 모드에서 정상적으로 배경색 표시
+
 ### 수정된 파일
 - `src/App.tsx` - ThemeProvider 추가
 - `src/index.css` - CSS 변수 업데이트
@@ -39,6 +87,7 @@
 - `src/components/theme-toggle.tsx` - 테마 토글 컴포넌트
 - `src/components/layout/main-layout.tsx` - 배경색 테마 변수 사용
 - `src/app/(main)/home/page.tsx` - 하드코딩 색상 제거
+- `src/components/ui/dropdown-menu.tsx` - 드롭다운 배경 CSS 변수 적용
 
 ## ✅ 완료된 작업
 

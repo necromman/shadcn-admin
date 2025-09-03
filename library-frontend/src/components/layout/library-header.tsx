@@ -179,7 +179,7 @@ export function LibraryHeader() {
   // 헤더 스타일 클래스 결정
   const headerClassName = cn(
     HEADER_STYLE === 'sticky' ? 'sticky' : HEADER_STYLE === 'fixed' ? 'fixed' : 'relative',
-    'top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b'
+    'top-0 z-50 bg-white dark:bg-zinc-950 backdrop-blur-sm border-b shadow-sm'
   );
 
   return (
@@ -345,7 +345,7 @@ export function LibraryHeader() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:w-[400px] p-0 overflow-y-auto">
-                <div className="sticky top-0 z-10 bg-background border-b px-6 py-4">
+                <div className="sticky top-0 z-10 bg-white dark:bg-zinc-950 border-b px-6 py-4 shadow-sm">
                   <SheetHeader>
                     <SheetTitle className="text-lg font-semibold">메뉴</SheetTitle>
                   </SheetHeader>

@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { 
   BookOpen, Search, Menu, User, LogOut, 
   BookMarked, Calendar, Bell, ChevronDown
 } from 'lucide-react'
-import { HiCog6Tooth } from 'react-icons/hi2'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -17,10 +16,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { cn } from '@/lib/utils'
+import { useDevSettings } from '@/context/dev-settings-provider'
 
 interface SubMenuItem {
   title: string
@@ -102,16 +100,18 @@ export function LibraryHeaderEnterprise() {
   const dropdownRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const location = useLocation()
-
-  // ========================================
-  // 개발자 설정 옵션 (Developer Configuration)
-  // ========================================
-  const [enableBlur, setEnableBlur] = useState(false)
-  const [showAllMenus, setShowAllMenus] = useState(false)
-  const [hoverEnabled, setHoverEnabled] = useState(true)
-  const [showSearchBar, setShowSearchBar] = useState(true)
-  const [showNotifications, setShowNotifications] = useState(true)
-  const [showTopNotice, setShowTopNotice] = useState(true)
+  
+  // 통합 설정 사용
+  const { settings } = useDevSettings()
+  const { 
+    enableBlur, 
+    showAllMenus, 
+    hoverEnabled, 
+    showSearchBar, 
+    showNotifications, 
+    showTopNotice,
+    headerStyle 
+  } = settings.header
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -138,94 +138,6 @@ export function LibraryHeaderEnterprise() {
 
   return (
     <>
-      {/* 콘텐츠 표시 옵션 */}
-      <div className="container mb-4">
-        <div className="bg-slate-100 dark:bg-muted/30 border-2 border-dotted border-slate-300 dark:border-border/50 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <HiCog6Tooth className="h-4 w-4 text-slate-600 dark:text-muted-foreground" />
-            <span className="text-sm font-semibold text-slate-700 dark:text-muted-foreground">헤더 표시 옵션</span>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="enable-blur"
-                checked={enableBlur}
-                onCheckedChange={(checked) => setEnableBlur(checked as boolean)}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label htmlFor="enable-blur" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                드롭다운 배경 블러
-              </Label>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="show-all-menus"
-                checked={showAllMenus}
-                onCheckedChange={(checked) => setShowAllMenus(checked as boolean)}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label htmlFor="show-all-menus" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                메가 메뉴 모드
-              </Label>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="hover-enabled"
-                checked={hoverEnabled}
-                onCheckedChange={(checked) => setHoverEnabled(checked as boolean)}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label htmlFor="hover-enabled" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                마우스오버 활성화
-              </Label>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="show-search"
-                checked={showSearchBar}
-                onCheckedChange={(checked) => setShowSearchBar(checked as boolean)}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label htmlFor="show-search" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                검색바 표시
-              </Label>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="show-notifications"
-                checked={showNotifications}
-                onCheckedChange={(checked) => setShowNotifications(checked as boolean)}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label htmlFor="show-notifications" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                알림 아이콘 표시
-              </Label>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="show-notice"
-                checked={showTopNotice}
-                onCheckedChange={(checked) => setShowTopNotice(checked as boolean)}
-                className="h-4 w-4 border-slate-400 dark:border-border"
-              />
-              <Label htmlFor="show-notice" className="cursor-pointer text-sm font-normal text-slate-700 dark:text-slate-300">
-                상단 공지 표시
-              </Label>
-            </div>
-          </div>
-          
-          <p className="text-xs text-slate-500 dark:text-muted-foreground mt-3 pl-0.5">
-            헤더 네비게이션의 동작과 표시 요소를 관리할 수 있습니다
-          </p>
-        </div>
-      </div>
-
       {/* 배경 블러 오버레이 */}
       {enableBlur && (activeDropdown || megaMenuOpen) && (
         <div 
@@ -250,7 +162,10 @@ export function LibraryHeaderEnterprise() {
       )}
 
       {/* 메인 헤더 */}
-      <header className="w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+      <header className={cn(
+        "w-full border-b bg-white dark:bg-zinc-950 backdrop-blur-sm z-50 shadow-sm",
+        headerStyle === 'sticky' ? 'sticky top-0' : headerStyle === 'fixed' ? 'fixed top-0' : 'relative'
+      )}>
         <div className="container">
           <div className="flex h-16 items-center justify-between">
             {/* 로고 */}
@@ -315,7 +230,7 @@ export function LibraryHeaderEnterprise() {
                   {/* 개별 드롭다운 */}
                   {!showAllMenus && item.subItems && activeDropdown === item.title && (
                     <div 
-                      className="absolute top-full left-0 mt-2 w-72 rounded-lg border bg-popover p-2 shadow-lg z-50"
+                      className="absolute top-full left-0 mt-2 w-72 rounded-lg border bg-white dark:bg-zinc-900 p-2 shadow-lg z-50"
                       onMouseLeave={() => hoverEnabled && setActiveDropdown(null)}
                     >
                       {item.subItems.map((subItem) => (
@@ -341,7 +256,7 @@ export function LibraryHeaderEnterprise() {
               {/* 메가 메뉴 */}
               {showAllMenus && megaMenuOpen && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-full rounded-lg border bg-popover shadow-xl z-50"
+                  className="absolute top-full left-0 mt-2 w-full rounded-lg border bg-white dark:bg-zinc-900 shadow-xl z-50"
                   onMouseLeave={() => {
                     if (hoverEnabled) {
                       setMegaMenuOpen(false)
@@ -492,7 +407,7 @@ export function LibraryHeaderEnterprise() {
                             )}
                           </button>
                           {item.subItems && mobileSubmenu === item.title && (
-                            <div className="bg-muted/50 py-2">
+                            <div className="bg-gray-100 dark:bg-zinc-800 py-2">
                               {item.subItems.map((subItem) => (
                                 <Link
                                   key={subItem.title}

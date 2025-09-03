@@ -958,9 +958,100 @@ src/styles/
 - ✅ 작업 완료 후 progress.md 문서 업데이트
 - ✅ **개발자 옵션 설정 구현 (아래 지침 참조)**
 
-### 🎛️ 개발자 옵션 설정 구현 지침
+### 🎛️ library-frontend 통합 개발자 설정 시스템
 
-**모든 컴포넌트는 개발자가 코드 레벨에서 조절 가능한 옵션을 포함해야 함**
+**library-frontend 프로젝트는 통합 개발자 설정 시스템을 사용합니다**
+
+#### 설정 시스템 구조
+```
+src/
+├── context/
+│   └── dev-settings-provider.tsx   # 설정 컨텍스트 및 프로바이더
+├── components/
+│   └── dev-settings-panel.tsx      # 설정 UI (플로팅 버튼 + 드로어)
+```
+
+#### 설정 추가 방법
+
+##### 1. 타입 정의 추가 (dev-settings-provider.tsx)
+```typescript
+// 새 섹션 인터페이스 추가
+export interface NewSectionSettings {
+  option1: boolean
+  option2: string
+  option3: number
+}
+
+// DevSettings에 추가
+export interface DevSettings {
+  header: HeaderSettings
+  hero: HeroSettings
+  footer: FooterSettings
+  general: GeneralSettings
+  newSection: NewSectionSettings  // 새 섹션 추가
+}
+
+// DEFAULT_SETTINGS에 기본값 추가
+const DEFAULT_SETTINGS: DevSettings = {
+  // ...기존 설정
+  newSection: {
+    option1: true,
+    option2: 'default',
+    option3: 100,
+  }
+}
+```
+
+##### 2. UI 패널 추가 (dev-settings-panel.tsx)
+```tsx
+// TabsList에 탭 추가
+<TabsList className="grid w-full grid-cols-5 p-1">
+  <TabsTrigger value="header">헤더</TabsTrigger>
+  <TabsTrigger value="hero">히어로</TabsTrigger>
+  <TabsTrigger value="footer">푸터</TabsTrigger>
+  <TabsTrigger value="general">일반</TabsTrigger>
+  <TabsTrigger value="newSection">새섹션</TabsTrigger>
+</TabsList>
+
+// TabsContent 추가
+<TabsContent value="newSection" className="px-6 py-4 space-y-6">
+  <SettingSection title="설정 제목" description="설정 설명">
+    {/* 설정 UI 구현 */}
+  </SettingSection>
+</TabsContent>
+```
+
+##### 3. 컴포넌트에서 사용
+```tsx
+import { useDevSettings } from '@/context/dev-settings-provider'
+
+function MyComponent() {
+  const { settings } = useDevSettings()
+  const { option1, option2, option3 } = settings.newSection
+  
+  // 설정값 활용
+  if (option1) {
+    // ...
+  }
+}
+```
+
+#### 사용 방법
+1. 개발자 모드 활성화: 설정 패널에서 토글
+2. 설정 패널 열기: 왼쪽 상단 플로팅 버튼 클릭
+3. 섹션별 설정 조정
+4. 설정은 쿠키에 30일간 저장
+
+#### 주요 기능
+- **중앙 집중식 설정 관리**: 모든 개발 옵션을 한 곳에서 관리
+- **영속성**: 쿠키 기반 설정 저장 (30일)
+- **확장성**: 새 섹션/옵션 추가 용이
+- **개발자 친화적 UI**: 플로팅 버튼 + 드로어 인터페이스
+- **섹션별 초기화**: 각 섹션 독립적 초기화 가능
+
+### 🎛️ 개발자 옵션 설정 구현 지침 (레거시 - 개별 컴포넌트용)
+
+**통합 설정 시스템을 사용할 수 없는 경우에만 아래 방식 사용**
 
 #### 1. 설정 옵션 구현 패턴
 ```tsx

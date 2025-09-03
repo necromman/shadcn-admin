@@ -10,10 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThemeEditorRouteImport } from './routes/theme-editor'
+import { Route as LibraryRouteRouteImport } from './routes/library/route'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as LibraryIndexRouteImport } from './routes/library/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as LibraryRegisterRouteImport } from './routes/library/register'
+import { Route as LibraryLoginRouteImport } from './routes/library/login'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthFindAccountRouteImport } from './routes/auth/find-account'
 import { Route as AuthenticatedOldRouteImport } from './routes/_authenticated/old'
@@ -59,6 +63,11 @@ const ThemeEditorRoute = ThemeEditorRouteImport.update({
   path: '/theme-editor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LibraryRouteRoute = LibraryRouteRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
   path: '/clerk',
@@ -73,10 +82,25 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LibraryIndexRoute = LibraryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LibraryRouteRoute,
+} as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const LibraryRegisterRoute = LibraryRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => LibraryRouteRoute,
+} as any)
+const LibraryLoginRoute = LibraryLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => LibraryRouteRoute,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
@@ -284,6 +308,7 @@ const AuthenticatedBoardTypeRoute = AuthenticatedBoardTypeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/library': typeof LibraryRouteRouteWithChildren
   '/theme-editor': typeof ThemeEditorRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/auth/signup': typeof AuthSignupRouteRouteWithChildren
@@ -301,7 +326,10 @@ export interface FileRoutesByFullPath {
   '/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
+  '/library/login': typeof LibraryLoginRoute
+  '/library/register': typeof LibraryRegisterRoute
   '/': typeof AuthenticatedIndexRoute
+  '/library/': typeof LibraryIndexRoute
   '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -342,7 +370,10 @@ export interface FileRoutesByTo {
   '/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
+  '/library/login': typeof LibraryLoginRoute
+  '/library/register': typeof LibraryRegisterRoute
   '/': typeof AuthenticatedIndexRoute
+  '/library': typeof LibraryIndexRoute
   '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -371,6 +402,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
+  '/library': typeof LibraryRouteRouteWithChildren
   '/theme-editor': typeof ThemeEditorRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/auth/signup': typeof AuthSignupRouteRouteWithChildren
@@ -389,7 +421,10 @@ export interface FileRoutesById {
   '/_authenticated/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
+  '/library/login': typeof LibraryLoginRoute
+  '/library/register': typeof LibraryRegisterRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/library/': typeof LibraryIndexRoute
   '/_authenticated/board/$type': typeof AuthenticatedBoardTypeRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -418,6 +453,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/auth'
     | '/clerk'
+    | '/library'
     | '/theme-editor'
     | '/settings'
     | '/auth/signup'
@@ -435,7 +471,10 @@ export interface FileRouteTypes {
     | '/old'
     | '/auth/find-account'
     | '/auth/login'
+    | '/library/login'
+    | '/library/register'
     | '/'
+    | '/library/'
     | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
@@ -476,7 +515,10 @@ export interface FileRouteTypes {
     | '/old'
     | '/auth/find-account'
     | '/auth/login'
+    | '/library/login'
+    | '/library/register'
     | '/'
+    | '/library'
     | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
@@ -504,6 +546,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/clerk'
+    | '/library'
     | '/theme-editor'
     | '/_authenticated/settings'
     | '/auth/signup'
@@ -522,7 +565,10 @@ export interface FileRouteTypes {
     | '/_authenticated/old'
     | '/auth/find-account'
     | '/auth/login'
+    | '/library/login'
+    | '/library/register'
     | '/_authenticated/'
+    | '/library/'
     | '/_authenticated/board/$type'
     | '/_authenticated/errors/$error'
     | '/_authenticated/settings/account'
@@ -551,6 +597,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   ClerkRouteRoute: typeof ClerkRouteRouteWithChildren
+  LibraryRouteRoute: typeof LibraryRouteRouteWithChildren
   ThemeEditorRoute: typeof ThemeEditorRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
@@ -571,6 +618,13 @@ declare module '@tanstack/react-router' {
       path: '/theme-editor'
       fullPath: '/theme-editor'
       preLoaderRoute: typeof ThemeEditorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clerk': {
@@ -594,12 +648,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/library/': {
+      id: '/library/'
+      path: '/'
+      fullPath: '/library/'
+      preLoaderRoute: typeof LibraryIndexRouteImport
+      parentRoute: typeof LibraryRouteRoute
+    }
     '/_authenticated/': {
       id: '/_authenticated/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/library/register': {
+      id: '/library/register'
+      path: '/register'
+      fullPath: '/library/register'
+      preLoaderRoute: typeof LibraryRegisterRouteImport
+      parentRoute: typeof LibraryRouteRoute
+    }
+    '/library/login': {
+      id: '/library/login'
+      path: '/login'
+      fullPath: '/library/login'
+      preLoaderRoute: typeof LibraryLoginRouteImport
+      parentRoute: typeof LibraryRouteRoute
     }
     '/auth/login': {
       id: '/auth/login'
@@ -1012,10 +1087,27 @@ const ClerkRouteRouteWithChildren = ClerkRouteRoute._addFileChildren(
   ClerkRouteRouteChildren,
 )
 
+interface LibraryRouteRouteChildren {
+  LibraryLoginRoute: typeof LibraryLoginRoute
+  LibraryRegisterRoute: typeof LibraryRegisterRoute
+  LibraryIndexRoute: typeof LibraryIndexRoute
+}
+
+const LibraryRouteRouteChildren: LibraryRouteRouteChildren = {
+  LibraryLoginRoute: LibraryLoginRoute,
+  LibraryRegisterRoute: LibraryRegisterRoute,
+  LibraryIndexRoute: LibraryIndexRoute,
+}
+
+const LibraryRouteRouteWithChildren = LibraryRouteRoute._addFileChildren(
+  LibraryRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   ClerkRouteRoute: ClerkRouteRouteWithChildren,
+  LibraryRouteRoute: LibraryRouteRouteWithChildren,
   ThemeEditorRoute: ThemeEditorRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,

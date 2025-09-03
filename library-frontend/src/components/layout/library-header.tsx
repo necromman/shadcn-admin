@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { 
   BookOpen, Search, Menu, User, LogOut, 
@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Badge } from '@/components/ui/badge'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { cn } from '@/lib/utils'
 
 interface SubMenuItem {
   title: string
@@ -89,6 +91,8 @@ const menuItems: MenuItem[] = [
 ]
 
 export function LibraryHeader() {
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  
   // ========================================
   // 개발자 설정 영역 시작 (Developer Configuration)
   // 아래 설정을 변경하여 헤더의 동작과 표시를 제어할 수 있습니다
@@ -160,8 +164,23 @@ export function LibraryHeader() {
     navigate('/')
   }
 
+  // 드롭다운 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   // 헤더 스타일 클래스 결정
-  const headerClassName = `${HEADER_STYLE === 'sticky' ? 'sticky' : HEADER_STYLE === 'fixed' ? 'fixed' : 'relative'} top-0 z-50 bg-white dark:bg-gray-950 border-b`;
+  const headerClassName = cn(
+    HEADER_STYLE === 'sticky' ? 'sticky' : HEADER_STYLE === 'fixed' ? 'fixed' : 'relative',
+    'top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b'
+  );
 
   return (
     <header className={headerClassName}>
@@ -187,7 +206,7 @@ export function LibraryHeader() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-1" ref={dropdownRef}>
             {menuItems.map((menu) => (
               <div
                 key={menu.title}
@@ -196,31 +215,43 @@ export function LibraryHeader() {
                 onMouseLeave={() => DROPDOWN_TRIGGER === 'hover' && setActiveDropdown(null)}
                 onClick={() => DROPDOWN_TRIGGER === 'click' && setActiveDropdown(activeDropdown === menu.title ? null : menu.title)}
               >
-                <Link
-                  to={menu.href}
-                  className={`flex items-center gap-1 px-3 py-2 text-sm font-medium hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors ${
-                    location.pathname.startsWith(menu.href) ? 'text-blue-600' : 'text-gray-700 dark:text-gray-300'
-                  }`}
+                <button
+                  className={cn(
+                    "flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    "hover:bg-accent hover:text-accent-foreground",
+                    activeDropdown === menu.title ? "bg-accent text-accent-foreground" : "",
+                    location.pathname.startsWith(menu.href) ? "text-primary" : ""
+                  )}
+                  onClick={() => {
+                    if (!menu.subItems) {
+                      navigate(menu.href)
+                    } else if (DROPDOWN_TRIGGER === 'click') {
+                      setActiveDropdown(activeDropdown === menu.title ? null : menu.title)
+                    }
+                  }}
                 >
                   {menu.title}
                   {menu.subItems && <ChevronDown className="h-3 w-3" />}
-                </Link>
+                </button>
                 
                 {/* Dropdown Menu */}
                 {menu.subItems && activeDropdown === menu.title && (
-                  <div className="absolute left-0 top-full mt-1 w-64 rounded-md border bg-white dark:bg-gray-900 shadow-lg py-2 z-50">
+                  <div 
+                    className="absolute left-0 top-full mt-2 w-64 rounded-lg border bg-popover p-2 shadow-lg z-50"
+                    onMouseLeave={() => DROPDOWN_TRIGGER === 'hover' && setActiveDropdown(null)}
+                  >
                     {menu.subItems.map((subItem) => (
                       <Link
                         key={subItem.title}
                         to={subItem.href}
-                        className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                        className="block rounded-md px-3 py-2 hover:bg-accent transition-colors"
                         onClick={() => setActiveDropdown(null)}
                       >
-                        <div className="font-medium text-gray-900 dark:text-gray-100">
+                        <div className="font-medium text-sm">
                           {subItem.title}
                         </div>
                         {SHOW_SUBMENU_DESCRIPTIONS && subItem.description && (
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                          <div className="text-xs text-muted-foreground mt-0.5">
                             {subItem.description}
                           </div>
                         )}
@@ -255,6 +286,8 @@ export function LibraryHeader() {
 
           {/* Right side buttons */}
           <div className="flex items-center space-x-2">
+            {/* Theme Toggle */}
+            <ThemeToggle />
             {/* 
               ========================================
               조건부 렌더링: 알림
@@ -311,11 +344,13 @@ export function LibraryHeader() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80">
-                <SheetHeader>
-                  <SheetTitle>메뉴</SheetTitle>
-                </SheetHeader>
-                <div className="mt-6 space-y-4">
+              <SheetContent side="right" className="w-full sm:w-[400px] p-0 overflow-y-auto">
+                <div className="sticky top-0 z-10 bg-background border-b px-6 py-4">
+                  <SheetHeader>
+                    <SheetTitle className="text-lg font-semibold">메뉴</SheetTitle>
+                  </SheetHeader>
+                </div>
+                <div className="px-4 py-6 space-y-4">
                   {/* Mobile Search */}
                   <form onSubmit={handleSearch} className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -331,36 +366,56 @@ export function LibraryHeader() {
                   {/* Mobile Menu Items */}
                   <nav className="space-y-1">
                     {menuItems.map((menu) => (
-                      <div key={menu.title}>
+                      <div key={menu.title} className="border-b last:border-0">
                         <button
-                          onClick={() => setMobileSubmenu(
-                            mobileSubmenu === menu.title ? null : menu.title
+                          onClick={() => {
+                            if (!menu.subItems) {
+                              navigate(menu.href)
+                              setIsMobileMenuOpen(false)
+                            } else {
+                              setMobileSubmenu(mobileSubmenu === menu.title ? null : menu.title)
+                            }
+                          }}
+                          className={cn(
+                            "flex items-center justify-between w-full px-4 py-4 text-base font-medium transition-colors",
+                            "hover:bg-accent/50 active:bg-accent",
+                            mobileSubmenu === menu.title && "bg-accent/30"
                           )}
-                          className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium hover:bg-accent rounded-md"
                         >
                           {menu.title}
                           {menu.subItems && (
                             <ChevronDown
-                              className={`h-4 w-4 transition-transform ${
-                                mobileSubmenu === menu.title ? 'rotate-180' : ''
-                              }`}
+                              className={cn(
+                                "h-5 w-5 transition-transform duration-200",
+                                mobileSubmenu === menu.title && "rotate-180"
+                              )}
                             />
                           )}
                         </button>
                         
                         {/* Mobile Submenu */}
-                        {menu.subItems && mobileSubmenu === menu.title && (
-                          <div className="ml-4 mt-1 space-y-1">
-                            {menu.subItems.map((subItem) => (
-                              <Link
-                                key={subItem.title}
-                                to={subItem.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="block px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-accent rounded-md"
-                              >
-                                {subItem.title}
-                              </Link>
-                            ))}
+                        {menu.subItems && (
+                          <div className={cn(
+                            "overflow-hidden transition-all duration-200",
+                            mobileSubmenu === menu.title ? "max-h-96" : "max-h-0"
+                          )}>
+                            <div className="pb-2">
+                              {menu.subItems.map((subItem) => (
+                                <Link
+                                  key={subItem.title}
+                                  to={subItem.href}
+                                  className="flex flex-col px-8 py-3 hover:bg-accent/30 active:bg-accent/50 transition-colors"
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                  <span className="text-sm font-medium">{subItem.title}</span>
+                                  {SHOW_SUBMENU_DESCRIPTIONS && subItem.description && (
+                                    <span className="text-xs text-muted-foreground mt-0.5">
+                                      {subItem.description}
+                                    </span>
+                                  )}
+                                </Link>
+                              ))}
+                            </div>
                           </div>
                         )}
                       </div>

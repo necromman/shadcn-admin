@@ -83,9 +83,9 @@ export function LibraryOperationHours() {
         {/* Current Time Display */}
         <div className="flex-1 space-y-3">
           {/* Digital Clock */}
-          <div className="p-4 rounded-lg bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border border-primary/20">
+          <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50/80 via-indigo-50/50 to-blue-50/80 dark:from-primary/5 dark:via-primary/10 dark:to-primary/5 border border-blue-200/50 dark:border-primary/20">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-muted-foreground">현재 시간</span>
+              <span className="text-xs text-slate-600 dark:text-muted-foreground">현재 시간</span>
               <div className="flex items-baseline gap-1">
                 <span className="text-2xl font-bold tabular-nums">
                   {currentHour.toString().padStart(2, '0')}
@@ -97,11 +97,11 @@ export function LibraryOperationHours() {
               </div>
             </div>
             {(currentStatus.closeTime || currentStatus.openTime) && (
-              <div className="flex items-center justify-between pt-2 border-t border-primary/10">
-                <span className="text-xs text-muted-foreground">
+              <div className="flex items-center justify-between pt-2 border-t border-blue-100 dark:border-primary/10">
+                <span className="text-xs text-slate-600 dark:text-muted-foreground">
                   {currentStatus.status === 'open' ? '종료 시간' : '다음 운영'}
                 </span>
-                <span className="text-sm font-semibold text-primary">
+                <span className="text-sm font-semibold text-blue-600 dark:text-primary">
                   {currentStatus.closeTime || currentStatus.openTime}
                 </span>
               </div>
@@ -111,30 +111,30 @@ export function LibraryOperationHours() {
           {/* Schedule Grid */}
           <div className="space-y-2">
             <div className="grid grid-cols-3 gap-2">
-              <div className="p-2 rounded-lg bg-muted/30 text-center">
-                <div className="text-[10px] text-muted-foreground mb-1">평일</div>
+              <div className="p-2 rounded-lg bg-slate-50 dark:bg-muted/30 text-center">
+                <div className="text-[10px] text-slate-600 dark:text-muted-foreground mb-1">평일</div>
                 <div className="text-xs font-semibold">09:00</div>
               </div>
-              <div className="p-2 rounded-lg bg-muted/30 text-center">
-                <div className="text-[10px] text-muted-foreground mb-1">토요일</div>
+              <div className="p-2 rounded-lg bg-slate-50 dark:bg-muted/30 text-center">
+                <div className="text-[10px] text-slate-600 dark:text-muted-foreground mb-1">토요일</div>
                 <div className="text-xs font-semibold">10:00</div>
               </div>
-              <div className="p-2 rounded-lg bg-muted/30 text-center">
-                <div className="text-[10px] text-muted-foreground mb-1">일요일</div>
+              <div className="p-2 rounded-lg bg-slate-50 dark:bg-muted/30 text-center">
+                <div className="text-[10px] text-slate-600 dark:text-muted-foreground mb-1">일요일</div>
                 <div className="text-xs font-semibold">10:00</div>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2">
-              <div className="p-2 rounded-lg bg-muted/30 text-center">
-                <div className="text-[10px] text-muted-foreground mb-1">마감</div>
+              <div className="p-2 rounded-lg bg-slate-50 dark:bg-muted/30 text-center">
+                <div className="text-[10px] text-slate-600 dark:text-muted-foreground mb-1">마감</div>
                 <div className="text-xs font-semibold">22:00</div>
               </div>
-              <div className="p-2 rounded-lg bg-muted/30 text-center">
-                <div className="text-[10px] text-muted-foreground mb-1">마감</div>
+              <div className="p-2 rounded-lg bg-slate-50 dark:bg-muted/30 text-center">
+                <div className="text-[10px] text-slate-600 dark:text-muted-foreground mb-1">마감</div>
                 <div className="text-xs font-semibold">18:00</div>
               </div>
-              <div className="p-2 rounded-lg bg-muted/30 text-center">
-                <div className="text-[10px] text-muted-foreground mb-1">마감</div>
+              <div className="p-2 rounded-lg bg-slate-50 dark:bg-muted/30 text-center">
+                <div className="text-[10px] text-slate-600 dark:text-muted-foreground mb-1">마감</div>
                 <div className="text-xs font-semibold">17:00</div>
               </div>
             </div>

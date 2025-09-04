@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Badge } from '@/components/ui/badge'
-import { ModeToggle } from '@/components/mode-toggle'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { cn } from '@/lib/utils'
 import { useLibraryDevSettings } from '@/features/library/context/dev-settings-provider'
 
@@ -319,7 +319,7 @@ export function LibraryHeader() {
               </Button>
 
               {/* Theme Toggle */}
-              <ModeToggle />
+              <ThemeToggle />
 
               {/* Mobile Menu */}
               <Sheet open={isOpen} onOpenChange={setIsOpen}>

@@ -72,51 +72,51 @@ export function LibraryBookStatus() {
         {/* Main Stats */}
         <div className="flex-1 space-y-3">
           {/* Total Books */}
-          <div className="p-3 rounded-lg bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20">
+          <div className="p-3 rounded-lg bg-gradient-to-r from-indigo-50 via-blue-50 to-indigo-50 dark:bg-gradient-to-br dark:from-primary/5 dark:via-primary/10 dark:to-primary/5 border border-indigo-200/50 dark:border-primary/20">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-muted-foreground font-medium">총 장서량</span>
-              <Library className="h-3.5 w-3.5 text-primary" />
+              <span className="text-xs text-slate-600 dark:text-muted-foreground font-medium">총 장서량</span>
+              <Library className="h-3.5 w-3.5 text-indigo-600 dark:text-primary" />
             </div>
             <div className="flex items-baseline justify-between">
-              <span className="text-3xl font-bold">{totalBooks.toLocaleString()}</span>
-              <span className="text-xs text-emerald-600">+8.2% YoY</span>
+              <span className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-primary dark:to-primary/80 bg-clip-text text-transparent">{totalBooks.toLocaleString()}</span>
+              <span className="text-xs text-emerald-600 dark:text-emerald-500 font-semibold">+8.2% YoY</span>
             </div>
           </div>
 
           {/* Stats Row */}
           <div className="grid grid-cols-3 gap-2">
-            <div className="p-2.5 rounded-lg bg-muted/30">
+            <div className="p-2.5 rounded-lg bg-amber-50 dark:bg-muted/30 border border-amber-100 dark:border-transparent">
               <Sparkles className="h-3 w-3 text-amber-500 mb-1" />
-              <div className="text-lg font-bold">{newBooks}</div>
-              <div className="text-[10px] text-muted-foreground">신착도서</div>
+              <div className="text-lg font-bold text-amber-900 dark:text-foreground">{newBooks}</div>
+              <div className="text-[10px] text-amber-700 dark:text-muted-foreground">신착도서</div>
             </div>
-            <div className="p-2.5 rounded-lg bg-muted/30">
+            <div className="p-2.5 rounded-lg bg-emerald-50 dark:bg-muted/30 border border-emerald-100 dark:border-transparent">
               <BookOpen className="h-3 w-3 text-emerald-500 mb-1" />
-              <div className="text-lg font-bold">{(availableBooks / 1000).toFixed(1)}k</div>
-              <div className="text-[10px] text-muted-foreground">대출가능</div>
+              <div className="text-lg font-bold text-emerald-900 dark:text-foreground">{(availableBooks / 1000).toFixed(1)}k</div>
+              <div className="text-[10px] text-emerald-700 dark:text-muted-foreground">대출가능</div>
             </div>
-            <div className="p-2.5 rounded-lg bg-muted/30">
+            <div className="p-2.5 rounded-lg bg-orange-50 dark:bg-muted/30 border border-orange-100 dark:border-transparent">
               <BookMarked className="h-3 w-3 text-orange-500 mb-1" />
-              <div className="text-lg font-bold">{(borrowedBooks / 1000).toFixed(1)}k</div>
-              <div className="text-[10px] text-muted-foreground">대출중</div>
+              <div className="text-lg font-bold text-orange-900 dark:text-foreground">{(borrowedBooks / 1000).toFixed(1)}k</div>
+              <div className="text-[10px] text-orange-700 dark:text-muted-foreground">대출중</div>
             </div>
           </div>
 
           {/* Today's Activity */}
-          <div className="p-2.5 rounded-lg bg-primary/5 border border-primary/10">
+          <div className="p-2.5 rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/50 dark:from-primary/5 dark:to-primary/10 border border-green-200/30 dark:border-primary/10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-medium">오늘 활동</span>
+                <span className="text-xs font-medium text-slate-700 dark:text-foreground">오늘 활동</span>
               </div>
               <div className="flex gap-3">
                 <span className="text-xs">
                   <span className="font-bold text-emerald-600">127</span>
-                  <span className="text-muted-foreground"> 대출</span>
+                  <span className="text-slate-600 dark:text-muted-foreground"> 대출</span>
                 </span>
                 <span className="text-xs">
                   <span className="font-bold text-amber-600">98</span>
-                  <span className="text-muted-foreground"> 반납</span>
+                  <span className="text-slate-600 dark:text-muted-foreground"> 반납</span>
                 </span>
               </div>
             </div>

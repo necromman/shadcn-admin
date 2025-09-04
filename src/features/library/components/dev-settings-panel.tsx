@@ -10,7 +10,9 @@ import {
   Sparkles,
   Eye,
   Zap,
-  Info
+  Info,
+  Grid,
+  BookOpen
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -171,10 +173,13 @@ export function LibraryDevSettingsPanel() {
               </div>
               
               <Tabs defaultValue="preheader" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 p-1 h-auto gap-1">
+                <TabsList className="grid w-full grid-cols-4 p-1 h-auto gap-1">
                   <TabsTrigger value="preheader" className="text-xs py-2">프리헤더</TabsTrigger>
                   <TabsTrigger value="header" className="text-xs py-2">헤더</TabsTrigger>
                   <TabsTrigger value="carousel" className="text-xs py-2">캐러셀</TabsTrigger>
+                  <TabsTrigger value="notice" className="text-xs py-2">공지사항</TabsTrigger>
+                  <TabsTrigger value="quickmenu" className="text-xs py-2">빠른메뉴</TabsTrigger>
+                  <TabsTrigger value="newbooks" className="text-xs py-2">신착도서</TabsTrigger>
                   <TabsTrigger value="hero" className="text-xs py-2">히어로</TabsTrigger>
                   <TabsTrigger value="footer" className="text-xs py-2">푸터</TabsTrigger>
                   <TabsTrigger value="general" className="text-xs py-2">일반</TabsTrigger>
@@ -733,6 +738,204 @@ export function LibraryDevSettingsPanel() {
                       캐러셀 설정 초기화
                     </Button>
                   </div>
+                </TabsContent>
+                
+                {/* 공지사항 설정 */}
+                <TabsContent value="notice" className="mt-6 space-y-6">
+                  <SettingSection 
+                    title="공지사항 섹션" 
+                    description="메인 페이지 공지사항 설정"
+                    icon={<FileText className="h-4 w-4" />}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="show-notice">공지사항 섹션 표시</Label>
+                        <Switch
+                          id="show-notice"
+                          checked={settings.notice.showSection}
+                          onCheckedChange={(checked) => 
+                            updateSettings('notice', { showSection: checked })
+                          }
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="notice-count">표시 개수</Label>
+                        <RadioGroup 
+                          id="notice-count"
+                          value={String(settings.notice.itemCount)}
+                          onValueChange={(value) => 
+                            updateSettings('notice', { itemCount: Number(value) as 3 | 5 | 10 })
+                          }
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="3" id="notice-3" />
+                            <Label htmlFor="notice-3">3개</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="5" id="notice-5" />
+                            <Label htmlFor="notice-5">5개</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="10" id="notice-10" />
+                            <Label htmlFor="notice-10">10개</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="notice-layout">레이아웃</Label>
+                        <RadioGroup 
+                          id="notice-layout"
+                          value={settings.notice.layout}
+                          onValueChange={(value) => 
+                            updateSettings('notice', { layout: value as 'list' | 'card' })
+                          }
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="list" id="notice-list" />
+                            <Label htmlFor="notice-list">리스트</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="card" id="notice-card" />
+                            <Label htmlFor="notice-card">카드</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                    </div>
+                  </SettingSection>
+                </TabsContent>
+                
+                {/* 빠른 메뉴 설정 */}
+                <TabsContent value="quickmenu" className="mt-6 space-y-6">
+                  <SettingSection 
+                    title="빠른 메뉴 섹션" 
+                    description="메인 페이지 빠른 메뉴 설정"
+                    icon={<Grid className="h-4 w-4" />}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="show-quickmenu">빠른 메뉴 섹션 표시</Label>
+                        <Switch
+                          id="show-quickmenu"
+                          checked={settings.quickMenu.showSection}
+                          onCheckedChange={(checked) => 
+                            updateSettings('quickMenu', { showSection: checked })
+                          }
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="quickmenu-size">아이콘 크기</Label>
+                        <RadioGroup 
+                          id="quickmenu-size"
+                          value={settings.quickMenu.iconSize}
+                          onValueChange={(value) => 
+                            updateSettings('quickMenu', { iconSize: value as 'small' | 'medium' | 'large' })
+                          }
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="small" id="quickmenu-small" />
+                            <Label htmlFor="quickmenu-small">작게</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="medium" id="quickmenu-medium" />
+                            <Label htmlFor="quickmenu-medium">보통</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="large" id="quickmenu-large" />
+                            <Label htmlFor="quickmenu-large">크게</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="quickmenu-layout">레이아웃</Label>
+                        <RadioGroup 
+                          id="quickmenu-layout"
+                          value={settings.quickMenu.layout}
+                          onValueChange={(value) => 
+                            updateSettings('quickMenu', { layout: value as 'horizontal' | 'grid' })
+                          }
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="horizontal" id="quickmenu-horizontal" />
+                            <Label htmlFor="quickmenu-horizontal">가로 배치</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="grid" id="quickmenu-grid" />
+                            <Label htmlFor="quickmenu-grid">그리드</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                    </div>
+                  </SettingSection>
+                </TabsContent>
+                
+                {/* 신착도서 설정 */}
+                <TabsContent value="newbooks" className="mt-6 space-y-6">
+                  <SettingSection 
+                    title="신착도서 섹션" 
+                    description="메인 페이지 신착도서 설정"
+                    icon={<BookOpen className="h-4 w-4" />}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="show-newbooks">신착도서 섹션 표시</Label>
+                        <Switch
+                          id="show-newbooks"
+                          checked={settings.newBooks.showSection}
+                          onCheckedChange={(checked) => 
+                            updateSettings('newBooks', { showSection: checked })
+                          }
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="newbooks-count">표시 개수</Label>
+                        <RadioGroup 
+                          id="newbooks-count"
+                          value={String(settings.newBooks.itemCount)}
+                          onValueChange={(value) => 
+                            updateSettings('newBooks', { itemCount: Number(value) as 4 | 6 | 8 })
+                          }
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="4" id="newbooks-4" />
+                            <Label htmlFor="newbooks-4">4개</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="6" id="newbooks-6" />
+                            <Label htmlFor="newbooks-6">6개</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="8" id="newbooks-8" />
+                            <Label htmlFor="newbooks-8">8개</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="newbooks-layout">레이아웃</Label>
+                        <RadioGroup 
+                          id="newbooks-layout"
+                          value={settings.newBooks.layout}
+                          onValueChange={(value) => 
+                            updateSettings('newBooks', { layout: value as 'carousel' | 'grid' })
+                          }
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="carousel" id="newbooks-carousel" />
+                            <Label htmlFor="newbooks-carousel">캐러셀</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="grid" id="newbooks-grid" />
+                            <Label htmlFor="newbooks-grid">그리드</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                    </div>
+                  </SettingSection>
                 </TabsContent>
                 
                 {/* 히어로 설정 */}

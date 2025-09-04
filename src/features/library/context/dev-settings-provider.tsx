@@ -69,6 +69,24 @@ export interface FooterSettings {
   showCopyright: boolean
 }
 
+export interface NoticeSettings {
+  showSection: boolean
+  itemCount: 3 | 5 | 10
+  layout: 'list' | 'card'
+}
+
+export interface QuickMenuSettings {
+  showSection: boolean
+  iconSize: 'small' | 'medium' | 'large'
+  layout: 'horizontal' | 'grid'
+}
+
+export interface NewBooksSettings {
+  showSection: boolean
+  itemCount: 4 | 6 | 8
+  layout: 'carousel' | 'grid'
+}
+
 export interface GeneralSettings {
   enableAnimations: boolean
   showDebugInfo: boolean
@@ -82,6 +100,9 @@ export interface DevSettings {
   header: HeaderSettings
   carousel: CarouselSettings
   hero: HeroSettings
+  notice: NoticeSettings
+  quickMenu: QuickMenuSettings
+  newBooks: NewBooksSettings
   footer: FooterSettings
   general: GeneralSettings
 }
@@ -139,6 +160,21 @@ const DEFAULT_SETTINGS: DevSettings = {
     slideInterval: 5000,
     showIndicators: true,
     showArrows: true,
+  },
+  notice: {
+    showSection: true,
+    itemCount: 5,
+    layout: 'card',
+  },
+  quickMenu: {
+    showSection: true,
+    iconSize: 'medium',
+    layout: 'horizontal',
+  },
+  newBooks: {
+    showSection: true,
+    itemCount: 6,
+    layout: 'carousel',
   },
   footer: {
     showInfo: true,
@@ -203,7 +239,7 @@ export function LibraryDevSettingsProvider({ children }: { children: React.React
         return { ...DEFAULT_SETTINGS, ...parsed }
       }
     } catch (e) {
-      console.error('Failed to load dev settings:', e)
+      // Failed to load dev settings - use defaults
     }
     return DEFAULT_SETTINGS
   })

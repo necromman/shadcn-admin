@@ -9,11 +9,8 @@ import {
 } from '@/components/ui/carousel'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import { ArrowRight, Play, Pause, Settings } from 'lucide-react'
+import { ArrowRight, Play, Pause } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useLibraryDevSettings } from '@/features/library/context/dev-settings-provider'
 
@@ -230,29 +227,6 @@ export function LibraryCarousel() {
     return sizes[options.navigationSize] || 32
   }
   
-  // 네비게이션 버튼 위치 계산
-  const getNavigationPosition = () => {
-    if (options.navigationPosition === 'edge') {
-      return {
-        left: '16px',
-        right: '16px'
-      }
-    }
-    
-    if (options.navigationPosition === 'custom') {
-      // 커스텀 위치: 컨테이너 안쪽 기준으로 계산
-      return {
-        left: `${options.buttonLeftPosition}px`,
-        right: `${options.buttonRightPosition}px`
-      }
-    }
-    
-    // safe 모드: 컨테이너 안쪽 80px
-    return {
-      left: '80px',
-      right: '80px'
-    }
-  }
   
   // 현재 슬라이드 업데이트
   useEffect(() => {
@@ -314,10 +288,16 @@ export function LibraryCarousel() {
                 <CarouselItem key={slide.id} className="pl-0">
                   <div 
                     className={cn(
-                      "relative w-full flex items-center",
+                      "relative w-full flex items-center select-none",
                       slide.bgColor || "bg-gradient-to-r from-blue-600 to-purple-600"
                     )}
-                    style={{ height: `${appliedHeight}px` }}
+                    style={{ 
+                      height: `${appliedHeight}px`,
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none'
+                    }}
                   >
                     {/* 컨텐츠 영역 - 디자인 시스템과 동일한 패딩 적용 */}
                     <div className="container mx-auto relative h-full">
@@ -346,7 +326,7 @@ export function LibraryCarousel() {
                         {/* 제목 */}
                         <h2 className={cn(
                           dynamicStyles.titleSize,
-                          "font-bold text-white leading-tight"
+                          "font-bold text-white leading-tight select-none"
                         )}>
                           {slide.title}
                         </h2>
@@ -355,7 +335,7 @@ export function LibraryCarousel() {
                         {slide.description && (
                           <p className={cn(
                             dynamicStyles.descriptionSize,
-                            "text-white/90 leading-relaxed max-w-4xl"
+                            "text-white/90 leading-relaxed max-w-4xl select-none"
                           )}>
                             {slide.description}
                           </p>

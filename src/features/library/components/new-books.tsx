@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
+import { CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -138,6 +138,28 @@ const newBooks: Book[] = [
   }
 ]
 
+// 커스텀 Card 컴포넌트 - shadcn Card를 오버라이드
+const BookCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+  return (
+    <div className={cn(
+      // 기본 Card 스타일 재정의
+      "rounded-lg",
+      "border-0", // 기본 border 제거
+      "bg-card/90", // 반투명 배경
+      "shadow-sm", // 기본 그림자
+      "overflow-hidden", // 이미지가 카드 밖으로 나가지 않도록
+      // 호버 효과 (확대 제거, 그림자만 유지)
+      "hover:shadow-xl",
+      "transition-shadow duration-300",
+      "cursor-pointer",
+      "group",
+      className
+    )}>
+      {children}
+    </div>
+  )
+}
+
 export function LibraryNewBooks() {
   const { settings } = useLibraryDevSettings()
   const [api, setApi] = useState<CarouselApi>()
@@ -187,15 +209,15 @@ export function LibraryNewBooks() {
                 loop: true,
               }}
             >
-              <CarouselContent className="-ml-2 md:-ml-4">
+              <CarouselContent className="-ml-2 md:-ml-4 py-4">
                 {displayBooks.map((book) => (
-                  <CarouselItem key={book.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
-                    <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden border-0 bg-card/80">
+                  <CarouselItem key={book.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 py-2">
+                    <BookCard>
                       <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-b from-muted/50 to-muted">
                         <img
                           src={book.coverImage}
                           alt={book.title}
-                          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                          className="object-cover w-full h-full"
                         />
                         {book.isBestSeller && (
                           <Badge className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white border-0 shadow-lg">
@@ -242,7 +264,7 @@ export function LibraryNewBooks() {
                           </Badge>
                         </div>
                       </CardContent>
-                    </Card>
+                    </BookCard>
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -289,12 +311,12 @@ export function LibraryNewBooks() {
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {displayBooks.map((book) => (
-            <Card key={book.id} className="hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden border-0 bg-card/80">
+            <BookCard key={book.id}>
               <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-b from-muted/50 to-muted">
                 <img
                   src={book.coverImage}
                   alt={book.title}
-                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                  className="object-cover w-full h-full"
                 />
                 {book.isBestSeller && (
                   <Badge className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white border-0 shadow-lg">
@@ -344,7 +366,7 @@ export function LibraryNewBooks() {
                   </Badge>
                 </div>
               </CardContent>
-            </Card>
+            </BookCard>
           ))}
         </div>
       </div>

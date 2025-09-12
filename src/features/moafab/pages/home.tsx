@@ -9,7 +9,7 @@ import { NoticeSection } from '../components/sections/notice-section'
 import { PartnersSection } from '../components/sections/partners-section'
 import { NewInstitutionsSection } from '../components/sections/new-institutions-section'
 import { InstitutionsCarousel } from '../components/sections/institutions-carousel'
-import { DevSettingsPanel } from '../components/dev-settings/dev-settings-panel'
+// import { DevSettingsPanel } from '../components/dev-settings/dev-settings-panel'
 import { cn } from '@/lib/utils'
 import { useMoafabDevSettings } from '../context/dev-settings-provider'
 
@@ -60,7 +60,7 @@ function MoafabHomeContent() {
       <MoafabFooter />
 
       {/* Developer Settings Panel */}
-      <DevSettingsPanel />
+      {/* <DevSettingsPanel /> */}
     </div>
   )
 }

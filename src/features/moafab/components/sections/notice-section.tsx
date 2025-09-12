@@ -6,11 +6,8 @@ import {
   HiMegaphone, 
   HiNewspaper, 
   HiCalendar,
-  HiSparkles,
-  HiFire,
   HiChatBubbleLeftRight
 } from 'react-icons/hi2'
-import { useTranslation } from '@/lib/i18n/hooks'
 
 interface NoticeItem {
   id: string
@@ -78,51 +75,44 @@ const latestNews: NoticeItem[] = [
 ]
 
 export function NoticeSection() {
-  const { t } = useTranslation()
 
   return (
     <section className="py-12">
       {/* 섹션 헤더 */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
-        <div className="flex items-center gap-3">
-          <div>
-            <h2 className="text-xl font-bold text-foreground">
-              최신 소식
-            </h2>
-            <p className="text-sm text-muted-foreground">공지사항 및 주요 업데이트</p>
-          </div>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+            최신 소식
+          </h2>
+          <p className="mt-2 text-muted-foreground">
+            공지사항 및 주요 업데이트
+          </p>
         </div>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" className="hidden md:flex items-center gap-2">
           전체보기
-          <HiArrowRight className="ml-2 h-3.5 w-3.5" />
+          <HiArrowRight className="h-4 w-4" />
         </Button>
       </div>
 
-      {/* 최신 소식 리스트 - 글래스모피즘 스타일 */}
-      <div className="grid gap-3 relative">
-        {/* 라이트 모드 배경 효과 */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-slate-100/50 via-[var(--brand-primary)]/5 to-slate-100/50 dark:from-transparent dark:to-transparent blur-3xl" />
-        
+      {/* 최신 소식 리스트 */}
+      <div className="grid gap-3">
         {latestNews.map((item) => (
           <Card 
             key={item.id} 
             variant="list"
-            className="relative overflow-hidden cursor-pointer group bg-slate-50/60 dark:bg-black/20 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 shadow-lg transition-all duration-300 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-black/30 hover:scale-[1.02] py-3"
+            className="relative overflow-hidden cursor-pointer group hover:shadow-xl transition-all duration-300 border-1 hover:border-primary/20 py-2"
           >
-            {/* 배경 그라데이션 효과 */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-primary)]/10 via-transparent to-[var(--brand-primary)]/5 opacity-40" />
-            
-            <CardContent variant="list" className="flex items-center gap-4 relative z-10">
+            <CardContent variant="list" className="flex items-center gap-4 relative">
               {/* 메인 콘텐츠 */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1.5">
-                  {/* 카테고리 배지 - 글래스 효과 */}
+                  {/* 카테고리 배지 */}
                   <Badge 
-                    variant="outline" 
-                    className={`text-xs px-2 py-0.5 backdrop-blur-sm font-medium ${
-                      item.category === '공지사항' ? 'border-blue-500/30 text-blue-700 dark:text-blue-400 bg-blue-500/15 dark:bg-blue-500/20' :
-                      item.category === '보도자료' ? 'border-green-500/30 text-green-700 dark:text-green-400 bg-green-500/15 dark:bg-green-500/20' :
-                      'border-purple-500/30 text-purple-700 dark:text-purple-400 bg-purple-500/15 dark:bg-purple-500/20'
+                    variant="secondary" 
+                    className={`text-[11px] px-2 py-0.5 font-medium ${
+                      item.category === '공지사항' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20' :
+                      item.category === '보도자료' ? 'bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20' :
+                      'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20'
                     }`}
                   >
                     {item.category === '공지사항' && <HiMegaphone className="w-3 h-3 mr-1" />}
@@ -131,14 +121,16 @@ export function NoticeSection() {
                     {item.category}
                   </Badge>
                   {item.isNew && (
-                    <Badge variant="secondary" className="text-xs px-1.5 py-0 bg-[var(--brand-primary)]/10 border-[var(--brand-primary)]/30 text-[var(--brand-primary)] backdrop-blur-sm">
-                      <HiSparkles className="w-3 h-3 mr-0.5" />
+                    <Badge 
+                      className="text-[10px] px-1.5 py-0 h-4 bg-primary text-white"
+                    >
                       NEW
                     </Badge>
                   )}
                   {item.isHot && (
-                    <Badge variant="destructive" className="text-xs px-1.5 py-0 bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400 backdrop-blur-sm">
-                      <HiFire className="w-3 h-3 mr-0.5" />
+                    <Badge 
+                      className="text-[10px] px-1.5 py-0 h-4 bg-red-500 text-white"
+                    >
                       HOT
                     </Badge>
                   )}
@@ -167,18 +159,11 @@ export function NoticeSection() {
                 </div>
               </div>
               
-              {/* 화살표 아이콘 - 글래스 효과 */}
+              {/* 화살표 아이콘 */}
               <div className="flex items-center">
-                <div className="p-2 rounded-lg bg-white/30 dark:bg-white/10 backdrop-blur-sm border border-white/20 dark:border-white/10 group-hover:bg-[var(--brand-primary)]/10 transition-all">
-                  <HiArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[var(--brand-primary)] transition-colors" />
-                </div>
+                <HiArrowRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-1 transition-all" />
               </div>
             </CardContent>
-            
-            {/* 호버 시 빛나는 효과 */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-            </div>
           </Card>
         ))}
       </div>

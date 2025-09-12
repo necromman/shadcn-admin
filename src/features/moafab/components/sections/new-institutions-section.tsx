@@ -26,7 +26,7 @@ export function NewInstitutionsSection() {
             <Card 
               key={institution.id} 
               variant="compact"
-              className="relative flex flex-col h-full hover:shadow-xl transition-all duration-300 border-2 group"
+              className="relative flex flex-col h-full hover:shadow-xl transition-all duration-300 border-1 group"
               style={{ borderColor: `${institution.theme.primaryColor}20` }}
             >
               {/* NEW Badge */}

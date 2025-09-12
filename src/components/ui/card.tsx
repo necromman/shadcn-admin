@@ -25,7 +25,7 @@ const cardVariants = cva(
   }
 )
 
-export interface CardProps extends React.ComponentProps<'div'>, VariantProps<typeof cardVariants> {}
+interface CardProps extends React.ComponentProps<'div'>, VariantProps<typeof cardVariants> {}
 
 function Card({ className, variant, spacing, ...props }: CardProps) {
   return (
@@ -54,7 +54,7 @@ const cardHeaderVariants = cva(
   }
 )
 
-export interface CardHeaderProps extends React.ComponentProps<'div'>, VariantProps<typeof cardHeaderVariants> {}
+interface CardHeaderProps extends React.ComponentProps<'div'>, VariantProps<typeof cardHeaderVariants> {}
 
 function CardHeader({ className, variant, ...props }: CardHeaderProps) {
   return (
@@ -116,7 +116,7 @@ const cardContentVariants = cva(
   }
 )
 
-export interface CardContentProps extends React.ComponentProps<'div'>, VariantProps<typeof cardContentVariants> {}
+interface CardContentProps extends React.ComponentProps<'div'>, VariantProps<typeof cardContentVariants> {}
 
 function CardContent({ className, variant, ...props }: CardContentProps) {
   return (
@@ -145,7 +145,7 @@ const cardFooterVariants = cva(
   }
 )
 
-export interface CardFooterProps extends React.ComponentProps<'div'>, VariantProps<typeof cardFooterVariants> {}
+interface CardFooterProps extends React.ComponentProps<'div'>, VariantProps<typeof cardFooterVariants> {}
 
 function CardFooter({ className, variant, ...props }: CardFooterProps) {
   return (

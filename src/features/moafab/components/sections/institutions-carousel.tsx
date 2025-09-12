@@ -106,7 +106,7 @@ export function InstitutionsCarousel() {
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
-            <Link to="/moafab/institutions#top">
+            <Link to="/moafab/institutions">
               <Button variant="outline" className="hidden md:flex items-center gap-2">
                 전체 기관 보기
                 <ArrowRight className="h-4 w-4" />
@@ -131,7 +131,7 @@ export function InstitutionsCarousel() {
                 to={`/moafab/institution/${institution.slug}#top` as any}
                 className="institution-card flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] group"
               >
-                <Card variant="default" className="h-full transition-all duration-300 hover:shadow-xl group-hover:border-primary/30 border-2 overflow-hidden">
+                <Card variant="default" className="h-full transition-all duration-300 hover:shadow-xl group-hover:border-primary/30 border-1 overflow-hidden">
                   <CardHeader 
                     variant="default"
                     className="pb-3 relative"
@@ -252,7 +252,7 @@ export function InstitutionsCarousel() {
 
         {/* Mobile View All Button */}
         <div className="md:hidden">
-          <Link to="/moafab/institutions#top">
+          <Link to="/moafab/institutions">
             <Button variant="outline" className="w-full">
               전체 기관 보기
               <ArrowRight className="ml-2 h-4 w-4" />

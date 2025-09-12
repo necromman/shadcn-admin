@@ -12,31 +12,30 @@ import {
 import { DevSettingsButton } from '../dev-settings/dev-settings-button'
 import { useMoafabDevSettings } from '../../context/dev-settings-provider'
 import { useTranslation } from '@/lib/i18n/hooks'
+import { type LanguageCode } from '@/lib/i18n/types'
 import { useTheme } from '@/context/theme-provider'
 import { cn } from '@/lib/utils'
 
 export function MoafabPreHeader() {
   const { settings } = useMoafabDevSettings()
-  const { t, i18n } = useTranslation()
+  const { currentLanguage, setLanguage } = useTranslation()
   const { theme, setTheme } = useTheme()
-  const [currentLang, setCurrentLang] = useState(i18n?.language || 'ko')
+  const [currentLang, setCurrentLang] = useState(currentLanguage || 'ko')
 
-  // i18n이 로드된 후 언어 업데이트
+  // 언어가 변경되면 업데이트
   useEffect(() => {
-    if (i18n?.language) {
-      setCurrentLang(i18n.language)
+    if (currentLanguage) {
+      setCurrentLang(currentLanguage)
     }
-  }, [i18n?.language])
+  }, [currentLanguage])
 
   if (!settings.layout.showPreHeader) {
     return null
   }
 
   const handleLanguageChange = (lang: string) => {
-    if (i18n?.changeLanguage) {
-      i18n.changeLanguage(lang)
-    }
-    setCurrentLang(lang)
+    setLanguage(lang as LanguageCode)
+    setCurrentLang(lang as LanguageCode)
   }
 
   const toggleTheme = () => {

@@ -320,7 +320,7 @@ export function EquipmentSearch() {
     <section className="py-12">
       {/* 통합 검색 카드 */}
       <Card className="overflow-hidden border shadow-lg">         
-        <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50 px-5 pb-0 pt-7">
+        <CardHeader className="border-b px-5 pb-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div>

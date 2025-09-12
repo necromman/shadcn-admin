@@ -106,12 +106,13 @@ export function NoticeSection() {
         {latestNews.map((item) => (
           <Card 
             key={item.id} 
-            className="relative overflow-hidden cursor-pointer group py-0 bg-slate-50/60 dark:bg-black/20 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 shadow-lg transition-all duration-300 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-black/30 hover:scale-[1.02] py-3"
+            variant="list"
+            className="relative overflow-hidden cursor-pointer group bg-slate-50/60 dark:bg-black/20 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 shadow-lg transition-all duration-300 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-black/30 hover:scale-[1.02] py-3"
           >
             {/* 배경 그라데이션 효과 */}
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-primary)]/10 via-transparent to-[var(--brand-primary)]/5 opacity-40" />
             
-            <CardContent className="p-4 flex items-center gap-4 relative z-10">
+            <CardContent variant="list" className="flex items-center gap-4 relative z-10">
               {/* 메인 콘텐츠 */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1.5">

@@ -5,8 +5,10 @@ import { MoafabFooter } from '../components/layout/moafab-footer'
 import { HeroSection } from '../components/sections/hero-section'
 import { EquipmentSearch } from '../components/sections/equipment-search'
 import { NoticeSection } from '../components/sections/notice-section'
-import { QuickMenu } from '../components/sections/quick-menu'
+// import { QuickMenu } from '../components/sections/quick-menu'
 import { PartnersSection } from '../components/sections/partners-section'
+import { NewInstitutionsSection } from '../components/sections/new-institutions-section'
+import { InstitutionsCarousel } from '../components/sections/institutions-carousel'
 import { DevSettingsPanel } from '../components/dev-settings/dev-settings-panel'
 import { cn } from '@/lib/utils'
 import { useMoafabDevSettings } from '../context/dev-settings-provider'
@@ -39,6 +41,12 @@ function MoafabHomeContent() {
 
           {/* Notice Section */}
           <NoticeSection />
+
+          {/* New Institutions Section */}
+          <NewInstitutionsSection />
+
+          {/* Institutions Carousel */}
+          <InstitutionsCarousel />
 
           {/* Quick Menu */}
           {/* <QuickMenu /> */}

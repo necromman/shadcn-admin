@@ -156,7 +156,7 @@ export function MoafabHeader() {
                     </h3>
                     <div className="space-y-1">
                       <Link
-                        to="/moafab/search"
+                        to={"/moafab/search" as any}
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-accent transition-colors group"
                         onClick={() => setIsOpen(false)}
                       >
@@ -171,7 +171,7 @@ export function MoafabHeader() {
                       </Link>
                       
                       <Link
-                        to="/moafab/apply/consult"
+                        to={"/moafab/apply/consult" as any}
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-accent transition-colors group"
                         onClick={() => setIsOpen(false)}
                       >
@@ -185,7 +185,7 @@ export function MoafabHeader() {
                       </Link>
                       
                       <Link
-                        to="/moafab/apply/service"
+                        to={"/moafab/apply/service" as any}
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-accent transition-colors group"
                         onClick={() => setIsOpen(false)}
                       >
@@ -256,7 +256,7 @@ export function MoafabHeader() {
                     </h3>
                     <div className="space-y-1">
                       <Link
-                        to="/moafab/support/faq"
+                        to={"/moafab/support/faq" as any}
                         className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-accent transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
@@ -264,7 +264,7 @@ export function MoafabHeader() {
                         <span className="text-sm">자주 묻는 질문</span>
                       </Link>
                       <Link
-                        to="/moafab/support/contact"
+                        to={"/moafab/support/contact" as any}
                         className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-accent transition-colors"
                         onClick={() => setIsOpen(false)}
                       >

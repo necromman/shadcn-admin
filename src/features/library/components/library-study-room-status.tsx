@@ -1,9 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
 import { Users, DoorOpen, Monitor } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
-import { cn } from '@/lib/utils'
 
 interface StudyRoomData {
   id: string
@@ -30,17 +28,6 @@ function getRoomIcon(type: StudyRoomData['type']) {
   }
 }
 
-function getOccupancyColor(percentage: number) {
-  if (percentage >= 80) return 'text-destructive'
-  if (percentage >= 60) return 'text-amber-600 dark:text-amber-500'
-  return 'text-emerald-600 dark:text-emerald-500'
-}
-
-function getProgressColor(percentage: number) {
-  if (percentage >= 80) return 'bg-gradient-to-r from-destructive to-destructive/80'
-  if (percentage >= 60) return 'bg-gradient-to-r from-amber-500 to-amber-400'
-  return 'bg-gradient-to-r from-emerald-500 to-emerald-400'
-}
 
 export function LibraryStudyRoomStatus() {
   const totalOccupied = studyRooms.reduce((sum, room) => sum + room.current, 0)

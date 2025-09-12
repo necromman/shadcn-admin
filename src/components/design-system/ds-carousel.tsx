@@ -175,30 +175,6 @@ export function DSCarousel() {
     return sizes[options.navigationSize] || 32
   }
   
-  // 네비게이션 버튼 위치 계산
-  const getNavigationPosition = () => {
-    if (options.navigationPosition === 'edge') {
-      return {
-        left: '16px',
-        right: '16px'
-      }
-    }
-    
-    if (options.navigationPosition === 'custom') {
-      // 커스텀 위치: 컨테이너 안쪽 기준으로 계산
-      return {
-        left: `${options.buttonLeftPosition}px`,
-        right: `${options.buttonRightPosition}px`
-      }
-    }
-    
-    // safe 모드: 컨테이너 안쪽 80px
-    return {
-      left: '80px',
-      right: '80px'
-    }
-  }
-  
   // 반응형 감지를 위한 상태
   const [isMobile, setIsMobile] = useState(false)
   

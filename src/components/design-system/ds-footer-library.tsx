@@ -1,4 +1,3 @@
-import { Link } from '@tanstack/react-router'
 import { BookOpen, Phone, Mail, MapPin, Clock, ExternalLink } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 

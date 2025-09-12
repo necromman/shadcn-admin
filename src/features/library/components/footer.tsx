@@ -98,7 +98,7 @@ export function LibraryFooter() {
               )}
               
               {/* SNS 링크 */}
-              {settings.footer.showSocialLinks !== false && (
+              {settings.footer.showSocial !== false && (
                 <div className="flex gap-2 flex-wrap mt-4">
                   {socialLinks.map((social) => {
                     const Icon = social.icon
@@ -141,28 +141,28 @@ export function LibraryFooter() {
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    to="#" 
+                  <a 
+                    href="#" 
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     이용시간
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link 
-                    to="#" 
+                  <a 
+                    href="#" 
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     공지사항
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link 
-                    to="#" 
+                  <a 
+                    href="#" 
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     FAQ
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -174,63 +174,63 @@ export function LibraryFooter() {
               <h3 className="font-semibold mb-4">자료검색</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     통합검색
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     신착도서
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     인기도서
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     전자자료
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     학술DB
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
           )}
           
           {/* Library Services */}
-          {settings.footer.showServices !== false && (
+          {settings.footer.showQuickLinks !== false && (
             <div>
               <h3 className="font-semibold mb-4">서비스</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     대출/반납
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     희망도서 신청
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     상호대차
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     원문복사
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     연구지원
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -264,7 +264,7 @@ export function LibraryFooter() {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
             {/* 패밀리 사이트 & 바로가기 */}
             <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-              {settings.footer.showFamilySites !== false && (
+              {settings.footer.showRelatedSites !== false && (
                 <>
                   <Select>
                     <SelectTrigger className="w-[200px]">
@@ -292,7 +292,8 @@ export function LibraryFooter() {
             </div>
             
             {/* 인증 마크 */}
-            {settings.footer.showCertifications !== false && (
+            {/* 인증 마크 섹션 - 임시로 주석 처리 */}
+            {false && (
               <div className="flex items-start lg:items-center gap-3">
                 <span className="text-xs text-muted-foreground mt-2 lg:mt-0">인증:</span>
                 <div className="flex flex-wrap gap-2">
@@ -322,25 +323,25 @@ export function LibraryFooter() {
               </div>
               
               <div className="flex flex-wrap gap-2 sm:gap-4 text-xs">
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   이용약관
-                </Link>
+                </a>
                 <Separator orientation="vertical" className="h-4 hidden sm:block" />
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors font-semibold">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors font-semibold">
                   개인정보처리방침
-                </Link>
+                </a>
                 <Separator orientation="vertical" className="h-4 hidden sm:block" />
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   이메일무단수집거부
-                </Link>
+                </a>
                 <Separator orientation="vertical" className="h-4 hidden sm:block" />
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   저작권정책
-                </Link>
+                </a>
                 <Separator orientation="vertical" className="h-4 hidden sm:block" />
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   사이트맵
-                </Link>
+                </a>
               </div>
             </div>
           </div>

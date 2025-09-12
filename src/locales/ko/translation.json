@@ -54,5 +54,137 @@
         "white-papers": "백서"
       }
     }
+  },
+  "moafab": {
+    "preHeader": {
+      "tagline": "MOAFAB - 나노팹 서비스 통합 플랫폼",
+      "serviceFee": "서비스 이용료",
+      "login": "로그인",
+      "signup": "회원가입",
+      "logout": "로그아웃",
+      "myPage": "마이페이지"
+    },
+    "nav": {
+      "aboutService": "팹서비스 소개",
+      "applyService": "팹서비스 신청",
+      "serviceStatus": "팹서비스 현황",
+      "customerCenter": "고객센터"
+    },
+    "submenus": {
+      "aboutService": {
+        "howToUse": "사이트 이용방법",
+        "procedure": "팹서비스 절차",
+        "institutionStatus": "기관별 종합현황"
+      },
+      "applyService": {
+        "consultation": "상담 신청",
+        "quote": "견적 신청",
+        "service": "서비스 신청",
+        "byEquipment": "장비별 신청",
+        "moafab": "모아팹 신청",
+        "mychip": "마이칩 신청"
+      },
+      "serviceStatus": {
+        "consultationStatus": "상담 현황",
+        "quoteStatus": "견적 현황",
+        "serviceStatus": "서비스 현황",
+        "monitoring": "서비스 모니터링",
+        "settlement": "정산 현황"
+      },
+      "customerCenter": {
+        "notice": "공지",
+        "press": "보도자료",
+        "inquiry": "문의",
+        "faq": "FAQ"
+      }
+    },
+    "hero": {
+      "slides": {
+        "slide1": {
+          "title": "나노팹 서비스 플랫폼",
+          "subtitle": "첨단 반도체 공정 지원",
+          "description": "6개 주요 기관의 장비를 한 곳에서",
+          "cta": "서비스 신청"
+        },
+        "slide2": {
+          "title": "연구개발 인프라 공유",
+          "subtitle": "혁신적인 팹 서비스",
+          "description": "최첨단 장비와 전문 인력 지원",
+          "cta": "장비 검색"
+        },
+        "slide3": {
+          "title": "원스톱 팹 서비스",
+          "subtitle": "설계부터 제작까지",
+          "description": "전 공정 통합 지원 시스템",
+          "cta": "상담 신청"
+        }
+      }
+    },
+    "equipment": {
+      "title": "공정장비 검색",
+      "searchPlaceholder": "장비명, 모델명, 사양을 입력하세요",
+      "institutions": {
+        "NINT": "나노융합기술원",
+        "NNFC": "나노종합기술원",
+        "KANC": "한국나노기술원",
+        "ISRC": "반도체연구소",
+        "ETRI": "한국전자통신연구원",
+        "DGIST": "대구경북과학기술원"
+      },
+      "processes": {
+        "epitaxy": "에피공정",
+        "oxidation": "산화공정",
+        "photolithography": "포토리소그래피",
+        "etching": "식각공정",
+        "deposition": "증착공정",
+        "metallization": "배선공정",
+        "eds": "EDS",
+        "packaging": "패키징",
+        "analysis": "분석 및 기타"
+      },
+      "searchButton": "검색",
+      "resetButton": "초기화"
+    },
+    "notice": {
+      "title": "공지사항",
+      "tabs": {
+        "notice": "공지사항",
+        "press": "보도자료",
+        "faq": "FAQ"
+      },
+      "viewMore": "더보기",
+      "new": "NEW",
+      "important": "중요"
+    },
+    "quickMenu": {
+      "title": "빠른 메뉴",
+      "items": {
+        "apply": "서비스 신청",
+        "search": "장비 검색",
+        "status": "진행 현황",
+        "quote": "견적 요청",
+        "consult": "상담 예약",
+        "guide": "이용 가이드"
+      }
+    },
+    "partners": {
+      "title": "참여기관"
+    },
+    "footer": {
+      "companyInfo": {
+        "title": "한국나노기술원",
+        "address": "경기도 수원시 영통구 창룡대로 260",
+        "tel": "대표전화: 031-299-6000",
+        "fax": "팩스: 031-299-6099",
+        "email": "이메일: info@kanc.re.kr"
+      },
+      "links": {
+        "privacy": "개인정보처리방침",
+        "terms": "이용약관",
+        "sitemap": "사이트맵",
+        "accessibility": "웹접근성"
+      },
+      "copyright": "© 2024 한국나노기술원. All rights reserved."
+    }
   }
 }

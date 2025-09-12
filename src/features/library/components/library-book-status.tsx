@@ -1,54 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { BookOpen, TrendingUp, BookMarked, Search, Sparkles, Library } from 'lucide-react'
+import { BookOpen, BookMarked, Search, Sparkles, Library } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
-import { cn } from '@/lib/utils'
-
-interface BookStat {
-  id: string
-  label: string
-  value: string | number
-  change?: string
-  icon: React.ElementType
-  color: string
-  trend?: 'up' | 'down' | 'neutral'
-}
-
-const bookStats: BookStat[] = [
-  {
-    id: 'total',
-    label: '총 장서',
-    value: '45,230',
-    icon: Library,
-    color: 'text-foreground',
-    trend: 'neutral'
-  },
-  {
-    id: 'new',
-    label: '신착도서',
-    value: '152',
-    change: '+12',
-    icon: Sparkles,
-    color: 'text-primary',
-    trend: 'up'
-  },
-  {
-    id: 'available',
-    label: '대출가능',
-    value: '38,456',
-    icon: BookOpen,
-    color: 'text-emerald-600 dark:text-emerald-500',
-    trend: 'up'
-  },
-  {
-    id: 'borrowed',
-    label: '대출중',
-    value: '6,774',
-    icon: BookMarked,
-    color: 'text-amber-600 dark:text-amber-500',
-    trend: 'neutral'
-  }
-]
 
 export function LibraryBookStatus() {
   const totalBooks = 45230

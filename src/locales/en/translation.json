@@ -54,5 +54,137 @@
         "white-papers": "White Papers"
       }
     }
+  },
+  "moafab": {
+    "preHeader": {
+      "tagline": "MOAFAB - Nano Fab Service Integration Platform",
+      "serviceFee": "Service Fees",
+      "login": "Login",
+      "signup": "Sign up",
+      "logout": "Logout",
+      "myPage": "My Page"
+    },
+    "nav": {
+      "aboutService": "About Fab Service",
+      "applyService": "Apply for Service",
+      "serviceStatus": "Service Status",
+      "customerCenter": "Customer Center"
+    },
+    "submenus": {
+      "aboutService": {
+        "howToUse": "How to Use",
+        "procedure": "Service Procedure",
+        "institutionStatus": "Institution Status"
+      },
+      "applyService": {
+        "consultation": "Consultation Request",
+        "quote": "Quote Request",
+        "service": "Service Application",
+        "byEquipment": "Equipment Booking",
+        "moafab": "MOAFAB Application",
+        "mychip": "MyChip Application"
+      },
+      "serviceStatus": {
+        "consultationStatus": "Consultation Status",
+        "quoteStatus": "Quote Status",
+        "serviceStatus": "Service Status",
+        "monitoring": "Service Monitoring",
+        "settlement": "Settlement Status"
+      },
+      "customerCenter": {
+        "notice": "Notice",
+        "press": "Press Release",
+        "inquiry": "Inquiry",
+        "faq": "FAQ"
+      }
+    },
+    "hero": {
+      "slides": {
+        "slide1": {
+          "title": "Nano Fab Service Platform",
+          "subtitle": "Advanced Semiconductor Processing Support",
+          "description": "Equipment from 6 major institutions in one place",
+          "cta": "Apply for Service"
+        },
+        "slide2": {
+          "title": "R&D Infrastructure Sharing",
+          "subtitle": "Innovative Fab Services",
+          "description": "State-of-the-art equipment and expert support",
+          "cta": "Search Equipment"
+        },
+        "slide3": {
+          "title": "One-Stop Fab Service",
+          "subtitle": "From Design to Manufacturing",
+          "description": "Integrated full-process support system",
+          "cta": "Request Consultation"
+        }
+      }
+    },
+    "equipment": {
+      "title": "Process Equipment Search",
+      "searchPlaceholder": "Enter equipment name, model, or specifications",
+      "institutions": {
+        "NINT": "Nano Integration Technology Institute",
+        "NNFC": "National NanoFab Center",
+        "KANC": "Korea Advanced Nano Fab Center",
+        "ISRC": "Semiconductor Research Center",
+        "ETRI": "Electronics and Telecommunications Research Institute",
+        "DGIST": "Daegu Gyeongbuk Institute of Science and Technology"
+      },
+      "processes": {
+        "epitaxy": "Epitaxy Process",
+        "oxidation": "Oxidation Process",
+        "photolithography": "Photolithography",
+        "etching": "Etching Process",
+        "deposition": "Deposition Process",
+        "metallization": "Metallization Process",
+        "eds": "EDS",
+        "packaging": "Packaging",
+        "analysis": "Analysis & Others"
+      },
+      "searchButton": "Search",
+      "resetButton": "Reset"
+    },
+    "notice": {
+      "title": "Notice",
+      "tabs": {
+        "notice": "Notice",
+        "press": "Press Release",
+        "faq": "FAQ"
+      },
+      "viewMore": "View More",
+      "new": "NEW",
+      "important": "Important"
+    },
+    "quickMenu": {
+      "title": "Quick Menu",
+      "items": {
+        "apply": "Service Application",
+        "search": "Equipment Search",
+        "status": "Progress Status",
+        "quote": "Quote Request",
+        "consult": "Consultation",
+        "guide": "User Guide"
+      }
+    },
+    "partners": {
+      "title": "Participating Institutions"
+    },
+    "footer": {
+      "companyInfo": {
+        "title": "KION (Korea Institute of Nano Technology)",
+        "address": "601, Daejeon Job Economy Promotion Agency, 96 Gajeongbuk-ro, Yuseong-gu, Daejeon 34111",
+        "tel": "TEL : +82-42-719-9128",
+        "fax": "FAX : +82-70-7545-8247",
+        "email": "EMAIL : jcdoh0@kion.or.kr"
+      },
+      "links": {
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "sitemap": "Sitemap",
+        "accessibility": "Web Accessibility"
+      },
+      "copyright": "Copyright © KION All Rights Reserved."
+    }
   }
 }

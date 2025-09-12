@@ -1,22 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Clock, Calendar, Info } from 'lucide-react'
+import { Info } from 'lucide-react'
 import { cn } from '@/lib/utils'
-
-interface OperationHour {
-  id: string
-  label: string
-  time: string
-  isActive?: boolean
-  note?: string
-}
-
-const operationHours: OperationHour[] = [
-  { id: 'weekday', label: '평일', time: '09:00 - 22:00', isActive: true },
-  { id: 'saturday', label: '토요일', time: '10:00 - 18:00' },
-  { id: 'sunday', label: '일요일', time: '10:00 - 17:00' },
-  { id: 'holiday', label: '공휴일', time: '휴관', note: '대체공휴일 포함' }
-]
 
 function getCurrentStatus() {
   const now = new Date()

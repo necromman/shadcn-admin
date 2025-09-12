@@ -124,14 +124,13 @@ export function PartnersSection() {
         <div className="text-center space-y-4">
           <div className="space-y-2">
             <h3 className="text-2xl font-bold tracking-tight">Sitelink</h3>
-            <p className="text-muted-foreground max-w-lg mx-auto">
-              <p>국내 최고의 나노팹 연구기관들이 모아팹 플랫폼을 통해</p>
-              <p>최첨단 연구 인프라를 제공합니다</p>               
+            <p className="text-muted-foreground mx-auto">
+              국내 최고의 나노팹 연구기관들이 모아팹 플랫폼을 통해 최첨단 연구 인프라를 제공합니다
             </p>
           </div>
           
           {/* 토글 버튼 */}
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <Button
               variant="outline"
               size="sm"
@@ -150,11 +149,11 @@ export function PartnersSection() {
                 </>
               )}
             </Button>
-          </div>
+          </div> */}
         </div>
 
         {/* 파트너 슬라이더 */}
-        <div ref={containerRef} className="relative overflow-hidden py-16">
+        <div ref={containerRef} className="relative overflow-hidden py-10">
           {isAnimating ? (
             // 애니메이션 모드
             <div className="relative w-full">

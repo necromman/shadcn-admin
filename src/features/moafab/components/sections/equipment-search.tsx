@@ -20,7 +20,12 @@ import {
   HiCpuChip,
   HiCube,
   HiSparkles,
-  HiAdjustmentsHorizontal
+  HiAdjustmentsHorizontal,
+  HiArrowRight,
+  HiMapPin,
+  HiClock,
+  HiUserGroup,
+  HiChevronRight
 } from 'react-icons/hi2'
 import { useTranslation } from '@/lib/i18n/hooks'
 import { cn } from '@/lib/utils'
@@ -39,13 +44,150 @@ const processIcons: Record<string, any> = {
   analysis: HiMagnifyingGlass,
 }
 
+// 검색 결과 예시 데이터
+interface Equipment {
+  id: string
+  name: string
+  nameEn: string
+  institution: string
+  process: string
+  model: string
+  manufacturer: string
+  location: string
+  status: 'available' | 'in-use' | 'maintenance'
+  imageUrl?: string
+}
+
+// 예시 장비 데이터 (10개)
+const sampleEquipments: Equipment[] = [
+  {
+    id: '1',
+    name: 'Deep oxide/SiC etching system',
+    nameEn: 'Deep oxide/SiC etching system',
+    institution: 'DGIST',
+    process: 'etching',
+    model: 'Plasma-Therm Versaline',
+    manufacturer: 'Plasma-Therm',
+    location: '대구경북과학기술원',
+    status: 'available'
+  },
+  {
+    id: '2',
+    name: 'Field-Emission Scanning Electron Microscopy',
+    nameEn: 'FE-SEM',
+    institution: 'NINT',
+    process: 'analysis',
+    model: 'JSM-7900F',
+    manufacturer: 'JEOL',
+    location: '나노융합기술원',
+    status: 'available'
+  },
+  {
+    id: '3',
+    name: 'Dielectric ICP Etcher System',
+    nameEn: 'ICP-RIE',
+    institution: 'KANC',
+    process: 'etching',
+    model: 'Oxford PlasmaPro System100',
+    manufacturer: 'Oxford Instruments',
+    location: '한국나노기술원',
+    status: 'in-use'
+  },
+  {
+    id: '4',
+    name: 'X-ray Photoelectron Spectrometer',
+    nameEn: 'XPS',
+    institution: 'ISRC',
+    process: 'analysis',
+    model: 'K-Alpha+',
+    manufacturer: 'Thermo Fisher',
+    location: '서울대학교 반도체공동연구소',
+    status: 'available'
+  },
+  {
+    id: '5',
+    name: 'Local Electrode Atom Probe Tomography',
+    nameEn: 'LEAP',
+    institution: 'ETRI',
+    process: 'analysis',
+    model: 'LEAP 5000 XS',
+    manufacturer: 'CAMECA',
+    location: '한국전자통신연구원',
+    status: 'maintenance'
+  },
+  {
+    id: '6',
+    name: 'Atomic Layer Deposition System',
+    nameEn: 'ALD',
+    institution: 'NNFC',
+    process: 'deposition',
+    model: 'Fiji G2',
+    manufacturer: 'Veeco',
+    location: '나노종합기술원',
+    status: 'available'
+  },
+  {
+    id: '7',
+    name: 'Focused Ion Beam System',
+    nameEn: 'FIB-SEM',
+    institution: 'KANC',
+    process: 'analysis',
+    model: 'Helios 5 UX',
+    manufacturer: 'Thermo Fisher',
+    location: '한국나노기술원',
+    status: 'available'
+  },
+  {
+    id: '8',
+    name: 'Chemical Vapor Deposition',
+    nameEn: 'CVD',
+    institution: 'ISRC',
+    process: 'deposition',
+    model: 'Black Magic Pro',
+    manufacturer: 'Aixtron',
+    location: '서울대학교 반도체공동연구소',
+    status: 'in-use'
+  },
+  {
+    id: '9',
+    name: 'Electron Beam Lithography',
+    nameEn: 'EBL',
+    institution: 'DGIST',
+    process: 'photolithography',
+    model: 'EBPG5200',
+    manufacturer: 'Raith',
+    location: '대구경북과학기술원',
+    status: 'available'
+  },
+  {
+    id: '10',
+    name: 'Reactive Ion Etching System',
+    nameEn: 'RIE',
+    institution: 'NINT',
+    process: 'etching',
+    model: 'PlasmaPro 100',
+    manufacturer: 'Oxford Instruments',
+    location: '나노융합기술원',
+    status: 'available'
+  }
+]
+
 export function EquipmentSearch() {
   const { t } = useTranslation()
   const [selectedInstitutions, setSelectedInstitutions] = useState<string[]>([])
   const [selectedProcess, setSelectedProcess] = useState('all')
   const [searchKeyword, setSearchKeyword] = useState('')
-  const [selectAll, setSelectAll] = useState(false)
+  const [selectAll, setSelectAll] = useState(true)
   const [showAdvanced, setShowAdvanced] = useState(false)
+  const [searchResults, setSearchResults] = useState<Equipment[]>(sampleEquipments)
+  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(sampleEquipments[0])
+
+  // 컴포넌트 마운트 시 전체 기관 선택 및 검색 실행
+  useState(() => {
+    const allInstitutionIds = ['NINT', 'NNFC', 'KANC', 'ISRC', 'ETRI', 'DGIST']
+    setSelectedInstitutions(allInstitutionIds)
+    return null
+  })
 
   // 번역된 기관 목록 - 실제 950개 이상 장비 반영
   const institutions = useMemo(() => [
@@ -126,11 +268,31 @@ export function EquipmentSearch() {
   }
 
   const handleSearch = () => {
-    console.log('Search:', {
-      institutions: selectedInstitutions,
-      process: selectedProcess,
-      keyword: searchKeyword,
-    })
+    // 검색 로직 (예시)
+    let results = sampleEquipments
+    
+    // 기관 필터링
+    if (selectedInstitutions.length > 0) {
+      results = results.filter(eq => selectedInstitutions.includes(eq.institution))
+    }
+    
+    // 공정 필터링
+    if (selectedProcess !== 'all') {
+      results = results.filter(eq => eq.process === selectedProcess)
+    }
+    
+    // 키워드 필터링
+    if (searchKeyword) {
+      const keyword = searchKeyword.toLowerCase()
+      results = results.filter(eq => 
+        eq.name.toLowerCase().includes(keyword) ||
+        eq.nameEn.toLowerCase().includes(keyword) ||
+        eq.model.toLowerCase().includes(keyword)
+      )
+    }
+    
+    setSearchResults(results)
+    setShowResults(true)
   }
 
   const handleReset = () => {
@@ -138,6 +300,8 @@ export function EquipmentSearch() {
     setSelectedProcess('all')
     setSearchKeyword('')
     setSelectAll(false)
+    setSearchResults([])
+    setSelectedEquipment(null)
   }
 
   // 선택된 기관의 총 장비 수 계산
@@ -149,267 +313,256 @@ export function EquipmentSearch() {
 
   return (
     <section className="py-12">
-
-      {/* 메인 카드 - 적절한 overflow와 border 설정 */}
-      <Card className="overflow-hidden border shadow-lg py-0 pb-0">         
-          <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50 px-6 pt-6">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="flex-shrink-0 p-3 bg-primary rounded-lg shadow-sm">
-                  <HiMagnifyingGlass className="h-6 w-6 text-primary-foreground" />
-                </div>
-                <div className="flex flex-col justify-center">
-                  <CardTitle className="text-xl leading-tight">장비 통합 검색</CardTitle>
-                  <CardDescription className="mt-0.5">
-                    전국 6개 기관의 990개 이상 최첨단 장비를 한 곳에서
-                  </CardDescription>
-                </div>
+      {/* 통합 검색 카드 */}
+      <Card className="overflow-hidden border shadow-lg">         
+        <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary rounded shadow-sm">
+                <HiMagnifyingGlass className="h-5 w-5 text-primary-foreground" />
               </div>
-              {selectedInstitutions.length > 0 && (
-                <div className="flex items-center gap-3">
-                  <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
-                    <span>실시간 검색</span>
-                  </div>
-                  <Badge variant="default" className="text-sm px-3 py-1.5">
-                    <span className="font-bold mr-1">{totalEquipmentCount}</span>
-                    <span>개 장비</span>
-                  </Badge>
-                </div>
-              )}
+              <div>
+                <CardTitle className="text-lg">장비 통합 검색</CardTitle>
+                <CardDescription className="text-xs">
+                  전국 6개 기관 · 990개+ 장비
+                </CardDescription>
+              </div>
             </div>
-          </CardHeader>
+            {selectedInstitutions.length > 0 && (
+              <Badge variant="default" className="text-sm">
+                {totalEquipmentCount}개 장비
+              </Badge>
+            )}
+          </div>
+        </CardHeader>
           
-          <CardContent className="p-6 space-y-6">
-            {/* 기관 선택 섹션 */}
-            <div className="space-y-4">
+        <CardContent className="p-0">
+          {/* 검색 옵션 영역 */}
+          <div className="p-4 border-b bg-muted/10">
+            {/* 기관 선택 - 컴팩트 */}
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-primary">STEP 1</span>
-                  <Label className="text-base font-semibold">
-                    연구기관 선택
-                  </Label>
-                  <span className="text-sm text-muted-foreground">
-                    ({selectedInstitutions.length}/{institutions.length}개 선택)
-                  </span>
-                </div>
+                <Label className="text-sm font-medium">
+                  연구기관 ({selectedInstitutions.length}/{institutions.length})
+                </Label>
                 <Button
-                  variant={selectAll ? "default" : "outline"}
+                  variant={selectAll ? "secondary" : "outline"}
                   size="sm"
+                  className="h-7 text-xs"
                   onClick={() => handleSelectAll(!selectAll)}
                 >
                   {selectAll ? "선택 해제" : "전체 선택"}
                 </Button>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div className="flex flex-wrap gap-2">
                 {institutions.map((inst) => (
                   <button
                     key={inst.id}
                     type="button"
                     className={cn(
-                      "relative rounded-lg p-4 transition-all duration-200 text-left",
-                      "hover:shadow-md border",
+                      "px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                      "border hover:shadow-sm",
                       selectedInstitutions.includes(inst.id) 
-                        ? "bg-primary/10 border-primary shadow-sm" 
+                        ? "bg-primary text-primary-foreground border-primary" 
                         : "bg-background border-border hover:border-primary/50"
                     )}
                     onClick={() => handleInstitutionToggle(inst.id)}
                   >
-                    <div className="space-y-2">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-1 flex-1">
-                          <div className="font-semibold text-sm">{inst.shortName}</div>
-                          <div className="text-xs text-muted-foreground line-clamp-2">
-                            {inst.name}
-                          </div>
-                        </div>
-                        <Checkbox
-                          checked={selectedInstitutions.includes(inst.id)}
-                          className="h-4 w-4 mt-0.5 pointer-events-none"
-                          tabIndex={-1}
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div className="pt-2 border-t flex items-center justify-between">
-                        <Badge 
-                          variant={selectedInstitutions.includes(inst.id) ? "default" : "outline"}
-                          className="text-xs"
-                        >
-                          {inst.equipmentCount}대
-                        </Badge>
-                        <span className="text-xs text-muted-foreground">
-                          {inst.speciality}
-                        </span>
-                      </div>
-                    </div>
+                    {inst.shortName}
+                    <span className="ml-1 opacity-70">({inst.equipmentCount})</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* 검색 필터 섹션 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-primary">STEP 2</span>
-                <Label className="text-base font-semibold">
-                  검색 조건 설정
-                </Label>
+            {/* 검색 필터 - 컴팩트 */}
+            <div className="mt-3 flex gap-2">
+              <div className="flex-1 relative">
+                <Input
+                  placeholder="장비명, 모델명 검색"
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  className="h-9 text-sm pr-8"
+                />
+                {searchKeyword && (
+                  <button
+                    onClick={() => setSearchKeyword('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
               
-              <div className="bg-muted/20 rounded-lg p-4 space-y-4">
-                <div className="grid gap-4 lg:grid-cols-3">
-                  {/* 키워드 검색 - 첫 번째 */}
-                  <div className="space-y-2">
-                    <Label htmlFor="keyword" className="text-sm">키워드 검색</Label>
-                    <div className="relative">
-                      <Input
-                        id="keyword"
-                        placeholder={t('moafab.equipment.searchPlaceholder')}
-                        value={searchKeyword}
-                        onChange={(e) => setSearchKeyword(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                        className="h-10 pr-10"
-                      />
-                      {searchKeyword && (
-                        <button
-                          onClick={() => setSearchKeyword('')}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                        >
-                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* 검색 버튼 - 두 번째 */}
-                  <div className="space-y-2">
-                    <Label className="text-sm invisible lg:visible">작업</Label>
-                    <div className="flex gap-2">
-                      <Button 
-                        onClick={handleSearch} 
-                        className="flex-1 h-10" 
-                        disabled={selectedInstitutions.length === 0}
-                      >
-                        <HiMagnifyingGlass className="mr-2 h-4 w-4" />
-                        {selectedInstitutions.length === 0 ? '기관 선택' : `검색 (${totalEquipmentCount}개)`}
-                      </Button>
-                      <Button 
-                        onClick={handleReset} 
-                        variant="outline" 
-                        size="icon"
-                        className="h-10 w-10"
-                      >
-                        <HiArrowPath className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* 공정 선택 - 마지막 */}
-                  <div className="space-y-2">
-                    <Label htmlFor="process" className="text-sm">공정 분류</Label>
-                    <Select value={selectedProcess} onValueChange={setSelectedProcess}>
-                      <SelectTrigger id="process" className="h-10">
-                        <SelectValue placeholder="공정을 선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {processes.map((process) => {
-                          const Icon = process.icon
-                          return (
-                            <SelectItem key={process.id} value={process.id}>
-                              <div className="flex items-center gap-2">
-                                <Icon className="h-4 w-4" />
-                                <span>{process.name}</span>
-                              </div>
-                            </SelectItem>
-                          )
-                        })}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 고급 검색 옵션 */}
-            <div className="space-y-3">
-              <Button
-                variant="ghost"
-                onClick={() => setShowAdvanced(!showAdvanced)}
-                className="text-sm text-muted-foreground hover:text-foreground"
+              <Select value={selectedProcess} onValueChange={setSelectedProcess}>
+                <SelectTrigger className="w-[140px] h-9 text-sm">
+                  <SelectValue placeholder="공정 선택" />
+                </SelectTrigger>
+                <SelectContent>
+                  {processes.map((process) => {
+                    const Icon = process.icon
+                    return (
+                      <SelectItem key={process.id} value={process.id}>
+                        <div className="flex items-center gap-2">
+                          <Icon className="h-3 w-3" />
+                          <span className="text-sm">{process.name}</span>
+                        </div>
+                      </SelectItem>
+                    )
+                  })}
+                </SelectContent>
+              </Select>
+              
+              <Button 
+                onClick={handleSearch} 
+                className="h-9 px-4" 
+                disabled={selectedInstitutions.length === 0}
               >
-                <HiAdjustmentsHorizontal className="mr-2 h-4 w-4" />
-                고급 옵션 {showAdvanced ? '접기' : '펼치기'}
+                <HiMagnifyingGlass className="h-4 w-4" />
+                <span className="ml-2 hidden sm:inline">검색</span>
               </Button>
               
-              {showAdvanced && (
-                <div className="p-4 bg-muted/10 rounded-lg border">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="available" className="h-4 w-4" />
-                      <Label htmlFor="available" className="text-sm cursor-pointer">
-                        즉시 예약
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="training" className="h-4 w-4" />
-                      <Label htmlFor="training" className="text-sm cursor-pointer">
-                        교육 지원
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="remote" className="h-4 w-4" />
-                      <Label htmlFor="remote" className="text-sm cursor-pointer">
-                        원격 사용
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="discount" className="h-4 w-4" />
-                      <Label htmlFor="discount" className="text-sm cursor-pointer">
-                        할인 가능
-                      </Label>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <Button 
+                onClick={handleReset} 
+                variant="outline" 
+                size="icon"
+                className="h-9 w-9"
+              >
+                <HiArrowPath className="h-4 w-4" />
+              </Button>
             </div>
+          </div>
 
-            {/* 검색 결과 요약 */}
-            {selectedInstitutions.length > 0 && (
-              <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                  <div className="flex flex-wrap items-center gap-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
-                      <span className="font-medium">
-                        {selectedInstitutions.length}개 기관
-                      </span>
+          {/* 검색 결과 영역 */}
+          {searchResults.length > 0 && (
+            <div className="grid md:grid-cols-2 divide-x border-t">
+              {/* 왼쪽: 검색 결과 리스트 (10개 표시) */}
+              <div className="max-h-[500px] overflow-y-auto">
+                <div className="divide-y">
+                  {searchResults.map((equipment, index) => (
+                    <div
+                      key={equipment.id}
+                      className={cn(
+                        "p-3 cursor-pointer transition-all hover:bg-muted/50",
+                        selectedEquipment?.id === equipment.id && "bg-primary/10 border-l-4 border-primary"
+                      )}
+                      onClick={() => setSelectedEquipment(equipment)}
+                    >
+                      {/* 상단: 제목 및 기관 */}
+                      <div className="space-y-2">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-sm line-clamp-1">
+                              {equipment.nameEn}
+                            </h4>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              {equipment.name}
+                            </p>
+                          </div>
+                          <Badge 
+                            variant={equipment.status === 'available' ? 'default' : 
+                                    equipment.status === 'in-use' ? 'secondary' : 'destructive'}
+                            className="shrink-0"
+                          >
+                            {equipment.status === 'available' && '이용가능'}
+                            {equipment.status === 'in-use' && '사용중'}
+                            {equipment.status === 'maintenance' && '점검중'}
+                          </Badge>
+                        </div>
+                        
+                        {/* 하단: 공정 및 위치 정보 */}
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                          <span className="font-medium">{equipment.institution}</span>
+                          <span>·</span>
+                          <span>{processes.find(p => p.id === equipment.process)?.name || equipment.process}</span>
+                          <span>·</span>
+                          <span>{equipment.model}</span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-muted-foreground">·</span>
-                    <span className="font-medium">
-                      {totalEquipmentCount}개 장비
-                    </span>
-                    {selectedProcess !== 'all' && (
-                      <>
-                        <span className="text-muted-foreground">·</span>
-                        <Badge variant="outline" className="text-xs">
-                          {processes.find(p => p.id === selectedProcess)?.name}
-                        </Badge>
-                      </>
-                    )}
-                  </div>
-                  {searchKeyword && (
-                    <Badge variant="secondary" className="text-xs">
-                      "{searchKeyword}"
-                    </Badge>
-                  )}
+                  ))}
                 </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
+              
+              {/* 오른쪽: 선택된 장비 상세 정보 */}
+              <div className="p-4 bg-muted/10">
+                {selectedEquipment ? (
+                  <div className="space-y-4">
+                    {/* 장비 이미지 */}
+                    <div className="relative aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 rounded-lg overflow-hidden">
+                      {selectedEquipment.imageUrl ? (
+                        <img 
+                          src={selectedEquipment.imageUrl} 
+                          alt={selectedEquipment.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <div className="text-center space-y-3">
+                            <HiBeaker className="w-20 h-20 mx-auto text-slate-400 dark:text-slate-600" />
+                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                              장비 이미지
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* 자세히보기 버튼 */}
+                      <Button 
+                        size="sm" 
+                        className="absolute bottom-3 right-3 shadow-lg"
+                      >
+                        자세히보기
+                        <HiArrowRight className="ml-1 h-3 w-3" />
+                      </Button>
+                    </div>
+                    
+                    {/* 장비 상세 정보 */}
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="font-semibold text-base mb-1">
+                          {selectedEquipment.name}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {selectedEquipment.nameEn}
+                        </p>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <p className="text-muted-foreground mb-1">장비명</p>
+                          <p className="font-medium">{selectedEquipment.name}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground mb-1">보유기관</p>
+                          <p className="font-medium">{selectedEquipment.location}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground mb-1">제조사</p>
+                          <p className="font-medium">{selectedEquipment.manufacturer}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground mb-1">모델명</p>
+                          <p className="font-medium">{selectedEquipment.model}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-full flex items-center justify-center text-muted-foreground">
+                    <div className="text-center space-y-2">
+                      <HiCube className="w-12 h-12 mx-auto" />
+                      <p className="text-sm">장비를 선택해주세요</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </section>
   )
 }

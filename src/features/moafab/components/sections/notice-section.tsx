@@ -85,9 +85,6 @@ export function NoticeSection() {
       {/* 섹션 헤더 */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm">
-            <HiNewspaper className="h-5 w-5 text-white" />
-          </div>
           <div>
             <h2 className="text-xl font-bold text-foreground">
               최신 소식
@@ -101,34 +98,30 @@ export function NoticeSection() {
         </Button>
       </div>
 
-      {/* 최신 소식 리스트 */}
-      <div className="grid gap-2">
+      {/* 최신 소식 리스트 - 글래스모피즘 스타일 */}
+      <div className="grid gap-3 relative">
+        {/* 라이트 모드 배경 효과 */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-slate-100/50 via-[var(--brand-primary)]/5 to-slate-100/50 dark:from-transparent dark:to-transparent blur-3xl" />
+        
         {latestNews.map((item) => (
           <Card 
             key={item.id} 
-            className="hover:shadow-md transition-all duration-200 cursor-pointer overflow-hidden group py-1"
+            className="relative overflow-hidden cursor-pointer group py-0 bg-slate-50/60 dark:bg-black/20 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 shadow-lg transition-all duration-300 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-black/30 hover:scale-[1.02] py-3"
           >
-            <CardContent className="p-4 flex items-center gap-4">
-              {/* 카테고리 색상 바 */}
-              <div 
-                className="w-1 self-stretch -my-4 -ml-4 mr-2"
-                style={{
-                  backgroundColor: 
-                    item.category === '공지사항' ? 'rgb(59, 130, 246)' : 
-                    item.category === '보도자료' ? 'rgb(34, 197, 94)' : 
-                    'rgb(168, 85, 247)'
-                }}
-              />
+            {/* 배경 그라데이션 효과 */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-primary)]/10 via-transparent to-[var(--brand-primary)]/5 opacity-40" />
+            
+            <CardContent className="p-4 flex items-center gap-4 relative z-10">
               {/* 메인 콘텐츠 */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1.5">
-                  {/* 카테고리 배지 */}
+                  {/* 카테고리 배지 - 글래스 효과 */}
                   <Badge 
                     variant="outline" 
-                    className={`text-xs px-2 py-0.5 ${
-                      item.category === '공지사항' ? 'border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-950/20' :
-                      item.category === '보도자료' ? 'border-green-500/30 text-green-600 dark:text-green-400 bg-green-50/50 dark:bg-green-950/20' :
-                      'border-purple-500/30 text-purple-600 dark:text-purple-400 bg-purple-50/50 dark:bg-purple-950/20'
+                    className={`text-xs px-2 py-0.5 backdrop-blur-sm font-medium ${
+                      item.category === '공지사항' ? 'border-blue-500/30 text-blue-700 dark:text-blue-400 bg-blue-500/15 dark:bg-blue-500/20' :
+                      item.category === '보도자료' ? 'border-green-500/30 text-green-700 dark:text-green-400 bg-green-500/15 dark:bg-green-500/20' :
+                      'border-purple-500/30 text-purple-700 dark:text-purple-400 bg-purple-500/15 dark:bg-purple-500/20'
                     }`}
                   >
                     {item.category === '공지사항' && <HiMegaphone className="w-3 h-3 mr-1" />}
@@ -137,13 +130,13 @@ export function NoticeSection() {
                     {item.category}
                   </Badge>
                   {item.isNew && (
-                    <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                    <Badge variant="secondary" className="text-xs px-1.5 py-0 bg-[var(--brand-primary)]/10 border-[var(--brand-primary)]/30 text-[var(--brand-primary)] backdrop-blur-sm">
                       <HiSparkles className="w-3 h-3 mr-0.5" />
                       NEW
                     </Badge>
                   )}
                   {item.isHot && (
-                    <Badge variant="destructive" className="text-xs px-1.5 py-0">
+                    <Badge variant="destructive" className="text-xs px-1.5 py-0 bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400 backdrop-blur-sm">
                       <HiFire className="w-3 h-3 mr-0.5" />
                       HOT
                     </Badge>
@@ -173,11 +166,18 @@ export function NoticeSection() {
                 </div>
               </div>
               
-              {/* 화살표 아이콘 */}
+              {/* 화살표 아이콘 - 글래스 효과 */}
               <div className="flex items-center">
-                <HiArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                <div className="p-2 rounded-lg bg-white/30 dark:bg-white/10 backdrop-blur-sm border border-white/20 dark:border-white/10 group-hover:bg-[var(--brand-primary)]/10 transition-all">
+                  <HiArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[var(--brand-primary)] transition-colors" />
+                </div>
               </div>
             </CardContent>
+            
+            {/* 호버 시 빛나는 효과 */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+            </div>
           </Card>
         ))}
       </div>

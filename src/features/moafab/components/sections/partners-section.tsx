@@ -118,8 +118,16 @@ export function PartnersSection() {
   }, [isAnimating, items])
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-950 dark:via-blue-950/20 dark:to-slate-950">
-      <div className="space-y-8">
+    <section className="py-16 relative overflow-hidden">
+      {/* 글래스모피즘 배경 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-100/50 via-[var(--brand-primary)]/5 to-slate-100/50 dark:from-slate-900/50 dark:via-[var(--brand-primary)]/10 dark:to-slate-900/50" />
+      <div className="absolute inset-0 backdrop-blur-3xl" />
+      
+      {/* 장식용 블러 원 */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--brand-primary)]/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--brand-primary)]/10 rounded-full blur-3xl" />
+      
+      <div className="space-y-8 relative z-10">
         {/* 헤더 */}
         <div className="text-center space-y-4">
           <div className="space-y-2">
@@ -167,13 +175,17 @@ export function PartnersSection() {
                     key={`${partner.id}-${index}`}
                     className="flex-shrink-0 group cursor-pointer"
                   >
-                    {/* 로고 카드 */}
-                    <Card className="w-64 h-32 flex items-center justify-center bg-gradient-to-br from-slate-600 to-slate-700 dark:from-slate-700 dark:to-slate-800 backdrop-blur-sm border border-slate-500 dark:border-slate-600 shadow-lg transition-all duration-300 hover:shadow-xl group-hover:scale-105 overflow-hidden">
-                      <div className="w-full h-full p-6 flex items-center justify-center bg-gradient-to-br from-slate-600/95 to-slate-700/95 dark:from-gray-800/90 dark:to-gray-900/90">
+                    {/* 로고 카드 - 글래스모피즘 */}
+                    <Card className="w-64 h-32 flex items-center justify-center relative overflow-hidden py-0 bg-slate-800/70 dark:bg-black/20 backdrop-blur-xl border border-slate-600/30 dark:border-white/10 shadow-xl transition-all duration-300 hover:shadow-2xl hover:bg-slate-700/70 dark:hover:bg-black/30 group-hover:scale-105">
+                      {/* 배경 그라데이션 효과 */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/30 via-[var(--brand-primary)]/20 to-slate-800/30 dark:from-[var(--brand-primary)]/10 dark:via-transparent dark:to-[var(--brand-primary)]/5 opacity-60" />
+                      
+                      {/* 로고 컨테이너 */}
+                      <div className="w-full h-full p-6 flex items-center justify-center relative z-10">
                         <img 
                           src={partner.logo} 
                           alt={partner.name}
-                          className="max-h-16 max-w-[200px] object-contain transition-all duration-300 group-hover:scale-110 brightness-0 invert opacity-90"
+                          className="max-h-16 max-w-[200px] object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-xl brightness-0 invert opacity-85 dark:opacity-90"
                           onError={(e) => {
                             // 이미지 로드 실패 시 텍스트로 대체
                             e.currentTarget.style.display = 'none'
@@ -181,9 +193,14 @@ export function PartnersSection() {
                             if (fallback) fallback.style.display = 'flex'
                           }}
                         />
-                        <div className="hidden items-center justify-center text-sm font-bold text-slate-700 dark:text-slate-300">
+                        <div className="hidden items-center justify-center text-sm font-bold text-white/90 drop-shadow-lg">
                           {partner.name.split(' ')[0]}
                         </div>
+                      </div>
+                      
+                      {/* 호버 시 빛나는 효과 */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/10 dark:via-white/5 dark:to-white/10" />
                       </div>
                     </Card>
                     

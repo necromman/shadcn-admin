@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './theme.css';
+@import './brand-theme.css';
 @import './frontend/index.css';
 @import './board-animations.css';
 

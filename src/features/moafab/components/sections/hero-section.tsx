@@ -59,15 +59,15 @@ export function HeroSection() {
           <div className="text-center space-y-8">
             {/* 배지 */}
             <div className="flex items-center justify-center gap-3 flex-wrap">
-              <Badge variant="secondary" className="px-4 py-1.5 bg-primary/10 border-primary/20">
+              <Badge variant="secondary" className="px-4 py-1.5 bg-[var(--brand-primary)]/10 border-[var(--brand-primary)]/20 text-[var(--brand-primary)]">
                 <HiClock className="w-3.5 h-3.5 mr-1.5" />
                 실시간 예약 가능
               </Badge>
-              <Badge variant="outline" className="px-4 py-1.5">
+              <Badge variant="outline" className="px-4 py-1.5 border-[var(--brand-primary)]/30 text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/5">
                 <HiBuildingOffice2 className="w-3.5 h-3.5 mr-1.5" />
                 6개 기관 통합 플랫폼
               </Badge>
-              <Badge variant="outline" className="px-4 py-1.5">
+              <Badge variant="outline" className="px-4 py-1.5 border-[var(--brand-primary)]/30 text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/5">
                 <HiWrenchScrewdriver className="w-3.5 h-3.5 mr-1.5" />
                 950+ 첨단 장비 보유
               </Badge>
@@ -87,15 +87,19 @@ export function HeroSection() {
                 </h1>
               </div>
               
-              <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              <div className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 <p>국내 주요 나노팹 연구기관의 최첨단 장비와</p>
-                <p>전문 인력이 여러분의 연구개발을 지원합니다.</p>               
-              </p>
+                <p>전문 인력이 여러분의 연구개발을 지원합니다.</p>
+              </div>
             </div>
 
             {/* CTA 버튼 */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Button size="lg" className="min-w-[200px] h-12 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <Button 
+                size="lg" 
+                variant="default"
+                className="min-w-[200px] h-12 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-primary text-primary-foreground hover:bg-primary/90"
+              >
                 <HiSparkles className="mr-2 h-5 w-5" />
                 장비 검색 바로가기
               </Button>

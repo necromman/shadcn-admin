@@ -1,0 +1,72 @@
+/* Brand Theme CSS Variables */
+/* Import this file in your main CSS to use brand colors */
+
+:root {
+  /* Brand Primary Colors */
+  --brand-primary: oklch(0.59 0.13 243.02);
+  --brand-primary-light: oklch(0.308 0.042 265.755);
+  --brand-primary-dark: oklch(0.158 0.042 265.755);
+  --brand-primary-foreground: oklch(0.984 0.003 247.858);
+  
+  /* Brand Secondary Colors */
+  --brand-secondary: oklch(0.968 0.007 247.896);
+  --brand-secondary-light: oklch(0.988 0.003 247.896);
+  --brand-secondary-dark: oklch(0.868 0.010 247.896);
+  --brand-secondary-foreground: oklch(0.208 0.042 265.755);
+  
+  /* Brand Accent Colors */
+  --brand-accent: oklch(0.968 0.007 247.896);
+  --brand-accent-light: oklch(0.988 0.003 247.896);
+  --brand-accent-dark: oklch(0.868 0.010 247.896);
+  --brand-accent-foreground: oklch(0.208 0.042 265.755);
+  
+  /* Status Colors */
+  --brand-success: oklch(0.598 0.181 163.326);
+  --brand-warning: oklch(0.828 0.189 84.429);
+  --brand-error: oklch(0.577 0.245 27.325);
+  --brand-info: oklch(0.6 0.118 184.704);
+  
+  /* Map existing colors to brand colors */
+  --primary: var(--brand-primary);
+  --primary-foreground: var(--brand-primary-foreground);
+  --secondary: var(--brand-secondary);
+  --secondary-foreground: var(--brand-secondary-foreground);
+  --accent: var(--brand-accent);
+  --accent-foreground: var(--brand-accent-foreground);
+  --destructive: var(--brand-error);
+}
+
+.dark {
+  /* Dark Mode Brand Primary Colors */
+  --brand-primary: oklch(0.929 0.013 255.508);
+  --brand-primary-light: oklch(0.959 0.010 255.508);
+  --brand-primary-dark: oklch(0.829 0.018 255.508);
+  --brand-primary-foreground: oklch(0.208 0.042 265.755);
+  
+  /* Dark Mode Brand Secondary Colors */
+  --brand-secondary: oklch(0.279 0.041 260.031);
+  --brand-secondary-light: oklch(0.379 0.041 260.031);
+  --brand-secondary-dark: oklch(0.229 0.041 260.031);
+  --brand-secondary-foreground: oklch(0.984 0.003 247.858);
+  
+  /* Dark Mode Brand Accent Colors */
+  --brand-accent: oklch(0.279 0.041 260.031);
+  --brand-accent-light: oklch(0.379 0.041 260.031);
+  --brand-accent-dark: oklch(0.229 0.041 260.031);
+  --brand-accent-foreground: oklch(0.984 0.003 247.858);
+  
+  /* Dark Mode Status Colors */
+  --brand-success: oklch(0.696 0.17 162.48);
+  --brand-warning: oklch(0.769 0.188 70.08);
+  --brand-error: oklch(0.704 0.191 22.216);
+  --brand-info: oklch(0.488 0.243 264.376);
+  
+  /* Map existing colors to brand colors */
+  --primary: var(--brand-primary);
+  --primary-foreground: var(--brand-primary-foreground);
+  --secondary: var(--brand-secondary);
+  --secondary-foreground: var(--brand-secondary-foreground);
+  --accent: var(--brand-accent);
+  --accent-foreground: var(--brand-accent-foreground);
+  --destructive: var(--brand-error);
+}

@@ -179,13 +179,16 @@ export function EquipmentSearch() {
   const [searchKeyword, setSearchKeyword] = useState('')
   const [selectAll, setSelectAll] = useState(true)
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const [searchResults, setSearchResults] = useState<Equipment[]>(sampleEquipments)
-  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(sampleEquipments[0])
+  const [searchResults, setSearchResults] = useState<Equipment[]>([])
+  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null)
 
-  // 컴포넌트 마운트 시 전체 기관 선택 및 검색 실행
+  // 컴포넌트 마운트 시 전체 기관 선택 및 전체 장비 표시
   useState(() => {
     const allInstitutionIds = ['NINT', 'NNFC', 'KANC', 'ISRC', 'ETRI', 'DGIST']
     setSelectedInstitutions(allInstitutionIds)
+    // 초기에 모든 장비 표시
+    setSearchResults(sampleEquipments)
+    setSelectedEquipment(sampleEquipments[0])
     return null
   })
 
@@ -292,7 +295,9 @@ export function EquipmentSearch() {
     }
     
     setSearchResults(results)
-    setShowResults(true)
+    if (results.length > 0) {
+      setSelectedEquipment(results[0])
+    }
   }
 
   const handleReset = () => {
@@ -315,12 +320,9 @@ export function EquipmentSearch() {
     <section className="py-12">
       {/* 통합 검색 카드 */}
       <Card className="overflow-hidden border shadow-lg">         
-        <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50 p-4">
+        <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50 px-5 pb-0 pt-7">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary rounded shadow-sm">
-                <HiMagnifyingGlass className="h-5 w-5 text-primary-foreground" />
-              </div>
               <div>
                 <CardTitle className="text-lg">장비 통합 검색</CardTitle>
                 <CardDescription className="text-xs">
@@ -346,7 +348,7 @@ export function EquipmentSearch() {
                   연구기관 ({selectedInstitutions.length}/{institutions.length})
                 </Label>
                 <Button
-                  variant={selectAll ? "secondary" : "outline"}
+                  variant={selectAll ? "default" : "outline"}
                   size="sm"
                   className="h-7 text-xs"
                   onClick={() => handleSelectAll(!selectAll)}
@@ -364,8 +366,8 @@ export function EquipmentSearch() {
                       "px-3 py-1.5 rounded-md text-xs font-medium transition-all",
                       "border hover:shadow-sm",
                       selectedInstitutions.includes(inst.id) 
-                        ? "bg-primary text-primary-foreground border-primary" 
-                        : "bg-background border-border hover:border-primary/50"
+                        ? "bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)] border-[var(--brand-primary)]" 
+                        : "bg-background border-border hover:border-[var(--brand-primary)]/50"
                     )}
                     onClick={() => handleInstitutionToggle(inst.id)}
                   >
@@ -416,7 +418,8 @@ export function EquipmentSearch() {
               </Select>
               
               <Button 
-                onClick={handleSearch} 
+                onClick={handleSearch}
+                variant="default"
                 className="h-9 px-4" 
                 disabled={selectedInstitutions.length === 0}
               >
@@ -439,8 +442,8 @@ export function EquipmentSearch() {
           {searchResults.length > 0 && (
             <div className="grid md:grid-cols-2 divide-x border-t">
               {/* 왼쪽: 검색 결과 리스트 (10개 표시) */}
-              <div className="max-h-[500px] overflow-y-auto">
-                <div className="divide-y">
+              <div className="h-full">
+                <div className="divide-y max-h-[600px] overflow-y-auto">
                   {searchResults.map((equipment, index) => (
                     <div
                       key={equipment.id}
@@ -487,11 +490,11 @@ export function EquipmentSearch() {
               </div>
               
               {/* 오른쪽: 선택된 장비 상세 정보 */}
-              <div className="p-4 bg-muted/10">
+              <div className="p-4 bg-muted/10 min-h-[600px] flex flex-col">
                 {selectedEquipment ? (
-                  <div className="space-y-4">
+                  <div className="space-y-4 flex-1 flex flex-col">
                     {/* 장비 이미지 */}
-                    <div className="relative aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 rounded-lg overflow-hidden">
+                    <div className="relative flex-1 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 rounded-lg overflow-hidden">
                       {selectedEquipment.imageUrl ? (
                         <img 
                           src={selectedEquipment.imageUrl} 
@@ -512,6 +515,7 @@ export function EquipmentSearch() {
                       {/* 자세히보기 버튼 */}
                       <Button 
                         size="sm" 
+                        variant="default"
                         className="absolute bottom-3 right-3 shadow-lg"
                       >
                         자세히보기
@@ -520,32 +524,32 @@ export function EquipmentSearch() {
                     </div>
                     
                     {/* 장비 상세 정보 */}
-                    <div className="space-y-4">
+                    <div className="space-y-3 pt-2">
                       <div>
-                        <h3 className="font-semibold text-base mb-1">
+                        <h3 className="font-semibold text-base">
                           {selectedEquipment.name}
                         </h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground mt-1">
                           {selectedEquipment.nameEn}
                         </p>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="grid grid-cols-2 gap-3 text-sm">
                         <div>
-                          <p className="text-muted-foreground mb-1">장비명</p>
-                          <p className="font-medium">{selectedEquipment.name}</p>
+                          <p className="text-muted-foreground text-xs mb-1">장비명</p>
+                          <p className="font-medium text-sm">{selectedEquipment.name}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground mb-1">보유기관</p>
-                          <p className="font-medium">{selectedEquipment.location}</p>
+                          <p className="text-muted-foreground text-xs mb-1">보유기관</p>
+                          <p className="font-medium text-sm">{selectedEquipment.location}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground mb-1">제조사</p>
-                          <p className="font-medium">{selectedEquipment.manufacturer}</p>
+                          <p className="text-muted-foreground text-xs mb-1">제조사</p>
+                          <p className="font-medium text-sm">{selectedEquipment.manufacturer}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground mb-1">모델명</p>
-                          <p className="font-medium">{selectedEquipment.model}</p>
+                          <p className="text-muted-foreground text-xs mb-1">모델명</p>
+                          <p className="font-medium text-sm">{selectedEquipment.model}</p>
                         </div>
                       </div>
                     </div>

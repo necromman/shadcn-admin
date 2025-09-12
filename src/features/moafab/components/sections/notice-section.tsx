@@ -1,129 +1,186 @@
-import { useState, useMemo } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
-import { HiArrowRight, HiMegaphone } from 'react-icons/hi2'
-import { useMoafabDevSettings } from '../../context/dev-settings-provider'
+import { 
+  HiArrowRight, 
+  HiMegaphone, 
+  HiNewspaper, 
+  HiCalendar,
+  HiSparkles,
+  HiFire,
+  HiChatBubbleLeftRight
+} from 'react-icons/hi2'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface NoticeItem {
   id: string
+  category: string
   title: string
+  content?: string
   date: string
   isNew?: boolean
-  isImportant?: boolean
+  isHot?: boolean
+  isPinned?: boolean
+  author?: string
+  comments?: number
+  views?: number
 }
 
+// 최신 소식 데이터 (5개 항목만 표시)
+const latestNews: NoticeItem[] = [
+  {
+    id: '1',
+    category: '공지사항',
+    title: '2025년 상반기 나노팹 서비스 이용 안내',
+    content: '서비스 품질 향상을 위한 상반기 운영 계획을 안내드립니다. 신규 장비 도입 및 서비스 개선 사항을 확인해주세요.',
+    date: '2025-01-12',
+    isNew: true,
+    isPinned: true,
+    views: 1523
+  },
+  {
+    id: '2',
+    category: '보도자료',
+    title: '나노팹 플랫폼, 글로벌 반도체 혁신 대상 수상',
+    content: 'MOAFAB 플랫폼이 2024 글로벌 반도체 기술 혁신 대상을 수상했습니다. 국내 나노팹 기술의 우수성을 인정받은 쾌거입니다.',
+    date: '2025-01-11',
+    isNew: true,
+    isHot: true,
+    views: 3892
+  },
+  {
+    id: '3',
+    category: '문의',
+    title: 'EUV 리소그래피 장비 사용 관련 문의',
+    author: '김연구원',
+    date: '2025-01-11',
+    comments: 15,
+    isNew: true
+  },
+  {
+    id: '4',
+    category: '공지사항',
+    title: '장비 정기 점검 일정 안내 (1월 3주차)',
+    content: '1월 3주차 정기 점검 일정을 안내드립니다. 점검 시간 동안 일부 장비 사용이 제한될 수 있습니다.',
+    date: '2025-01-10',
+    isPinned: true,
+    views: 987
+  },
+  {
+    id: '5',
+    category: '보도자료',
+    title: '국내 6대 나노팹 기관 업무협약 체결',
+    content: 'MOAFAB 플랫폼을 통해 국내 주요 나노팹 기관들이 협력 체계를 구축했습니다.',
+    date: '2025-01-09',
+    isHot: true,
+    views: 2156
+  }
+]
+
 export function NoticeSection() {
-  const { settings } = useMoafabDevSettings()
-  const [selectedNotices, setSelectedNotices] = useState<Set<string>>(new Set())
-
-  // 샘플 데이터 (실제로는 API에서 가져옴)
-  const notices: NoticeItem[] = useMemo(() => [
-    { id: '1', title: '2024년 상반기 나노팹 서비스 이용 안내', date: '2024-01-15', isNew: true, isImportant: true },
-    { id: '2', title: '장비 정기 점검 일정 공지', date: '2024-01-12', isNew: true },
-    { id: '3', title: '신규 EUV 장비 도입 안내', date: '2024-01-10' },
-    { id: '4', title: '서비스 이용료 개정 안내', date: '2024-01-08', isImportant: true },
-    { id: '5', title: '연말연시 운영 시간 변경 안내', date: '2024-01-05' },
-    { id: '6', title: '나노팹 워크샵 참가자 모집', date: '2024-01-03' },
-    { id: '7', title: '시스템 정기 점검 안내', date: '2024-01-02' },
-  ], [])
-
-  // 최대 5개까지만 표시
-  const displayNotices = notices.slice(0, 5)
-
-  const handleToggleNotice = (noticeId: string) => {
-    setSelectedNotices(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(noticeId)) {
-        newSet.delete(noticeId)
-      } else {
-        newSet.add(noticeId)
-      }
-      return newSet
-    })
-  }
-
-  const handleSelectAll = () => {
-    if (selectedNotices.size === displayNotices.length) {
-      setSelectedNotices(new Set())
-    } else {
-      setSelectedNotices(new Set(displayNotices.map(n => n.id)))
-    }
-  }
+  const { t } = useTranslation()
 
   return (
     <section className="py-12">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <div className="flex items-center gap-2">
-            <HiMegaphone className="h-5 w-5 text-primary" />
-            <CardTitle className="text-xl">공지사항</CardTitle>
+      {/* 섹션 헤더 */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm">
+            <HiNewspaper className="h-5 w-5 text-white" />
           </div>
-          <div className="flex items-center gap-4">
-            {selectedNotices.size > 0 && (
-              <span className="text-sm text-muted-foreground">
-                {selectedNotices.size}개 선택됨
-              </span>
-            )}
-            <Button variant="ghost" size="sm" onClick={handleSelectAll}>
-              {selectedNotices.size === displayNotices.length ? '선택 해제' : '전체 선택'}
-            </Button>
+          <div>
+            <h2 className="text-xl font-bold text-foreground">
+              최신 소식
+            </h2>
+            <p className="text-sm text-muted-foreground">공지사항 및 주요 업데이트</p>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-1">
-          {/* 공지사항 목록 */}
-          {displayNotices.map((notice) => (
-            <div
-              key={notice.id}
-              className={`flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent/50 ${
-                selectedNotices.has(notice.id) ? 'bg-accent' : ''
-              }`}
-            >
-              <Checkbox
-                id={`notice-${notice.id}`}
-                checked={selectedNotices.has(notice.id)}
-                onCheckedChange={() => handleToggleNotice(notice.id)}
-                className="mt-1"
+        </div>
+        <Button variant="outline" size="sm">
+          전체보기
+          <HiArrowRight className="ml-2 h-3.5 w-3.5" />
+        </Button>
+      </div>
+
+      {/* 최신 소식 리스트 */}
+      <div className="grid gap-2">
+        {latestNews.map((item) => (
+          <Card 
+            key={item.id} 
+            className="hover:shadow-md transition-all duration-200 cursor-pointer overflow-hidden group py-1"
+          >
+            <CardContent className="p-4 flex items-center gap-4">
+              {/* 카테고리 색상 바 */}
+              <div 
+                className="w-1 self-stretch -my-4 -ml-4 mr-2"
+                style={{
+                  backgroundColor: 
+                    item.category === '공지사항' ? 'rgb(59, 130, 246)' : 
+                    item.category === '보도자료' ? 'rgb(34, 197, 94)' : 
+                    'rgb(168, 85, 247)'
+                }}
               />
-              <Label
-                htmlFor={`notice-${notice.id}`}
-                className="flex-1 cursor-pointer space-y-1"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium hover:text-primary transition-colors">
-                    {notice.title}
-                  </span>
-                  {notice.isNew && settings.notice.showBadge && (
-                    <Badge variant="secondary" className="text-xs">
+              {/* 메인 콘텐츠 */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1.5">
+                  {/* 카테고리 배지 */}
+                  <Badge 
+                    variant="outline" 
+                    className={`text-xs px-2 py-0.5 ${
+                      item.category === '공지사항' ? 'border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-950/20' :
+                      item.category === '보도자료' ? 'border-green-500/30 text-green-600 dark:text-green-400 bg-green-50/50 dark:bg-green-950/20' :
+                      'border-purple-500/30 text-purple-600 dark:text-purple-400 bg-purple-50/50 dark:bg-purple-950/20'
+                    }`}
+                  >
+                    {item.category === '공지사항' && <HiMegaphone className="w-3 h-3 mr-1" />}
+                    {item.category === '보도자료' && <HiNewspaper className="w-3 h-3 mr-1" />}
+                    {item.category === '문의' && <HiChatBubbleLeftRight className="w-3 h-3 mr-1" />}
+                    {item.category}
+                  </Badge>
+                  {item.isNew && (
+                    <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                      <HiSparkles className="w-3 h-3 mr-0.5" />
                       NEW
                     </Badge>
                   )}
-                  {notice.isImportant && settings.notice.showBadge && (
-                    <Badge variant="destructive" className="text-xs">
-                      중요
+                  {item.isHot && (
+                    <Badge variant="destructive" className="text-xs px-1.5 py-0">
+                      <HiFire className="w-3 h-3 mr-0.5" />
+                      HOT
                     </Badge>
                   )}
                 </div>
-                {settings.notice.showDate && (
-                  <p className="text-xs text-muted-foreground">{notice.date}</p>
-                )}
-              </Label>
-            </div>
-          ))}
-
-          {/* 더보기 버튼 */}
-          <div className="pt-4 border-t">
-            <Button variant="ghost" className="w-full" asChild>
-              <a href="/moafab/support/notice">
-                더 많은 공지사항 보기
-                <HiArrowRight className="ml-2 h-4 w-4" />
-              </a>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+                
+                {/* 제목 */}
+                <h3 className="font-medium text-sm mb-1 line-clamp-1 group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+                
+                {/* 메타 정보 */}
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <HiCalendar className="w-3 h-3" />
+                    {item.date}
+                  </div>
+                  {item.author && (
+                    <span>작성자: {item.author}</span>
+                  )}
+                  {item.views && (
+                    <span>조회 {item.views.toLocaleString()}</span>
+                  )}
+                  {item.comments !== undefined && (
+                    <span>댓글 {item.comments}</span>
+                  )}
+                </div>
+              </div>
+              
+              {/* 화살표 아이콘 */}
+              <div className="flex items-center">
+                <HiArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </section>
   )
 }

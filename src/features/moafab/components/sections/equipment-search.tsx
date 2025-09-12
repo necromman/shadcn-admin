@@ -41,55 +41,54 @@ const processIcons: Record<string, any> = {
 
 export function EquipmentSearch() {
   const { t } = useTranslation()
-  const { settings } = useMoafabDevSettings()
   const [selectedInstitutions, setSelectedInstitutions] = useState<string[]>([])
   const [selectedProcess, setSelectedProcess] = useState('all')
   const [searchKeyword, setSearchKeyword] = useState('')
   const [selectAll, setSelectAll] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
 
-  // 번역된 기관 목록
+  // 번역된 기관 목록 - 실제 950개 이상 장비 반영
   const institutions = useMemo(() => [
     { 
       id: 'NINT', 
       name: t('moafab.equipment.institutions.NINT'),
       shortName: 'NINT',
-      equipmentCount: 85,
+      equipmentCount: 185,
       speciality: '나노 융합'
     },
     { 
       id: 'NNFC', 
       name: t('moafab.equipment.institutions.NNFC'),
       shortName: 'NNFC',
-      equipmentCount: 120,
+      equipmentCount: 234,
       speciality: '종합 나노팹'
     },
     { 
       id: 'KANC', 
       name: t('moafab.equipment.institutions.KANC'),
       shortName: 'KANC',
-      equipmentCount: 95,
+      equipmentCount: 156,
       speciality: '반도체 공정'
     },
     { 
       id: 'ISRC', 
       name: t('moafab.equipment.institutions.ISRC'),
       shortName: 'ISRC',
-      equipmentCount: 78,
+      equipmentCount: 142,
       speciality: '첨단 반도체'
     },
     { 
       id: 'ETRI', 
       name: t('moafab.equipment.institutions.ETRI'),
       shortName: 'ETRI',
-      equipmentCount: 102,
+      equipmentCount: 178,
       speciality: 'ICT 융합'
     },
     { 
       id: 'DGIST', 
       name: t('moafab.equipment.institutions.DGIST'),
       shortName: 'DGIST',
-      equipmentCount: 65,
+      equipmentCount: 95,
       speciality: '융합 과학'
     },
   ], [t])
@@ -149,217 +148,229 @@ export function EquipmentSearch() {
   }, [institutions, selectedInstitutions])
 
   return (
-    <section className="py-16 bg-gradient-to-b from-background via-background to-background">
-      <div className={cn(
-        "mx-auto px-4 sm:px-6 lg:px-8",
-        settings.layout.containerWidth === 'full' && "max-w-full",
-        settings.layout.containerWidth === 'wide' && "max-w-7xl",
-        settings.layout.containerWidth === 'narrow' && "max-w-5xl"
-      )}>
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold mb-3">{t('moafab.equipment.title')}</h2>
-          <p className="text-muted-foreground text-lg">
-            545개 이상의 최첨단 장비를 실시간으로 검색하고 예약하세요
-          </p>
-        </div>
+    <section className="py-12">
 
-        <Card className="border-0 shadow-2xl bg-gradient-to-br from-card via-card to-muted/5">
-          <CardHeader className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-b-0 pb-6">
+      {/* 메인 카드 - 적절한 overflow와 border 설정 */}
+      <Card className="overflow-hidden border shadow-lg py-0 pb-0">         
+          <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50 px-6 pt-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-primary rounded-xl shadow-lg shadow-primary/20">
-                  <HiMagnifyingGlass className="h-7 w-7 text-primary-foreground" />
+              <div className="flex items-center gap-4">
+                <div className="flex-shrink-0 p-3 bg-primary rounded-lg shadow-sm">
+                  <HiMagnifyingGlass className="h-6 w-6 text-primary-foreground" />
                 </div>
-                <div>
-                  <CardTitle className="text-2xl">장비 검색</CardTitle>
-                  <CardDescription className="mt-1">
-                    원하는 조건으로 장비를 검색하세요
+                <div className="flex flex-col justify-center">
+                  <CardTitle className="text-xl leading-tight">장비 통합 검색</CardTitle>
+                  <CardDescription className="mt-0.5">
+                    전국 6개 기관의 990개 이상 최첨단 장비를 한 곳에서
                   </CardDescription>
                 </div>
               </div>
               {selectedInstitutions.length > 0 && (
-                <Badge variant="secondary" className="text-lg px-5 py-2.5 bg-primary/10 hover:bg-primary/20 transition-colors">
-                  <span className="font-bold">{totalEquipmentCount}</span>개 장비 검색 가능
-                </Badge>
+                <div className="flex items-center gap-3">
+                  <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+                    <span>실시간 검색</span>
+                  </div>
+                  <Badge variant="default" className="text-sm px-3 py-1.5">
+                    <span className="font-bold mr-1">{totalEquipmentCount}</span>
+                    <span>개 장비</span>
+                  </Badge>
+                </div>
               )}
             </div>
           </CardHeader>
           
-          <CardContent className="p-8 space-y-8">
+          <CardContent className="p-6 space-y-6">
             {/* 기관 선택 섹션 */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label className="text-base font-semibold flex items-center gap-2">
-                  <HiCube className="h-4 w-4 text-primary" />
-                  연구기관 선택
-                </Label>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-primary">STEP 1</span>
+                  <Label className="text-base font-semibold">
+                    연구기관 선택
+                  </Label>
+                  <span className="text-sm text-muted-foreground">
+                    ({selectedInstitutions.length}/{institutions.length}개 선택)
+                  </span>
+                </div>
                 <Button
                   variant={selectAll ? "default" : "outline"}
                   size="sm"
                   onClick={() => handleSelectAll(!selectAll)}
-                  className="font-medium"
                 >
                   {selectAll ? "선택 해제" : "전체 선택"}
                 </Button>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 {institutions.map((inst) => (
-                  <div 
-                    key={inst.id} 
+                  <button
+                    key={inst.id}
+                    type="button"
                     className={cn(
-                      "relative rounded-xl p-5 transition-all cursor-pointer group",
-                      "bg-gradient-to-br hover:shadow-lg",
+                      "relative rounded-lg p-4 transition-all duration-200 text-left",
+                      "hover:shadow-md border",
                       selectedInstitutions.includes(inst.id) 
-                        ? "from-primary/10 to-primary/5 border-2 border-primary shadow-md" 
-                        : "from-card to-card border-2 border-border hover:border-primary/50 hover:from-muted/50 hover:to-muted/30"
+                        ? "bg-primary/10 border-primary shadow-sm" 
+                        : "bg-background border-border hover:border-primary/50"
                     )}
                     onClick={() => handleInstitutionToggle(inst.id)}
                   >
-                    <div className="flex items-start gap-3">
-                      <div className={cn(
-                        "mt-0.5 transition-transform",
-                        selectedInstitutions.includes(inst.id) && "scale-110"
-                      )}>
+                    <div className="space-y-2">
+                      <div className="flex items-start justify-between">
+                        <div className="space-y-1 flex-1">
+                          <div className="font-semibold text-sm">{inst.shortName}</div>
+                          <div className="text-xs text-muted-foreground line-clamp-2">
+                            {inst.name}
+                          </div>
+                        </div>
                         <Checkbox
-                          id={inst.id}
                           checked={selectedInstitutions.includes(inst.id)}
-                          onCheckedChange={() => handleInstitutionToggle(inst.id)}
-                          className="h-5 w-5"
-                          onClick={(e) => e.stopPropagation()}
+                          className="h-4 w-4 mt-0.5 pointer-events-none"
+                          tabIndex={-1}
+                          aria-hidden="true"
                         />
                       </div>
-                      <div className="flex-1">
-                        <Label htmlFor={inst.id} className="cursor-pointer block">
-                          <div className="font-semibold text-base">{inst.shortName}</div>
-                          <div className="text-sm text-muted-foreground mt-1">{inst.name}</div>
-                          <div className="flex items-center justify-between mt-3">
-                            <Badge 
-                              variant={selectedInstitutions.includes(inst.id) ? "default" : "secondary"}
-                              className="text-xs px-2 py-0.5"
-                            >
-                              {inst.equipmentCount}개 장비
-                            </Badge>
-                            <span className="text-xs font-medium text-muted-foreground">
-                              {inst.speciality}
-                            </span>
-                          </div>
-                        </Label>
+                      <div className="pt-2 border-t flex items-center justify-between">
+                        <Badge 
+                          variant={selectedInstitutions.includes(inst.id) ? "default" : "outline"}
+                          className="text-xs"
+                        >
+                          {inst.equipmentCount}대
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">
+                          {inst.speciality}
+                        </span>
                       </div>
                     </div>
-                    {selectedInstitutions.includes(inst.id) && (
-                      <div className="absolute top-2 right-2">
-                        <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
-                      </div>
-                    )}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
 
             {/* 검색 필터 섹션 */}
             <div className="space-y-4">
-              <Label className="text-base font-semibold flex items-center gap-2">
-                <HiFunnel className="h-4 w-4 text-primary" />
-                검색 필터
-              </Label>
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold text-primary">STEP 2</span>
+                <Label className="text-base font-semibold">
+                  검색 조건 설정
+                </Label>
+              </div>
               
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {/* 공정 선택 */}
-                <div className="space-y-2">
-                  <Label htmlFor="process" className="text-sm">공정 분류</Label>
-                  <Select value={selectedProcess} onValueChange={setSelectedProcess}>
-                    <SelectTrigger id="process" className="h-12">
-                      <SelectValue placeholder="공정을 선택하세요" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {processes.map((process) => {
-                        const Icon = process.icon
-                        return (
-                          <SelectItem key={process.id} value={process.id}>
-                            <div className="flex items-center gap-2">
-                              <Icon className="h-4 w-4" />
-                              <span>{process.name}</span>
-                            </div>
-                          </SelectItem>
-                        )
-                      })}
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="bg-muted/20 rounded-lg p-4 space-y-4">
+                <div className="grid gap-4 lg:grid-cols-3">
+                  {/* 키워드 검색 - 첫 번째 */}
+                  <div className="space-y-2">
+                    <Label htmlFor="keyword" className="text-sm">키워드 검색</Label>
+                    <div className="relative">
+                      <Input
+                        id="keyword"
+                        placeholder={t('moafab.equipment.searchPlaceholder')}
+                        value={searchKeyword}
+                        onChange={(e) => setSearchKeyword(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                        className="h-10 pr-10"
+                      />
+                      {searchKeyword && (
+                        <button
+                          onClick={() => setSearchKeyword('')}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        >
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  </div>
 
-                {/* 키워드 검색 */}
-                <div className="space-y-2">
-                  <Label htmlFor="keyword" className="text-sm">키워드 검색</Label>
-                  <Input
-                    id="keyword"
-                    placeholder={t('moafab.equipment.searchPlaceholder')}
-                    value={searchKeyword}
-                    onChange={(e) => setSearchKeyword(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                    className="h-12"
-                  />
-                </div>
+                  {/* 검색 버튼 - 두 번째 */}
+                  <div className="space-y-2">
+                    <Label className="text-sm invisible lg:visible">작업</Label>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={handleSearch} 
+                        className="flex-1 h-10" 
+                        disabled={selectedInstitutions.length === 0}
+                      >
+                        <HiMagnifyingGlass className="mr-2 h-4 w-4" />
+                        {selectedInstitutions.length === 0 ? '기관 선택' : `검색 (${totalEquipmentCount}개)`}
+                      </Button>
+                      <Button 
+                        onClick={handleReset} 
+                        variant="outline" 
+                        size="icon"
+                        className="h-10 w-10"
+                      >
+                        <HiArrowPath className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
 
-                {/* 검색 버튼 */}
-                <div className="flex items-end gap-2">
-                  <Button 
-                    onClick={handleSearch} 
-                    className="flex-1 h-12" 
-                    size="lg"
-                    disabled={selectedInstitutions.length === 0}
-                  >
-                    <HiMagnifyingGlass className="mr-2 h-5 w-5" />
-                    {selectedInstitutions.length === 0 ? '기관을 선택하세요' : t('moafab.equipment.searchButton')}
-                  </Button>
-                  <Button 
-                    onClick={handleReset} 
-                    variant="outline" 
-                    size="lg"
-                    className="h-12 px-4"
-                  >
-                    <HiArrowPath className="h-5 w-5" />
-                  </Button>
+                  {/* 공정 선택 - 마지막 */}
+                  <div className="space-y-2">
+                    <Label htmlFor="process" className="text-sm">공정 분류</Label>
+                    <Select value={selectedProcess} onValueChange={setSelectedProcess}>
+                      <SelectTrigger id="process" className="h-10">
+                        <SelectValue placeholder="공정을 선택하세요" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {processes.map((process) => {
+                          const Icon = process.icon
+                          return (
+                            <SelectItem key={process.id} value={process.id}>
+                              <div className="flex items-center gap-2">
+                                <Icon className="h-4 w-4" />
+                                <span>{process.name}</span>
+                              </div>
+                            </SelectItem>
+                          )
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 고급 검색 옵션 (선택적) */}
-            <div className="border-t pt-4">
+            {/* 고급 검색 옵션 */}
+            <div className="space-y-3">
               <Button
                 variant="ghost"
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="text-sm"
+                className="text-sm text-muted-foreground hover:text-foreground"
               >
                 <HiAdjustmentsHorizontal className="mr-2 h-4 w-4" />
-                고급 검색 옵션
+                고급 옵션 {showAdvanced ? '접기' : '펼치기'}
               </Button>
               
               {showAdvanced && (
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="available" />
-                    <Label htmlFor="available" className="text-sm cursor-pointer">
-                      즉시 예약 가능
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="training" />
-                    <Label htmlFor="training" className="text-sm cursor-pointer">
-                      교육 지원
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="remote" />
-                    <Label htmlFor="remote" className="text-sm cursor-pointer">
-                      원격 사용 가능
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="discount" />
-                    <Label htmlFor="discount" className="text-sm cursor-pointer">
-                      할인 적용 가능
-                    </Label>
+                <div className="p-4 bg-muted/10 rounded-lg border">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="available" className="h-4 w-4" />
+                      <Label htmlFor="available" className="text-sm cursor-pointer">
+                        즉시 예약
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="training" className="h-4 w-4" />
+                      <Label htmlFor="training" className="text-sm cursor-pointer">
+                        교육 지원
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="remote" className="h-4 w-4" />
+                      <Label htmlFor="remote" className="text-sm cursor-pointer">
+                        원격 사용
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="discount" className="h-4 w-4" />
+                      <Label htmlFor="discount" className="text-sm cursor-pointer">
+                        할인 가능
+                      </Label>
+                    </div>
                   </div>
                 </div>
               )}
@@ -367,15 +378,31 @@ export function EquipmentSearch() {
 
             {/* 검색 결과 요약 */}
             {selectedInstitutions.length > 0 && (
-              <div className="bg-muted/50 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{selectedInstitutions.length}개</span> 기관에서 
-                    <span className="font-medium text-foreground ml-1">{totalEquipmentCount}개</span>의 장비를 검색합니다
+              <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex flex-wrap items-center gap-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+                      <span className="font-medium">
+                        {selectedInstitutions.length}개 기관
+                      </span>
+                    </div>
+                    <span className="text-muted-foreground">·</span>
+                    <span className="font-medium">
+                      {totalEquipmentCount}개 장비
+                    </span>
+                    {selectedProcess !== 'all' && (
+                      <>
+                        <span className="text-muted-foreground">·</span>
+                        <Badge variant="outline" className="text-xs">
+                          {processes.find(p => p.id === selectedProcess)?.name}
+                        </Badge>
+                      </>
+                    )}
                   </div>
                   {searchKeyword && (
-                    <Badge variant="secondary">
-                      "{searchKeyword}" 검색 중
+                    <Badge variant="secondary" className="text-xs">
+                      "{searchKeyword}"
                     </Badge>
                   )}
                 </div>
@@ -383,7 +410,6 @@ export function EquipmentSearch() {
             )}
           </CardContent>
         </Card>
-      </div>
     </section>
   )
 }

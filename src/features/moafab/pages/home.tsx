@@ -41,11 +41,11 @@ function MoafabHomeContent() {
           <NoticeSection />
 
           {/* Quick Menu */}
-          <QuickMenu />
-
-          {/* Partners */}
-          <PartnersSection />
+          {/* <QuickMenu /> */}
         </div>
+
+        {/* Partners Section - Full Width */}
+        <PartnersSection />
       </main>
 
       {/* Footer */}

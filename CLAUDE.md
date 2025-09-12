@@ -29,6 +29,34 @@ export const Route = createFileRoute('/')({
 - 언어 전환 기능 유지
 - **이유**: 프로토타입도 글로벌 서비스를 고려해야 함
 
+### 3. 섹션 컴포넌트 컨테이너 너비 일관성 유지
+**모든 섹션 컴포넌트는 부모 컴포넌트의 컨테이너 설정을 따라야 함:**
+- ❌ **금지**: 섹션 컴포넌트 내부에서 `container` 클래스나 독립적인 max-width 설정
+- ✅ **올바른 방법**: 부모 페이지 컴포넌트에서 컨테이너 너비 관리
+  ```tsx
+  // ❌ Bad - 섹션 내부에서 독립적인 컨테이너 설정
+  export function NoticeSection() {
+    return (
+      <section className="py-12">
+        <div className="container"> // 잘못됨!
+          ...
+        </div>
+      </section>
+    )
+  }
+  
+  // ✅ Good - 부모에서 관리하는 컨테이너 설정 활용
+  export function NoticeSection() {
+    return (
+      <section className="py-12">
+        {/* 컨테이너 없이 직접 콘텐츠 배치 */}
+        <div className="flex items-center">...</div>
+      </section>
+    )
+  }
+  ```
+- **이유**: 페이지 전체의 일관된 레이아웃과 정렬 유지
+
 ## 🔴 최우선 규칙: 프로토타입 전용 프로젝트
 **이 프로젝트는 프론트엔드 프로토타입 구현 전용입니다**
 - ✅ **목적**: 실무 수준의 프론트엔드 프로토타입 빠른 구현

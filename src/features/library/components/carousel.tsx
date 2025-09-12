@@ -44,47 +44,54 @@ interface CarouselSlide {
   bgColor?: string
 }
 
-// 도서관 홍보 슬라이드 데이터
+// MOAFAB 홍보 슬라이드 데이터
 const LIBRARY_SLIDES: CarouselSlide[] = [
   {
     id: 'slide-1',
-    title: '세종샘물도서관 시스템 오픈',
-    description: '세종공동캠퍼스 도서관리 시스템이 정식 오픈했습니다. 엑셀로 관리하던 도서 대출/반납이 이제 온라인으로 간편하게! 모바일과 PC에서 언제든지 도서 검색과 예약이 가능합니다.',
+    title: '최첨단 제작 서비스',
+    subtitle: '전문가와 함께하는 제작 지원',
+    description: '3D 프린팅, CNC 가공, 레이저 커팅 등 최신 장비를 활용한 시제품 제작 서비스. 전문 엔지니어의 기술 지원과 함께 아이디어를 현실로 구현하세요.',
     bgColor: 'bg-gradient-to-r from-blue-600 to-purple-600',
+    badge: '인기 서비스',
     link: '/',
-    linkText: '시스템 소개',
+    linkText: '상담 신청',
     secondaryLink: '/',
-    secondaryLinkText: '자주 묻는 질문'
+    secondaryLinkText: '장비별 신청'
   },
   {
     id: 'slide-2',
-    title: '온라인 도서 대출 서비스 시작',
-    description: '이제 도서관에 직접 방문하지 않아도 온라인으로 도서 대출 신청이 가능합니다. 검색부터 예약, 연장까지 모든 과정을 웹사이트에서 처리하세요. 대출 가능 권수는 1인당 5권입니다.',
+    title: '모아팹 시설 활용 지원사업',
+    subtitle: '중소기업 제작 지원 프로그램',
+    description: '중소기업과 스타트업을 위한 시설 활용 지원사업을 운영합니다. 장비 사용료 지원, 기술 컨설팅, 시제품 제작 지원 등 다양한 혜택을 제공합니다.',
     bgColor: 'bg-gradient-to-r from-green-600 to-teal-600',
+    badge: '신규 모집',
     link: '/',
-    linkText: '대출 방법 안내',
+    linkText: '견적 신청',
     secondaryLink: '/',
-    secondaryLinkText: '내 대출 현황'
+    secondaryLinkText: '서비스 현황'
   },
   {
     id: 'slide-3',
-    title: '열람실 좌석 예약 시스템',
-    description: '열람실 좌석을 실시간으로 확인하고 예약하세요. 제1열람실(100석), 제2열람실(80석), 스터디룸(10실) 모두 온라인 예약 가능. 당일 예약은 4시간, 시험기간에는 연장 이용이 가능합니다.',
-    // bgColor: 'bg-gradient-to-r from-orange-600 to-red-600',
+    title: '24시간 365일 운영',
+    subtitle: '언제든지 이용 가능한 제작 공간',
+    description: '24시간 개방된 제작 공간에서 자유롭게 작업하세요. 온라인 예약 시스템으로 장비 예약부터 사용까지 편리하게 이용할 수 있습니다.',
+    bgColor: 'bg-gradient-to-r from-orange-600 to-red-600',
     link: '/',
-    linkText: '좌석 예약하기',
+    linkText: '상담 현황',
     secondaryLink: '/',
-    secondaryLinkText: '이용 안내'
+    secondaryLinkText: '견적 현황'
   },
   {
     id: 'slide-4',
-    title: '신입생 도서관 이용 교육',
-    description: '2024학년도 신입생을 위한 도서관 이용 교육을 실시합니다. 시스템 사용법, 도서 검색 방법, 학술DB 이용법 등을 안내합니다. 선착순 50명, 참가자에게는 도서 대출 우선권을 제공합니다.',
+    title: '맞춤형 제작 교육',
+    subtitle: '초보자부터 전문가까지',
+    description: '3D 모델링, CAD 설계, 장비 운용 교육 프로그램을 운영합니다. 기초부터 고급 과정까지 수준별 맞춤 교육을 제공합니다.',
     bgColor: 'bg-gradient-to-r from-purple-600 to-pink-600',
+    badge: '교육 프로그램',
     link: '/',
-    linkText: '교육 신청',
+    linkText: '서비스 신청',
     secondaryLink: '/',
-    secondaryLinkText: '온라인 튜토리얼'
+    secondaryLinkText: '서비스 모니터링'
   }
 ]
 

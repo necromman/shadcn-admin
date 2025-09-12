@@ -1,12 +1,20 @@
 import { useTranslation } from '@/lib/i18n/hooks'
 import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
+import { useMoafabDevSettings } from '../../context/dev-settings-provider'
 
 export function MoafabFooter() {
   const { t } = useTranslation()
+  const { settings } = useMoafabDevSettings()
 
   return (
     <footer className="bg-muted/50 border-t">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={cn(
+        "mx-auto px-4 sm:px-6 lg:px-8",
+        settings.layout.containerWidth === 'full' && "max-w-full",
+        settings.layout.containerWidth === 'wide' && "max-w-7xl",
+        settings.layout.containerWidth === 'narrow' && "max-w-5xl"
+      )}>
         {/* 상단 섹션 */}
         <div className="py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* 회사 정보 */}

@@ -1,61 +1,29 @@
-import { Button } from '@/components/ui/button'
 import { useLibraryDevSettings } from '@/features/library/context/dev-settings-provider'
-import { cn } from '@/lib/utils'
-import { X } from 'lucide-react'
-import { useState } from 'react'
+import { ExternalLink } from 'lucide-react'
 
 export function LibraryPreHeader() {
   const { settings } = useLibraryDevSettings()
-  const [isDismissed, setIsDismissed] = useState(false)
   
-  if (!settings.preHeader.showTopNotice || isDismissed) return null
-  
-  const noticeTypeClasses = {
-    info: 'bg-primary text-primary-foreground',
-    warning: 'bg-yellow-500 text-white',
-    success: 'bg-green-600 text-white',
-    error: 'bg-red-600 text-white',
-  }
+  if (!settings.preHeader.showTopNotice) return null
   
   return (
-    <div className={cn(
-      'py-2 relative',
-      noticeTypeClasses[settings.preHeader.noticeType]
-    )}>
+    <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between text-sm">
-          <span className="flex-1 pr-4">
-            {settings.preHeader.noticeText}
-          </span>
-          <div className="flex items-center gap-2">
-            {settings.preHeader.showActionButton && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "hover:bg-white/20",
-                  settings.preHeader.noticeType === 'info' 
-                    ? "text-primary-foreground hover:text-primary-foreground/90"
-                    : "text-white hover:text-white/90"
-                )}
-              >
-                자세히 보기
-              </Button>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              className={cn(
-                "hover:bg-white/20 p-1 h-6 w-6",
-                settings.preHeader.noticeType === 'info' 
-                  ? "text-primary-foreground hover:text-primary-foreground/90"
-                  : "text-white hover:text-white/90"
-              )}
-              onClick={() => setIsDismissed(true)}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+        <div className="flex items-center justify-center py-2">
+          <a 
+            href="https://www.kion.or.kr" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors group"
+          >
+            <img 
+              src="https://www.moafab.kr/resources/images/kion/portal/common/logo.png"
+              alt="KION"
+              className="h-5 w-auto"
+            />
+            <span className="font-medium">KION 국가나노인프라협의체</span>
+            <ExternalLink className="h-3.5 w-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
+          </a>
         </div>
       </div>
     </div>

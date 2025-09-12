@@ -1,7 +1,21 @@
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { HiArrowRight, HiClock, HiPhone, HiCheckCircle, HiShieldCheck } from 'react-icons/hi2'
+import { HiClock, HiPhone, HiCheckCircle, HiShieldCheck, HiDocumentText, HiChartBar, HiBeaker, HiCpuChip } from 'react-icons/hi2'
+import { Link } from '@tanstack/react-router'
+import { cn } from '@/lib/utils'
+import { useMoafabDevSettings } from '../../context/dev-settings-provider'
+
 export function HeroSection() {
+  const { settings } = useMoafabDevSettings()
+  const quickMenuItems = [
+    { icon: HiDocumentText, title: '상담신청', href: '/moafab/apply/consult', color: 'text-blue-600' },
+    { icon: HiPhone, title: '견적신청', href: '/moafab/apply/quote', color: 'text-green-600' },
+    { icon: HiBeaker, title: '서비스신청', href: '/moafab/apply/service', color: 'text-purple-600' },
+    { icon: HiChartBar, title: '상담현황', href: '/moafab/status/consult', color: 'text-orange-600' },
+    { icon: HiDocumentText, title: '견적현황', href: '/moafab/status/quote', color: 'text-pink-600' },
+    { icon: HiCpuChip, title: '장비별신청', href: '/moafab/apply/equipment', color: 'text-indigo-600' },
+    { icon: HiBeaker, title: '모아팹지원사업', href: '/moafab/apply/moafab', color: 'text-cyan-600' },
+    { icon: HiChartBar, title: '서비스모니터링', href: '/moafab/status/monitoring', color: 'text-emerald-600' },
+  ]
 
   return (
     <section className="relative w-full overflow-hidden min-h-[600px] bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-background dark:to-blue-950/20">
@@ -20,7 +34,12 @@ export function HeroSection() {
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div className="container relative z-10 py-20 md:py-28 lg:py-32">
+      <div className={cn(
+        "mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 md:py-28 lg:py-32",
+        settings.layout.containerWidth === 'full' && "max-w-full",
+        settings.layout.containerWidth === 'wide' && "max-w-7xl",
+        settings.layout.containerWidth === 'narrow' && "max-w-5xl"
+      )}>
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* 왼쪽: 텍스트 콘텐츠 */}
           <div className="space-y-8">
@@ -49,19 +68,18 @@ export function HeroSection() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="min-w-[160px]" asChild>
-                <a href="/moafab/apply/service">
-                  서비스 신청하기
-                  <HiArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-              <Button size="lg" variant="outline" className="min-w-[160px]" asChild>
-                <a href="/moafab/guide">
-                  <HiPhone className="mr-2 h-4 w-4" />
-                  상담 예약
-                </a>
-              </Button>
+            {/* 주요 서비스 바로가기 */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {quickMenuItems.map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.href}
+                  className="group flex flex-col items-center justify-center p-4 bg-background/80 backdrop-blur border rounded-lg hover:shadow-md hover:border-primary/50 transition-all"
+                >
+                  <item.icon className={`h-6 w-6 ${item.color} mb-2 group-hover:scale-110 transition-transform`} />
+                  <span className="text-xs font-medium text-center">{item.title}</span>
+                </Link>
+              ))}
             </div>
 
             {/* 신뢰 지표 */}

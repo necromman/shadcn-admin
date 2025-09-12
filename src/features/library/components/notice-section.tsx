@@ -1,13 +1,16 @@
+import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { useLibraryDevSettings } from '@/features/library/context/dev-settings-provider'
 import { 
   HiMegaphone,
   HiCalendar,
   HiArrowRight,
   HiSparkles,
-  HiFire
+  HiFire,
+  HiClock
 } from 'react-icons/hi2'
 
 interface NoticeItem {
@@ -22,13 +25,13 @@ interface NoticeItem {
   viewCount?: number
 }
 
-// 도서관 공지사항 샘플 데이터
+// MOAFAB 공지사항 샘플 데이터
 const libraryNotices: NoticeItem[] = [
   {
     id: '1',
     category: '시스템',
-    title: '도서관 시스템 정기 점검 안내',
-    content: '1월 15일(수) 오전 2시-4시 시스템 점검이 예정되어 있습니다. 점검 시간 동안 온라인 서비스 이용이 제한됩니다.',
+    title: '모아팹 시설 예약 시스템 업데이트 안내',
+    content: '1월 15일(수) 오전 2시-4시 시스템 업데이트가 예정되어 있습니다. 업데이트 중 예약 서비스가 일시 중단됩니다.',
     date: '2025-01-10',
     isNew: true,
     isPinned: true,
@@ -36,9 +39,9 @@ const libraryNotices: NoticeItem[] = [
   },
   {
     id: '2',
-    category: '신착도서',
-    title: '2025년 1월 신착도서 입고 안내',
-    content: '이번 달 신착도서 150권이 입고되었습니다. 인문학, 경영학, IT 분야의 최신 도서들을 만나보세요.',
+    category: '장비',
+    title: '신규 3D 프린터 도입 안내',
+    content: 'Stratasys F900 산업용 3D 프린터가 새로 도입되었습니다. 대형 시제품 제작이 가능합니다.',
     date: '2025-01-09',
     isNew: true,
     isImportant: true,
@@ -47,8 +50,8 @@ const libraryNotices: NoticeItem[] = [
   {
     id: '3',
     category: '이벤트',
-    title: '겨울 독서 마라톤 참가자 모집',
-    content: '1월 한 달간 독서 마라톤을 진행합니다. 완주자에게는 도서 대출 권수 확대 혜택을 드립니다.',
+    title: '중소기업 시설 활용 지원사업 모집',
+    content: '중소기업과 스타트업 대상 시설 활용 지원사업을 진행합니다. 장비 사용료 50% 지원.',
     date: '2025-01-08',
     isImportant: true,
     viewCount: 892
@@ -56,8 +59,8 @@ const libraryNotices: NoticeItem[] = [
   {
     id: '4',
     category: '운영',
-    title: '열람실 운영 시간 변경 안내',
-    content: '시험기간을 맞아 1월 20일부터 열람실 운영 시간을 24시간으로 연장합니다.',
+    title: '24시간 운영 시설 안내',
+    content: '제1제작동과 제2제작동은 24시간 이용 가능합니다. 야간 이용 시 보안카드 필수.',
     date: '2025-01-07',
     isPinned: true,
     viewCount: 445
@@ -65,8 +68,8 @@ const libraryNotices: NoticeItem[] = [
   {
     id: '5',
     category: '교육',
-    title: '전자책 이용 교육 신청 안내',
-    content: '전자책 플랫폼 이용법 교육을 실시합니다. 신청은 홈페이지에서 가능합니다.',
+    title: 'CNC 가공 교육 프로그램 신청 안내',
+    content: 'CNC 밀링 머신 운용 교육을 실시합니다. 초급/중급/고급 과정 선택 가능.',
     date: '2025-01-06',
     viewCount: 123
   },
@@ -115,14 +118,23 @@ const libraryNotices: NoticeItem[] = [
 
 export function LibraryNoticeSection() {
   const { settings } = useLibraryDevSettings()
+  const [selectedNotices, setSelectedNotices] = useState<string[]>([])
   
   // 설정에서 섹션 표시 여부 확인
   if (!settings.notice.showSection) {
     return null
   }
   
-  // 표시할 공지사항 개수 제한
-  const displayNotices = libraryNotices.slice(0, settings.notice.itemCount)
+  // 표시할 공지사항 개수 제한 (최대 5개)
+  const displayNotices = libraryNotices.slice(0, Math.min(settings.notice.itemCount || 5, 5))
+  
+  const handleNoticeToggle = (noticeId: string) => {
+    setSelectedNotices(prev =>
+      prev.includes(noticeId)
+        ? prev.filter(id => id !== noticeId)
+        : [...prev, noticeId]
+    )
+  }
   
   // 카드 레이아웃
   if (settings.notice.layout === 'card') {
@@ -200,15 +212,15 @@ export function LibraryNoticeSection() {
     )
   }
   
-  // 리스트 레이아웃
+  // 리스트 레이아웃 (체크박스 포함)
   return (
     <div className="w-full">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <HiMegaphone className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-bold">공지사항</h2>
-            <Badge variant="secondary">총 {libraryNotices.length}개</Badge>
+            <h2 className="text-2xl font-bold">최신 소식</h2>
+            <Badge variant="secondary">NEW {displayNotices.filter(n => n.isNew).length}</Badge>
           </div>
           <Button variant="outline" size="sm">
             전체보기
@@ -216,48 +228,91 @@ export function LibraryNoticeSection() {
           </Button>
         </div>
 
-        <div className="space-y-3">
-          {displayNotices.map((notice) => (
-            <Card key={notice.id} className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="text-xs">
-                        {notice.category}
-                      </Badge>
-                      <h3 className="font-semibold text-base flex-1">
-                        {notice.title}
-                      </h3>
-                      {notice.isPinned && (
-                        <Badge className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">
-                          고정
-                        </Badge>
-                      )}
-                      {notice.isNew && (
-                        <Badge className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20">
-                          NEW
-                        </Badge>
-                      )}
-                      {notice.isImportant && (
-                        <Badge className="bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20">
-                          중요
-                        </Badge>
-                      )}
-                    </div>
-                    
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span>{notice.date}</span>
-                      {notice.viewCount && (
-                        <span>조회 {notice.viewCount}</span>
-                      )}
+        <Card className="border-0 shadow-sm">
+          <CardContent className="p-0">
+            <div className="divide-y">
+              {displayNotices.map((notice) => (
+                <div 
+                  key={notice.id} 
+                  className="flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors"
+                >
+                  <Checkbox
+                    id={`notice-${notice.id}`}
+                    checked={selectedNotices.includes(notice.id)}
+                    onCheckedChange={() => handleNoticeToggle(notice.id)}
+                    className="h-4 w-4"
+                  />
+                  
+                  <div className="flex-1">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          {notice.isPinned && (
+                            <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                              고정
+                            </Badge>
+                          )}
+                          {notice.isNew && (
+                            <Badge className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 text-xs px-1.5 py-0">
+                              <HiSparkles className="w-3 h-3 mr-0.5" />
+                              NEW
+                            </Badge>
+                          )}
+                          {notice.isImportant && (
+                            <Badge className="bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20 text-xs px-1.5 py-0">
+                              <HiFire className="w-3 h-3 mr-0.5" />
+                              중요
+                            </Badge>
+                          )}
+                          <Badge variant="outline" className="text-xs px-1.5 py-0">
+                            {notice.category}
+                          </Badge>
+                        </div>
+                        
+                        <h3 className="font-medium text-sm mb-1 line-clamp-1">
+                          {notice.title}
+                        </h3>
+                        
+                        <p className="text-xs text-muted-foreground line-clamp-1">
+                          {notice.content}
+                        </p>
+                      </div>
+                      
+                      <div className="flex flex-col items-end gap-1 text-xs text-muted-foreground whitespace-nowrap">
+                        <div className="flex items-center gap-1">
+                          <HiCalendar className="w-3 h-3" />
+                          <span>{notice.date}</span>
+                        </div>
+                        {notice.viewCount && (
+                          <div className="flex items-center gap-1">
+                            <HiClock className="w-3 h-3" />
+                            <span>조회 {notice.viewCount}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+        
+        {selectedNotices.length > 0 && (
+          <div className="mt-4 flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="text-sm text-muted-foreground">
+              {selectedNotices.length}개 항목 선택됨
+            </span>
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" onClick={() => setSelectedNotices([])}>
+                선택 해제
+              </Button>
+              <Button size="sm" variant="default">
+                선택 항목 보기
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

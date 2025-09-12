@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
 import { 
-  BookOpen, Search, Menu, User, LogOut, 
+  Search, Menu, User, LogOut, 
   BookMarked, Calendar, Bell, Settings, ChevronDown
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -135,11 +135,78 @@ export function LibraryHeader() {
       )}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2">
-              <BookOpen className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl">세종샘물도서관</span>
-            </Link>
+            {/* Left Section: Hamburger Menu + Logo */}
+            <div className="flex items-center gap-3">
+              {/* Hamburger Menu for Desktop Drawer */}
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-80">
+                  <SheetHeader>
+                    <SheetTitle>전체 메뉴</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-6 flex flex-col space-y-4">
+                    {/* Mobile Search */}
+                    <form onSubmit={handleSearch} className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                      <Input
+                        type="search"
+                        placeholder="검색..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10"
+                      />
+                    </form>
+
+                    {/* Mobile Navigation */}
+                    <nav className="flex flex-col space-y-1">
+                      {menuItems.map((item) => (
+                        <div key={item.title}>
+                          <button
+                            onClick={() => item.subItems && toggleMobileSubmenu(item.title)}
+                            className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
+                          >
+                            {item.title}
+                            {item.subItems && (
+                              <ChevronDown 
+                                className={cn(
+                                  "h-4 w-4 transition-transform",
+                                  mobileSubmenu === item.title && "rotate-180"
+                                )}
+                              />
+                            )}
+                          </button>
+                          {item.subItems && mobileSubmenu === item.title && (
+                            <div className="ml-4 mt-1 space-y-1">
+                              {item.subItems.map((subItem) => (
+                                <button
+                                  key={subItem.title}
+                                  className="block w-full text-left px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent rounded-md transition-colors"
+                                >
+                                  {subItem.title}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </nav>
+                  </div>
+                </SheetContent>
+              </Sheet>
+              
+              {/* Logo */}
+              <Link to="/" className="flex items-center">
+                <img 
+                  src="https://www.moafab.kr/resources/images/kion/fab/common/moa_logo.png"
+                  alt="MOAFAB"
+                  className="h-10 w-auto"
+                />
+              </Link>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1" ref={dropdownRef}>

@@ -1,15 +1,11 @@
-import { Link } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
+import { ExternalLink, MoreVertical, Globe, LogIn, UserPlus, HelpCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { 
-  HiOutlineUser, 
-  HiOutlineUserPlus,
-  HiOutlineGlobeAlt,
-  HiOutlineCurrencyDollar
-} from 'react-icons/hi2'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { DevSettingsButton } from '../dev-settings/dev-settings-button'
@@ -19,97 +15,141 @@ import { cn } from '@/lib/utils'
 
 export function MoafabPreHeader() {
   const { settings } = useMoafabDevSettings()
-  const { t, currentLanguage, setLanguage } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const [currentLang, setCurrentLang] = useState(i18n?.language || 'ko')
+
+  // i18n이 로드된 후 언어 업데이트
+  useEffect(() => {
+    if (i18n?.language) {
+      setCurrentLang(i18n.language)
+    }
+  }, [i18n?.language])
 
   if (!settings.layout.showPreHeader) {
     return null
   }
 
+  const handleLanguageChange = (lang: string) => {
+    if (i18n?.changeLanguage) {
+      i18n.changeLanguage(lang)
+    }
+    setCurrentLang(lang)
+  }
+
   return (
-    <div className="border-b bg-muted/40">
+    <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
       <div className={cn(
         "mx-auto px-4 sm:px-6 lg:px-8",
         settings.layout.containerWidth === 'full' && "max-w-full",
         settings.layout.containerWidth === 'wide' && "max-w-7xl",
         settings.layout.containerWidth === 'narrow' && "max-w-5xl"
       )}>
-        <div className="flex h-10 items-center justify-between">
-          {/* 왼쪽: 안내 텍스트 */}
-          <div className="hidden md:flex items-center text-sm text-muted-foreground">
-            <span>{t('moafab.preHeader.tagline')}</span>
-          </div>
+        <div className="flex items-center justify-between py-2">
+          {/* 왼쪽: KION 링크 */}
+          <a 
+            href="https://www.kion.or.kr" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors group"
+          >
+            <img 
+              src="https://www.moafab.kr/resources/images/kion/portal/common/logo.png"
+              alt="KION"
+              className="h-5 w-auto"
+            />
+            <ExternalLink className="h-3.5 w-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
+          </a>
 
-          {/* 오른쪽: 유틸리티 메뉴 */}
-          <div className="ml-auto flex items-center gap-2">
-            {/* 서비스 이용료 */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-xs"
-              asChild
-            >
-              <a href="/moafab/pricing">
-                <HiOutlineCurrencyDollar className="mr-1 h-3.5 w-3.5" />
-                {t('moafab.preHeader.serviceFee')}
-              </a>
-            </Button>
+          {/* 오른쪽: 액션 버튼들 */}
+          <div className="flex items-center gap-2">
+            {/* 데스크톱: 모든 버튼 표시 */}
+            <div className="hidden md:flex items-center gap-2">
+              {/* 언어 선택 */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-1">
+                    <Globe className="h-3.5 w-3.5" />
+                    <span className="text-xs">{currentLang === 'ko' ? '한국어' : 'English'}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => handleLanguageChange('ko')}>
+                    한국어
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleLanguageChange('en')}>
+                    English
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-            {/* 언어 선택 */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 text-xs"
-                >
-                  <HiOutlineGlobeAlt className="mr-1 h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">
-                    {currentLanguage === 'ko' ? 'KR' : 'EN'}
-                  </span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setLanguage('ko')}>
-                  한국어
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('en')}>
-                  English
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              {/* 로그인 */}
+              <Button variant="ghost" size="sm" className="gap-1">
+                <LogIn className="h-3.5 w-3.5" />
+                <span className="text-xs">로그인</span>
+              </Button>
 
-            <div className="h-4 w-px bg-border" />
+              {/* 회원가입 */}
+              <Button variant="ghost" size="sm" className="gap-1">
+                <UserPlus className="h-3.5 w-3.5" />
+                <span className="text-xs">회원가입</span>
+              </Button>
 
-            {/* 로그인 */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-xs"
-              asChild
-            >
-              <Link to="/sign-in">
-                <HiOutlineUser className="mr-1 h-3.5 w-3.5" />
-                {t('moafab.preHeader.login')}
-              </Link>
-            </Button>
+              {/* 고객센터 */}
+              <Button variant="ghost" size="sm" className="gap-1">
+                <HelpCircle className="h-3.5 w-3.5" />
+                <span className="text-xs">고객센터</span>
+              </Button>
 
-            {/* 회원가입 */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-xs"
-              asChild
-            >
-              <Link to="/sign-up">
-                <HiOutlineUserPlus className="mr-1 h-3.5 w-3.5" />
-                {t('moafab.preHeader.signup')}
-              </Link>
-            </Button>
+              {/* 개발자 설정 버튼 */}
+              <DevSettingsButton />
+            </div>
 
-            <div className="h-4 w-px bg-border" />
+            {/* 모바일: 더보기 메뉴 */}
+            <div className="flex md:hidden items-center gap-2">
+              {/* 언어 선택 (모바일에서도 별도 표시) */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="p-1">
+                    <Globe className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => handleLanguageChange('ko')}>
+                    한국어
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleLanguageChange('en')}>
+                    English
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-            {/* 개발자 설정 버튼 */}
-            <DevSettingsButton />
+              {/* 더보기 메뉴 */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="p-1">
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-40">
+                  <DropdownMenuItem className="gap-2">
+                    <LogIn className="h-3.5 w-3.5" />
+                    로그인
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <UserPlus className="h-3.5 w-3.5" />
+                    회원가입
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="gap-2">
+                    <HelpCircle className="h-3.5 w-3.5" />
+                    고객센터
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* 개발자 설정 버튼 (모바일에서도 표시) */}
+              <DevSettingsButton />
+            </div>
           </div>
         </div>
       </div>

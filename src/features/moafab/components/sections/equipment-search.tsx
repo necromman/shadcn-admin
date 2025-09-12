@@ -24,6 +24,7 @@ import {
 } from 'react-icons/hi2'
 import { useTranslation } from '@/lib/i18n/hooks'
 import { cn } from '@/lib/utils'
+import { useMoafabDevSettings } from '../../context/dev-settings-provider'
 
 // 공정 아이콘 매핑
 const processIcons: Record<string, any> = {
@@ -40,6 +41,7 @@ const processIcons: Record<string, any> = {
 
 export function EquipmentSearch() {
   const { t } = useTranslation()
+  const { settings } = useMoafabDevSettings()
   const [selectedInstitutions, setSelectedInstitutions] = useState<string[]>([])
   const [selectedProcess, setSelectedProcess] = useState('all')
   const [searchKeyword, setSearchKeyword] = useState('')
@@ -147,8 +149,13 @@ export function EquipmentSearch() {
   }, [institutions, selectedInstitutions])
 
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-muted/20">
-      <div className="container">
+    <section className="py-16 bg-gradient-to-b from-background via-background to-background">
+      <div className={cn(
+        "mx-auto px-4 sm:px-6 lg:px-8",
+        settings.layout.containerWidth === 'full' && "max-w-full",
+        settings.layout.containerWidth === 'wide' && "max-w-7xl",
+        settings.layout.containerWidth === 'narrow' && "max-w-5xl"
+      )}>
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-3">{t('moafab.equipment.title')}</h2>
           <p className="text-muted-foreground text-lg">
@@ -156,12 +163,12 @@ export function EquipmentSearch() {
           </p>
         </div>
 
-        <Card className="border-2 shadow-xl">
-          <CardHeader className="bg-gradient-to-r from-primary/5 to-purple-500/5 border-b">
-            <div className="flex items-center justify-between">
+        <Card className="border-0 shadow-2xl bg-gradient-to-br from-card via-card to-muted/5">
+          <CardHeader className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-b-0 pb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <HiMagnifyingGlass className="h-6 w-6 text-primary" />
+                <div className="p-3 bg-primary rounded-xl shadow-lg shadow-primary/20">
+                  <HiMagnifyingGlass className="h-7 w-7 text-primary-foreground" />
                 </div>
                 <div>
                   <CardTitle className="text-2xl">장비 검색</CardTitle>
@@ -171,8 +178,8 @@ export function EquipmentSearch() {
                 </div>
               </div>
               {selectedInstitutions.length > 0 && (
-                <Badge variant="secondary" className="text-lg px-4 py-2">
-                  {totalEquipmentCount}개 장비 검색 가능
+                <Badge variant="secondary" className="text-lg px-5 py-2.5 bg-primary/10 hover:bg-primary/20 transition-colors">
+                  <span className="font-bold">{totalEquipmentCount}</span>개 장비 검색 가능
                 </Badge>
               )}
             </div>
@@ -186,53 +193,65 @@ export function EquipmentSearch() {
                   <HiCube className="h-4 w-4 text-primary" />
                   연구기관 선택
                 </Label>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="select-all"
-                    checked={selectAll}
-                    onCheckedChange={handleSelectAll}
-                  />
-                  <Label htmlFor="select-all" className="cursor-pointer text-sm font-medium">
-                    전체 선택
-                  </Label>
-                </div>
+                <Button
+                  variant={selectAll ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleSelectAll(!selectAll)}
+                  className="font-medium"
+                >
+                  {selectAll ? "선택 해제" : "전체 선택"}
+                </Button>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {institutions.map((inst) => (
                   <div 
                     key={inst.id} 
                     className={cn(
-                      "border rounded-lg p-4 transition-all cursor-pointer",
+                      "relative rounded-xl p-5 transition-all cursor-pointer group",
+                      "bg-gradient-to-br hover:shadow-lg",
                       selectedInstitutions.includes(inst.id) 
-                        ? "border-primary bg-primary/5 shadow-md" 
-                        : "border-border hover:border-primary/50 hover:bg-muted/50"
+                        ? "from-primary/10 to-primary/5 border-2 border-primary shadow-md" 
+                        : "from-card to-card border-2 border-border hover:border-primary/50 hover:from-muted/50 hover:to-muted/30"
                     )}
                     onClick={() => handleInstitutionToggle(inst.id)}
                   >
-                    <div className="flex items-start space-x-3">
-                      <Checkbox
-                        id={inst.id}
-                        checked={selectedInstitutions.includes(inst.id)}
-                        onCheckedChange={() => handleInstitutionToggle(inst.id)}
-                        className="mt-1"
-                        onClick={(e) => e.stopPropagation()}
-                      />
+                    <div className="flex items-start gap-3">
+                      <div className={cn(
+                        "mt-0.5 transition-transform",
+                        selectedInstitutions.includes(inst.id) && "scale-110"
+                      )}>
+                        <Checkbox
+                          id={inst.id}
+                          checked={selectedInstitutions.includes(inst.id)}
+                          onCheckedChange={() => handleInstitutionToggle(inst.id)}
+                          className="h-5 w-5"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
                       <div className="flex-1">
                         <Label htmlFor={inst.id} className="cursor-pointer block">
-                          <div className="font-medium">{inst.shortName}</div>
-                          <div className="text-xs text-muted-foreground mt-1">{inst.name}</div>
-                          <div className="flex items-center justify-between mt-2">
-                            <Badge variant="outline" className="text-xs">
+                          <div className="font-semibold text-base">{inst.shortName}</div>
+                          <div className="text-sm text-muted-foreground mt-1">{inst.name}</div>
+                          <div className="flex items-center justify-between mt-3">
+                            <Badge 
+                              variant={selectedInstitutions.includes(inst.id) ? "default" : "secondary"}
+                              className="text-xs px-2 py-0.5"
+                            >
                               {inst.equipmentCount}개 장비
                             </Badge>
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-xs font-medium text-muted-foreground">
                               {inst.speciality}
                             </span>
                           </div>
                         </Label>
                       </div>
                     </div>
+                    {selectedInstitutions.includes(inst.id) && (
+                      <div className="absolute top-2 right-2">
+                        <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

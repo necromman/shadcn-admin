@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight, ArrowRight, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -101,6 +101,8 @@ export function HeroSlider({ variant }: HeroSliderProps) {
   const slides = variant === 'intro' ? introSlides : serviceSlides
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
 
   useEffect(() => {
     if (isPaused) return
@@ -122,11 +124,44 @@ export function HeroSlider({ variant }: HeroSliderProps) {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
   }
 
+  // Touch event handlers for swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return
+
+    const swipeDistance = touchStartX.current - touchEndX.current
+    const minSwipeDistance = 50 // minimum distance for swipe
+
+    if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (swipeDistance > 0) {
+        // Swiped left - go to next slide
+        nextSlide()
+      } else {
+        // Swiped right - go to previous slide
+        prevSlide()
+      }
+    }
+
+    // Reset values
+    touchStartX.current = null
+    touchEndX.current = null
+  }
+
   return (
     <div
       className="relative w-full h-[700px] lg:h-[600px] md:h-[500px] overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {slides.map((slide, index) => (
         <div
@@ -224,10 +259,10 @@ export function HeroSlider({ variant }: HeroSliderProps) {
         </div>
       ))}
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Hidden on mobile */}
       <button
         onClick={prevSlide}
-        className="absolute left-8 top-1/2 -translate-y-1/2 p-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full transition-all group"
+        className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 p-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full transition-all group"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
@@ -235,7 +270,7 @@ export function HeroSlider({ variant }: HeroSliderProps) {
 
       <button
         onClick={nextSlide}
-        className="absolute right-8 top-1/2 -translate-y-1/2 p-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full transition-all group"
+        className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 p-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full transition-all group"
         aria-label="Next slide"
       >
         <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />

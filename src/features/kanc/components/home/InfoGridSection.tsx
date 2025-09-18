@@ -18,7 +18,7 @@ interface InfoGridSectionProps {
   variant: 'intro' | 'service'
 }
 
-const notices = [
+const introNotices = [
   {
     id: 1,
     category: '공지',
@@ -54,38 +54,66 @@ const notices = [
   }
 ]
 
+const serviceNotices = [
+  {
+    id: 263,
+    category: '모집',
+    title: '한국나노기술원 입주기업 모집공고',
+    date: '2025.09.15',
+    isNew: true,
+    isPinned: true
+  },
+  {
+    id: 262,
+    category: '교육',
+    title: '차세대패키징TF 「2025년 1차 첨단패키지 기술교육」 개최 안내',
+    date: '2025.09.12',
+    isNew: true
+  },
+  {
+    id: 261,
+    category: '지원',
+    title: '한국나노기술원 인공지능사업의 기업지원 모집 공고 안내',
+    date: '2025.08.21'
+  },
+  {
+    id: 260,
+    category: '행사',
+    title: '2025년 차세대 반도체 패키징 산업전 개최 안내',
+    date: '2025.08.01'
+  },
+  {
+    id: 258,
+    category: '사업',
+    title: '경기도 공공팹 활용 팹리스 기업 시제품 개발 지원사업 모집',
+    date: '2025.07.22'
+  }
+]
+
 const introQuickLinks = [
   {
     title: '팹 서비스',
     desc: '나노공정 신청',
     link: '/service/fab',
-    icon: Microscope,
-    bgClass: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
-    hoverClass: 'hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900/40 dark:hover:to-indigo-900/40'
+    icon: Microscope
   },
   {
     title: '교육 신청',
     desc: '전문 교육과정',
     link: '/education',
-    icon: GraduationCap,
-    bgClass: 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30',
-    hoverClass: 'hover:from-emerald-100 hover:to-teal-100 dark:hover:from-emerald-900/40 dark:hover:to-teal-900/40'
+    icon: GraduationCap
   },
   {
     title: '1:1 문의',
     desc: '전문가 상담',
     link: '/inquiry',
-    icon: MessageCircle,
-    bgClass: 'bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30',
-    hoverClass: 'hover:from-violet-100 hover:to-purple-100 dark:hover:from-violet-900/40 dark:hover:to-purple-900/40'
+    icon: MessageCircle
   },
   {
     title: '장비 예약',
     desc: '500+ 장비',
     link: '/equipment',
-    icon: Calendar,
-    bgClass: 'bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30',
-    hoverClass: 'hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-900/40 dark:hover:to-orange-900/40'
+    icon: Calendar
   }
 ]
 
@@ -94,38 +122,31 @@ const serviceQuickLinks = [
     title: '진행 현황',
     desc: '실시간 조회',
     link: '/fab/status',
-    icon: TrendingUp,
-    bgClass: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
-    hoverClass: 'hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900/40 dark:hover:to-indigo-900/40'
+    icon: TrendingUp
   },
   {
     title: '대관 신청',
     desc: '시설 예약',
     link: '/facility/apply',
-    icon: Building2,
-    bgClass: 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30',
-    hoverClass: 'hover:from-emerald-100 hover:to-teal-100 dark:hover:from-emerald-900/40 dark:hover:to-teal-900/40'
+    icon: Building2
   },
   {
     title: '담당자 안내',
     desc: '빠른 연결',
     link: '/staff',
-    icon: Users,
-    bgClass: 'bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30',
-    hoverClass: 'hover:from-violet-100 hover:to-purple-100 dark:hover:from-violet-900/40 dark:hover:to-purple-900/40'
+    icon: Users
   },
   {
     title: '긴급 지원',
     desc: '24시간 상담',
     link: '/hotline',
-    icon: AlertCircle,
-    bgClass: 'bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-950/30 dark:to-pink-950/30',
-    hoverClass: 'hover:from-rose-100 hover:to-pink-100 dark:hover:from-rose-900/40 dark:hover:to-pink-900/40'
+    icon: AlertCircle
   }
 ]
 
 export function InfoGridSection({ variant }: InfoGridSectionProps) {
   const quickLinks = variant === 'intro' ? introQuickLinks : serviceQuickLinks
+  const notices = variant === 'intro' ? introNotices : serviceNotices
 
   return (
     <SectionWrapper>
@@ -216,23 +237,22 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                     >
                       <div className={cn(
                         "relative p-3 h-full rounded-lg transition-all duration-200",
-                        "border border-gray-200/60 dark:border-gray-700/30",
-                        item.bgClass,
-                        item.hoverClass,
-                        "hover:shadow-lg hover:scale-[1.02] hover:border-gray-300 dark:hover:border-gray-600"
+                        "bg-white dark:bg-gray-800/50",
+                        "border border-gray-200 dark:border-gray-700",
+                        "hover:shadow-md hover:scale-[1.01] hover:border-gray-300 dark:hover:border-gray-600",
+                        "hover:bg-gray-50/50 dark:hover:bg-gray-800"
                       )}>
-                        <div className="flex flex-col items-center justify-center space-y-1.5 min-h-[60px]">
-                          <item.icon className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:scale-110 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-all duration-200" />
+                        <div className="flex flex-col items-center justify-center space-y-1.5 min-h-[56px]">
+                          <item.icon className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-primary transition-all duration-200" />
                           <div className="text-center space-y-0.5">
-                            <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 leading-tight">
+                            <p className="text-xs font-medium text-gray-700 dark:text-gray-200 leading-tight">
                               {item.title}
                             </p>
-                            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-tight">
+                            <p className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
                               {item.desc}
                             </p>
                           </div>
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-white/10 group-hover:to-white/5 dark:group-hover:from-white/5 dark:group-hover:to-white/0 rounded-lg pointer-events-none transition-all duration-200" />
                       </div>
                     </a>
                   ))}

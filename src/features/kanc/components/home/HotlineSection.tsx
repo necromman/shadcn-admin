@@ -60,15 +60,6 @@ export function HotlineSection() {
             </div>
           </Card>
         </div>
-
-        {/* 긴급 연락처 */}
-        <div className="mt-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-950/20 rounded-lg">
-            <span className="text-sm text-red-600 dark:text-red-400">
-              긴급 문의: <strong>010-9999-8888</strong> (24시간)
-            </span>
-          </div>
-        </div>
     </SectionWrapper>
   )
 }

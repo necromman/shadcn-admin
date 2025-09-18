@@ -11,7 +11,6 @@ export function KancServiceHome() {
     <div>
       <HeroSlider variant="service" />
       <InfoGridSection variant="service" />
-      <StatsSection />
       <QuickMenu variant="service" />
       <ServiceCards />
       <HotlineSection />

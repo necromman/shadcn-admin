@@ -128,7 +128,6 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings }: TopBarPro
                 className="h-7 px-2 hover:bg-white/10 gap-1"
               >
                 <Settings className="h-3.5 w-3.5" />
-                <span>개발자</span>
               </Button>
             )}
           </div>

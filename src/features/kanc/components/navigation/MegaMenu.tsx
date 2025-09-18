@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { MenuItem } from '@/features/kanc/data/menu.mock'
 import { ChevronDown, ArrowRight } from 'lucide-react'
@@ -13,6 +13,8 @@ interface MegaMenuProps {
 export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [menuTop, setMenuTop] = useState(120)
+  const navRef = useRef<HTMLElement>(null)
 
   // 디폴트 스타일 - 개별 드롭다운
   if (style === 'default' || style === 'simple') {
@@ -54,11 +56,20 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
     )
   }
 
+  // 헤더 위치 계산
+  useEffect(() => {
+    if (isMenuOpen && navRef.current) {
+      const rect = navRef.current.getBoundingClientRect()
+      const headerBottom = rect.bottom
+      setMenuTop(headerBottom)
+    }
+  }, [isMenuOpen])
+
   // 메가 메뉴 스타일 - 모든 메뉴 한번에 표시 (포털 사용)
   const megaMenuContent = isMenuOpen && (
     <div
       className="fixed left-0 right-0 w-full z-50"
-      style={{ top: '120px' }} // Header 높이에 맞춤
+      style={{ top: `${menuTop}px` }} // 동적으로 계산된 헤더 높이 사용
       onMouseEnter={() => setIsMenuOpen(true)}
       onMouseLeave={() => {
         setIsMenuOpen(false)
@@ -149,7 +160,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
 
   return (
     <>
-      <nav className="relative">
+      <nav ref={navRef} className="relative">
         <ul className="flex items-center justify-center space-x-8">
           {menuItems.map((item) => (
             <li

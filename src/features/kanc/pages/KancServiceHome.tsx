@@ -2,8 +2,7 @@ import { HeroSlider } from '../components/home/HeroSlider'
 import { InfoGridSection } from '../components/home/InfoGridSection'
 import { QuickMenu } from '../components/home/QuickMenu'
 import { ServiceCards } from '../components/home/ServiceCards'
-import { HotlineSection } from '../components/home/HotlineSection'
-import { InfoSection } from '../components/home/InfoSection'
+import { SupportAndFacilitySection } from '../components/home/SupportAndFacilitySection'
 import { StatsSection } from '../components/home/StatsSection'
 
 export function KancServiceHome() {
@@ -13,8 +12,7 @@ export function KancServiceHome() {
       <InfoGridSection variant="service" />
       <QuickMenu variant="service" />
       <ServiceCards />
-      <HotlineSection />
-      <InfoSection variant="service" />
+      <SupportAndFacilitySection variant="service" />
     </div>
   )
 }

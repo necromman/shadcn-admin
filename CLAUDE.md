@@ -62,7 +62,7 @@ export const Route = createFileRoute('/')({
       </section>
     )
   }
-  
+
   // ✅ Good - 부모에서 관리하는 컨테이너 설정 활용
   export function NoticeSection() {
     return (
@@ -74,6 +74,44 @@ export const Route = createFileRoute('/')({
   }
   ```
 - **이유**: 페이지 전체의 일관된 레이아웃과 정렬 유지
+
+### 5. Card 컴포넌트 헤더 사용 규칙 (중요!)
+**Card 컴포넌트 사용 시 반드시 CardHeader 컴포넌트 사용:**
+- ✅ **필수**: Card 내부에 헤더가 필요한 경우 반드시 `CardHeader` 컴포넌트 사용
+- ✅ **올바른 구조**: CardHeader는 Card 컴포넌트가 헤더를 감지하여 적절한 스타일과 간격을 계산
+- ❌ **금지**: div나 다른 요소로 헤더를 임의로 구현
+
+**올바른 Card 헤더 사용법:**
+```tsx
+import { Card, CardHeader, CardContent } from '@/components/ui/card'
+
+// ✅ Good - CardHeader 컴포넌트 사용
+<Card>
+  <CardHeader className="border-b px-5 pb-0">
+    <div className="flex items-center justify-between">
+      <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">제목</h3>
+      <a href="/more" className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1">
+        전체보기
+        <ChevronRight className="w-3 h-3" />
+      </a>
+    </div>
+  </CardHeader>
+  <CardContent>
+    {/* 콘텐츠 */}
+  </CardContent>
+</Card>
+
+// ❌ Bad - div로 헤더 구현
+<Card>
+  <div className="p-4 border-b">
+    <h3>제목</h3>
+  </div>
+  <div className="p-4">
+    {/* 콘텐츠 */}
+  </div>
+</Card>
+```
+- **이유**: shadcn/ui Card 컴포넌트의 일관된 스타일링과 접근성 보장
 
 ## 🔴 최우선 규칙: 프로토타입 전용 프로젝트
 **이 프로젝트는 프론트엔드 프로토타입 구현 전용입니다**

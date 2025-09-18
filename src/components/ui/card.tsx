@@ -7,10 +7,10 @@ const cardVariants = cva(
   {
     variants: {
       variant: {
-        default: 'gap-6 pb-6 has-[data-slot=card-header]:pb-6 [&:not(:has([data-slot=card-header]))]:py-6',
+        default: 'pb-6 has-[data-slot=card-header]:pb-6 [&:not(:has([data-slot=card-header]))]:py-6',
         compact: 'gap-4 pb-4 has-[data-slot=card-header]:pb-4 [&:not(:has([data-slot=card-header]))]:py-4',
         list: 'gap-0 py-0',
-        hero: 'gap-6 pb-8 has-[data-slot=card-header]:pb-8 [&:not(:has([data-slot=card-header]))]:py-8',
+        hero: 'pb-8 has-[data-slot=card-header]:pb-8 [&:not(:has([data-slot=card-header]))]:py-8',
       },
       spacing: {
         none: 'p-0',
@@ -38,14 +38,14 @@ function Card({ className, variant, spacing, ...props }: CardProps) {
 }
 
 const cardHeaderVariants = cva(
-  '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 has-data-[slot=card-action]:grid-cols-[1fr_auto]',
+  '@container/card-header grid auto-rows-min gap-1.5 has-data-[slot=card-action]:grid-cols-[1fr_auto]',
   {
     variants: {
       variant: {
-        default: 'pt-6 px-6 [.border-b]:pb-6',
-        compact: 'pt-4 px-4 [.border-b]:pb-4',
+        default: 'py-5 px-6 border-b',
+        compact: 'px-4',
         list: 'px-4 py-3',
-        hero: 'pt-8 px-8 [.border-b]:pb-8',
+        hero: 'px-8',
       }
     },
     defaultVariants: {

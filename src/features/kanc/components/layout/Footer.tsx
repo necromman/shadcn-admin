@@ -48,7 +48,7 @@ export function Footer() {
               <img
                 src="https://css.kanc.re.kr/images/kor/logo.png"
                 alt="한국나노기술원"
-                className="w-auto"
+                className="w-auto dark:filter dark:invert"
               />
             </div>
             <p className="text-sm text-muted-foreground mb-6 leading-relaxed">

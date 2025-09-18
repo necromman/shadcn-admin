@@ -85,7 +85,7 @@ export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
                 <img
                   src="https://css.kanc.re.kr/images/kor/logo.png"
                   alt="한국나노기술원"
-                  className="h-8 md:h-10 w-auto object-contain"
+                  className="h-8 md:h-10 w-auto object-contain dark:filter dark:invert"
                 />
               </a>
             </div>

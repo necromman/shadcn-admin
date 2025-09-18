@@ -131,7 +131,7 @@ export function BannerSlider() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-2xl font-bold text-foreground mb-2">
               협력 기관
             </h3>
             <p className="text-sm text-muted-foreground">
@@ -144,11 +144,11 @@ export function BannerSlider() {
               onClick={togglePlayPause}
               className={cn(
                 "p-2.5 rounded-lg transition-all duration-200",
-                "bg-white dark:bg-gray-800 border shadow-sm",
+                "bg-card border shadow-sm",
                 "hover:shadow-md hover:scale-105",
                 isPlaying
-                  ? "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  : "border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30"
+                  ? "hover:bg-accent"
+                  : "border-primary/30 bg-primary/10"
               )}
               aria-label={isPlaying ? "일시정지" : "재생"}
             >
@@ -163,14 +163,14 @@ export function BannerSlider() {
             <div className="flex gap-1">
               <button
                 onClick={prevSlide}
-                className="p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all hover:shadow-md hover:scale-105 shadow-sm"
+                className="p-2.5 bg-card border rounded-lg hover:bg-accent transition-all hover:shadow-md hover:scale-105 shadow-sm"
                 aria-label="이전"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={nextSlide}
-                className="p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all hover:shadow-md hover:scale-105 shadow-sm"
+                className="p-2.5 bg-card border rounded-lg hover:bg-accent transition-all hover:shadow-md hover:scale-105 shadow-sm"
                 aria-label="다음"
               >
                 <ChevronRight className="w-4 h-4" />
@@ -180,10 +180,10 @@ export function BannerSlider() {
         </div>
 
         {/* Slider Container */}
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-gray-900 p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="relative overflow-hidden rounded-xl bg-card p-4 shadow-sm border">
           {/* Gradient Overlays for fade effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white dark:from-gray-900 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white dark:from-gray-900 to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-card to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-card to-transparent z-10 pointer-events-none" />
 
           <div
             className="flex transition-transform duration-700 ease-out"
@@ -204,14 +204,14 @@ export function BannerSlider() {
               >
                 <div className={cn(
                   "relative rounded-lg h-24 p-3",
-                  "bg-white dark:bg-gray-800",
-                  "border border-gray-200 dark:border-gray-700",
-                  "hover:shadow-lg hover:scale-[1.02] hover:border-gray-300 dark:hover:border-gray-600",
+                  "bg-background",
+                  "border",
+                  "hover:shadow-lg hover:scale-[1.02] hover:border-primary/50",
                   "transition-all duration-200 cursor-pointer",
                   "flex flex-col items-center justify-center"
                 )}>
                   {/* External Link Icon */}
-                  <ExternalLink className="absolute top-2 right-2 w-3 h-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <ExternalLink className="absolute top-2 right-2 w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
 
                   {/* Logo */}
                   <div className="w-full h-12 mb-1 flex items-center justify-center">
@@ -226,18 +226,18 @@ export function BannerSlider() {
                         if (fallback) fallback.style.display = 'flex'
                       }}
                     />
-                    <div className="hidden items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-400">
+                    <div className="hidden items-center justify-center text-xs font-medium text-muted-foreground">
                       {partner.title}
                     </div>
                   </div>
 
                   {/* Title */}
                   <div className="text-center">
-                    <p className="text-[10px] font-medium text-gray-700 dark:text-gray-300 leading-tight line-clamp-1">
+                    <p className="text-[10px] font-medium text-foreground/80 leading-tight line-clamp-1">
                       {partner.title}
                     </p>
                     {partner.subtitle && (
-                      <p className="text-[9px] text-gray-500 dark:text-gray-500 mt-0.5 line-clamp-1">
+                      <p className="text-[9px] text-muted-foreground mt-0.5 line-clamp-1">
                         {partner.subtitle}
                       </p>
                     )}
@@ -262,8 +262,8 @@ export function BannerSlider() {
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-500",
                   currentIndex === idx
-                    ? "w-8 bg-gradient-to-r from-blue-500 to-blue-600"
-                    : "w-1.5 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+                    ? "w-8 bg-primary"
+                    : "w-1.5 bg-muted hover:bg-muted-foreground/50"
                 )}
                 aria-label={`그룹 ${idx + 1}`}
               />
@@ -271,8 +271,8 @@ export function BannerSlider() {
           </div>
 
           {/* Counter */}
-          <div className="ml-4 text-xs text-gray-500 dark:text-gray-400">
-            <span className="font-semibold text-gray-700 dark:text-gray-300">
+          <div className="ml-4 text-xs text-muted-foreground">
+            <span className="font-semibold text-foreground">
               {Math.min(currentIndex + itemsPerView, partners.length)}
             </span>
             <span> / {partners.length}</span>

@@ -1,5 +1,13 @@
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Home } from 'lucide-react'
+import { ArrowLeft, Home, Info } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import {
   SFR002Demo,
   SFR003Demo,
@@ -7,13 +15,21 @@ import {
   SFR005Demo,
   SFR006Demo
 } from '../components/demo'
+import { TourProvider } from '../components/tour/TourProvider'
+import { TourButton } from '../components/tour/TourButton'
 
 interface SFRDemoPageProps {
   demoId: string
   onBack: () => void
 }
 
-export function SFRDemoPage({ demoId, onBack }: SFRDemoPageProps) {
+export function SFRDemoPage({ demoId: initialDemoId, onBack }: SFRDemoPageProps) {
+  const [demoId, setDemoId] = useState(initialDemoId)
+
+  const handleDemoChange = (newDemoId: string) => {
+    setDemoId(newDemoId)
+  }
+
   const renderDemo = () => {
     switch (demoId) {
       case 'sfr-002':
@@ -47,71 +63,68 @@ export function SFRDemoPage({ demoId, onBack }: SFRDemoPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* 헤더 */}
-      <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onBack}
-                className="gap-2"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                뒤로가기
-              </Button>
-              <div className="w-px h-6 bg-gray-200 dark:bg-gray-800" />
-              <div>
-                <h1 className="text-lg font-semibold">{demoId.toUpperCase()}</h1>
-                <p className="text-sm text-muted-foreground">{getDemoTitle()}</p>
+    <TourProvider demoId={demoId}>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        {/* 헤더 */}
+        <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 border-b">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onBack}
+                  className="gap-2"
+                  data-tour="back-button"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  뒤로가기
+                </Button>
+                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800" />
+                <div>
+                  <h1 className="text-lg font-semibold">{demoId.toUpperCase()}</h1>
+                  <p className="text-sm text-muted-foreground">{getDemoTitle()}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {/* 요구사항 선택 드롭다운 */}
+                <Select value={demoId} onValueChange={handleDemoChange}>
+                  <SelectTrigger className="w-[200px]" data-tour="demo-selector">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sfr-002">SFR-002: 디자인 적용</SelectItem>
+                    <SelectItem value="sfr-003">SFR-003: 서비스 취소</SelectItem>
+                    <SelectItem value="sfr-004">SFR-004: 정산 동기화</SelectItem>
+                    <SelectItem value="sfr-005">SFR-005: 금액 동기화</SelectItem>
+                    <SelectItem value="sfr-006">SFR-006: 파일 인터페이스</SelectItem>
+                  </SelectContent>
+                </Select>
+                <TourButton />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onBack}
+                  className="gap-2"
+                  data-tour="home-button"
+                >
+                  <Home className="w-4 h-4" />
+                  메인으로
+                </Button>
               </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onBack}
-              className="gap-2"
-            >
-              <Home className="w-4 h-4" />
-              메인으로
-            </Button>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* 메인 콘텐츠 */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          {renderDemo()}
-        </div>
-      </main>
+        {/* 메인 콘텐츠 - 여백 개선 */}
+        <main className="container mx-auto px-4 py-12">
+          <div className="max-w-7xl mx-auto">
+            {renderDemo()}
+          </div>
+        </main>
 
-      {/* 플로팅 네비게이션 */}
-      <div className="fixed bottom-8 right-8 flex flex-col gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            const nextMap: Record<string, string> = {
-              'sfr-002': 'sfr-003',
-              'sfr-003': 'sfr-004',
-              'sfr-004': 'sfr-005',
-              'sfr-005': 'sfr-006',
-              'sfr-006': 'sfr-002'
-            }
-            const nextDemo = nextMap[demoId]
-            if (nextDemo) {
-              window.history.replaceState(null, '', `#${nextDemo}`)
-              window.location.reload()
-            }
-          }}
-          className="shadow-lg"
-        >
-          다음 데모 →
-        </Button>
+        {/* 플로팅 네비게이션 제거 - 상단 드롭다운으로 대체 */}
       </div>
-    </div>
+    </TourProvider>
   )
 }

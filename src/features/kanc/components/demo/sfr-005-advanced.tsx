@@ -226,7 +226,7 @@ export function SFR005AdvancedDemo() {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* 통계 대시보드 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-tour="revenue-stats">
           <StatCard
             icon={DollarSign}
             label="당월 KANC 실적"
@@ -258,7 +258,7 @@ export function SFR005AdvancedDemo() {
         </div>
 
         {/* 필터 및 액션 */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg" data-tour="period-selector">
           <div className="flex items-center gap-4">
             <div>
               <Label>기간 선택</Label>
@@ -293,13 +293,14 @@ export function SFR005AdvancedDemo() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline">
+            <Button variant="outline" data-tour="excel-download">
               <Download className="w-4 h-4 mr-2" />
               Excel 다운로드
             </Button>
             <Button
               onClick={runBatchSync}
               disabled={isSyncing || !filteredData.some(r => r.syncStatus === 'pending')}
+              data-tour="batch-sync"
             >
               <Upload className="w-4 h-4 mr-2" />
               배치 동기화
@@ -309,10 +310,10 @@ export function SFR005AdvancedDemo() {
 
         <Tabs defaultValue="monthly" className="w-full">
           <TabsList>
-            <TabsTrigger value="monthly">월별 실적</TabsTrigger>
-            <TabsTrigger value="category">카테고리별</TabsTrigger>
+            <TabsTrigger value="monthly" data-tour="monthly-tab">월별 실적</TabsTrigger>
+            <TabsTrigger value="category" data-tour="category-tab">카테고리별</TabsTrigger>
             <TabsTrigger value="detail">상세 내역</TabsTrigger>
-            <TabsTrigger value="batch">배치 이력</TabsTrigger>
+            <TabsTrigger value="batch" data-tour="batch-history-tab">배치 이력</TabsTrigger>
           </TabsList>
 
           {/* 월별 실적 탭 */}

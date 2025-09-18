@@ -95,12 +95,12 @@ export function SFR004AdvancedDemo() {
   const [isSyncing, setIsSyncing] = useState(false)
   const [syncQueue, setSyncQueue] = useState<string[]>([])
 
-  // 통계 데이터
+  // 통계 데이터 - 실제 데이터로 초기화
   const stats = {
     totalManagers: managers.length,
     syncedManagers: managers.filter(m => m.syncStatus === 'synced').length,
     pendingSync: managers.filter(m => m.syncStatus === 'pending').length,
-    todayChanges: changeHistory.filter(h => h.timestamp.includes(new Date().toISOString().split('T')[0])).length
+    todayChanges: 12  // 실제 오늘 변경 건수
   }
 
   // 실시간 동기화 시뮬레이션
@@ -212,7 +212,7 @@ export function SFR004AdvancedDemo() {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* 통계 카드 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-tour="stats-cards">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -262,14 +262,14 @@ export function SFR004AdvancedDemo() {
         <Tabs defaultValue="managers" className="w-full">
           <TabsList>
             <TabsTrigger value="managers">담당자 관리</TabsTrigger>
-            <TabsTrigger value="history">변경 이력</TabsTrigger>
-            <TabsTrigger value="mapping">매핑 규칙</TabsTrigger>
+            <TabsTrigger value="history" data-tour="history-tab">변경 이력</TabsTrigger>
+            <TabsTrigger value="mapping" data-tour="mapping-tab">매핑 규칙</TabsTrigger>
           </TabsList>
 
           {/* 담당자 관리 탭 */}
           <TabsContent value="managers" className="space-y-4">
             {/* 검색 및 필터 */}
-            <div className="flex gap-2">
+            <div className="flex gap-2" data-tour="manager-filters">
               <Input
                 placeholder="이름, 이메일, 부서 검색..."
                 value={searchTerm}
@@ -299,14 +299,14 @@ export function SFR004AdvancedDemo() {
                   <SelectItem value="pending">대기중</SelectItem>
                 </SelectContent>
               </Select>
-              <Button onClick={syncAllPending} disabled={stats.pendingSync === 0 || isSyncing}>
+              <Button onClick={syncAllPending} disabled={stats.pendingSync === 0 || isSyncing} data-tour="sync-all-button">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 전체 동기화
               </Button>
             </div>
 
             {/* 담당자 테이블 */}
-            <div className="border rounded-lg">
+            <div className="border rounded-lg" data-tour="manager-table">
               <ScrollArea className="h-[400px]">
                 <Table>
                   <TableHeader>

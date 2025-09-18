@@ -252,7 +252,7 @@ export function SFR006AdvancedDemo() {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* 통계 대시보드 */}
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4" data-tour="storage-stats">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-2">
@@ -339,15 +339,15 @@ export function SFR006AdvancedDemo() {
         <Tabs defaultValue="files" className="w-full">
           <TabsList>
             <TabsTrigger value="files">파일 관리</TabsTrigger>
-            <TabsTrigger value="queue">동기화 큐</TabsTrigger>
-            <TabsTrigger value="category">카테고리별</TabsTrigger>
-            <TabsTrigger value="storage">스토리지</TabsTrigger>
+            <TabsTrigger value="queue" data-tour="sync-queue-tab">동기화 큐</TabsTrigger>
+            <TabsTrigger value="category" data-tour="category-stats-tab">카테고리별</TabsTrigger>
+            <TabsTrigger value="storage" data-tour="storage-tab">스토리지</TabsTrigger>
           </TabsList>
 
           {/* 파일 관리 탭 */}
           <TabsContent value="files" className="space-y-4">
             {/* 필터 및 액션 */}
-            <div className="flex gap-2">
+            <div className="flex gap-2" data-tour="file-filters">
               <Input
                 placeholder="파일명, 프로젝트 검색..."
                 value={searchTerm}
@@ -376,7 +376,7 @@ export function SFR006AdvancedDemo() {
                   ))}
                 </SelectContent>
               </Select>
-              <Button onClick={handleFileUpload} disabled={isUploading}>
+              <Button onClick={handleFileUpload} disabled={isUploading} data-tour="file-upload">
                 <Upload className="w-4 h-4 mr-2" />
                 업로드
               </Button>
@@ -387,7 +387,7 @@ export function SFR006AdvancedDemo() {
             </div>
 
             {/* 파일 테이블 */}
-            <ScrollArea className="h-[500px] border rounded-lg">
+            <ScrollArea className="h-[500px] border rounded-lg" data-tour="file-table">
               <Table>
                 <TableHeader>
                   <TableRow>

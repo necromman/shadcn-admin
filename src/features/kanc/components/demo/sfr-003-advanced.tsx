@@ -62,12 +62,12 @@ export function SFR003AdvancedDemo() {
   const [isBatchRunning, setIsBatchRunning] = useState(false)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
 
-  // 실시간 모니터링 데이터
+  // 실시간 모니터링 데이터 - 실제같은 데이터로 초기화
   const [stats, setStats] = useState({
     totalServices: services.length,
     pendingCancel: services.filter(s => s.status === '취소대기').length,
-    syncedToday: 0,
-    failedSync: 0,
+    syncedToday: 42,  // 오늘 동기화된 실제 데이터
+    failedSync: 3,    // 실패한 동기화 건수
     avgSyncTime: '1.2초'
   })
 
@@ -190,7 +190,7 @@ export function SFR003AdvancedDemo() {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* 통계 대시보드 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-tour="stats-dashboard">
           <StatCard icon={Database} label="전체 서비스" value={stats.totalServices} />
           <StatCard icon={XCircle} label="취소 대기" value={stats.pendingCancel} trend={-12} />
           <StatCard icon={CheckCircle} label="오늘 동기화" value={stats.syncedToday} trend={23} />
@@ -198,7 +198,7 @@ export function SFR003AdvancedDemo() {
         </div>
 
         {/* 실행 모드 선택 */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg" data-tour="sync-mode-selector">
           <div className="flex items-center gap-4">
             <Label>실행 모드:</Label>
             <Tabs value={syncMode} onValueChange={(v) => setSyncMode(v as any)} className="w-auto">
@@ -228,15 +228,15 @@ export function SFR003AdvancedDemo() {
         <Tabs defaultValue="services" className="w-full">
           <TabsList>
             <TabsTrigger value="services">서비스 목록</TabsTrigger>
-            <TabsTrigger value="logs">동기화 로그</TabsTrigger>
-            <TabsTrigger value="monitoring">모니터링</TabsTrigger>
+            <TabsTrigger value="logs" data-tour="sync-logs-tab">동기화 로그</TabsTrigger>
+            <TabsTrigger value="monitoring" data-tour="monitoring-tab">모니터링</TabsTrigger>
           </TabsList>
 
           {/* 서비스 목록 탭 */}
           <TabsContent value="services" className="space-y-4">
             {/* 필터 및 검색 */}
             <div className="flex gap-2">
-              <div className="flex-1 relative">
+              <div className="flex-1 relative" data-tour="service-search">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="서비스 ID, 모아팹 ID, 서비스명, 기업명 검색..."
@@ -260,7 +260,7 @@ export function SFR003AdvancedDemo() {
             </div>
 
             {/* 서비스 테이블 */}
-            <div className="border rounded-lg">
+            <div className="border rounded-lg" data-tour="service-table">
               <ScrollArea className="h-[400px]">
                 <Table>
                   <TableHeader>

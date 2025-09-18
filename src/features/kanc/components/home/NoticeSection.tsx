@@ -167,11 +167,11 @@ export function NoticeSection({ variant }: NoticeSectionProps) {
 
           {/* Tabs */}
           <Tabs defaultValue="notice" value={activeTab} onValueChange={(value) => setActiveTab(value as 'notice' | 'news')}>
-            <TabsList className="grid w-full grid-cols-2 mb-6 bg-gray-100/50 dark:bg-gray-900/50">
-              <TabsTrigger value="notice" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800">
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-gray-100/50 dark:bg-popover">
+              <TabsTrigger value="notice" className="data-[state=active]:bg-white dark:data-[state=active]:bg-card">
                 공지사항
               </TabsTrigger>
-              <TabsTrigger value="news" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800">
+              <TabsTrigger value="news" className="data-[state=active]:bg-white dark:data-[state=active]:bg-card">
                 보도자료
               </TabsTrigger>
             </TabsList>
@@ -183,10 +183,10 @@ export function NoticeSection({ variant }: NoticeSectionProps) {
                   className="group"
                 >
                   <a href="#" className="block">
-                    <div className="flex items-center justify-between gap-4 py-3 px-1 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50/50 dark:hover:bg-gray-900/30 transition-colors">
+                    <div className="flex items-center justify-between gap-4 py-3 px-1 border-b border-gray-100 dark:border-border hover:bg-gray-50/50 dark:hover:bg-popover/30 transition-colors">
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         {/* Type Badge */}
-                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-0">
+                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5 bg-blue-100 text-blue-700 dark:bg-secondary dark:text-primary border-0">
                           {item.type}
                         </Badge>
 
@@ -227,15 +227,15 @@ export function NoticeSection({ variant }: NoticeSectionProps) {
                   className="group"
                 >
                   <a href="#" className="block">
-                    <div className="flex items-center justify-between gap-4 py-3 px-1 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50/50 dark:hover:bg-gray-900/30 transition-colors">
+                    <div className="flex items-center justify-between gap-4 py-3 px-1 border-b border-gray-100 dark:border-border hover:bg-gray-50/50 dark:hover:bg-popover/30 transition-colors">
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         {/* Type Badge */}
                         <Badge variant="secondary" className={cn("text-[10px] px-1.5 py-0 h-5 border-0",
-                          item.type === '수상' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                          item.type === 'MOU' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' :
-                          item.type === '성과' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                          item.type === '행사' ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400' :
-                          'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400'
+                          item.type === '수상' ? 'bg-yellow-100 text-yellow-700 dark:bg-muted dark:text-[#f08484]' :
+                          item.type === 'MOU' ? 'bg-purple-100 text-purple-700 dark:bg-muted dark:text-[#b077ff]' :
+                          item.type === '성과' ? 'bg-green-100 text-green-700 dark:bg-muted dark:text-[#3fd7bc]' :
+                          item.type === '행사' ? 'bg-pink-100 text-pink-700 dark:bg-muted dark:text-[#eb48e8]' :
+                          'bg-teal-100 text-teal-700 dark:bg-muted dark:text-[#3fd7bc]'
                         )}>
                           {item.type}
                         </Badge>

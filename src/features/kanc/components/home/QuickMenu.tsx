@@ -159,9 +159,8 @@ export function QuickMenu({ variant }: QuickMenuProps) {
             <Card className={cn(
               "relative h-full p-6 transition-all duration-300",
               "hover:shadow-lg hover:-translate-y-1",
-              "border border-gray-200/50 dark:border-gray-700/50",
-              "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm",
-              item.highlight && "bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-950/20 dark:to-transparent border-blue-200/50 dark:border-blue-800/50"
+              "border",
+              item.highlight && "bg-accent/30 border-primary/30"
             )}>
               {/* Badge */}
               {item.badge && (
@@ -175,14 +174,14 @@ export function QuickMenu({ variant }: QuickMenuProps) {
 
               {/* Highlight Icon */}
               {item.highlight && (
-                <Sparkles className="absolute top-4 left-4 w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
+                <Sparkles className="absolute top-4 left-4 w-3.5 h-3.5 text-primary" />
               )}
 
               {/* Content */}
               <div className="space-y-3 pt-2">
                 {/* Title & Description */}
                 <div>
-                  <h3 className="font-semibold text-base mb-1.5 text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors">
+                  <h3 className="font-semibold text-base mb-1.5 text-foreground group-hover:text-primary transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-xs text-muted-foreground line-clamp-2">
@@ -192,7 +191,7 @@ export function QuickMenu({ variant }: QuickMenuProps) {
 
                 {/* Hover Arrow */}
                 <div className="flex justify-end">
-                  <ArrowRight className="w-4 h-4 text-gray-400 dark:text-gray-600 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                  <ArrowRight className="w-4 h-4 text-muted-foreground/60 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                 </div>
               </div>
             </Card>

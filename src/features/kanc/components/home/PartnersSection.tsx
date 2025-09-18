@@ -48,7 +48,7 @@ export function PartnersSection() {
               rel="noopener noreferrer"
               className="group"
             >
-              <Card className="h-full p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <Card className="h-full p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/50">
                 <div className="space-y-3">
                   <Badge variant="outline" className="text-xs">
                     {partner.type}

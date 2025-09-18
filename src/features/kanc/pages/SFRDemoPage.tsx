@@ -64,9 +64,9 @@ export function SFRDemoPage({ demoId: initialDemoId, onBack }: SFRDemoPageProps)
 
   return (
     <TourProvider demoId={demoId}>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-background">
         {/* 헤더 */}
-        <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 border-b">
+        <header className="sticky top-0 z-40 bg-card border-b">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center gap-4">
@@ -80,7 +80,7 @@ export function SFRDemoPage({ demoId: initialDemoId, onBack }: SFRDemoPageProps)
                   <ArrowLeft className="w-4 h-4" />
                   뒤로가기
                 </Button>
-                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800" />
+                <div className="w-px h-6 bg-border" />
                 <div>
                   <h1 className="text-lg font-semibold">{demoId.toUpperCase()}</h1>
                   <p className="text-sm text-muted-foreground">{getDemoTitle()}</p>

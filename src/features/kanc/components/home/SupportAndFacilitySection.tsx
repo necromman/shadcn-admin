@@ -100,13 +100,13 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
         {/* 통합 카드 */}
         <div className="grid lg:grid-cols-2 gap-6">
           {/* 고객 지원 카드 */}
-          <Card className="h-full overflow-hidden border border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+          <Card className="h-full overflow-hidden border border-gray-200/50 dark:border-[#383c3c] bg-white dark:bg-[#272829]">
             <CardHeader className="border-b px-6 pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">고객 지원</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-[#f3f3f3]">고객 지원</h3>
                 </div>
-                <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-0">
+                <Badge className="bg-green-100 text-green-700 dark:bg-[#343638] dark:text-[#3fd7bc] border-0">
                   <HiCheckCircle className="w-3.5 h-3.5 mr-1" />
                   운영중
                 </Badge>
@@ -119,11 +119,10 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
                   {supportChannels.map((channel, index) => (
                     <div
                       key={index}
-                      className="group relative flex items-center justify-between p-4 rounded-xl transition-all duration-300 hover:shadow-md hover:scale-[1.02] bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800"
-                    >
+                      className="group relative flex items-center justify-between p-4 rounded-xl transition-all duration-300 hover:shadow-md hover:scale-[1.02] bg-gray-50 dark:bg-popover hover:bg-gray-100 dark:hover:bg-secondary">
                       <div className="flex items-center gap-4">
-                        <div className="p-2.5 rounded-lg bg-white dark:bg-gray-900 shadow-sm">
-                          <channel.icon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                        <div className="p-2.5 rounded-lg bg-white dark:bg-card shadow-sm">
+                          <channel.icon className="w-5 h-5 text-gray-600 dark:text-muted-foreground" />
                         </div>
                         <div>
                           <div className="text-sm font-medium text-muted-foreground">
@@ -169,10 +168,10 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
           </Card>
 
           {/* 시설 & 인력 카드 */}
-          <Card className="h-full overflow-hidden border border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+          <Card className="h-full overflow-hidden border border-gray-200/50 dark:border-[#383c3c] bg-white dark:bg-[#272829]">
             <CardHeader className="border-b px-6 pb-4">
               <div className="flex items-center gap-3">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{variant === 'service' ? '이용 안내' : '시설 안내'}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-[#f3f3f3]">{variant === 'service' ? '이용 안내' : '시설 안내'}</h3>
               </div>
             </CardHeader>
             <CardContent className="p-6">
@@ -188,8 +187,8 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
                       <Card className="p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 border-border/50">
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-4">
-                            <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                              <facility.icon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+                            <div className="p-3 rounded-lg bg-gray-50 dark:bg-popover">
+                              <facility.icon className="w-6 h-6 text-gray-600 dark:text-muted-foreground" />
                             </div>
                             <div className="space-y-2">
                               <div>
@@ -251,7 +250,7 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
 
 
         {/* 하단 CTA 영역 */}
-        <Card className="mt-6 overflow-hidden border border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5">
+        <Card className="mt-6 overflow-hidden border border-gray-200/50 dark:border-[#383c3c] bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 dark:from-[#313233]/20 dark:via-[#343638]/20 dark:to-[#313233]/20">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="text-center md:text-left">

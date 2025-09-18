@@ -69,7 +69,7 @@ export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
       {/* Main Navigation - moafab처럼 간단한 sticky 적용 */}
       <header
         className={cn(
-          "sticky top-0 z-40 w-full bg-white dark:bg-gray-900 shadow-sm",
+          "sticky top-0 z-40 w-full bg-white dark:bg-card shadow-sm",
           devSettings.navigation.sticky ? "sticky" : "relative",
           devSettings.developer.showBoundaries && "border-2 border-red-500"
         )}
@@ -85,7 +85,7 @@ export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
                 <img
                   src="https://css.kanc.re.kr/images/kor/logo.png"
                   alt="한국나노기술원"
-                  className="w-auto"
+                  className="h-8 md:h-10 w-auto object-contain"
                 />
               </a>
             </div>

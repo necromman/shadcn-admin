@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button'
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 border-t">
+    <footer className="bg-gradient-to-b from-muted/20 to-muted/40 border-t">
       {/* Quick Links Section */}
-      <div className="border-b bg-white/50 dark:bg-gray-900/50">
+      <div className="border-b bg-card/50">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap gap-4">
@@ -23,7 +23,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">관련 사이트</span>
-              <select className="text-sm border rounded px-2 py-1 bg-white dark:bg-gray-800">
+              <select className="text-sm border rounded px-2 py-1 bg-popover text-foreground">
                 <option>과학기술정보통신부</option>
                 <option>한국연구재단</option>
                 <option>나노종합기술원</option>
@@ -59,13 +59,13 @@ export function Footer() {
 
             {/* Certifications */}
             <div className="flex gap-3">
-              <div className="bg-white dark:bg-gray-800 rounded px-3 py-2 text-xs font-medium">
+              <div className="bg-white dark:bg-popover rounded px-3 py-2 text-xs font-medium text-gray-700 dark:text-muted-foreground border border-gray-200 dark:border-border">
                 ISO 9001
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded px-3 py-2 text-xs font-medium">
+              <div className="bg-white dark:bg-popover rounded px-3 py-2 text-xs font-medium text-gray-700 dark:text-muted-foreground border border-gray-200 dark:border-border">
                 ISO 14001
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded px-3 py-2 text-xs font-medium">
+              <div className="bg-white dark:bg-popover rounded px-3 py-2 text-xs font-medium text-gray-700 dark:text-muted-foreground border border-gray-200 dark:border-border">
                 KOLAS 인증
               </div>
             </div>
@@ -143,7 +143,7 @@ export function Footer() {
                   href="https://blog.naver.com/kanc_info"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="w-8 h-8 rounded-full bg-white dark:bg-popover flex items-center justify-center hover:bg-gray-100 dark:hover:bg-secondary transition-colors border border-gray-200 dark:border-border"
                   aria-label="Blog"
                 >
                   <Share2 className="w-4 h-4" />
@@ -152,7 +152,7 @@ export function Footer() {
                   href="https://youtube.com/@kanc"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="w-8 h-8 rounded-full bg-white dark:bg-popover flex items-center justify-center hover:bg-gray-100 dark:hover:bg-secondary transition-colors border border-gray-200 dark:border-border"
                   aria-label="YouTube"
                 >
                   <Youtube className="w-4 h-4" />
@@ -164,7 +164,7 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t bg-gray-100 dark:bg-gray-950">
+      <div className="border-t border-gray-200 dark:border-border bg-gray-100 dark:bg-background">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
             <div className="flex flex-wrap items-center gap-2">

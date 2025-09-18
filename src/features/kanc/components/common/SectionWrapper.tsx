@@ -13,8 +13,8 @@ export function SectionWrapper({
   background = 'transparent'
 }: SectionWrapperProps) {
   const bgClasses = {
-    white: 'bg-white dark:bg-background',
-    gray: 'bg-gray-50/50 dark:bg-gray-900/50',
+    white: 'bg-card',
+    gray: 'bg-muted/30',
     transparent: ''
   }
 

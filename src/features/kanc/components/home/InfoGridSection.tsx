@@ -88,7 +88,7 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
           {/* 최신소식 - 왼쪽 2/3 */}
           <div className="lg:col-span-2 flex">
-            <Card className="flex-1 flex flex-col p-0 overflow-hidden border border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+            <Card className="flex-1 flex flex-col p-0 overflow-hidden">
               <CardHeader>
                   <div className="flex items-center justify-between">
                     <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">최신소식</h3>
@@ -113,12 +113,12 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                       <div className={`
                         flex items-center gap-3 px-5 w-full
                         transition-all duration-200
-                        ${index !== notices.length - 1 ? 'border-b border-gray-200 dark:border-gray-700' : ''}
+                        ${index !== notices.length - 1 ? 'border-b' : ''}
                         ${notice.isPinned
-                          ? 'bg-gradient-to-r from-blue-50/50 via-blue-50/30 to-transparent dark:from-blue-950/30 dark:via-blue-950/20 dark:to-transparent hover:from-blue-50/70 dark:hover:from-blue-950/40'
-                          : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                          ? 'bg-primary/5 hover:bg-primary/10'
+                          : 'hover:bg-accent'
                         }
-                        ${index % 2 === 1 && !notice.isPinned ? 'bg-gray-50/30 dark:bg-gray-800/20' : ''}
+                        ${index % 2 === 1 && !notice.isPinned ? 'bg-muted/30' : ''}
                       `}>
                         <Badge
                           variant={notice.category === '공지' ? 'default' : 'secondary'}
@@ -128,9 +128,9 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                         </Badge>
 
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-primary transition-colors line-clamp-1 font-medium">
+                          <h4 className="text-sm text-foreground/80 group-hover:text-primary transition-colors line-clamp-1 font-medium">
                             {notice.isPinned && (
-                              <span className="text-orange-500 font-semibold mr-1">[중요]</span>
+                              <span className="text-destructive font-semibold mr-1">[중요]</span>
                             )}
                             {notice.title}
                           </h4>

@@ -28,19 +28,19 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
               onMouseEnter={() => setActiveMenu(item.id)}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <button className="flex items-center gap-1 py-4 text-gray-700 dark:text-gray-300 hover:text-[#002D83] dark:hover:text-blue-400 font-medium transition-colors">
+              <button className="flex items-center gap-1 py-4 text-foreground hover:text-primary font-medium transition-colors">
                 {item.title}
                 {item.children && <ChevronDown className="w-4 h-4" />}
               </button>
 
               {item.children && activeMenu === item.id && (
-                <div className="absolute top-full left-0 w-64 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                <div className="absolute top-full left-0 w-64 bg-card shadow-lg border z-50">
                   <ul className="py-2">
                     {item.children.map((child) => (
                       <li key={child.id}>
                         <a
                           href={child.path}
-                          className="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-[#002D83] dark:hover:text-blue-400 transition-colors"
+                          className="block px-4 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
                         >
                           {child.title}
                         </a>
@@ -76,7 +76,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
         setActiveMenu(null)
       }}
     >
-      <div className="bg-white dark:bg-gray-800 shadow-xl border-y border-gray-200 dark:border-gray-700">
+      <div className="bg-card shadow-xl border-y">
         <div className="max-w-7xl mx-auto p-8">
           <div className="grid grid-cols-5 gap-8">
             {menuItems.map((item) => (
@@ -88,8 +88,8 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                 <h3 className={cn(
                   "font-semibold text-sm uppercase tracking-wider pb-2 border-b",
                   activeMenu === item.id
-                    ? "text-[#002D83] dark:text-blue-400 border-[#002D83] dark:border-blue-400"
-                    : "text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700"
+                    ? "text-primary border-primary"
+                    : "text-muted-foreground border-border"
                 )}>
                   {item.title}
                 </h3>
@@ -103,8 +103,8 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                         className={cn(
                           "group flex items-center gap-2 px-2 py-1.5 text-sm rounded transition-all",
                           activeMenu === item.id
-                            ? "text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-[#002D83] dark:hover:text-blue-400"
-                            : "text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                            ? "text-foreground hover:bg-accent hover:text-primary"
+                            : "text-muted-foreground hover:text-foreground"
                         )}
                         onMouseEnter={() => setActiveMenu(item.id)}
                       >
@@ -121,29 +121,29 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
           </div>
 
           {/* 하단 빠른 링크 영역 (옵션) */}
-          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="mt-8 pt-6 border-t">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-6">
                 <a
                   href="/kanc/sitemap"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-[#002D83] dark:hover:text-blue-400 transition-colors"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   사이트맵
                 </a>
                 <a
                   href="/kanc/contact"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-[#002D83] dark:hover:text-blue-400 transition-colors"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   오시는 길
                 </a>
                 <a
                   href="/kanc/faq"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-[#002D83] dark:hover:text-blue-400 transition-colors"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   자주 묻는 질문
                 </a>
               </div>
-              <div className="text-sm text-gray-400 dark:text-gray-500">
+              <div className="text-sm text-muted-foreground">
                 빠른 서비스 이용을 위한 메가 메뉴
               </div>
             </div>
@@ -168,8 +168,8 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 py-4 text-gray-700 dark:text-gray-300 hover:text-[#002D83] dark:hover:text-blue-400 font-medium transition-colors",
-                  activeMenu === item.id && isMenuOpen && "text-[#002D83] dark:text-blue-400"
+                  "flex items-center gap-1 py-4 text-foreground hover:text-primary font-medium transition-colors",
+                  activeMenu === item.id && isMenuOpen && "text-primary"
                 )}
               >
                 {item.title}

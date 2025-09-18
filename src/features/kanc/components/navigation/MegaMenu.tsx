@@ -15,6 +15,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [menuTop, setMenuTop] = useState(120)
   const navRef = useRef<HTMLElement>(null)
+  const lastScrollY = useRef(0)
 
   // 디폴트 스타일 - 개별 드롭다운
   if (style === 'default' || style === 'simple') {
@@ -25,7 +26,11 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
             <li
               key={item.id}
               className="relative group"
-              onMouseEnter={() => setActiveMenu(item.id)}
+              onMouseEnter={() => {
+                setActiveMenu(item.id)
+                // 스크롤 시 메뉴 닫기를 위한 현재 스크롤 위치 저장
+                lastScrollY.current = window.scrollY
+              }}
               onMouseLeave={() => setActiveMenu(null)}
             >
               <button className="flex items-center gap-1 py-4 text-foreground hover:text-primary font-medium transition-colors">
@@ -56,12 +61,36 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
     )
   }
 
-  // 헤더 위치 계산
+  // 헤더 위치 계산 및 스크롤 감지
   useEffect(() => {
     if (isMenuOpen && navRef.current) {
       const rect = navRef.current.getBoundingClientRect()
       const headerBottom = rect.bottom
       setMenuTop(headerBottom)
+    }
+  }, [isMenuOpen])
+
+  // 스크롤 시 메가메뉴 닫기
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      // 스크롤이 발생하면 메가메뉴 닫기
+      if (Math.abs(currentScrollY - lastScrollY.current) > 5) {
+        if (isMenuOpen) {
+          setIsMenuOpen(false)
+          setActiveMenu(null)
+        }
+      }
+
+      lastScrollY.current = currentScrollY
+    }
+
+    if (isMenuOpen) {
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      return () => {
+        window.removeEventListener('scroll', handleScroll)
+      }
     }
   }, [isMenuOpen])
 
@@ -164,6 +193,8 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
               onMouseEnter={() => {
                 setActiveMenu(item.id)
                 setIsMenuOpen(true)
+                // 스크롤 시 메뉴 닫기를 위한 현재 스크롤 위치 저장
+                lastScrollY.current = window.scrollY
               }}
             >
               <button

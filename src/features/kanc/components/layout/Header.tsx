@@ -17,6 +17,7 @@ interface HeaderProps {
 export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDevSettingsOpen, setIsDevSettingsOpen] = useState(false)
+  const [hidePreHeader, setHidePreHeader] = useState(false)
   const menuItems = getMenuItems(currentTab)
 
   // 개발자 설정 상태
@@ -50,28 +51,63 @@ export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
+  // 스크롤 시 프리헤더 숨기기
+  useEffect(() => {
+    let lastScrollY = window.scrollY
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      // 아래로 스크롤하고 50px 이상이면 프리헤더 숨기기
+      if (currentScrollY > 50) {
+        setHidePreHeader(true)
+      }
+      // 위로 스크롤하고 최상단에 가까워지면 프리헤더 표시
+      else if (currentScrollY < 10) {
+        setHidePreHeader(false)
+      }
+
+      lastScrollY = currentScrollY
+    }
+
+    if (devSettings.navigation.showPreHeader) {
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      return () => {
+        window.removeEventListener('scroll', handleScroll)
+      }
+    }
+  }, [devSettings.navigation.showPreHeader])
+
   const handleDevSettingsChange = (newSettings: DevSettings) => {
     setDevSettings(newSettings)
   }
 
   return (
     <>
-      {/* TopBar (PreHeader) - 일반 플로우에서 제거 */}
+      {/* TopBar (PreHeader) - 스크롤 시 숨김 */}
       {devSettings.navigation.showPreHeader && (
-        <TopBar
-          currentTab={currentTab}
-          onTabChange={onTabChange}
-          onOpenDevSettings={() => setIsDevSettingsOpen(true)}
-          onDemoSelect={onDemoSelect}
-        />
+        <div
+          className={cn(
+            "transition-all duration-300",
+            hidePreHeader ? "h-0 overflow-hidden" : "h-auto"
+          )}
+        >
+          <TopBar
+            currentTab={currentTab}
+            onTabChange={onTabChange}
+            onOpenDevSettings={() => setIsDevSettingsOpen(true)}
+            onDemoSelect={onDemoSelect}
+          />
+        </div>
       )}
 
-      {/* Main Navigation - moafab처럼 간단한 sticky 적용 */}
+      {/* Main Navigation - 스크롤 시 프리헤더 높이만큼 위치 조정 */}
       <header
         className={cn(
-          "sticky top-0 z-40 w-full bg-white dark:bg-card shadow-sm",
+          "sticky z-40 w-full bg-card shadow-sm transition-all duration-300",
           devSettings.navigation.sticky ? "sticky" : "relative",
-          devSettings.developer.showBoundaries && "border-2 border-red-500"
+          devSettings.developer.showBoundaries && "border-2 border-red-500",
+          hidePreHeader ? "top-0" : "top-11"
         )}
       >
         <div className="container mx-auto px-4">

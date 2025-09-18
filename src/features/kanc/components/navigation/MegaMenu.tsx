@@ -14,115 +14,18 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [menuTop, setMenuTop] = useState(120)
+  const [expandedSubMenus, setExpandedSubMenus] = useState<Record<string, boolean>>({})
   const navRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
 
-  // 디폴트 스타일 - 개별 드롭다운
-  if (style === 'default' || style === 'simple') {
-    return (
-      <nav className="relative">
-        <ul className="flex items-center justify-center space-x-8">
-          {menuItems.map((item) => (
-            <li
-              key={item.id}
-              className="relative group"
-              onMouseEnter={() => {
-                setActiveMenu(item.id)
-                // 스크롤 시 메뉴 닫기를 위한 현재 스크롤 위치 저장
-                lastScrollY.current = window.scrollY
-              }}
-              onMouseLeave={() => setActiveMenu(null)}
-            >
-              <button className="flex items-center gap-1 py-4 text-foreground hover:text-primary font-medium transition-colors">
-                {item.title}
-                {item.children && <ChevronDown className="w-4 h-4" />}
-              </button>
-
-              {item.children && activeMenu === item.id && (
-                <div className="absolute top-full left-0 w-64 bg-card shadow-lg border rounded-md z-50">
-                  <ul className="py-2 max-h-96 overflow-y-auto">
-                    {item.children.slice(0, 8).map((child) => (
-                      <li key={child.id} className="relative group/sub">
-                        {child.children ? (
-                          <>
-                            <button
-                              className="w-full flex items-center justify-between px-4 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                              }}
-                            >
-                              <span>{child.title}</span>
-                              <ChevronRight className="w-4 h-4 opacity-50" />
-                            </button>
-                            {/* 2depth 호버 메뉴 */}
-                            <div className="absolute left-full top-0 ml-1 w-60 bg-card shadow-lg border rounded-md hidden group-hover/sub:block z-50">
-                              <ul className="py-2 max-h-80 overflow-y-auto">
-                                {child.children.map((subChild) => (
-                                  <li key={subChild.id}>
-                                    {subChild.children ? (
-                                      <div className="px-3 py-1.5">
-                                        <div className="text-xs font-medium text-muted-foreground mb-1">
-                                          {subChild.title}
-                                        </div>
-                                        <ul className="ml-2 space-y-0.5">
-                                          {subChild.children.slice(0, 5).map((subSubChild) => (
-                                            <li key={subSubChild.id}>
-                                              <a
-                                                href={subSubChild.path}
-                                                className="block px-2 py-0.5 text-xs text-muted-foreground/80 hover:text-primary transition-colors"
-                                              >
-                                                · {subSubChild.title}
-                                              </a>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      </div>
-                                    ) : (
-                                      <a
-                                        href={subChild.path}
-                                        className="block px-4 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
-                                      >
-                                        {subChild.title}
-                                      </a>
-                                    )}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </>
-                        ) : (
-                          <a
-                            href={child.path}
-                            className="block px-4 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
-                          >
-                            {child.title}
-                          </a>
-                        )}
-                      </li>
-                    ))}
-                    {/* 더 많은 항목이 있으면 "전체보기" 링크 */}
-                    {item.children.length > 8 && (
-                      <li className="border-t mt-2 pt-2">
-                        <a
-                          href={`/${item.id}`}
-                          className="block px-4 py-2 text-sm text-primary hover:bg-accent transition-colors font-medium"
-                        >
-                          전체 메뉴 보기 →
-                        </a>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      </nav>
-    )
+  const toggleSubMenu = (menuId: string) => {
+    setExpandedSubMenus(prev => ({
+      ...prev,
+      [menuId]: !prev[menuId]
+    }))
   }
 
-  // 헤더 위치 계산 및 스크롤 감지
+  // 헤더 위치 계산 및 스크롤 감지 - hooks는 조건부 return 전에 모두 선언
   useEffect(() => {
     if (isMenuOpen && navRef.current) {
       const rect = navRef.current.getBoundingClientRect()
@@ -154,6 +57,125 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
       }
     }
   }, [isMenuOpen])
+
+  // 디폴트 스타일 - 개별 드롭다운
+  if (style === 'default' || style === 'simple') {
+    return (
+      <nav className="relative">
+        <ul className="flex items-center justify-center space-x-8">
+          {menuItems.map((item) => (
+            <li
+              key={item.id}
+              className="relative group"
+              onMouseEnter={() => {
+                setActiveMenu(item.id)
+                // 스크롤 시 메뉴 닫기를 위한 현재 스크롤 위치 저장
+                lastScrollY.current = window.scrollY
+              }}
+              onMouseLeave={() => setActiveMenu(null)}
+            >
+              <button className="flex items-center gap-1 py-4 text-foreground hover:text-primary font-medium transition-colors">
+                {item.title}
+                {item.children && <ChevronDown className="w-4 h-4" />}
+              </button>
+
+              {item.children && item.children.length > 0 && activeMenu === item.id && (
+                <div className="absolute top-full left-0 min-w-[280px] max-w-[360px] bg-card shadow-lg border rounded-md z-50">
+                  <ul className="py-2 max-h-[520px] overflow-y-auto">
+                    {item.children.map((child) => (
+                      <li key={child.id} className="relative">
+                        {child.children && child.children.length > 0 ? (
+                          <div>
+                            <button
+                              className="w-full flex items-center justify-between px-4 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleSubMenu(child.id);
+                              }}
+                            >
+                              <span className="font-medium">{child.title}</span>
+                              <ChevronRight className={cn(
+                                "w-4 h-4 transition-transform",
+                                expandedSubMenus[child.id] ? "rotate-90" : ""
+                              )} />
+                            </button>
+                            {/* 확장 가능한 서브메뉴 - 아코디언 스타일 */}
+                            {expandedSubMenus[child.id] && (
+                              <div className="bg-muted/30 border-l-2 border-primary/20 ml-4 mr-2 my-1">
+                                <ul className="py-1">
+                                  {child.children.map((subChild) => (
+                                    <li key={subChild.id}>
+                                      {subChild.children && subChild.children.length > 0 ? (
+                                        <div>
+                                          <button
+                                            className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              toggleSubMenu(subChild.id);
+                                            }}
+                                          >
+                                            <span className="font-medium">{subChild.title}</span>
+                                            <ChevronRight className={cn(
+                                              "w-3 h-3 transition-transform",
+                                              expandedSubMenus[subChild.id] ? "rotate-90" : ""
+                                            )} />
+                                          </button>
+                                          {/* 3depth 메뉴 */}
+                                          {expandedSubMenus[subChild.id] && (
+                                            <div className="bg-muted/20 ml-3 mr-1">
+                                              <ul className="py-1">
+                                                {subChild.children.map((subSubChild) => (
+                                                  <li key={subSubChild.id}>
+                                                    <a
+                                                      href={subSubChild.path || '#'}
+                                                      className="block px-3 py-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
+                                                      onClick={() => setActiveMenu(null)}
+                                                    >
+                                                      • {subSubChild.title}
+                                                    </a>
+                                                  </li>
+                                                ))}
+                                              </ul>
+                                            </div>
+                                          )}
+                                        </div>
+                                      ) : (
+                                        <a
+                                          href={subChild.path || '#'}
+                                          className="block px-3 py-2 text-xs text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
+                                          onClick={() => setActiveMenu(null)}
+                                        >
+                                          {subChild.title}
+                                        </a>
+                                      )}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <a
+                            href={child.path || '#'}
+                            className="block px-4 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
+                            onClick={() => setActiveMenu(null)}
+                          >
+                            {child.title}
+                          </a>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
 
   // 메가 메뉴 스타일 - 모든 메뉴 한번에 표시 (포털 사용)
   const megaMenuContent = isMenuOpen && (
@@ -205,10 +227,11 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                             </div>
 
                             {/* 3depth는 호버 시에만 표시 */}
-                            <div className="absolute left-full top-0 ml-2 w-48 bg-card shadow-lg border rounded-md opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible transition-all duration-200 z-50">
-                              <ul className="py-2">
-                                {child.children.map((subChild) => (
-                                  <li key={subChild.id}>
+                            {child.children && child.children.length > 0 && (
+                              <div className="absolute left-full top-0 ml-2 w-48 bg-card shadow-lg border rounded-md opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible transition-all duration-200 z-50">
+                                <ul className="py-2">
+                                  {child.children.map((subChild) => (
+                                    <li key={subChild.id}>
                                     {subChild.children ? (
                                       <div className="group/sub relative">
                                         <div className="flex items-center justify-between px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-primary cursor-pointer">
@@ -216,39 +239,42 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                           <ChevronRight className="w-3 h-3 opacity-50" />
                                         </div>
                                         {/* 4depth는 더 작은 폰트로 */}
-                                        <div className="absolute left-full top-0 ml-2 w-44 bg-card shadow-lg border rounded-md opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50">
-                                          <ul className="py-1">
-                                            {subChild.children.map((subSubChild) => (
-                                              <li key={subSubChild.id}>
-                                                <a
-                                                  href={subSubChild.path}
-                                                  className="block px-3 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-primary"
-                                                  onClick={() => setIsMenuOpen(false)}
-                                                >
-                                                  {subSubChild.title}
-                                                </a>
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        </div>
+                                        {subChild.children && subChild.children.length > 0 && (
+                                          <div className="absolute left-full top-0 ml-2 w-44 bg-card shadow-lg border rounded-md opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50">
+                                            <ul className="py-1">
+                                              {subChild.children.map((subSubChild) => (
+                                                <li key={subSubChild.id}>
+                                                  <a
+                                                    href={subSubChild.path || '#'}
+                                                    className="block px-3 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-primary"
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                  >
+                                                    {subSubChild.title}
+                                                  </a>
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          </div>
+                                        )}
                                       </div>
                                     ) : (
                                       <a
-                                        href={subChild.path}
+                                        href={subChild.path || '#'}
                                         className="block px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-primary"
                                         onClick={() => setIsMenuOpen(false)}
                                       >
                                         {subChild.title}
                                       </a>
                                     )}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
                           </>
                         ) : (
                           <a
-                            href={child.path}
+                            href={child.path || '#'}
                             className={cn(
                               "group flex items-center gap-2 px-2 py-1.5 text-sm rounded transition-all",
                               activeMenu === item.id

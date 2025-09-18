@@ -110,10 +110,10 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                     <a
                       key={notice.id}
                       href={`/notice/${notice.id}`}
-                      className="group flex-1 flex"
+                      className="group flex-1 flex min-h-[60px] md:min-h-[48px]"
                     >
                       <div className={`
-                        flex items-center gap-3 px-5 w-full
+                        flex items-center gap-2 md:gap-3 px-4 md:px-5 py-3 md:py-2 w-full
                         transition-all duration-200
                         ${index !== notices.length - 1 ? 'border-b' : ''}
                         ${notice.isPinned
@@ -122,29 +122,42 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                         }
                         ${index % 2 === 1 && !notice.isPinned ? 'bg-muted/30' : ''}
                       `}>
-                        <Badge
-                          variant={notice.category === '공지' ? 'default' : 'secondary'}
-                          className="text-[10px] px-2 py-0.5 shrink-0"
-                        >
-                          {notice.category}
-                        </Badge>
+                        {/* 모바일에서는 카테고리 배지를 상단에 배치 */}
+                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 flex-1">
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant={notice.category === '공지' ? 'default' : 'secondary'}
+                              className="text-[10px] px-2 py-0.5 shrink-0"
+                            >
+                              {notice.category}
+                            </Badge>
 
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-sm text-foreground/80 group-hover:text-primary transition-colors line-clamp-1 font-medium">
-                            {notice.isPinned && (
-                              <span className="text-destructive font-semibold mr-1">[중요]</span>
+                            {/* 모바일에서만 NEW 배지를 여기에 표시 */}
+                            {notice.isNew && (
+                              <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 md:hidden">
+                                NEW
+                              </Badge>
                             )}
-                            {notice.title}
-                          </h4>
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-xs md:text-sm text-foreground/80 group-hover:text-primary transition-colors line-clamp-1 md:line-clamp-1 font-medium">
+                              {notice.isPinned && (
+                                <span className="text-destructive font-semibold mr-1">[중요]</span>
+                              )}
+                              {notice.title}
+                            </h4>
+                          </div>
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
+                          {/* 데스크톱에서만 NEW 배지 표시 */}
                           {notice.isNew && (
-                            <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4">
+                            <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 hidden md:block">
                               NEW
                             </Badge>
                           )}
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-[11px] md:text-xs text-muted-foreground whitespace-nowrap">
                             {notice.date}
                           </span>
                         </div>

@@ -29,7 +29,25 @@ export const Route = createFileRoute('/')({
 - 언어 전환 기능 유지
 - **이유**: 프로토타입도 글로벌 서비스를 고려해야 함
 
-### 3. 섹션 컴포넌트 컨테이너 너비 일관성 유지
+### 3. 배경색 및 그라데이션 사용 금지
+**촌스러운 그라데이션 배경색 절대 금지:**
+- ❌ **금지**: 화려한 색상 그라데이션 배경 (from-blue-500, to-green-600 등)
+- ❌ **금지**: 채도 높은 컬러풀한 배경
+- ✅ **허용**: 아주 은은한 그레이 톤 (gray-50, gray-100/50)
+- ✅ **허용**: 배경색 없이 보더만 사용
+- ✅ **권장**: 깔끔한 흰색/다크모드 배경 + 미니멀한 보더
+
+**올바른 카드 스타일링:**
+```tsx
+// ❌ Bad - 촌스러운 컬러 그라데이션
+<div className="bg-gradient-to-br from-blue-500/20 to-purple-600/20">
+
+// ✅ Good - 깔끔하고 모던한 스타일
+<div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+<div className="bg-gray-50/50 dark:bg-gray-800/50"> // 아주 은은한 배경
+```
+
+### 4. 섹션 컴포넌트 컨테이너 너비 일관성 유지
 **모든 섹션 컴포넌트는 부모 컴포넌트의 컨테이너 설정을 따라야 함:**
 - ❌ **금지**: 섹션 컴포넌트 내부에서 `container` 클래스나 독립적인 max-width 설정
 - ✅ **올바른 방법**: 부모 페이지 컴포넌트에서 컨테이너 너비 관리
@@ -124,21 +142,79 @@ xl: 1280px  // 대형 데스크톱
 - [ ] 크로스 브라우저 테스트
 - [ ] 성능 최적화
 
-## 🏢 브랜드명 사용 규칙
-- **회사명/브랜드명은 항상 "BRAND"로 표기**
-- 테크컴퍼니, 회사명, 기업명 등 구체적인 이름 사용 금지
-- 예시에서도 일관되게 BRAND 사용
-- 로고나 회사 표시가 필요한 모든 곳에 BRAND 표기
 
 ## 🚫 이모지 및 아이콘 사용 금지
 - **이모지 사용 금지**: 사용자가 명시적으로 요청하지 않는 한 이모지 사용 금지
 - **로고는 텍스트만**: 로고 영역에는 텍스트만 사용, 아이콘이나 이모지 제외
 - **아이콘은 요청 시에만**: 아이콘은 사용자가 명확히 요청한 경우에만 추가
 - **코드 주석 이모지 제외**: 코드 내 주석에도 이모지 사용 자제
-- **예외 사항**: 
+- **예외 사항**:
   - 사용자가 "이모지 추가해줘" 등 명시적 요청 시
   - 기존 코드에 이미 있는 이모지는 유지
   - lucide-react, react-icons 등 아이콘 라이브러리는 기능적 필요 시 사용 가능
+
+## 🌓 라이트/다크 모드 토글 버튼 필수
+- **모든 헤더에 테마 토글 버튼 필수**: 프리헤더나 메인 헤더에 라이트/다크 모드 전환 버튼 반드시 포함
+- **구현 방법**:
+  ```tsx
+  // useTheme 훅 사용
+  const { theme, setTheme } = useTheme()
+
+  // 토글 버튼 구현
+  <Button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+    <HiSun className="dark:hidden" />
+    <HiMoon className="hidden dark:block" />
+  </Button>
+  ```
+- **위치**: 헤더 우측 상단이나 프리헤더에 배치
+- **아이콘**: HiSun (라이트 모드), HiMoon (다크 모드) 사용
+- **애니메이션**: rotate 및 scale transition 적용 권장
+
+## 🎯 헤더 네비게이션 구현 원칙
+
+### Sticky Navigation 구현
+- **항상 `sticky top-0` 사용**: 복잡한 fixed positioning과 transform 조합 대신 간단한 sticky 사용
+- **참조 구조**: `src/features/moafab` 폴더의 헤더 구조를 항상 참조
+- **PreHeader와 Navigation 분리**: PreHeader(TopBar)는 별도 컴포넌트로, Navigation은 메인 헤더로
+- **금지 사항**:
+  - ❌ 복잡한 스크롤 이벤트 리스너와 상태 관리
+  - ❌ fixed positioning과 transform 애니메이션 조합
+  - ❌ 다중 z-index 레이어 관리
+  - ❌ window.scrollY 기반의 복잡한 로직
+
+### 메가 메뉴 구현
+- **전체 너비 표시**: 메가 메뉴는 컨테이너 제한 없이 브라우저 전체 너비(`w-screen`)로 표시
+- **위치 설정**:
+  ```css
+  position: absolute;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  ```
+- **안전 영역 제한 금지**: 메가 메뉴 드롭다운은 container나 max-width 제한 없음
+- **콘텐츠 영역만 제한**: 메가 메뉴 내부 콘텐츠만 max-width 적용 가능
+
+### 올바른 헤더 구조 예시
+```tsx
+// ✅ Good - moafab 참조 구조 (간단하고 명확)
+<>
+  {showPreHeader && <TopBar />}
+  <header className="sticky top-0 z-40">
+    <nav>...</nav>
+  </header>
+</>
+
+// ❌ Bad - 복잡한 구조
+<div className="fixed top-0 transform -translate-y-full">
+  <TopBar />
+</div>
+<header className={cn(
+  "sticky",
+  hideTopBar ? "top-0" : "top-11"
+)}>
+  ...
+</header>
+```
 
 ## 🚫 Git 커밋 규칙
 - AI 서명 절대 포함하지 말 것

@@ -1,308 +1,81 @@
-<div class="list" id="equip_list_box">
-									
-									<a href="javascript:void(0);" data-skey="477" data-room="나노융합기술원" data-file="270" data-photo="" name="e_box" class="active">
-										<span>2차이온질량분석기</span><p>Secondary Ion Mass Spectrometry (SIMS)</p>
-									</a>						
-										
-									
+<ul class="swiper-wrapper" style="transform: translate3d(-1380px, 0px, 0px); transition-duration: 0ms;"><li class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="0" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.gg.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/93/1593_201705111629311970.jpg" alt="세계속의 경기도">
+										</a>
+									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="1" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.kist.re.kr/kist_web/main/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/94/1594_201705111629451770.png" alt="한국과학기술원">
+										</a>
+									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="2" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="http://www.keti.re.kr/main/main.php" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/95/1595_201705111629572160.png" alt="Korea Electronics Technology Institute 전자부품연구원">
+										</a>
+									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="3" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.msit.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/96/1596_201705111630093070.png" alt="과학기술정보통신부">
+										</a>
+									</li>
+							
 								
-									<a href="javascript:void(0);" data-skey="401" data-room="나노융합기술원" data-file="176" data-photo="" name="e_box" class="">
-										<span>3차원 프로파일러</span><p>3D Profiler</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="399" data-room="나노융합기술원" data-file="198" data-photo="" name="e_box" class="">
-										<span>3D Atom Probe Tomography (LEAP4000X HR) 1</span><p>3D Atom Probe Tomography (LEAP4000X HR) 1</p>
-									</a>
-									
-									
+									<li class="swiper-slide" data-swiper-slide-index="0" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.gg.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/93/1593_201705111629311970.jpg" alt="세계속의 경기도">
+										</a>
+									</li>
 								
-									<a href="javascript:void(0);" data-skey="400" data-room="나노융합기술원" data-file="175" data-photo="" name="e_box" class="">
-										<span>3D Conforcal Scanning Microscope (3DCSM)</span><p>3D Conforcal Scanning Microscope (3DCSM)</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="402" data-room="나노융합기술원" data-file="177" data-photo="" name="e_box">
-										<span>4단 면저항 측정기-1</span><p>4 Point Probe - 1</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="469" data-room="나노융합기술원" data-file="3280" data-photo="" name="e_box">
-										<span>8인치 트렉 시스템-2 (SVS)</span><p>PR Track_SVS - 2</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="470" data-room="나노융합기술원" data-file="3281" data-photo="" name="e_box">
-										<span>8인치 트렉 시스템-3 (SVS)</span><p>PR Track_SVS - 3</p>
-									</a>
-									
-									
+									<li class="swiper-slide swiper-slide-prev" data-swiper-slide-index="1" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.kist.re.kr/kist_web/main/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/94/1594_201705111629451770.png" alt="한국과학기술원">
+										</a>
+									</li>
 								
-									<a href="javascript:void(0);" data-skey="466" data-room="나노융합기술원" data-file="280" data-photo="" name="e_box">
-										<span>감광제 제거 시스템-Ⅱ</span><p>PR Asher_FEOL - 2</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="465" data-room="나노융합기술원" data-file="281" data-photo="" name="e_box" class="">
-										<span>감광제 제거 시스템-I</span><p>PR Asher_FEOL - 1</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="1629" data-room="나노융합기술원" data-file="2428" data-photo="" name="e_box">
-										<span>고분해능 전계방출형 주사전자현미경</span><p>High Resolution FE-SEM-Ⅳ (JSM-IT710HR)</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="430" data-room="나노융합기술원" data-file="244" data-photo="" name="e_box">
-										<span>고온 습식/건식 산화로</span><p>Furnace Oxidation_LEAD</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="1764" data-room="나노융합기술원" data-file="" data-photo="" name="e_box">
-										<span>고온이온주입장치</span><p>SiC ion implantation</p>
-									</a>
-									
-									
+									<li class="swiper-slide swiper-slide-active" data-swiper-slide-index="2" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="http://www.keti.re.kr/main/main.php" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
+											<img src="/file_room/image/95/1595_201705111629572160.png" alt="Korea Electronics Technology Institute 전자부품연구원">
+										</a>
+									</li>
 								
-									<a href="javascript:void(0);" data-skey="1628" data-room="나노융합기술원" data-file="2427" data-photo="" name="e_box">
-										<span>고출력∙고분해능 분말용 X-선 회절분석기</span><p>High Resolution Powder-XRD</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="457" data-room="나노융합기술원" data-file="290" data-photo="" name="e_box">
-										<span>광학현미경-Diffusion</span><p>Optical Microscopes-Diffusion</p>
-									</a>
-									
-									
+							
 								
-									<a href="javascript:void(0);" data-skey="458" data-room="나노융합기술원" data-file="289" data-photo="" name="e_box">
-										<span>광학현미경-EBL</span><p>Optical Microscopes-EBL</p>
-									</a>
-									
-									
+									<li class="swiper-slide swiper-slide-next" data-swiper-slide-index="3" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.msit.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
+											<img src="/file_room/image/96/1596_201705111630093070.png" alt="과학기술정보통신부">
+										</a>
+									</li>
 								
-									<a href="javascript:void(0);" data-skey="454" data-room="나노융합기술원" data-file="293" data-photo="" name="e_box">
-										<span>광학현미경-Etch</span><p>Optical Microscopes - Etch</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="455" data-room="나노융합기술원" data-file="292" data-photo="" name="e_box">
-										<span>광학현미경-I</span><p>Optical Microscopes - Photo</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="456" data-room="나노융합기술원" data-file="291" data-photo="" name="e_box">
-										<span>광학현미경-THinFilm</span><p>Optical Microscopes - ThinFilm</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="437" data-room="나노융합기술원" data-file="3053" data-photo="" name="e_box">
-										<span>구면수차보정 투과전자현미경</span><p>HR FE-TEM-Ⅱ (2200FS with Image Cs Corrector)</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="438" data-room="나노융합기술원" data-file="237" data-photo="" name="e_box">
-										<span>구면수차보정 투과전자현미경</span><p>HR FE-TEM-Ⅰ (2100F with Probe Cs-Corrector)</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="474" data-room="나노융합기술원" data-file="273" data-photo="" name="e_box">
-										<span>급속열산화막용 급속열처리기</span><p>RTP for RTO</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="440" data-room="나노융합기술원" data-file="3283" data-photo="" name="e_box">
-										<span>노광기-2</span><p>I-Line Stepper - 2</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="441" data-room="나노융합기술원" data-file="234" data-photo="" name="e_box">
-										<span>노광기-4</span><p>I-Line Stepper - 4</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="448" data-room="나노융합기술원" data-file="228" data-photo="" name="e_box">
-										<span>마스크리스 레이저 리소그래피 시스템</span><p>Maskless laser lithography system</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="446" data-room="나노융합기술원" data-file="3285" data-photo="" name="e_box">
-										<span>마스크얼라이너</span><p>Mask Aligner_MA6</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="486" data-room="나노융합기술원" data-file="266" data-photo="" name="e_box">
-										<span>물리증착장치(스퍼터)- II</span><p>Sputter_ENDURA - 2</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="483" data-room="나노융합기술원" data-file="269" data-photo="" name="e_box">
-										<span>박막두께측정기</span><p>Spectroscopic Ellipsometer</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="408" data-room="나노융합기술원" data-file="208" data-photo="" name="e_box">
-										<span>선폭&amp;표면 측정장치</span><p>CD&amp;Surface inspection system</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="490" data-room="나노융합기술원" data-file="262" data-photo="" name="e_box">
-										<span>세정 및 에칭장치</span><p>Wet Station_Acid - 1</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="487" data-room="나노융합기술원" data-file="265" data-photo="" name="e_box">
-										<span>스트레스측정시스템</span><p>Stress Measurement System</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="484" data-room="나노융합기술원" data-file="268" data-photo="" name="e_box">
-										<span>스핀건조기</span><p>Spin Rinse Dryer</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="1034" data-room="나노융합기술원" data-file="" data-photo="" name="e_box">
-										<span>알파스텝(ME)</span><p>Alpha-Step (ME)</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="405" data-room="나노융합기술원" data-file="201" data-photo="" name="e_box">
-										<span>원자층증착장치</span><p>Atomic Layer Deposition (ALD)</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="409" data-room="나노융합기술원" data-file="209" data-photo="" name="e_box">
-										<span>임계치수 측정 주사현미경</span><p>CD-SEM</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="467" data-room="나노융합기술원" data-file="3289" data-photo="" name="e_box">
-										<span>자외선 트렉 시스템</span><p>PR Track_DAVID</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="445" data-room="나노융합기술원" data-file="231" data-photo="" name="e_box">
-										<span>저압 화학증착장치</span><p>LP-CVD</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="433" data-room="나노융합기술원" data-file="241" data-photo="" name="e_box">
-										<span>전계 방출형 주사전자현미경</span><p>[Hitachi S-4800] High Resolution FE-SEM- Ⅲ</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="434" data-room="나노융합기술원" data-file="301" data-photo="" name="e_box">
-										<span>전계 방출형 주사전자현미경</span><p>[JSM 7800F PRIME with Dual EDS] High Resolution FE-SEM-Ⅱ</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="435" data-room="나노융합기술원" data-file="240" data-photo="" name="e_box">
-										<span>전계 방출형 주사전자현미경</span><p>[JSM 7401F] High Resolution FE-SEM-I</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="436" data-room="나노융합기술원" data-file="239" data-photo="" name="e_box">
-										<span>전계방출전자현미경</span><p>HR FE-SEM (in Clean Room)</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="420" data-room="나노융합기술원" data-file="299" data-photo="" name="e_box">
-										<span>전자빔 증착장비</span><p>E-beam Evaporator-2</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="421" data-room="나노융합기술원" data-file="300" data-photo="" name="e_box">
-										<span>전자빔리소그래피시스템-1</span><p>E-Beam Lithography System - 1</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="422" data-room="나노융합기술원" data-file="3279" data-photo="" name="e_box">
-										<span>전자빔리소그래픽시스템-2</span><p>E-Beam Lithography System - 2</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="419" data-room="나노융합기술원" data-file="219" data-photo="" name="e_box">
-										<span>전자빔증착기-1</span><p>E-Beam Evaporator - 1</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="414" data-room="나노융합기술원" data-file="214" data-photo="" name="e_box" class="">
-										<span>절연막건식 식각 장비</span><p>Dry Etcher - TEL</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="410" data-room="나노융합기술원" data-file="210" data-photo="" name="e_box" class="">
-										<span>커브트레이서 및 프로브 스테이션</span><p>Curve Tracer &amp; Probe Station</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="472" data-room="나노융합기술원" data-file="274" data-photo="" name="e_box">
-										<span>프로브스테이션_파워반도체(소자)</span><p>Probe Station_Power Semiconductor</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="415" data-room="나노융합기술원" data-file="215" data-photo="" name="e_box">
-										<span>플라즈마 유도결합 식각장치</span><p>Dry Etcher_DMS</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="459" data-room="나노융합기술원" data-file="288" data-photo="" name="e_box">
-										<span>플라즈마증착장치 - P5000</span><p>PE-CVD - P5000</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="462" data-room="나노융합기술원" data-file="285" data-photo="" name="e_box">
-										<span>플라즈마증착장치-1</span><p>PE-CVD-1</p>
-									</a>
-									
-									
-								
-									<a href="javascript:void(0);" data-skey="463" data-room="나노융합기술원" data-file="284" data-photo="" name="e_box">
-										<span>플라즈마증착장치-2</span><p>PE-CVD-2</p>
-									</a>
-									
-									
-								
+							
+							<li class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="0" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.gg.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
+											<img src="/file_room/image/93/1593_201705111629311970.jpg" alt="세계속의 경기도">
+										</a>
+									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="1" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.kist.re.kr/kist_web/main/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
+											<img src="/file_room/image/94/1594_201705111629451770.png" alt="한국과학기술원">
+										</a>
+									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="2" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="http://www.keti.re.kr/main/main.php" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/95/1595_201705111629572160.png" alt="Korea Electronics Technology Institute 전자부품연구원">
+										</a>
+									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="3" style="width: 205px; margin-right: 25px;">
+										<a class="visibleTab" href="https://www.msit.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
+											<img src="/file_room/image/96/1596_201705111630093070.png" alt="과학기술정보통신부">
+										</a>
+									</li></ul>

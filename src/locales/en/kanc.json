@@ -1,0 +1,166 @@
+{
+  "common": {
+    "home": "Home",
+    "back": "Back",
+    "viewAll": "View All",
+    "more": "More",
+    "close": "Close",
+    "search": "Search",
+    "menu": "Menu"
+  },
+  "header": {
+    "tabs": {
+      "intro": "KANC Introduction",
+      "service": "KANC Services"
+    }
+  },
+  "footer": {
+    "slogan": "Korea Advanced Nano Technology Center\nLeading the future of nanotechnology with world-class nano-fab infrastructure\nand expert professionals contributing to Korea's nano-technology advancement.",
+    "quickLinks": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "emailPolicy": "Email Collection Policy",
+      "sitemap": "Sitemap",
+      "directions": "Directions"
+    },
+    "contact": {
+      "title": "Contact",
+      "address": "109 Gwanggyo-ro, Yeongtong-gu, Suwon-si, Gyeonggi-do",
+      "zipcode": "Postal Code 16229",
+      "tel": "Main",
+      "fax": "Fax",
+      "hours": "Business Hours",
+      "hoursDetail": "Weekdays 09:00 - 18:00"
+    },
+    "services": {
+      "title": "Main Services",
+      "fab": "Fab Service",
+      "equipment": "Equipment Usage",
+      "education": "Education Programs",
+      "facility": "Facility Rental",
+      "consulting": "Technical Consulting"
+    },
+    "resources": {
+      "title": "Resources",
+      "notice": "Notice",
+      "news": "Newsroom",
+      "reference": "Technical Data",
+      "publication": "Publications",
+      "download": "Downloads"
+    },
+    "certifications": {
+      "title": "Certifications"
+    },
+    "relatedSites": "Related Sites",
+    "copyright": "Copyright © 2025 Korea Advanced Nano Technology Center. All rights reserved."
+  },
+  "sections": {
+    "mainServices": {
+      "title": "Main Services",
+      "subtitle": "Discover KANC's core services",
+      "items": {
+        "fab": {
+          "title": "Fab Service",
+          "description": "Nano-process service"
+        },
+        "tech": {
+          "title": "Technology",
+          "description": "Advanced technology guide"
+        },
+        "education": {
+          "title": "Education Service",
+          "description": "Professional education programs"
+        },
+        "rental": {
+          "title": "Rental Service",
+          "description": "Facility & equipment rental"
+        },
+        "inquiry": {
+          "title": "1:1 Inquiry",
+          "description": "Customized consultation"
+        },
+        "business": {
+          "title": "Main Business",
+          "description": "Achievements & results"
+        },
+        "equipment": {
+          "title": "Equipment Guide",
+          "description": "500+ advanced equipment"
+        },
+        "facility": {
+          "title": "Facility Rental",
+          "description": "Facility reservation"
+        }
+      }
+    },
+    "quickService": {
+      "title": "Quick Services",
+      "subtitle": "Quick access to frequently used services",
+      "items": {
+        "fabService": {
+          "title": "Fab Service",
+          "description": "Apply for nano-process"
+        },
+        "education": {
+          "title": "Education Apply",
+          "description": "Professional courses"
+        },
+        "inquiry": {
+          "title": "1:1 Inquiry",
+          "description": "Expert consultation"
+        },
+        "equipment": {
+          "title": "Equipment Booking",
+          "description": "500+ equipment"
+        },
+        "status": {
+          "title": "Progress Status",
+          "description": "Real-time check"
+        },
+        "facility": {
+          "title": "Facility Apply",
+          "description": "Facility booking"
+        },
+        "staff": {
+          "title": "Staff Guide",
+          "description": "Quick connect"
+        },
+        "hotline": {
+          "title": "Emergency Support",
+          "description": "24/7 consultation"
+        }
+      }
+    },
+    "latestNews": {
+      "title": "Latest News",
+      "categories": {
+        "notice": "Notice",
+        "education": "Education",
+        "event": "Event",
+        "bid": "Bid",
+        "recruitment": "Recruitment",
+        "support": "Support"
+      },
+      "badges": {
+        "new": "NEW",
+        "important": "[Important]",
+        "urgent": "Urgent"
+      }
+    },
+    "partners": {
+      "title": "Partner Organizations",
+      "subtitle": "Meet our partner organizations working with KANC"
+    }
+  },
+  "demo": {
+    "title": "Requirements Demo",
+    "selectDemo": "Select Requirement",
+    "titles": {
+      "sfr-002": "Apply Adopted Design to Homepage",
+      "sfr-003": "Moafab Service Cancellation Info Sync",
+      "sfr-004": "Settlement Manager Info Sync",
+      "sfr-005": "Amount Performance Info Sync",
+      "sfr-006": "Attachment Interface"
+    }
+  }
+}

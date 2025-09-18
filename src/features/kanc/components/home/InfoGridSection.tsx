@@ -3,6 +3,7 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SectionWrapper } from '../common/SectionWrapper'
 import { QuickServiceSection } from './QuickServiceSection'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface InfoGridSectionProps {
   variant: 'intro' | 'service'
@@ -81,6 +82,7 @@ const serviceNotices = [
 ]
 
 export function InfoGridSection({ variant }: InfoGridSectionProps) {
+  const { t } = useTranslation()
   const notices = variant === 'intro' ? introNotices : serviceNotices
 
   return (
@@ -91,7 +93,7 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
             <Card className="flex-1 flex flex-col p-0 overflow-hidden">
               <CardHeader>
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">최신소식</h3>
+                    <h3 className="text-base font-semibold text-foreground">{t('kanc:sections.latestNews.title')}</h3>
                     <a
                       href="/notice"
                       className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"

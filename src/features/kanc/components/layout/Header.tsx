@@ -7,6 +7,7 @@ import { Menu, Search, Phone, MapPin } from 'lucide-react'
 import { getMenuItems } from '@/features/kanc/data/menu.mock'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface HeaderProps {
   currentTab: 'intro' | 'service'
@@ -18,6 +19,7 @@ export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDevSettingsOpen, setIsDevSettingsOpen] = useState(false)
   const [hidePreHeader, setHidePreHeader] = useState(false)
+  const { t } = useTranslation()
   const menuItems = getMenuItems(currentTab)
 
   // 개발자 설정 상태
@@ -144,6 +146,7 @@ export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
                 className="hidden md:flex hover:bg-[#002D83]/10"
               >
                 <Search className="w-5 h-5" />
+                <span className="sr-only">{t('kanc:common.search')}</span>
               </Button>
 
               {/* Mobile Menu Button */}
@@ -152,9 +155,10 @@ export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
                 size="icon"
                 onClick={() => setIsMobileMenuOpen(true)}
                 className="lg:hidden hover:bg-[#002D83]/10"
-                aria-label="메뉴 열기"
+                aria-label={t('kanc:common.menu')}
               >
                 <Menu className="w-6 h-6" />
+                <span className="sr-only">{t('kanc:common.menu')}</span>
               </Button>
             </div>
           </div>

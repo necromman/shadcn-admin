@@ -1,0 +1,166 @@
+{
+  "common": {
+    "home": "메인으로",
+    "back": "뒤로가기",
+    "viewAll": "전체보기",
+    "more": "더보기",
+    "close": "닫기",
+    "search": "검색",
+    "menu": "메뉴"
+  },
+  "header": {
+    "tabs": {
+      "intro": "KANC 소개 홈페이지",
+      "service": "KANC 서비스 홈페이지"
+    }
+  },
+  "footer": {
+    "slogan": "나노기술의 미래를 선도하는 한국나노기술원은\n세계 최고 수준의 나노팹 인프라와 전문 인력을 바탕으로\n대한민국 나노기술 발전에 기여하고 있습니다.",
+    "quickLinks": {
+      "privacy": "개인정보처리방침",
+      "terms": "이용약관",
+      "emailPolicy": "이메일무단수집거부",
+      "sitemap": "사이트맵",
+      "directions": "찾아오시는길"
+    },
+    "contact": {
+      "title": "연락처",
+      "address": "경기도 수원시 영통구 광교로 109",
+      "zipcode": "우편번호 16229",
+      "tel": "대표전화",
+      "fax": "팩스",
+      "hours": "운영시간",
+      "hoursDetail": "평일 09:00 - 18:00"
+    },
+    "services": {
+      "title": "주요 서비스",
+      "fab": "팹 서비스",
+      "equipment": "장비 이용",
+      "education": "교육 프로그램",
+      "facility": "시설 대관",
+      "consulting": "기술 컨설팅"
+    },
+    "resources": {
+      "title": "자료실",
+      "notice": "공지사항",
+      "news": "뉴스룸",
+      "reference": "기술자료",
+      "publication": "간행물",
+      "download": "다운로드"
+    },
+    "certifications": {
+      "title": "인증 현황"
+    },
+    "relatedSites": "관련 사이트",
+    "copyright": "Copyright © 2025 한국나노기술원. All rights reserved."
+  },
+  "sections": {
+    "mainServices": {
+      "title": "주요 서비스",
+      "subtitle": "한국나노기술원의 핵심 서비스를 확인하세요",
+      "items": {
+        "fab": {
+          "title": "팹 서비스",
+          "description": "나노공정 서비스"
+        },
+        "tech": {
+          "title": "기술소개",
+          "description": "첨단 기술 안내"
+        },
+        "education": {
+          "title": "교육 서비스",
+          "description": "전문 교육 프로그램"
+        },
+        "rental": {
+          "title": "임대서비스",
+          "description": "시설 및 장비 임대"
+        },
+        "inquiry": {
+          "title": "1:1문의",
+          "description": "맞춤 상담 서비스"
+        },
+        "business": {
+          "title": "주요사업",
+          "description": "성과 및 실적"
+        },
+        "equipment": {
+          "title": "장비안내",
+          "description": "500+ 첨단장비"
+        },
+        "facility": {
+          "title": "대관안내",
+          "description": "시설 대관 신청"
+        }
+      }
+    },
+    "quickService": {
+      "title": "빠른 서비스",
+      "subtitle": "자주 이용하는 서비스에 빠르게 접근하세요",
+      "items": {
+        "fabService": {
+          "title": "팹 서비스",
+          "description": "나노공정 신청"
+        },
+        "education": {
+          "title": "교육 신청",
+          "description": "전문 교육과정"
+        },
+        "inquiry": {
+          "title": "1:1 문의",
+          "description": "전문가 상담"
+        },
+        "equipment": {
+          "title": "장비 예약",
+          "description": "500+ 첨단장비"
+        },
+        "status": {
+          "title": "진행 현황",
+          "description": "실시간 조회"
+        },
+        "facility": {
+          "title": "대관 신청",
+          "description": "시설 예약"
+        },
+        "staff": {
+          "title": "담당자 안내",
+          "description": "빠른 연결"
+        },
+        "hotline": {
+          "title": "긴급 지원",
+          "description": "24시간 상담"
+        }
+      }
+    },
+    "latestNews": {
+      "title": "최신소식",
+      "categories": {
+        "notice": "공지",
+        "education": "교육",
+        "event": "행사",
+        "bid": "입찰",
+        "recruitment": "채용",
+        "support": "지원"
+      },
+      "badges": {
+        "new": "NEW",
+        "important": "[중요]",
+        "urgent": "긴급"
+      }
+    },
+    "partners": {
+      "title": "협력 기관",
+      "subtitle": "KANC와 함께하는 파트너 기관들을 만나보세요"
+    }
+  },
+  "demo": {
+    "title": "요구사항 데모",
+    "selectDemo": "요구사항 선택",
+    "titles": {
+      "sfr-002": "채택 디자인 홈페이지 적용",
+      "sfr-003": "모아팹 서비스 취소 정보 동기화",
+      "sfr-004": "정산 담당자 정보 동기화",
+      "sfr-005": "금액 실적 정보 동기화",
+      "sfr-006": "첨부파일 Interface"
+    }
+  }
+}

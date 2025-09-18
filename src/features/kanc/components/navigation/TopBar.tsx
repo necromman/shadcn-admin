@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface TopBarProps {
   currentTab: 'intro' | 'service'
@@ -20,6 +21,7 @@ interface TopBarProps {
 
 export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelect }: TopBarProps) {
   const { theme, setTheme } = useTheme()
+  const { t, currentLanguage, setLanguage } = useTranslation()
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -44,8 +46,8 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
               )}
               <span className="relative flex items-center gap-1.5 sm:gap-2">
                 <Home className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                <span className="hidden sm:inline">KANC 소개 홈페이지</span>
-                <span className="sm:hidden">소개</span>
+                <span className="hidden sm:inline">{t('kanc:header.tabs.intro')}</span>
+                <span className="sm:hidden">{t('kanc:header.tabs.intro').split(' ')[1] || t('kanc:header.tabs.intro')}</span>
               </span>
             </button>
             <button
@@ -62,8 +64,8 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
               )}
               <span className="relative flex items-center gap-1.5 sm:gap-2">
                 <BookOpen className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                <span className="hidden sm:inline">KANC 서비스 홈페이지</span>
-                <span className="sm:hidden">서비스</span>
+                <span className="hidden sm:inline">{t('kanc:header.tabs.service')}</span>
+                <span className="sm:hidden">{t('kanc:header.tabs.service').split(' ')[1] || t('kanc:header.tabs.service')}</span>
               </span>
             </button>
           </div>
@@ -131,13 +133,17 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
               <span>홈페이지 안내</span>
             </a>
             <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
-            <a
-              href="/eng"
-              className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded transition-colors"
-            >
-              <Globe className="w-3.5 h-3.5" />
-              <span>ENG</span>
-            </a>
+            {/* Language Switcher */}
+            <Select value={currentLanguage} onValueChange={(value) => setLanguage(value as 'ko' | 'en')}>
+              <SelectTrigger className="h-7 w-[70px] text-xs">
+                <Globe className="w-3.5 h-3.5 mr-1" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ko">KO</SelectItem>
+                <SelectItem value="en">EN</SelectItem>
+              </SelectContent>
+            </Select>
             <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
             <div className="flex items-center gap-2">
               <a

@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { SectionWrapper } from '../common/SectionWrapper'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface QuickMenuProps {
   variant: 'intro' | 'service'
@@ -131,6 +132,7 @@ const serviceItems = [
 ]
 
 export function QuickMenu({ variant }: QuickMenuProps) {
+  const { t } = useTranslation()
   const items = variant === 'intro' ? introItems : serviceItems
 
   return (
@@ -138,13 +140,10 @@ export function QuickMenu({ variant }: QuickMenuProps) {
       {/* Section Header */}
       <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold mb-2">
-          {variant === 'intro' ? '주요 서비스' : '서비스 바로가기'}
+          {t('kanc:sections.mainServices.title')}
         </h2>
         <p className="text-sm text-muted-foreground">
-          {variant === 'intro'
-            ? '한국나노기술원의 핵심 서비스를 확인하세요'
-            : '자주 이용하는 서비스에 빠르게 접근하세요'
-          }
+          {t('kanc:sections.mainServices.subtitle')}
         </p>
       </div>
 

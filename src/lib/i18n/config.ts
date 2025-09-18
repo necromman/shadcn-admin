@@ -13,9 +13,19 @@ import thTranslation from '@/locales/th/translation.json'
 import frTranslation from '@/locales/fr/translation.json'
 import itTranslation from '@/locales/it/translation.json'
 
+// Import KANC translation files
+import koKancTranslation from '@/locales/ko/kanc.json'
+import enKancTranslation from '@/locales/en/kanc.json'
+
 const resources = {
-  ko: { translation: koTranslation },
-  en: { translation: enTranslation },
+  ko: {
+    translation: koTranslation,
+    kanc: koKancTranslation
+  },
+  en: {
+    translation: enTranslation,
+    kanc: enKancTranslation
+  },
   'zh-CN': { translation: zhCNTranslation },
   'zh-HK': { translation: zhHKTranslation },
   ja: { translation: jaTranslation },
@@ -43,7 +53,7 @@ i18n
       lookupLocalStorage: 'i18nextLng'
     },
     
-    ns: ['translation'],
+    ns: ['translation', 'kanc'],
     defaultNS: 'translation'
   })
 

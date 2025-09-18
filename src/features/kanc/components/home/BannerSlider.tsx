@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight, Pause, Play, ExternalLink } from 'lucide-react'
 import { SectionWrapper } from '../common/SectionWrapper'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 const partners = [
   {
@@ -37,32 +38,33 @@ const partners = [
     title: '한국연구재단',
     subtitle: 'NRF',
     link: 'https://www.nrf.re.kr/',
-    logo: '/api/placeholder/120/60'
+    logo: 'https://www.nrf.re.kr/resources/img/common/header/logo.svg'
   },
   {
     id: '6',
     title: 'KEIT',
     subtitle: '한국산업기술평가관리원',
     link: 'https://www.keit.re.kr/',
-    logo: '/api/placeholder/120/60'
+    logo: 'https://www.keit.re.kr/main/images/korean/layout/logo.png'
   },
   {
     id: '7',
     title: '중소벤처기업부',
     subtitle: 'MSS',
     link: 'https://www.mss.go.kr/',
-    logo: '/api/placeholder/120/60'
+    logo: 'https://www.mss.go.kr/images/pattern/layout/head_logo.svg'
   },
   {
     id: '8',
     title: '나노기술연구협의회',
     subtitle: 'Nano Tech Council',
     link: '#',
-    logo: '/api/placeholder/120/60'
+    logo: 'https://www.kontrs.or.kr/img/common/logo2.png'
   }
 ]
 
 export function BannerSlider() {
+  const { t } = useTranslation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
   const [itemsPerView, setItemsPerView] = useState(5)
@@ -132,10 +134,10 @@ export function BannerSlider() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-2xl font-bold text-foreground mb-2">
-              협력 기관
+              {t('kanc:sections.partners.title')}
             </h3>
             <p className="text-sm text-muted-foreground">
-              KANC와 함께하는 파트너 기관들을 만나보세요
+              {t('kanc:sections.partners.subtitle')}
             </p>
           </div>
           <div className="flex items-center gap-2">

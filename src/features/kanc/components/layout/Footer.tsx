@@ -1,8 +1,10 @@
 import { Phone, Mail, MapPin, Youtube, Share2, ExternalLink, ChevronRight } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 export function Footer() {
+  const { t } = useTranslation()
   return (
     <footer className="bg-gradient-to-b from-muted/20 to-muted/40 border-t">
       {/* Quick Links Section */}

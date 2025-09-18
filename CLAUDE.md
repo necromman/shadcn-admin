@@ -87,7 +87,7 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card'
 
 // ✅ Good - CardHeader 컴포넌트 사용
 <Card>
-  <CardHeader className="border-b px-5 pb-0">
+  <CardHeader>
     <div className="flex items-center justify-between">
       <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">제목</h3>
       <a href="/more" className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1">

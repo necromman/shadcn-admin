@@ -104,7 +104,7 @@ const cardContentVariants = cva(
   {
     variants: {
       variant: {
-        default: 'px-6',
+        default: 'px-6 py-5',
         compact: 'px-4',
         list: 'px-4 py-3',
         hero: 'px-8',

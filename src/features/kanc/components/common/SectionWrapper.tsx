@@ -20,7 +20,7 @@ export function SectionWrapper({
 
   return (
     <section className={cn(
-      'py-12',
+      'py-8',
       bgClasses[background],
       className
     )}>

@@ -1,16 +1,24 @@
-import { Globe, Home, BookOpen, Users, Youtube, Share2, Settings } from 'lucide-react'
+import { Globe, Home, BookOpen, Users, Youtube, Share2, Settings, Code, ExternalLink } from 'lucide-react'
 import { HiMoon, HiSun } from 'react-icons/hi2'
 import { Button } from '@/components/ui/button'
 import { useTheme } from '@/context/theme-provider'
 import { cn } from '@/lib/utils'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 interface TopBarProps {
   currentTab: 'intro' | 'service'
   onTabChange: (tab: 'intro' | 'service') => void
   onOpenDevSettings?: () => void
+  onDemoSelect?: (demo: string) => void
 }
 
-export function TopBar({ currentTab, onTabChange, onOpenDevSettings }: TopBarProps) {
+export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelect }: TopBarProps) {
   const { theme, setTheme } = useTheme()
 
   const toggleTheme = () => {
@@ -67,6 +75,50 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings }: TopBarPro
 
           {/* Utility Links */}
           <div className="hidden md:flex items-center gap-1 text-xs">
+            {/* 요구사항 데모 셀렉트박스 */}
+            {onDemoSelect && (
+              <>
+                <Select onValueChange={onDemoSelect}>
+                  <SelectTrigger className="h-7 w-[180px] text-xs">
+                    <Code className="w-3.5 h-3.5 mr-1" />
+                    <SelectValue placeholder="요구사항 데모" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sfr-002">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">SFR-002</span>
+                        <span className="text-muted-foreground">디자인 적용</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="sfr-003">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">SFR-003</span>
+                        <span className="text-muted-foreground">서비스 취소</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="sfr-004">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">SFR-004</span>
+                        <span className="text-muted-foreground">정산 동기화</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="sfr-005">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">SFR-005</span>
+                        <span className="text-muted-foreground">금액 동기화</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="sfr-006">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">SFR-006</span>
+                        <span className="text-muted-foreground">파일 인터페이스</span>
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className="w-px h-4 bg-gray-300 dark:bg-gray-700 mx-1" />
+              </>
+            )}
             <a
               href="https://intranet.kanc.re.kr"
               target="_blank"

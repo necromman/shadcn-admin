@@ -11,9 +11,10 @@ import { cn } from '@/lib/utils'
 interface HeaderProps {
   currentTab: 'intro' | 'service'
   onTabChange: (tab: 'intro' | 'service') => void
+  onDemoSelect?: (demo: string) => void
 }
 
-export function Header({ currentTab, onTabChange }: HeaderProps) {
+export function Header({ currentTab, onTabChange, onDemoSelect }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDevSettingsOpen, setIsDevSettingsOpen] = useState(false)
   const menuItems = getMenuItems(currentTab)
@@ -61,6 +62,7 @@ export function Header({ currentTab, onTabChange }: HeaderProps) {
           currentTab={currentTab}
           onTabChange={onTabChange}
           onOpenDevSettings={() => setIsDevSettingsOpen(true)}
+          onDemoSelect={onDemoSelect}
         />
       )}
 

@@ -115,12 +115,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                   ))}
                 </ul>
 
-                {/* 추가 정보 또는 아이콘 (옵션) */}
-                {item.description && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 pt-2">
-                    {item.description}
-                  </p>
-                )}
+                {/* 추가 정보 또는 아이콘 (옵션) - description 필드가 추가되면 사용 */}
               </div>
             ))}
           </div>

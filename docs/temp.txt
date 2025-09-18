@@ -1,81 +1,51 @@
-<ul class="swiper-wrapper" style="transform: translate3d(-1380px, 0px, 0px); transition-duration: 0ms;"><li class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="0" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.gg.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/93/1593_201705111629311970.jpg" alt="세계속의 경기도">
-										</a>
-									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="1" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.kist.re.kr/kist_web/main/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/94/1594_201705111629451770.png" alt="한국과학기술원">
-										</a>
-									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="2" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="http://www.keti.re.kr/main/main.php" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/95/1595_201705111629572160.png" alt="Korea Electronics Technology Institute 전자부품연구원">
-										</a>
-									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="3" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.msit.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/96/1596_201705111630093070.png" alt="과학기술정보통신부">
-										</a>
-									</li>
-							
-								
-							
-								
-									<li class="swiper-slide" data-swiper-slide-index="0" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.gg.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/93/1593_201705111629311970.jpg" alt="세계속의 경기도">
-										</a>
-									</li>
-								
-							
-								
-							
-								
-							
-								
-									<li class="swiper-slide swiper-slide-prev" data-swiper-slide-index="1" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.kist.re.kr/kist_web/main/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/94/1594_201705111629451770.png" alt="한국과학기술원">
-										</a>
-									</li>
-								
-							
-								
-							
-								
-							
-								
-							
-								
-									<li class="swiper-slide swiper-slide-active" data-swiper-slide-index="2" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="http://www.keti.re.kr/main/main.php" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
-											<img src="/file_room/image/95/1595_201705111629572160.png" alt="Korea Electronics Technology Institute 전자부품연구원">
-										</a>
-									</li>
-								
-							
-								
-							
-								
-									<li class="swiper-slide swiper-slide-next" data-swiper-slide-index="3" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.msit.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
-											<img src="/file_room/image/96/1596_201705111630093070.png" alt="과학기술정보통신부">
-										</a>
-									</li>
-								
-							
-							<li class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="0" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.gg.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
-											<img src="/file_room/image/93/1593_201705111629311970.jpg" alt="세계속의 경기도">
-										</a>
-									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="1" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.kist.re.kr/kist_web/main/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: visible;">
-											<img src="/file_room/image/94/1594_201705111629451770.png" alt="한국과학기술원">
-										</a>
-									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="2" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="http://www.keti.re.kr/main/main.php" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/95/1595_201705111629572160.png" alt="Korea Electronics Technology Institute 전자부품연구원">
-										</a>
-									</li><li class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="3" style="width: 205px; margin-right: 25px;">
-										<a class="visibleTab" href="https://www.msit.go.kr/" target="_blank" rel="noopener noreferrer" title="새창" style="visibility: hidden;">
-											<img src="/file_room/image/96/1596_201705111630093070.png" alt="과학기술정보통신부">
-										</a>
-									</li></ul>
+  SFR-001
+ 기술원 홈페이지 디자인 제안
+❍ 모아팹(MOAFAB) 활용에 친숙하도록 기술원 홈페이지의 UI/UX 디자인 제안
+❍ 장비현황, 가동률 등 주요지표 콘텐츠 표시 추가
+❍ 기존 한국나노기술원 홈페이지 정보의 시인성 및 가독성 향상
+❍ 자세한 사항은 주관부서 담당자 및 실무 부서별 당당자의 요구사항 분석 후 적용
+
+ SFR-002
+ 채택 디자인 홈페이지 적용
+ ❍ 다양한 사용자들의 이용환경에 맞추어 서비스 이용이 가능하도록 설계
+❍ 이용자 중심의 홈페이지 구축
+ - 사이트의 웹 정체성(identity)을 표현할 수 있는 디자인 및 메뉴 등 네비게이션 구현
+ - 모든 페이지는 프레임을 사용하지 않는 것을 기본으로 하고 페이지의 계층 
+   단계는 3단계를 넘지 않도록 설계
+ - 홍보방향과 정보접근성을 최대한 살릴 수 있도록 첫 화면(메인) 페이지 기획
+ - 사용자의 시각적 요소(Design)와 기능적인 요소(User Interface)를 고려한 디자인 제작
+ - 홈페이지 화면을 구성할 때는 디자인은 물론 전체적 일관성과 속도, 정보인지도 
+   등 사용자 입장에서 구성하여 최적 화면구성
+   ※ ActiveX 및 비표준 Flash파일 배제하여 구성
+ - 이용객의 요구에 부합하는 서비스 및 기능 확대 구축
+❍ 자세한 사항은 주관부서 담당자 및 실무 부서별 당당자의 요구사항 분석 후 적용
+
+
+ SFR-003
+ 모아팹 생성 서비스 취소 정보 기술원 적용
+ ❍ 모아팹에서 생성된 서비스의 취소 시, 기술원 서비스 정보에 반영
+❍ 기술원 서비스 상태 : 반려
+❍ 기술원 서비스 코멘트 : 모아팹 취소 건
+❍ 대상 서비스에 대해 기술원 서비스 조회 시 해당 정보로 표시
+
+
+ SFR-004
+ 정산 담당자(결제 유형) 정보 동기화
+ ❍ 정산 담당자(결제 유형) 변경 시, 각 서비스 정보에 반영
+❍ 기술원 정산 담당자 정보 변경 : 모아팹 대표 결제 유형 정보 반영
+❍ 모아팹 대표 결제 유형 정보 변경 : 기술원 정산 담당자 정보 반영
+❍ 대상 정보에 대해 기술원 정보 조회 시 반영된 정보로 표시
+
+
+ SFR-005
+ 기술원 금액 관련 실적 정보 동기화
+ ❍ 기술원 금액 관련 실적 정보 모아팹 전송
+❍ 모아팹 금액 실적 관련 인터페이스 정의서에 따라 정보 송신
+❍ 대상 정보에 대해 모아팹 금액 실적 조회 시 반영된 정보로 표시
+
+
+ SFR-006
+ 첨부파일 Interface 검토 및 가능 시 적용
+ ❍ 파일 첨부 시, 각 서비스에 정보 반영
+❍ 필요 인프라 혹은 기술 검토하여 프로젝트 자원으로 적용 가능 여부 확인
+❍ 가능 시, 적용

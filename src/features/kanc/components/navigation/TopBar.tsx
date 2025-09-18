@@ -147,7 +147,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
             <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
             <div className="flex items-center gap-2">
               <a
-                href="https://blog.naver.com/kanc_info"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded transition-colors"
@@ -156,7 +156,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
                 <Share2 className="w-3.5 h-3.5" />
               </a>
               <a
-                href="https://youtube.com/@kanc"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded transition-colors"

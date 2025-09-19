@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -6,6 +7,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Progress } from '@/components/ui/progress'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   Table,
   TableBody,
@@ -17,7 +25,7 @@ import {
 import {
   CheckCircle, XCircle, RefreshCw, AlertCircle, Activity,
   Clock, Database, Zap, ArrowUpDown, Filter, Search,
-  FileText, User, Calendar, Hash, Monitor, Settings
+  FileText, User, Calendar, Hash, Monitor, Settings, HelpCircle, X, Info, ChevronRight, ArrowRight
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -61,6 +69,8 @@ export function SFR003AdvancedDemo() {
   const [batchProgress, setBatchProgress] = useState(0)
   const [isBatchRunning, setIsBatchRunning] = useState(false)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
+  const [showTourHelp, setShowTourHelp] = useState(false)
+  const componentRef = useRef<HTMLDivElement>(null)
 
   // 실시간 모니터링 데이터 - 실제같은 데이터로 초기화
   const [stats, setStats] = useState({
@@ -166,8 +176,223 @@ export function SFR003AdvancedDemo() {
     </Card>
   )
 
+  // 투어 가이드 데이터
+  const tourSteps = [
+    {
+      selector: '[data-tour="stats-dashboard"]',
+      title: '실시간 통계',
+      content: '전체 서비스 현황, 취소 대기 건수, 오늘 동기화된 건수, 평균 처리 시간을 한눈에 확인할 수 있습니다.',
+      icon: Database
+    },
+    {
+      selector: '[data-tour="sync-mode"]',
+      title: '실행 모드',
+      content: '수동 동기화: 개별 서비스를 선택하여 즉시 동기화\n배치 동기화: 취소 대기 중인 모든 서비스를 한번에 처리',
+      icon: Settings
+    },
+    {
+      selector: '[data-tour="tabs"]',
+      title: '탭 메뉴',
+      content: '서비스 목록, 동기화 로그, 시스템 모니터링을 탭으로 전환할 수 있습니다.',
+      icon: FileText
+    },
+    {
+      selector: '[data-tour="search"]',
+      title: '검색 기능',
+      content: '서비스 ID, 모아팹 ID, 서비스명, 기업명으로 빠르게 검색할 수 있습니다.',
+      icon: Search
+    },
+    {
+      selector: '[data-tour="table"]',
+      title: '서비스 테이블',
+      content: '서비스 목록에서 각 항목의 상태를 확인하고 작업을 수행할 수 있습니다.',
+      icon: Monitor
+    },
+    {
+      selector: '[data-tour="status-badge"]',
+      title: '상태 아이콘',
+      content: '빨간색: 취소대기\n회색: 반려\n초록색: 완료\n테두리: 진행중',
+      icon: AlertCircle
+    },
+    {
+      selector: '[data-tour="sync-status"]',
+      title: '동기화 상태',
+      content: '✓ 녹색: 동기화 완료\n시계 노란색: 대기 중',
+      icon: CheckCircle
+    },
+    {
+      selector: '[data-tour="sync-button"]',
+      title: '동기화 버튼',
+      content: '클릭하여 즉시 동기화',
+      icon: RefreshCw
+    }
+  ]
+
+  // 투어 가이드 컴포넌트 - 클릭 시 설명 표시 방식
+  const TourGuide = () => {
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState<{ title: string, content: string, icon: any } | null>(null);
+
+    useEffect(() => {
+      if (!showTourHelp) {
+        setSelectedIndex(null);
+        setModalOpen(false);
+        setModalContent(null);
+      }
+    }, [showTourHelp]);
+
+    const handleBoxClick = (index: number) => {
+      if (selectedIndex === index) {
+        setSelectedIndex(null);
+      } else {
+        setSelectedIndex(index);
+      }
+    };
+
+    const openDetailModal = (step: typeof tourSteps[0]) => {
+      setModalContent({
+        title: step.title,
+        content: step.content,
+        icon: step.icon
+      });
+      setModalOpen(true);
+    };
+
+    if (!showTourHelp) return null;
+
+    return createPortal(
+      <>
+        {tourSteps.map((step, index) => {
+          const element = document.querySelector(step.selector);
+          if (!element) return null;
+
+          const rect = element.getBoundingClientRect();
+          const Icon = step.icon;
+          const isSelected = selectedIndex === index;
+
+          // 툴팁 위치 계산
+          const spaceBelow = window.innerHeight - rect.bottom;
+          const showBelow = spaceBelow > 150;
+          const tooltipTop = showBelow ? rect.bottom + 8 : rect.top - 120;
+
+          return (
+            <div key={index}>
+              {/* 하이라이트 박스 (클릭 가능) */}
+              <div
+                className="fixed z-[9998] cursor-pointer"
+                style={{
+                  top: rect.top - 2,
+                  left: rect.left - 2,
+                  width: rect.width + 4,
+                  height: rect.height + 4,
+                }}
+                onClick={() => handleBoxClick(index)}
+              >
+                <div className={`absolute inset-0 ring-2 ring-offset-2 rounded-lg transition-all ${
+                  isSelected ? 'ring-blue-600 ring-offset-blue-100 dark:ring-offset-blue-900/20' : 'ring-blue-500 animate-pulse'
+                }`} />
+
+                {/* 번호 표시 - 박스 내부 좌상단 */}
+                <div className="absolute -top-2 -left-2 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg">
+                  {index + 1}
+                </div>
+              </div>
+
+              {/* 설명 툴팁 - 선택된 경우에만 표시 */}
+              {isSelected && (
+                <div
+                  className="fixed z-[9999] animate-in fade-in slide-in-from-bottom-1 duration-300"
+                  style={{
+                    top: tooltipTop,
+                    left: Math.min(rect.left, window.innerWidth - 350),
+                    width: '320px'
+                  }}
+                >
+                  <Card className="shadow-xl border-2 border-blue-600">
+                    <CardContent className="py-3 px-4">
+                      <div className="flex items-start gap-3">
+                        <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm mb-1">{step.title}</h4>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            {step.content.split('\n')[0]}
+                          </p>
+                          {(step.content.includes('\n') || step.content.length > 60) && (
+                            <Button
+                              variant="link"
+                              size="sm"
+                              className="px-0 h-auto mt-1 text-xs"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openDetailModal(step);
+                              }}
+                            >
+                              더보기
+                              <ChevronRight className="w-3 h-3 ml-1" />
+                            </Button>
+                          )}
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="w-6 h-6 p-0"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedIndex(null);
+                          }}
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* 화살표 꼬리 */}
+                  <div
+                    className={`absolute w-3 h-3 bg-white dark:bg-gray-950 border-2 border-blue-600 transform rotate-45 ${
+                      showBelow
+                        ? 'top-[-8px] left-4 border-b-0 border-r-0'
+                        : 'bottom-[-8px] left-4 border-t-0 border-l-0'
+                    }`}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* 상세 설명 모달 */}
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+          <DialogContent className="sm:max-w-md z-[10000]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                {modalContent && (
+                  <>
+                    {React.createElement(modalContent.icon, { className: "w-5 h-5 text-blue-600" })}
+                    <span>{modalContent.title}</span>
+                  </>
+                )}
+              </DialogTitle>
+            </DialogHeader>
+            <DialogDescription className="mt-3 whitespace-pre-line">
+              {modalContent?.content}
+            </DialogDescription>
+            <div className="flex justify-end mt-4">
+              <Button variant="outline" onClick={() => setModalOpen(false)}>
+                확인
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </>,
+      document.body
+    );
+  }
+
   return (
-    <Card className="w-full">
+    <Card className="w-full" ref={componentRef}>
+      <TourGuide />
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -177,6 +402,24 @@ export function SFR003AdvancedDemo() {
             </CardDescription>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant={showTourHelp ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowTourHelp(!showTourHelp)}
+              className="gap-2"
+            >
+              {showTourHelp ? (
+                <>
+                  <X className="w-4 h-4" />
+                  도움말 닫기
+                </>
+              ) : (
+                <>
+                  <HelpCircle className="w-4 h-4" />
+                  도움말
+                </>
+              )}
+            </Button>
             <Badge variant="outline" className="px-3 py-1">
               <Database className="w-3 h-3 mr-1" />
               실시간 연동
@@ -198,7 +441,7 @@ export function SFR003AdvancedDemo() {
         </div>
 
         {/* 실행 모드 선택 */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg" data-tour="sync-mode-selector">
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg" data-tour="sync-mode">
           <div className="flex items-center gap-4">
             <Label>실행 모드:</Label>
             <Tabs value={syncMode} onValueChange={(v) => setSyncMode(v as any)} className="w-auto">
@@ -226,17 +469,17 @@ export function SFR003AdvancedDemo() {
         </div>
 
         <Tabs defaultValue="services" className="w-full">
-          <TabsList>
+          <TabsList data-tour="tabs">
             <TabsTrigger value="services">서비스 목록</TabsTrigger>
-            <TabsTrigger value="logs" data-tour="sync-logs-tab">동기화 로그</TabsTrigger>
-            <TabsTrigger value="monitoring" data-tour="monitoring-tab">모니터링</TabsTrigger>
+            <TabsTrigger value="logs">동기화 로그</TabsTrigger>
+            <TabsTrigger value="monitoring">모니터링</TabsTrigger>
           </TabsList>
 
           {/* 서비스 목록 탭 */}
           <TabsContent value="services" className="space-y-4">
             {/* 필터 및 검색 */}
             <div className="flex gap-2">
-              <div className="flex-1 relative" data-tour="service-search">
+              <div className="flex-1 relative" data-tour="search">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="서비스 ID, 모아팹 ID, 서비스명, 기업명 검색..."
@@ -260,7 +503,7 @@ export function SFR003AdvancedDemo() {
             </div>
 
             {/* 서비스 테이블 */}
-            <div className="border rounded-lg" data-tour="service-table">
+            <div className="border rounded-lg" data-tour="table">
               <ScrollArea className="h-[400px]">
                 <Table>
                   <TableHeader>
@@ -305,20 +548,25 @@ export function SFR003AdvancedDemo() {
                         <TableCell className="text-sm">{service.scheduledDate}</TableCell>
                         <TableCell className="text-sm">₩{service.amount.toLocaleString()}</TableCell>
                         <TableCell>
-                          <Badge variant={
-                            service.status === '취소대기' ? 'destructive' :
-                            service.status === '반려' ? 'secondary' :
-                            service.status === '완료' ? 'default' : 'outline'
-                          }>
+                          <Badge
+                            variant={
+                              service.status === '취소대기' ? 'destructive' :
+                              service.status === '반려' ? 'secondary' :
+                              service.status === '완료' ? 'default' : 'outline'
+                            }
+                            data-tour={service.id === 'SVC-000001' ? 'status-badge' : undefined}
+                          >
                             {service.status}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          {service.syncStatus === 'synced' ? (
-                            <CheckCircle className="w-4 h-4 text-green-500" />
-                          ) : (
-                            <Clock className="w-4 h-4 text-yellow-500" />
-                          )}
+                          <span data-tour={service.id === 'SVC-000001' ? 'sync-status' : undefined}>
+                            {service.syncStatus === 'synced' ? (
+                              <CheckCircle className="w-4 h-4 text-green-500" />
+                            ) : (
+                              <Clock className="w-4 h-4 text-yellow-500" />
+                            )}
+                          </span>
                         </TableCell>
                         <TableCell>
                           {service.status === '취소대기' && (
@@ -326,6 +574,7 @@ export function SFR003AdvancedDemo() {
                               size="sm"
                               variant="ghost"
                               onClick={() => syncSingleService(service.id)}
+                              data-tour={service.id === 'SVC-000001' ? 'sync-button' : undefined}
                             >
                               <RefreshCw className="w-3 h-3" />
                             </Button>

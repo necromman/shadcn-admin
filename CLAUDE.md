@@ -278,6 +278,108 @@ xl: 1280px  // 대형 데스크톱
   ```
 - 빌드 에러, 타입 에러, 린트 에러 모두 해결 필수
 
+## 📖 투어 가이드(도움말) 구현 지침
+
+### 투어 가이드 컴포넌트 구현 방법 (SFR-003 기준)
+**복잡한 관리 화면에 투어 가이드 도움말을 추가할 때 다음 패턴을 따르세요:**
+
+#### 1. 필수 import
+```tsx
+import React, { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import { HelpCircle, X, ChevronRight } from 'lucide-react'
+```
+
+#### 2. TourGuide 컴포넌트 구조
+```tsx
+const TourGuide = () => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalContent, setModalContent] = useState<{ title: string, content: string, icon: any } | null>(null)
+
+  // tourSteps 배열 정의
+  const tourSteps = [
+    {
+      selector: '[data-tour="element-id"]',
+      title: '기능 제목',
+      content: '간단한 설명\n상세 설명이 필요한 경우 여러 줄로 작성',
+      icon: IconComponent
+    }
+  ]
+
+  // 도움말 비활성화시 초기화
+  useEffect(() => {
+    if (!showTourHelp) {
+      setSelectedIndex(null)
+      setModalOpen(false)
+      setModalContent(null)
+    }
+  }, [showTourHelp])
+
+  // 렌더링 - createPortal 사용
+  return createPortal(<>...</>, document.body)
+}
+```
+
+#### 3. tourSteps 작성 규칙
+- **DOM 순서대로 정렬**: 상단→하단, 좌→우 순서로 배열
+- **selector**: `data-tour` 속성으로 요소 지정
+- **title**: 기능의 간단한 제목 (2-4단어)
+- **content**:
+  - 첫 줄: 핵심 기능 요약
+  - 추가 줄: 상세 설명 (`\n`으로 구분)
+  - 핵심 컬럼/필드는 구체적으로 명시
+- **icon**: lucide-react 아이콘 컴포넌트
+
+#### 4. 도움말 버튼 구현
+```tsx
+<Button
+  variant={showTourHelp ? "default" : "outline"}
+  size="sm"
+  onClick={() => setShowTourHelp(!showTourHelp)}
+  className="gap-2"
+>
+  {showTourHelp ? (
+    <>
+      <X className="w-4 h-4" />
+      도움말 닫기
+    </>
+  ) : (
+    <>
+      <HelpCircle className="w-4 h-4" />
+      도움말
+    </>
+  )}
+</Button>
+```
+
+#### 5. 테이블/그리드 컬럼 설명 예시
+```tsx
+{
+  selector: '[data-tour="table-id"]',
+  title: '테이블 제목',
+  content: '컬럼1: 설명\n컬럼2: 설명\n컬럼3: 설명\n상태 아이콘: 녹색-완료, 노란색-대기',
+  icon: Database
+}
+```
+
+#### 6. 하이라이트 박스 스타일링
+- 파란색 테마 사용 (ring-blue-600, bg-blue-600)
+- 애니메이션: animate-pulse (선택 전), fade-in (선택 시)
+- 번호 배지: 좌상단에 원형으로 표시
+- 툴팁: Card 컴포넌트 사용, 화살표 꼬리 포함
+
+#### 7. 상호작용 패턴
+1. 도움말 버튼 클릭 → 투어 가이드 활성화
+2. 하이라이트 박스 클릭 → 간단한 설명 툴팁
+3. 툴팁의 "더보기" 클릭 → 상세 설명 모달
+4. X 버튼 또는 재클릭 → 툴팁 닫기
+
+#### 8. z-index 관리
+- 하이라이트 박스: z-[9998]
+- 툴팁: z-[9999]
+- 모달: z-[10000]
+
 ## 🏗️ 아키텍처 원칙
 
 ### 책임 분리 원칙 (SRP)

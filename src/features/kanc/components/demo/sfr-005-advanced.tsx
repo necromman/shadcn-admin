@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -17,11 +18,19 @@ import {
 import {
   DollarSign, TrendingUp, TrendingDown, Database, RefreshCw,
   CheckCircle, AlertCircle, Clock, Calendar, FileText,
-  Download, Upload, BarChart, PieChart, Shield, Zap
+  Download, Upload, BarChart, PieChart, Shield, Zap,
+  HelpCircle, X, ChevronRight, Settings
 } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 // 실적 카테고리
 const categories = [
@@ -93,6 +102,208 @@ export function SFR005AdvancedDemo() {
   const [isSyncing, setIsSyncing] = useState(false)
   const [syncProgress, setSyncProgress] = useState(0)
   const [selectedRecords, setSelectedRecords] = useState<string[]>([])
+  const [showTourHelp, setShowTourHelp] = useState(false)
+  const componentRef = useRef<HTMLDivElement>(null)
+
+  // 투어 가이드 데이터
+  const tourSteps = [
+    {
+      selector: '[data-tour="monthly-stats"]',
+      title: '월별 실적 통계',
+      content: '당월 KANC 실적: 기술원 시스템 실적 총액\n모아팹 동기화: 모아팹으로 전송된 금액\n동기화율: 전체 건수 대비 완료 비율',
+      icon: TrendingUp
+    },
+    {
+      selector: '[data-tour="sync-controls"]',
+      title: '동기화 컨트롤',
+      content: '기간 선택: 조회할 월 선택\n부서 선택: 특정 부서만 필터링\n배치 동기화: 선택한 조건의 모든 데이터 일괄 동기화',
+      icon: RefreshCw
+    },
+    {
+      selector: '[data-tour="monthly-tab"]',
+      title: '월별 실적 탭',
+      content: 'KANC 실적: 기술원 월별 총 실적\n모아팹 실적: 동기화된 금액\n차이: 미동기화 금액 (빨간색 표시)\n동기화: 진행률 바로 표시',
+      icon: Calendar
+    },
+    {
+      selector: '[data-tour="category-tab"]',
+      title: '카테고리별 탭',
+      content: '장비이용료, 시험분석료, 재료비 등\n각 카테고리별 금액과 비중을 시각화\n동기화 상태 요약 정보 제공',
+      icon: PieChart
+    },
+    {
+      selector: '[data-tour="revenue-table"]',
+      title: '상세 내역 테이블',
+      content: '부서: 담당 부서명\n카테고리: 실적 분류 (색상으로 구분)\nKANC/모아팹 금액: 양 시스템 금액 비교\n동기화: 현재 상태 아이콘 표시',
+      icon: DollarSign
+    },
+    {
+      selector: '[data-tour="batch-history-tab"]',
+      title: '배치 이력 탭',
+      content: '실행 시간: 배치 작업 시작 시간\n처리 건수: 성공/실패 건수\n총 금액: 처리된 금액 총합\n처리 시간: 소요 시간 (초)',
+      icon: Clock
+    },
+    {
+      selector: '[data-tour="sync-settings"]',
+      title: '동기화 설정',
+      content: '실시간: 즉시 동기화 모드\n배치: 일정 시간마다 자동 실행\n동기화 주기: 15분, 1시간, 일일 선택',
+      icon: Settings
+    }
+  ]
+
+  // 투어 가이드 컴포넌트
+  const TourGuide = () => {
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalContent, setModalContent] = useState<{ title: string, content: string, icon: any } | null>(null)
+
+    useEffect(() => {
+      if (!showTourHelp) {
+        setSelectedIndex(null)
+        setModalOpen(false)
+        setModalContent(null)
+      }
+    }, [showTourHelp])
+
+    const handleBoxClick = (index: number) => {
+      if (selectedIndex === index) {
+        setSelectedIndex(null)
+      } else {
+        setSelectedIndex(index)
+      }
+    }
+
+    const openDetailModal = (step: typeof tourSteps[0]) => {
+      setModalContent({
+        title: step.title,
+        content: step.content,
+        icon: step.icon
+      })
+      setModalOpen(true)
+    }
+
+    if (!showTourHelp) return null
+
+    return createPortal(
+      <>
+        {tourSteps.map((step, index) => {
+          const element = document.querySelector(step.selector)
+          if (!element) return null
+
+          const rect = element.getBoundingClientRect()
+          const Icon = step.icon
+          const isSelected = selectedIndex === index
+
+          const spaceBelow = window.innerHeight - rect.bottom
+          const showBelow = spaceBelow > 150
+          const tooltipTop = showBelow ? rect.bottom + 8 : rect.top - 120
+
+          return (
+            <div key={index}>
+              <div
+                className="fixed z-[9998] cursor-pointer"
+                style={{
+                  top: rect.top - 2,
+                  left: rect.left - 2,
+                  width: rect.width + 4,
+                  height: rect.height + 4,
+                }}
+                onClick={() => handleBoxClick(index)}
+              >
+                <div className={`absolute inset-0 ring-2 ring-offset-2 rounded-lg transition-all ${
+                  isSelected ? 'ring-blue-600 ring-offset-blue-100 dark:ring-offset-blue-900/20' : 'ring-blue-500 animate-pulse'
+                }`} />
+                <div className="absolute -top-2 -left-2 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg">
+                  {index + 1}
+                </div>
+              </div>
+
+              {isSelected && (
+                <div
+                  className="fixed z-[9999] animate-in fade-in slide-in-from-bottom-1 duration-300"
+                  style={{
+                    top: tooltipTop,
+                    left: Math.min(rect.left, window.innerWidth - 350),
+                    width: '320px'
+                  }}
+                >
+                  <Card className="shadow-xl border-2 border-blue-600">
+                    <CardContent className="py-3 px-4">
+                      <div className="flex items-start gap-3">
+                        <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm mb-1">{step.title}</h4>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            {step.content.split('\n')[0]}
+                          </p>
+                          {(step.content.includes('\n') || step.content.length > 60) && (
+                            <Button
+                              variant="link"
+                              size="sm"
+                              className="px-0 h-auto mt-1 text-xs"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                openDetailModal(step)
+                              }}
+                            >
+                              더보기
+                              <ChevronRight className="w-3 h-3 ml-1" />
+                            </Button>
+                          )}
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="w-6 h-6 p-0"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setSelectedIndex(null)
+                          }}
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <div
+                    className={`absolute w-3 h-3 bg-white dark:bg-gray-950 border-2 border-blue-600 transform rotate-45 ${
+                      showBelow
+                        ? 'top-[-8px] left-4 border-b-0 border-r-0'
+                        : 'bottom-[-8px] left-4 border-t-0 border-l-0'
+                    }`}
+                  />
+                </div>
+              )}
+            </div>
+          )
+        })}
+
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+          <DialogContent className="sm:max-w-md z-[10000]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                {modalContent && (
+                  <>
+                    {React.createElement(modalContent.icon, { className: "w-5 h-5 text-blue-600" })}
+                    <span>{modalContent.title}</span>
+                  </>
+                )}
+              </DialogTitle>
+            </DialogHeader>
+            <DialogDescription className="mt-3 whitespace-pre-line">
+              {modalContent?.content}
+            </DialogDescription>
+            <div className="flex justify-end mt-4">
+              <Button variant="outline" onClick={() => setModalOpen(false)}>
+                확인
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </>,
+      document.body
+    )
+  }
 
   // 월별 집계 데이터
   const monthlyAggregates = Array.from({ length: 9 }, (_, i) => {
@@ -202,6 +413,7 @@ export function SFR005AdvancedDemo() {
 
   return (
     <Card className="w-full">
+      <TourGuide />
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -211,6 +423,24 @@ export function SFR005AdvancedDemo() {
             </CardDescription>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant={showTourHelp ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowTourHelp(!showTourHelp)}
+              className="gap-2"
+            >
+              {showTourHelp ? (
+                <>
+                  <X className="w-4 h-4" />
+                  도움말 닫기
+                </>
+              ) : (
+                <>
+                  <HelpCircle className="w-4 h-4" />
+                  도움말
+                </>
+              )}
+            </Button>
             <Badge variant="outline" className="px-3 py-1">
               <Database className="w-3 h-3 mr-1" />
               실적 동기화
@@ -226,7 +456,7 @@ export function SFR005AdvancedDemo() {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* 통계 대시보드 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-tour="revenue-stats">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-tour="monthly-stats">
           <StatCard
             icon={DollarSign}
             label="당월 KANC 실적"
@@ -258,7 +488,7 @@ export function SFR005AdvancedDemo() {
         </div>
 
         {/* 필터 및 액션 */}
-        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg" data-tour="period-selector">
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg" data-tour="sync-controls">
           <div className="flex items-center gap-4">
             <div>
               <Label>기간 선택</Label>
@@ -314,6 +544,7 @@ export function SFR005AdvancedDemo() {
             <TabsTrigger value="category" data-tour="category-tab">카테고리별</TabsTrigger>
             <TabsTrigger value="detail">상세 내역</TabsTrigger>
             <TabsTrigger value="batch" data-tour="batch-history-tab">배치 이력</TabsTrigger>
+            <TabsTrigger value="settings">동기화 설정</TabsTrigger>
           </TabsList>
 
           {/* 월별 실적 탭 */}
@@ -457,7 +688,7 @@ export function SFR005AdvancedDemo() {
 
           {/* 상세 내역 탭 */}
           <TabsContent value="detail" className="space-y-4">
-            <ScrollArea className="h-[500px] border rounded-lg">
+            <ScrollArea className="h-[500px] border rounded-lg" data-tour="revenue-table">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -560,6 +791,50 @@ export function SFR005AdvancedDemo() {
                 ))}
               </div>
             </ScrollArea>
+          </TabsContent>
+
+          {/* 동기화 설정 탭 */}
+          <TabsContent value="settings" className="space-y-4">
+            <Card data-tour="sync-settings">
+              <CardHeader>
+                <CardTitle className="text-base">동기화 설정</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label>동기화 모드</Label>
+                      <p className="text-xs text-muted-foreground">실시간 또는 배치 모드 선택</p>
+                    </div>
+                    <Select defaultValue="batch">
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="realtime">실시간</SelectItem>
+                        <SelectItem value="batch">배치</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label>동기화 주기</Label>
+                      <p className="text-xs text-muted-foreground">자동 동기화 실행 간격</p>
+                    </div>
+                    <Select defaultValue="daily">
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="15min">15분</SelectItem>
+                        <SelectItem value="hourly">1시간</SelectItem>
+                        <SelectItem value="daily">일일</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </CardContent>

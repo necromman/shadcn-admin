@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -6,6 +7,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Progress } from '@/components/ui/progress'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   Table,
   TableBody,
@@ -17,13 +25,12 @@ import {
 import {
   FileText, Upload, Download, Database, RefreshCw, CheckCircle,
   AlertCircle, Clock, Folder, File, Image, FileSpreadsheet,
-  Archive, Shield, Cloud, HardDrive, Trash2, Eye, Share2
+  Archive, Shield, Cloud, HardDrive, Trash2, Eye, Share2, HelpCircle, X, Settings, ChevronRight, Search
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 // 파일 타입 정의
 const fileTypes = [
@@ -43,6 +50,213 @@ const fileCategories = [
   '계약서', '견적서', '시험성적서', '분석보고서',
   '연구노트', '특허문서', '회의록', '기술자료'
 ]
+
+// Tour Guide Component - SFR-003과 동일한 방식으로 구현
+const TourGuide = ({ showHelp }: { showHelp: boolean }) => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalContent, setModalContent] = useState<{ title: string, content: string, icon: any } | null>(null)
+
+  const tourSteps = [
+    {
+      selector: '[data-tour="storage-info"]',
+      title: '스토리지 통계',
+      content: '전체 파일 수, 총 용량, 동기화 현황 등\n실시간 스토리지 사용량과 동기화 상태를 모니터링합니다.',
+      icon: HardDrive
+    },
+    {
+      selector: '[data-tour="file-search"]',
+      title: '파일 검색',
+      content: '파일명, 프로젝트명, 부서명으로 검색 가능\n통합 검색창을 통해 첨부파일을 빠르게 찾을 수 있습니다.',
+      icon: Search
+    },
+    {
+      selector: '[data-tour="category-filter"]',
+      title: '카테고리 필터',
+      content: '문서 유형별로 파일 필터링\n계약서, 견적서, 시험성적서 등 문서 유형별로 필터링 가능합니다.',
+      icon: Folder
+    },
+    {
+      selector: '[data-tour="file-upload"]',
+      title: '파일 업로드',
+      content: '새로운 파일 업로드\n로컬 파일을 선택하여 KANC 시스템에 업로드합니다.',
+      icon: Upload
+    },
+    {
+      selector: '[data-tour="sync-controls"]',
+      title: '배치 동기화',
+      content: '파일 동기화 관리\n선택한 파일들을 즉시 동기화하거나, 일괄 동기화할 수 있습니다.',
+      icon: RefreshCw
+    },
+    {
+      selector: '[data-tour="file-table"]',
+      title: '파일 목록 테이블',
+      content: '파일명: 파일 이름과 버전, 다운로드 수\n동기화 상태: KANC/모아팹 저장 상태\n작업: 미리보기, 다운로드, 공유 기능',
+      icon: Database
+    },
+    {
+      selector: '[data-tour="sync-status"]',
+      title: '동기화 큐',
+      content: '실시간 동기화 진행 상태\n처리 중인 파일의 진행률, 재시도 횟수, 시작 시간을 확인합니다.',
+      icon: Clock
+    }
+  ]
+
+  useEffect(() => {
+    if (!showHelp) {
+      setSelectedIndex(null)
+      setModalOpen(false)
+      setModalContent(null)
+    }
+  }, [showHelp])
+
+  const handleBoxClick = (index: number) => {
+    if (selectedIndex === index) {
+      setSelectedIndex(null)
+    } else {
+      setSelectedIndex(index)
+    }
+  }
+
+  const openDetailModal = (step: typeof tourSteps[0]) => {
+    setModalContent({
+      title: step.title,
+      content: step.content,
+      icon: step.icon
+    })
+    setModalOpen(true)
+  }
+
+  if (!showHelp) return null
+
+  return createPortal(
+    <>
+      {tourSteps.map((step, index) => {
+        const element = document.querySelector(step.selector)
+        if (!element) return null
+
+        const rect = element.getBoundingClientRect()
+        const Icon = step.icon
+        const isSelected = selectedIndex === index
+
+        // 툴팁 위치 계산
+        const spaceBelow = window.innerHeight - rect.bottom
+        const showBelow = spaceBelow > 150
+        const tooltipTop = showBelow ? rect.bottom + 8 : rect.top - 120
+
+        return (
+          <div key={index}>
+            {/* 하이라이트 박스 (클릭 가능) */}
+            <div
+              className="fixed z-[9998] cursor-pointer"
+              style={{
+                top: rect.top - 2,
+                left: rect.left - 2,
+                width: rect.width + 4,
+                height: rect.height + 4,
+              }}
+              onClick={() => handleBoxClick(index)}
+            >
+              <div className={`absolute inset-0 ring-2 ring-offset-2 rounded-lg transition-all ${
+                isSelected ? 'ring-blue-600 ring-offset-blue-100 dark:ring-offset-blue-900/20' : 'ring-blue-500 animate-pulse'
+              }`} />
+
+              {/* 번호 표시 - 박스 내부 좌상단 */}
+              <div className="absolute -top-2 -left-2 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg">
+                {index + 1}
+              </div>
+            </div>
+
+            {/* 설명 툴팁 - 선택된 경우에만 표시 */}
+            {isSelected && (
+              <div
+                className="fixed z-[9999] animate-in fade-in slide-in-from-bottom-1 duration-300"
+                style={{
+                  top: tooltipTop,
+                  left: Math.min(rect.left, window.innerWidth - 350),
+                  width: '320px'
+                }}
+              >
+                <Card className="shadow-xl border-2 border-blue-600">
+                  <CardContent className="py-3 px-4">
+                    <div className="flex items-start gap-3">
+                      <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-sm mb-1">{step.title}</h4>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          {step.content.split('\n')[0]}
+                        </p>
+                        {(step.content.includes('\n') || step.content.length > 60) && (
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="px-0 h-auto mt-1 text-xs"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              openDetailModal(step)
+                            }}
+                          >
+                            더보기
+                            <ChevronRight className="w-3 h-3 ml-1" />
+                          </Button>
+                        )}
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="w-6 h-6 p-0"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedIndex(null)
+                        }}
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* 화살표 꼬리 */}
+                <div
+                  className={`absolute w-3 h-3 bg-white dark:bg-gray-950 border-2 border-blue-600 transform rotate-45 ${
+                    showBelow
+                      ? 'top-[-8px] left-4 border-b-0 border-r-0'
+                      : 'bottom-[-8px] left-4 border-t-0 border-l-0'
+                  }`}
+                />
+              </div>
+            )}
+          </div>
+        )
+      })}
+
+      {/* 상세 설명 모달 */}
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="sm:max-w-md z-[10000]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {modalContent && (
+                <>
+                  {React.createElement(modalContent.icon, { className: "w-5 h-5 text-blue-600" })}
+                  <span>{modalContent.title}</span>
+                </>
+              )}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="mt-3 whitespace-pre-line">
+            {modalContent?.content}
+          </DialogDescription>
+          <div className="flex justify-end mt-4">
+            <Button variant="outline" onClick={() => setModalOpen(false)}>
+              확인
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>,
+    document.body
+  )
+}
 
 // 실무 파일 데이터 생성
 const generateFileData = () => {
@@ -112,6 +326,7 @@ export function SFR006AdvancedDemo() {
   const [uploadProgress, setUploadProgress] = useState(0)
   const [selectedFile, setSelectedFile] = useState<any>(null)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
 
   // 통계 계산
   const stats = {
@@ -228,6 +443,7 @@ export function SFR006AdvancedDemo() {
 
   return (
     <Card className="w-full">
+      {showHelp && <TourGuide showHelp={showHelp} />}
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -237,6 +453,24 @@ export function SFR006AdvancedDemo() {
             </CardDescription>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant={showHelp ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowHelp(!showHelp)}
+              className="gap-2"
+            >
+              {showHelp ? (
+                <>
+                  <X className="w-4 h-4" />
+                  도움말 닫기
+                </>
+              ) : (
+                <>
+                  <HelpCircle className="w-4 h-4" />
+                  도움말
+                </>
+              )}
+            </Button>
             <Badge variant="outline" className="px-3 py-1">
               <Cloud className="w-3 h-3 mr-1" />
               파일 동기화
@@ -252,7 +486,7 @@ export function SFR006AdvancedDemo() {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* 통계 대시보드 */}
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4" data-tour="storage-stats">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4" data-tour="storage-info">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-2">
@@ -347,15 +581,16 @@ export function SFR006AdvancedDemo() {
           {/* 파일 관리 탭 */}
           <TabsContent value="files" className="space-y-4">
             {/* 필터 및 액션 */}
-            <div className="flex gap-2" data-tour="file-filters">
+            <div className="flex gap-2">
               <Input
                 placeholder="파일명, 프로젝트 검색..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="flex-1"
+                data-tour="file-search"
               />
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-40" data-tour="category-filter">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -380,7 +615,7 @@ export function SFR006AdvancedDemo() {
                 <Upload className="w-4 h-4 mr-2" />
                 업로드
               </Button>
-              <Button onClick={syncBatchFiles} variant="outline">
+              <Button onClick={syncBatchFiles} variant="outline" data-tour="sync-controls">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 배치 동기화
               </Button>
@@ -496,7 +731,7 @@ export function SFR006AdvancedDemo() {
 
           {/* 동기화 큐 탭 */}
           <TabsContent value="queue" className="space-y-4">
-            <ScrollArea className="h-[500px] border rounded-lg p-4">
+            <ScrollArea className="h-[500px] border rounded-lg p-4" data-tour="sync-status">
               <div className="space-y-3">
                 {syncQueue.map((item) => {
                   const file = files.find(f => f.id === item.fileId)
@@ -576,7 +811,7 @@ export function SFR006AdvancedDemo() {
 
           {/* 스토리지 탭 */}
           <TabsContent value="storage" className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4" data-tour="storage-info">
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">KANC 스토리지</CardTitle>
@@ -712,6 +947,7 @@ export function SFR006AdvancedDemo() {
           )}
         </DialogContent>
       </Dialog>
+      {showHelp && <TourGuide />}
     </Card>
   )
 }

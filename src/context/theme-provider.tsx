@@ -57,8 +57,19 @@ export function ThemeProvider({
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
     const applyTheme = (currentResolvedTheme: ResolvedTheme) => {
-      root.classList.remove('light', 'dark') // Remove existing theme classes
-      root.classList.add(currentResolvedTheme) // Add the new theme class
+      // Add class to disable transitions during theme switch
+      root.classList.add('theme-switching')
+
+      // Apply theme classes
+      root.classList.remove('light', 'dark')
+      root.classList.add(currentResolvedTheme)
+
+      // Re-enable transitions after a brief delay
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          root.classList.remove('theme-switching')
+        }, 1)
+      })
     }
 
     const handleChange = () => {

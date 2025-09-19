@@ -63,7 +63,7 @@
 
 /* 뷰 타입 전환 애니메이션 */
 .view-transition {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
 }
 
 /* 호버 효과 */

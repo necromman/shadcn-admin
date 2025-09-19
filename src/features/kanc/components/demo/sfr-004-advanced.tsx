@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -16,12 +17,19 @@ import {
 import {
   User, CreditCard, Building, RefreshCw, Link, ArrowRight,
   AlertCircle, CheckCircle, Clock, Database, History, Shield,
-  TrendingUp, Users, DollarSign, FileText, Settings, Edit
+  TrendingUp, Users, DollarSign, FileText, Settings, Edit, HelpCircle, X, ChevronRight
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter
+} from '@/components/ui/dialog'
 
 // 결제 유형 정의
 const paymentTypes = [
@@ -94,6 +102,202 @@ export function SFR004AdvancedDemo() {
   const [syncFilter, setSyncFilter] = useState('all')
   const [isSyncing, setIsSyncing] = useState(false)
   const [syncQueue, setSyncQueue] = useState<string[]>([])
+  const [showTourHelp, setShowTourHelp] = useState(false)
+  const componentRef = useRef<HTMLDivElement>(null)
+
+  // 투어 가이드 데이터
+  const tourSteps = [
+    {
+      selector: '[data-tour="stats-cards"]',
+      title: '통계 대시보드',
+      content: '전체 담당자, 동기화 상태, 오늘 변경 건수를 한눈에 확인할 수 있습니다.',
+      icon: Users
+    },
+    {
+      selector: '[data-tour="manager-filters"]',
+      title: '담당자 검색',
+      content: '이름, 이메일, 부서로 담당자를 빠르게 검색할 수 있습니다.',
+      icon: User
+    },
+    {
+      selector: '[data-tour="sync-all-button"]',
+      title: '전체 동기화',
+      content: '모든 대기 중인 담당자 정보를 한 번에 동기화합니다.',
+      icon: RefreshCw
+    },
+    {
+      selector: '[data-tour="manager-table"]',
+      title: '담당자 테이블',
+      content: '담당자 정보와 결제 유형을 확인하고 관리할 수 있습니다.',
+      icon: Database
+    },
+    {
+      selector: '[data-tour="history-tab"]',
+      title: '변경 이력',
+      content: '담당자 정보 변경 이력을 실시간으로 확인할 수 있습니다.',
+      icon: History
+    },
+    {
+      selector: '[data-tour="mapping-tab"]',
+      title: '매핑 규칙',
+      content: 'KANC와 모아팹 간 필드 매핑 규칙을 확인할 수 있습니다.',
+      icon: Link
+    }
+  ]
+
+  // 투어 가이드 컴포넌트
+  const TourGuide = () => {
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalContent, setModalContent] = useState<{ title: string, content: string, icon: any } | null>(null)
+
+    useEffect(() => {
+      if (!showTourHelp) {
+        setSelectedIndex(null)
+        setModalOpen(false)
+        setModalContent(null)
+      }
+    }, [showTourHelp])
+
+    const handleBoxClick = (index: number) => {
+      if (selectedIndex === index) {
+        setSelectedIndex(null)
+      } else {
+        setSelectedIndex(index)
+      }
+    }
+
+    const openDetailModal = (step: typeof tourSteps[0]) => {
+      setModalContent({
+        title: step.title,
+        content: step.content,
+        icon: step.icon
+      })
+      setModalOpen(true)
+    }
+
+    if (!showTourHelp) return null
+
+    return createPortal(
+      <>
+        {tourSteps.map((step, index) => {
+          const element = document.querySelector(step.selector)
+          if (!element) return null
+
+          const rect = element.getBoundingClientRect()
+          const Icon = step.icon
+          const isSelected = selectedIndex === index
+
+          const spaceBelow = window.innerHeight - rect.bottom
+          const showBelow = spaceBelow > 150
+          const tooltipTop = showBelow ? rect.bottom + 8 : rect.top - 120
+
+          return (
+            <div key={index}>
+              <div
+                className="fixed z-[9998] cursor-pointer"
+                style={{
+                  top: rect.top - 2,
+                  left: rect.left - 2,
+                  width: rect.width + 4,
+                  height: rect.height + 4,
+                }}
+                onClick={() => handleBoxClick(index)}
+              >
+                <div className={`absolute inset-0 ring-2 ring-offset-2 rounded-lg transition-all ${
+                  isSelected ? 'ring-blue-600 ring-offset-blue-100 dark:ring-offset-blue-900/20' : 'ring-blue-500 animate-pulse'
+                }`} />
+                <div className="absolute -top-2 -left-2 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg">
+                  {index + 1}
+                </div>
+              </div>
+
+              {isSelected && (
+                <div
+                  className="fixed z-[9999] animate-in fade-in slide-in-from-bottom-1 duration-300"
+                  style={{
+                    top: tooltipTop,
+                    left: Math.min(rect.left, window.innerWidth - 350),
+                    width: '320px'
+                  }}
+                >
+                  <Card className="shadow-xl border-2 border-blue-600">
+                    <CardContent className="py-3 px-4">
+                      <div className="flex items-start gap-3">
+                        <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm mb-1">{step.title}</h4>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            {step.content.split('\n')[0]}
+                          </p>
+                          {(step.content.includes('\n') || step.content.length > 60) && (
+                            <Button
+                              variant="link"
+                              size="sm"
+                              className="px-0 h-auto mt-1 text-xs"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                openDetailModal(step)
+                              }}
+                            >
+                              더보기
+                              <ChevronRight className="w-3 h-3 ml-1" />
+                            </Button>
+                          )}
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="w-6 h-6 p-0"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setSelectedIndex(null)
+                          }}
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <div
+                    className={`absolute w-3 h-3 bg-white dark:bg-gray-950 border-2 border-blue-600 transform rotate-45 ${
+                      showBelow
+                        ? 'top-[-8px] left-4 border-b-0 border-r-0'
+                        : 'bottom-[-8px] left-4 border-t-0 border-l-0'
+                    }`}
+                  />
+                </div>
+              )}
+            </div>
+          )
+        })}
+
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+          <DialogContent className="sm:max-w-md z-[10000]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                {modalContent && (
+                  <>
+                    {React.createElement(modalContent.icon, { className: "w-5 h-5 text-blue-600" })}
+                    <span>{modalContent.title}</span>
+                  </>
+                )}
+              </DialogTitle>
+            </DialogHeader>
+            <DialogDescription className="mt-3 whitespace-pre-line">
+              {modalContent?.content}
+            </DialogDescription>
+            <div className="flex justify-end mt-4">
+              <Button variant="outline" onClick={() => setModalOpen(false)}>
+                확인
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </>,
+      document.body
+    )
+  }
 
   // 통계 데이터 - 실제 데이터로 초기화
   const stats = {
@@ -187,7 +391,8 @@ export function SFR004AdvancedDemo() {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full" ref={componentRef}>
+      <TourGuide />
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -197,6 +402,24 @@ export function SFR004AdvancedDemo() {
             </CardDescription>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant={showTourHelp ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowTourHelp(!showTourHelp)}
+              className="gap-2"
+            >
+              {showTourHelp ? (
+                <>
+                  <X className="w-4 h-4" />
+                  도움말 닫기
+                </>
+              ) : (
+                <>
+                  <HelpCircle className="w-4 h-4" />
+                  도움말
+                </>
+              )}
+            </Button>
             <Badge variant="outline" className="px-3 py-1">
               <Link className="w-3 h-3 mr-1" />
               양방향 동기화

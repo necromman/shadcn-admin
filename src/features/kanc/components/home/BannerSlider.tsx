@@ -132,14 +132,14 @@ export function BannerSlider() {
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
+          {/* <div>
             <h3 className="text-2xl font-bold text-foreground mb-2">
               {t('kanc:sections.partners.title')}
             </h3>
             <p className="text-sm text-muted-foreground">
               {t('kanc:sections.partners.subtitle')}
             </p>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2">
             {/* Play/Pause Button */}
             <button

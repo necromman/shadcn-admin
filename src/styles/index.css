@@ -20,6 +20,11 @@
     @apply bg-background text-foreground has-[div[data-variant='inset']]:bg-sidebar min-h-svh w-full;
   }
 
+  /* Disable transitions during theme switch */
+  .theme-switching * {
+    transition: none !important;
+  }
+
   /* Override Radix scroll locking for sticky headers */
   body[data-scroll-locked] {
     overflow: unset !important;

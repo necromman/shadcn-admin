@@ -16,7 +16,6 @@ import {
   SFR006Demo
 } from '../components/demo'
 import { TourProvider } from '../components/tour/TourProvider'
-import { TourButton } from '../components/tour/TourButton'
 
 interface SFRDemoPageProps {
   demoId: string
@@ -100,7 +99,6 @@ export function SFRDemoPage({ demoId: initialDemoId, onBack }: SFRDemoPageProps)
                     <SelectItem value="sfr-006">SFR-006: 파일 인터페이스</SelectItem>
                   </SelectContent>
                 </Select>
-                <TourButton />
                 <Button
                   variant="outline"
                   size="sm"

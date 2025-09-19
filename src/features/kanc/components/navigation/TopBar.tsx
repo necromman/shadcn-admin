@@ -35,7 +35,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
             <button
               onClick={() => onTabChange('intro')}
               className={cn(
-                "relative px-3 sm:px-5 py-3 text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap",
+                "relative px-3 sm:px-5 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
                 currentTab === 'intro'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground hover:bg-accent'
@@ -53,7 +53,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
             <button
               onClick={() => onTabChange('service')}
               className={cn(
-                "relative px-3 sm:px-5 py-3 text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap",
+                "relative px-3 sm:px-5 py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
                 currentTab === 'service'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground hover:bg-accent'
@@ -120,7 +120,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
               href="https://intranet.kanc.re.kr"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
             >
               <Users className="w-3.5 h-3.5" />
               <span>Intranet</span>
@@ -128,7 +128,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
             <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
             <a
               href="/sitemap"
-              className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
             >
               <span>홈페이지 안내</span>
             </a>
@@ -150,7 +150,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded transition-colors"
+                className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
                 aria-label="Blog"
               >
                 <Share2 className="w-3.5 h-3.5" />
@@ -159,7 +159,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded transition-colors"
+                className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
                 aria-label="YouTube"
               >
                 <Youtube className="w-3.5 h-3.5" />
@@ -174,8 +174,8 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
               onClick={toggleTheme}
               className="relative h-7 w-7 p-0 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50"
             >
-              <HiSun className="h-4 w-4 rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
-              <HiMoon className="absolute h-4 w-4 rotate-90 scale-0 transition-all duration-300 dark:rotate-0 dark:scale-100" />
+              <HiSun className="h-4 w-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
+              <HiMoon className="absolute h-4 w-4 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
               <span className="sr-only">테마 변경</span>
             </Button>
 
@@ -201,8 +201,8 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
               onClick={toggleTheme}
               className="relative h-8 w-8 p-0 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50"
             >
-              <HiSun className="h-4 w-4 rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
-              <HiMoon className="absolute h-4 w-4 rotate-90 scale-0 transition-all duration-300 dark:rotate-0 dark:scale-100" />
+              <HiSun className="h-4 w-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
+              <HiMoon className="absolute h-4 w-4 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
               <span className="sr-only">테마 변경</span>
             </Button>
           </div>

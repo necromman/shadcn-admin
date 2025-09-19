@@ -6,12 +6,166 @@
     "more": "More",
     "close": "Close",
     "search": "Search",
-    "menu": "Menu"
+    "menu": "Menu",
+    "required": "Required",
+    "go": "Go",
+    "moreItems": " more items",
+    "moreMenuItems": " more menu items"
   },
   "header": {
     "tabs": {
       "intro": "KANC Introduction",
       "service": "KANC Services"
+    },
+    "topbar": {
+      "intranet": "Intranet",
+      "sitemap": "Sitemap",
+      "changeTheme": "Change Theme",
+      "demoSelect": "Requirement Demo",
+      "demos": {
+        "sfr002": "Design Apply",
+        "sfr003": "Service Cancel",
+        "sfr004": "Settlement Sync",
+        "sfr005": "Amount Sync",
+        "sfr006": "File Interface"
+      }
+    }
+  },
+  "navigation": {
+    "menu": {
+      "about": {
+        "title": "About",
+        "greeting": "Greeting",
+        "history": "General Status",
+        "purpose": "Purpose & Functions",
+        "vision": "Vision & Goals",
+        "facility": "Facility Status",
+        "achievement": "Major Projects & Achievements",
+        "ci": "CI Introduction",
+        "talent": "Talent",
+        "ethics": "Code of Ethics",
+        "org": "Organization & Staff",
+        "chart": "Organization Chart",
+        "staff": "Staff Search",
+        "location": "Location"
+      },
+      "tech": {
+        "title": "Technology",
+        "process": "Process Technology",
+        "module": "Module Process Technology",
+        "thinFilm": "Thin Film Technology",
+        "etching": "Etching Technology",
+        "patterning": "Patterning Technology",
+        "post": "Post-processing Technology",
+        "epi": "Epi Technology",
+        "analysis": "Test Analysis Technology",
+        "device": "Device Technology"
+      },
+      "service": {
+        "title": "Service",
+        "fab": "Fab Service",
+        "fabOverview": "Fab Service Overview",
+        "info": "Service Information",
+        "tour": "Fab Tour Guide",
+        "equipment": "Equipment Guide",
+        "education": "Education Service",
+        "rental": "Rental Service",
+        "rentalGuide": "Tenancy Guide",
+        "building": "Building Status",
+        "companies": "Tenant Companies",
+        "venue": "Venue Guide",
+        "cleanroom": "Cleanroom Space Usage"
+      },
+      "notice": {
+        "title": "Notice",
+        "list": "Notices",
+        "announcement": "Announcements",
+        "bidding": "Bidding Notice",
+        "recruitment": "Recruitment Notice",
+        "family": "Family Employment Disclosure",
+        "law": "Legal Documents"
+      },
+      "support": {
+        "title": "Company",
+        "status": "Support Status",
+        "intro": "Support Introduction",
+        "singleCreator": "1-Person Creative Company Support Center",
+        "nanoSme": "Nano SME Support Program",
+        "bizIntro": "Business Introduction",
+        "participatingCompanies": "Participating Companies",
+        "ended": "Ended Programs",
+        "platform": "Nano Joint Research Platform",
+        "certification": "Nano Device Reliability Certification",
+        "event": "Event Guide",
+        "conference": "Technical Conference & Presentation",
+        "nanokorea": "Event Guide (Nano Korea)",
+        "transfer": "Technology Transfer",
+        "transferGuide": "Technology Transfer Support Guide",
+        "patent": "KANC Patent Information",
+        "commercialization": "Technology Commercialization & Follow-up Support",
+        "overview": "Business Overview & Support"
+      },
+      "activity": {
+        "title": "Activities",
+        "news": "KANC News",
+        "events": "Related Events",
+        "council": "User Council"
+      },
+      "environment": {
+        "title": "Environment",
+        "message": "President's Message",
+        "policy": "Environmental Safety Policy",
+        "system": "Environmental Safety Management System",
+        "green": "Green Guardian Activities & Achievements"
+      },
+      "disclosure": {
+        "title": "Information",
+        "systemGuide": "Information Disclosure System Guide",
+        "what": "What is Information Disclosure",
+        "lawData": "Legal Documents",
+        "processProc": "Information Disclosure Process",
+        "target": "Target Organizations",
+        "method": "Disclosure Methods",
+        "obligation": "Public Agency Obligations",
+        "appeal": "Appeal Procedures",
+        "fee": "Fee Guide",
+        "private": "Non-disclosed Information",
+        "realName": "Real Name System",
+        "preDisclosure": "Pre-information Disclosure",
+        "openData": "Open Data",
+        "management": "Management Disclosure",
+        "expense": "Business Expenses",
+        "request": "Information Disclosure Request"
+      },
+      "servicePortal": {
+        "analysis": "Test Analysis Service",
+        "analysisIntro": "Service Introduction",
+        "analysisEquipment": "Analysis Equipment Guide",
+        "process": "Usage Process",
+        "usageFee": "Usage Fee",
+        "educationService": "Education Service",
+        "program": "Education Programs",
+        "schedule": "Education Schedule",
+        "apply": "Education Application",
+        "materials": "Education Materials",
+        "fabServiceGuide": "Fab Service Overview",
+        "fabIntro": "Fab Service Introduction",
+        "facilityGuide": "Facility Guide",
+        "fabTour": "Fab Tour",
+        "reservation": "Online Reservation",
+        "equipmentReservation": "Equipment Reservation",
+        "spaceReservation": "Space Reservation",
+        "consultingReservation": "Consulting Reservation",
+        "myReservation": "My Reservations",
+        "customer": "Customer Service",
+        "faq": "FAQ",
+        "qna": "Q&A",
+        "download": "Downloads",
+        "contact": "Contact Us"
+      }
+    },
+    "megaMenu": {
+      "quickServiceInfo": "Mega menu for quick service access"
     }
   },
   "footer": {
@@ -46,11 +200,19 @@
       "news": "Newsroom",
       "reference": "Technical Data",
       "publication": "Publications",
-      "download": "Downloads"
+      "download": "Downloads",
+      "guide": "User Guide"
     },
     "certifications": {
-      "title": "Certifications"
+      "title": "Certifications",
+      "certification": "Certification"
     },
+    "companyInfo": {
+      "name": "Company: Korea Advanced Nano Technology Center",
+      "bizNumber": "Business Registration: 135-82-10611",
+      "ceo": "(CEO: Park No-jae)"
+    },
+    "contactUs": "For inquiries or suggestions regarding posted information, please contact us at info@kanc.re.kr",
     "relatedSites": "Related Sites",
     "copyright": "Copyright © 2025 Korea Advanced Nano Technology Center. All rights reserved."
   },
@@ -58,6 +220,15 @@
     "mainServices": {
       "title": "Main Services",
       "subtitle": "Discover KANC's core services",
+      "badges": {
+        "core": "Core",
+        "education": "Education",
+        "rental": "Rental",
+        "consultation": "Consult",
+        "achievement": "Achievement",
+        "equipment": "Equipment",
+        "facility": "Venue"
+      },
       "items": {
         "fab": {
           "title": "Fab Service",
@@ -93,9 +264,71 @@
         }
       }
     },
+    "serviceMenu": {
+      "badges": {
+        "payment": "Payment",
+        "issuance": "Issue",
+        "eightInch": "8-inch",
+        "access": "Access",
+        "facility": "Venue",
+        "inquiry": "Inquiry",
+        "staff": "Staff"
+      },
+      "items": {
+        "fabStatus": {
+          "title": "Fab Service Status",
+          "description": "Progress inquiry"
+        },
+        "feeInquiry": {
+          "title": "Usage Fee Inquiry",
+          "description": "Fee payment"
+        },
+        "documents": {
+          "title": "Related Documents",
+          "description": "Document issuance"
+        },
+        "eightInch": {
+          "title": "8-inch Fab Service",
+          "description": "8-inch process"
+        },
+        "fabAccess": {
+          "title": "Fab Access Application",
+          "description": "Access application"
+        },
+        "facilityApply": {
+          "title": "Venue Application",
+          "description": "Facility rental"
+        },
+        "facilityStatus": {
+          "title": "Venue Status",
+          "description": "Reservation inquiry"
+        },
+        "equipmentStaff": {
+          "title": "Equipment Staff",
+          "description": "Expert guide"
+        }
+      }
+    },
     "quickService": {
       "title": "Quick Services",
       "subtitle": "Quick access to frequently used services",
+      "todayRecommend": "Today's Recommended Service",
+      "badges": {
+        "popular": "Popular",
+        "new": "New",
+        "live": "Live",
+        "urgent": "Urgent"
+      },
+      "times": {
+        "immediate": "Immediate Booking",
+        "febStart": "Starting in February",
+        "avg30min": "Avg. 30min Wait",
+        "24hours": "24-hour Operation",
+        "realtime": "Real-time Update",
+        "immediateCheck": "Immediate Check",
+        "weekdays": "Weekdays 09-18",
+        "24_7": "24/7 Operation"
+      },
       "items": {
         "fabService": {
           "title": "Fab Service",
@@ -149,7 +382,99 @@
     },
     "partners": {
       "title": "Partner Organizations",
-      "subtitle": "Meet our partner organizations working with KANC"
+      "subtitle": "Partner organizations working with KANC",
+      "types": {
+        "research": "Research Institute",
+        "promotion": "Promotion Agency",
+        "infoService": "Information Service",
+        "technopark": "Technopark"
+      },
+      "items": {
+        "aict": {
+          "name": "Advanced Institutes of Convergence Technology",
+          "description": "Convergence Technology R&D"
+        },
+        "gbsa": {
+          "name": "Gyeonggi Business & Science Accelerator",
+          "description": "Economic Science Promotion"
+        },
+        "nanois": {
+          "name": "Nano Infrastructure Equipment Integrated Information Service",
+          "description": "Equipment Integration Management"
+        },
+        "gtp": {
+          "name": "Gyeonggi Technopark",
+          "description": "Technology Innovation Support"
+        }
+      }
+    },
+    "supportFacility": {
+      "title": "Customer Support & Facility Guide",
+      "subtitle": "Professional consulting team and cutting-edge research facilities support your successful research",
+      "support": {
+        "title": "Customer Support",
+        "badge": "Operating",
+        "channels": {
+          "phone": {
+            "title": "Phone Consultation",
+            "subtitle": "Weekdays 09:00-18:00"
+          },
+          "chat": {
+            "title": "Live Chat",
+            "value": "Start Now",
+            "subtitle": "Real-time response"
+          },
+          "email": {
+            "title": "Email Inquiry",
+            "subtitle": "Reply within 24hrs"
+          }
+        },
+        "responseTime": "Average Response Time",
+        "responseTimeValue": "Within 10 minutes",
+        "faqButton": "FAQ"
+      },
+      "facility": {
+        "introTitle": "Facility Guide",
+        "serviceTitle": "Service Guide",
+        "intro": {
+          "facility": {
+            "title": "Advanced Research Facility",
+            "description": "1,200 pyeong cleanroom and over 500 cutting-edge equipment",
+            "badge": "Tours Available",
+            "stats": "200 daily users average"
+          },
+          "experts": {
+            "title": "Professional Researchers",
+            "description": "150 experts including 50 PhD-level researchers",
+            "badge": "Consultation",
+            "stats": "98% satisfaction"
+          }
+        },
+        "service": {
+          "signup": {
+            "title": "Membership Guide",
+            "description": "Membership registration process for KANC services",
+            "badge": "Required",
+            "stats": "Approved in 5 minutes"
+          },
+          "location": {
+            "title": "Directions",
+            "description": "109 Gwanggyo-ro, Yeongtong-gu, Suwon, Gyeonggi-do",
+            "badge": "Map",
+            "stats": "Parking available"
+          }
+        },
+        "contactButton": "Contact Staff",
+        "faqButton": "FAQ",
+        "directionsButton": "Directions",
+        "researchButton": "Research Results"
+      },
+      "cta": {
+        "title": "Need more information?",
+        "subtitle": "Download the KANC comprehensive guide brochure",
+        "downloadButton": "Download Brochure",
+        "tourButton": "Apply for Tour"
+      }
     }
   },
   "demo": {
@@ -161,6 +486,78 @@
       "sfr-004": "Settlement Manager Info Sync",
       "sfr-005": "Amount Performance Info Sync",
       "sfr-006": "Attachment Interface"
+    }
+  },
+  "hero": {
+    "intro": {
+      "slide1": {
+        "badge": "Core Infrastructure for Korea's Semiconductor Industry",
+        "title": "Opening the Future of\nNano & Semiconductor Technology",
+        "subtitle": "Supporting world-class nano-processing facilities\nand system semiconductor OSAT technology",
+        "buttonText": "About KANC",
+        "stats": {
+          "equipment": "Advanced Equipment",
+          "researchers": "Expert Researchers",
+          "companies": "Supported Companies"
+        }
+      },
+      "slide2": {
+        "badge": "Gyeonggi Public Fab Open Innovation",
+        "title": "300mm Wafer Fab\nFully Open Service",
+        "subtitle": "Supporting MPW services for fabless SMEs\nand GaN power semiconductor prototype development",
+        "buttonText": "Open Fab Service",
+        "stats": {
+          "cleanroom": "Clean Room",
+          "process": "Process Capability",
+          "wafers": "Annual Wafers"
+        }
+      },
+      "slide3": {
+        "badge": "Leading Next-Gen Packaging Technology",
+        "title": "Leading Semiconductor Innovation\nwith Advanced Packaging",
+        "subtitle": "Strengthening K-Semiconductor competitiveness through\nsystem semiconductor OSAT technology development and talent nurturing",
+        "buttonText": "Business Support",
+        "stats": {
+          "programs": "Support Programs",
+          "transfer": "Tech Transfer Results",
+          "graduates": "Graduates per Year"
+        }
+      }
+    },
+    "service": {
+      "slide1": {
+        "badge": "24/7 Open Fab Reservation System",
+        "title": "Real-time Equipment Booking\nMOAFAB Service",
+        "subtitle": "Easily book and use advanced equipment like\nE-Beam Lithography and PECVD online",
+        "buttonText": "Book Equipment",
+        "stats": {
+          "equipment": "Open Fab Equipment",
+          "usage": "Monthly Usage",
+          "satisfaction": "User Satisfaction"
+        }
+      },
+      "slide2": {
+        "badge": "Semiconductor & Nano Talent Development",
+        "title": "Customized Technical Education\nfrom Vocational to Expert Level",
+        "subtitle": "Operating practice-centered programs in\nquantum technology, E-beam lithography, advanced packaging",
+        "buttonText": "Education Programs",
+        "stats": {
+          "students": "Annual Students",
+          "courses": "Free Courses",
+          "employment": "Employment Rate"
+        }
+      },
+      "slide3": {
+        "badge": "ISO/IEC 17025 Certified Testing Institution",
+        "title": "From Atomic Force Microscopy\nto Cu Etching",
+        "subtitle": "Professional researchers with cutting-edge analysis equipment\nprovide accurate testing and analysis services",
+        "buttonText": "Request Analysis",
+        "stats": {
+          "items": "Analysis Items",
+          "certification": "Official Certification",
+          "processing": "Processing Time"
+        }
+      }
     }
   }
 }

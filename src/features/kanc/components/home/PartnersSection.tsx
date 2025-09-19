@@ -1,41 +1,45 @@
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SectionWrapper } from '../common/SectionWrapper'
+import { useTranslation } from '@/lib/i18n/hooks'
 
-const partners = [
+const getPartners = (t: (key: string) => string) => [
   {
-    name: '차세대 융합기술연구원',
-    description: '융합기술 R&D',
+    name: t('kanc:sections.partners.items.aict.name'),
+    description: t('kanc:sections.partners.items.aict.description'),
     link: 'https://aict.snu.ac.kr',
-    type: '연구기관'
+    type: t('kanc:sections.partners.types.research')
   },
   {
-    name: '경기도경제과학진흥원',
-    description: '경제과학 진흥',
+    name: t('kanc:sections.partners.items.gbsa.name'),
+    description: t('kanc:sections.partners.items.gbsa.description'),
     link: 'https://www.gbsa.or.kr',
-    type: '진흥원'
+    type: t('kanc:sections.partners.types.promotion')
   },
   {
-    name: '나노인프라 장비통합 정보서비스',
-    description: '장비 통합 관리',
+    name: t('kanc:sections.partners.items.nanois.name'),
+    description: t('kanc:sections.partners.items.nanois.description'),
     link: 'https://www.nanois.or.kr',
-    type: '정보서비스'
+    type: t('kanc:sections.partners.types.infoService')
   },
   {
-    name: '경기 테크노파크',
-    description: '기술 혁신 지원',
+    name: t('kanc:sections.partners.items.gtp.name'),
+    description: t('kanc:sections.partners.items.gtp.description'),
     link: 'https://www.gtp.or.kr',
-    type: '테크노파크'
+    type: t('kanc:sections.partners.types.technopark')
   }
 ]
 
 export function PartnersSection() {
+  const { t } = useTranslation()
+  const partners = getPartners(t)
+
   return (
     <SectionWrapper background="gray">
       <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">협력 기관</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">{t('kanc:sections.partners.title')}</h2>
           <p className="text-sm text-muted-foreground">
-            KANC와 함께하는 파트너 기관들입니다
+            {t('kanc:sections.partners.subtitle')}
           </p>
         </div>
 

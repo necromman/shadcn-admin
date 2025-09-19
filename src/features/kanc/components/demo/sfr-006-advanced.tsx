@@ -947,7 +947,7 @@ export function SFR006AdvancedDemo() {
           )}
         </DialogContent>
       </Dialog>
-      {showHelp && <TourGuide />}
+      {showHelp && <TourGuide showHelp={showHelp} />}
     </Card>
   )
 }

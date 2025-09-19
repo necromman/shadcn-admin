@@ -15,92 +15,94 @@ import {
   ChevronRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface QuickServiceSectionProps {
   variant: 'intro' | 'service'
 }
 
-const introQuickLinks = [
+const getIntroQuickLinks = (t: (key: string) => string) => [
   {
-    title: '팹 서비스',
-    desc: '나노공정 신청',
+    title: t('kanc:sections.quickService.items.fabService.title'),
+    desc: t('kanc:sections.quickService.items.fabService.description'),
     link: '/service/fab',
     icon: Microscope,
-    badge: '인기',
-    time: '즉시 예약',
+    badge: t('kanc:sections.quickService.badges.popular'),
+    time: t('kanc:sections.quickService.times.immediate'),
     highlight: true
   },
   {
-    title: '교육 신청',
-    desc: '전문 교육과정',
+    title: t('kanc:sections.quickService.items.education.title'),
+    desc: t('kanc:sections.quickService.items.education.description'),
     link: '/education',
     icon: GraduationCap,
-    badge: '신규',
-    time: '2월 개강'
+    badge: t('kanc:sections.quickService.badges.new'),
+    time: t('kanc:sections.quickService.times.febStart')
   },
   {
-    title: '1:1 문의',
-    desc: '전문가 상담',
+    title: t('kanc:sections.quickService.items.inquiry.title'),
+    desc: t('kanc:sections.quickService.items.inquiry.description'),
     link: '/inquiry',
     icon: MessageCircle,
-    time: '평균 30분 대기'
+    time: t('kanc:sections.quickService.times.avg30min')
   },
   {
-    title: '장비 예약',
-    desc: '500+ 첨단장비',
+    title: t('kanc:sections.quickService.items.equipment.title'),
+    desc: t('kanc:sections.quickService.items.equipment.description'),
     link: '/equipment',
     icon: Calendar,
-    time: '24시간 운영'
+    time: t('kanc:sections.quickService.times.24hours')
   }
 ]
 
-const serviceQuickLinks = [
+const getServiceQuickLinks = (t: (key: string) => string) => [
   {
-    title: '진행 현황',
-    desc: '실시간 조회',
+    title: t('kanc:sections.quickService.items.status.title'),
+    desc: t('kanc:sections.quickService.items.status.description'),
     link: '/fab/status',
     icon: TrendingUp,
-    badge: 'Live',
-    time: '실시간 업데이트',
+    badge: t('kanc:sections.quickService.badges.live'),
+    time: t('kanc:sections.quickService.times.realtime'),
     highlight: true
   },
   {
-    title: '대관 신청',
-    desc: '시설 예약',
+    title: t('kanc:sections.quickService.items.facility.title'),
+    desc: t('kanc:sections.quickService.items.facility.description'),
     link: '/facility/apply',
     icon: Building2,
-    time: '즉시 확인'
+    time: t('kanc:sections.quickService.times.immediateCheck')
   },
   {
-    title: '담당자 안내',
-    desc: '빠른 연결',
+    title: t('kanc:sections.quickService.items.staff.title'),
+    desc: t('kanc:sections.quickService.items.staff.description'),
     link: '/staff',
     icon: Users,
-    time: '평일 09-18시'
+    time: t('kanc:sections.quickService.times.weekdays')
   },
   {
-    title: '긴급 지원',
-    desc: '24시간 상담',
+    title: t('kanc:sections.quickService.items.hotline.title'),
+    desc: t('kanc:sections.quickService.items.hotline.description'),
     link: '/hotline',
     icon: AlertCircle,
-    badge: '긴급',
-    time: '24/7 운영'
+    badge: t('kanc:sections.quickService.badges.urgent'),
+    time: t('kanc:sections.quickService.times.24_7')
   }
 ]
 
 export function QuickServiceSection({ variant }: QuickServiceSectionProps) {
-  const quickLinks = variant === 'intro' ? introQuickLinks : serviceQuickLinks
+  const { t } = useTranslation()
+  const quickLinks = variant === 'intro' ? getIntroQuickLinks(t) : getServiceQuickLinks(t)
 
   return (
     <Card className="flex-1 flex flex-col p-0 overflow-hidden">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold text-foreground">빠른 서비스</h3>
+          <h3 className="text-base font-semibold text-foreground">{t('kanc:sections.quickService.title')}</h3>
           <a
             href={variant === 'intro' ? '/service/all' : '/service/portal'}
             className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"
           >
-            전체
+            {t('kanc:common.viewAll')}
             <ChevronRight className="w-3 h-3" />
           </a>
         </div>
@@ -145,7 +147,7 @@ export function QuickServiceSection({ variant }: QuickServiceSectionProps) {
                         </p>
                         {item.badge && (
                           <Badge
-                            variant={item.badge === '인기' ? 'default' : item.badge === '긴급' ? 'destructive' : 'secondary'}
+                            variant={item.badge === t('kanc:sections.quickService.badges.popular') ? 'default' : item.badge === t('kanc:sections.quickService.badges.urgent') ? 'destructive' : 'secondary'}
                             className="text-[10px] px-1.5 py-0 h-4"
                           >
                             {item.badge}
@@ -177,10 +179,10 @@ export function QuickServiceSection({ variant }: QuickServiceSectionProps) {
           <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground">
               <Star className="w-3 h-3 inline mr-1 text-yellow-500" />
-              오늘의 추천 서비스
+              {t('kanc:sections.quickService.todayRecommend')}
             </span>
             <a href="/service/recommend" className="text-primary hover:underline flex items-center gap-1">
-              모두 보기
+              {t('kanc:common.viewAll')}
               <ChevronRight className="w-3 h-3" />
             </a>
           </div>

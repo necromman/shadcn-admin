@@ -6,12 +6,166 @@
     "more": "더보기",
     "close": "닫기",
     "search": "검색",
-    "menu": "메뉴"
+    "menu": "메뉴",
+    "required": "필수",
+    "go": "바로가기",
+    "moreItems": "개 더보기",
+    "moreMenuItems": "개 메뉴 더보기"
   },
   "header": {
     "tabs": {
       "intro": "KANC 소개 홈페이지",
       "service": "KANC 서비스 홈페이지"
+    },
+    "topbar": {
+      "intranet": "인트라넷",
+      "sitemap": "홈페이지 안내",
+      "changeTheme": "테마 변경",
+      "demoSelect": "요구사항 데모",
+      "demos": {
+        "sfr002": "디자인 적용",
+        "sfr003": "서비스 취소",
+        "sfr004": "정산 동기화",
+        "sfr005": "금액 동기화",
+        "sfr006": "파일 인터페이스"
+      }
+    }
+  },
+  "navigation": {
+    "menu": {
+      "about": {
+        "title": "기술원소개",
+        "greeting": "인사말",
+        "history": "일반현황",
+        "purpose": "설립목적 및 주요기능",
+        "vision": "비전 및 목표",
+        "facility": "시설현황",
+        "achievement": "주요사업 및 성과",
+        "ci": "CI소개",
+        "talent": "인재상",
+        "ethics": "윤리헌장",
+        "org": "조직 및 직원",
+        "chart": "조직도",
+        "staff": "직원검색",
+        "location": "찾아오시는길"
+      },
+      "tech": {
+        "title": "기술소개",
+        "process": "공정기술",
+        "module": "모듈공정기술",
+        "thinFilm": "박막기술",
+        "etching": "식각기술",
+        "patterning": "패터닝기술",
+        "post": "후공정기술",
+        "epi": "에피기술",
+        "analysis": "시험분석기술",
+        "device": "소자기술"
+      },
+      "service": {
+        "title": "서비스안내",
+        "fab": "팹서비스",
+        "fabOverview": "팹서비스 종합안내",
+        "info": "서비스 안내",
+        "tour": "팹 투어 안내",
+        "equipment": "장비안내",
+        "education": "교육서비스",
+        "rental": "임대서비스",
+        "rentalGuide": "입주안내",
+        "building": "건물현황",
+        "companies": "입주기업",
+        "venue": "대관안내",
+        "cleanroom": "클린룸 공간 사용"
+      },
+      "notice": {
+        "title": "공지 및 안내",
+        "list": "공지사항",
+        "announcement": "공고",
+        "bidding": "입찰공고",
+        "recruitment": "채용공고",
+        "family": "친인척 채용정보 공개",
+        "law": "법령자료"
+      },
+      "support": {
+        "title": "기업지원안내",
+        "status": "기업지원 현황",
+        "intro": "기업지원 소개",
+        "singleCreator": "1인 창조기업 지원센터",
+        "nanoSme": "나노 중소기업 지원사업",
+        "bizIntro": "사업 소개",
+        "participatingCompanies": "참여기업 현황",
+        "ended": "종료된 사업",
+        "platform": "나노 공동연구 플랫폼",
+        "certification": "나노 소자 신뢰성인증",
+        "event": "행사 안내",
+        "conference": "기술교류회 및 발표회",
+        "nanokorea": "행사안내(나노코리아)",
+        "transfer": "기술 이전",
+        "transferGuide": "기술 이전 지원 안내",
+        "patent": "기술원 보유 특허 안내",
+        "commercialization": "기술 사업화 및 후속지원",
+        "overview": "사업개요 및 지원내용"
+      },
+      "activity": {
+        "title": "KANC 활동",
+        "news": "KANC 소식",
+        "events": "관련 행사 안내",
+        "council": "이용자 협의회"
+      },
+      "environment": {
+        "title": "환경안전",
+        "message": "원장메세지",
+        "policy": "환경안전방침",
+        "system": "환경안전 운영 시스템",
+        "green": "녹색지킴이 활동 및 성과"
+      },
+      "disclosure": {
+        "title": "정보공개",
+        "systemGuide": "정보공개제도안내",
+        "what": "정보공개제도란",
+        "lawData": "법령자료",
+        "processProc": "정보공개처리절차",
+        "target": "공개대상기관",
+        "method": "정보공개방법",
+        "obligation": "공공기관의무",
+        "appeal": "불복구제절차방법",
+        "fee": "수수료안내",
+        "private": "비공개정보",
+        "realName": "사업실명제",
+        "preDisclosure": "사전정보공개",
+        "openData": "공공데이터 개방",
+        "management": "경영공시",
+        "expense": "업무추진비",
+        "request": "정보공개청구"
+      },
+      "servicePortal": {
+        "analysis": "시험분석서비스",
+        "analysisIntro": "서비스 소개",
+        "analysisEquipment": "분석장비 안내",
+        "process": "이용절차",
+        "usageFee": "이용요금",
+        "educationService": "교육서비스",
+        "program": "교육프로그램",
+        "schedule": "교육일정",
+        "apply": "교육신청",
+        "materials": "교육자료실",
+        "fabServiceGuide": "팹서비스 종합안내",
+        "fabIntro": "팹서비스 소개",
+        "facilityGuide": "시설 안내",
+        "fabTour": "팹 투어",
+        "reservation": "온라인 예약",
+        "equipmentReservation": "장비 예약",
+        "spaceReservation": "공간 예약",
+        "consultingReservation": "기술상담 예약",
+        "myReservation": "나의 예약현황",
+        "customer": "고객서비스",
+        "faq": "FAQ",
+        "qna": "Q&A",
+        "download": "자료실",
+        "contact": "문의하기"
+      }
+    },
+    "megaMenu": {
+      "quickServiceInfo": "빠른 서비스 이용을 위한 메가 메뉴"
     }
   },
   "footer": {
@@ -46,11 +200,19 @@
       "news": "뉴스룸",
       "reference": "기술자료",
       "publication": "간행물",
-      "download": "다운로드"
+      "download": "다운로드",
+      "guide": "이용 가이드"
     },
     "certifications": {
-      "title": "인증 현황"
+      "title": "인증 현황",
+      "certification": "인증"
     },
+    "companyInfo": {
+      "name": "상호명 : (재)한국나노기술원",
+      "bizNumber": "사업자등록번호: 135-82-10611",
+      "ceo": "(대표자 : 박노재)"
+    },
+    "contactUs": "게시된 정보화 관련한 문의 또는 건의사항은 info@kanc.re.kr로 연락주시기 바랍니다",
     "relatedSites": "관련 사이트",
     "copyright": "Copyright © 2025 한국나노기술원. All rights reserved."
   },
@@ -58,6 +220,15 @@
     "mainServices": {
       "title": "주요 서비스",
       "subtitle": "한국나노기술원의 핵심 서비스를 확인하세요",
+      "badges": {
+        "core": "핵심",
+        "education": "교육",
+        "rental": "임대",
+        "consultation": "상담",
+        "achievement": "성과",
+        "equipment": "장비",
+        "facility": "대관"
+      },
       "items": {
         "fab": {
           "title": "팹 서비스",
@@ -93,9 +264,71 @@
         }
       }
     },
+    "serviceMenu": {
+      "badges": {
+        "payment": "납부",
+        "issuance": "발급",
+        "eightInch": "8인치",
+        "access": "출입",
+        "facility": "대관",
+        "inquiry": "조회",
+        "staff": "담당자"
+      },
+      "items": {
+        "fabStatus": {
+          "title": "팹서비스 현황",
+          "description": "진행현황 조회"
+        },
+        "feeInquiry": {
+          "title": "사용료 조회",
+          "description": "요금 납부"
+        },
+        "documents": {
+          "title": "관련증빙 서류",
+          "description": "서류 발급"
+        },
+        "eightInch": {
+          "title": "8인치 팹서비스",
+          "description": "8인치 공정"
+        },
+        "fabAccess": {
+          "title": "팹출입 신청",
+          "description": "출입 신청서"
+        },
+        "facilityApply": {
+          "title": "대관 신청",
+          "description": "시설 대관"
+        },
+        "facilityStatus": {
+          "title": "대관 현황",
+          "description": "예약 조회"
+        },
+        "equipmentStaff": {
+          "title": "장비담당자",
+          "description": "전문가 안내"
+        }
+      }
+    },
     "quickService": {
       "title": "빠른 서비스",
       "subtitle": "자주 이용하는 서비스에 빠르게 접근하세요",
+      "todayRecommend": "오늘의 추천 서비스",
+      "badges": {
+        "popular": "인기",
+        "new": "신규",
+        "live": "Live",
+        "urgent": "긴급"
+      },
+      "times": {
+        "immediate": "즉시 예약",
+        "febStart": "2월 개강",
+        "avg30min": "평균 30분 대기",
+        "24hours": "24시간 운영",
+        "realtime": "실시간 업데이트",
+        "immediateCheck": "즉시 확인",
+        "weekdays": "평일 09-18시",
+        "24_7": "24/7 운영"
+      },
       "items": {
         "fabService": {
           "title": "팹 서비스",
@@ -149,7 +382,99 @@
     },
     "partners": {
       "title": "협력 기관",
-      "subtitle": "KANC와 함께하는 파트너 기관들을 만나보세요"
+      "subtitle": "KANC와 함께하는 파트너 기관들입니다",
+      "types": {
+        "research": "연구기관",
+        "promotion": "진흥원",
+        "infoService": "정보서비스",
+        "technopark": "테크노파크"
+      },
+      "items": {
+        "aict": {
+          "name": "차세대 융합기술연구원",
+          "description": "융합기술 R&D"
+        },
+        "gbsa": {
+          "name": "경기도경제과학진흥원",
+          "description": "경제과학 진흥"
+        },
+        "nanois": {
+          "name": "나노인프라 장비통합 정보서비스",
+          "description": "장비 통합 관리"
+        },
+        "gtp": {
+          "name": "경기 테크노파크",
+          "description": "기술 혁신 지원"
+        }
+      }
+    },
+    "supportFacility": {
+      "title": "고객 지원 & 시설 안내",
+      "subtitle": "전문 상담팀과 최첨단 연구 시설이 여러분의 성공적인 연구를 지원합니다",
+      "support": {
+        "title": "고객 지원",
+        "badge": "운영중",
+        "channels": {
+          "phone": {
+            "title": "전화 상담",
+            "subtitle": "평일 09:00-18:00"
+          },
+          "chat": {
+            "title": "실시간 채팅",
+            "value": "바로 시작하기",
+            "subtitle": "실시간 응답"
+          },
+          "email": {
+            "title": "이메일 문의",
+            "subtitle": "24시간 내 답변"
+          }
+        },
+        "responseTime": "평균 응답 시간",
+        "responseTimeValue": "10분 이내",
+        "faqButton": "자주 묻는 질문"
+      },
+      "facility": {
+        "introTitle": "시설 안내",
+        "serviceTitle": "이용 안내",
+        "intro": {
+          "facility": {
+            "title": "첨단 연구 시설",
+            "description": "1,200평 규모 클린룸 및 500종 이상 최첨단 장비 보유",
+            "badge": "견학 가능",
+            "stats": "일일 평균 200명 이용"
+          },
+          "experts": {
+            "title": "전문 연구 인력",
+            "description": "박사급 연구원 50명 포함 총 150명의 전문가 그룹",
+            "badge": "상담 가능",
+            "stats": "98% 만족도"
+          }
+        },
+        "service": {
+          "signup": {
+            "title": "회원 가입 안내",
+            "description": "KANC 서비스 이용을 위한 회원 가입 절차 안내",
+            "badge": "필수",
+            "stats": "5분 내 승인"
+          },
+          "location": {
+            "title": "오시는 길",
+            "description": "경기도 수원시 영통구 광교로 109 위치",
+            "badge": "지도",
+            "stats": "주차 가능"
+          }
+        },
+        "contactButton": "담당자 연결",
+        "faqButton": "FAQ",
+        "directionsButton": "오시는 길",
+        "researchButton": "연구 성과"
+      },
+      "cta": {
+        "title": "더 자세한 정보가 필요하신가요?",
+        "subtitle": "KANC 종합 안내 브로셔를 다운로드하세요",
+        "downloadButton": "브로셔 다운로드",
+        "tourButton": "견학 신청하기"
+      }
     }
   },
   "demo": {
@@ -161,6 +486,78 @@
       "sfr-004": "정산 담당자 정보 동기화",
       "sfr-005": "금액 실적 정보 동기화",
       "sfr-006": "첨부파일 Interface"
+    }
+  },
+  "hero": {
+    "intro": {
+      "slide1": {
+        "badge": "대한민국 반도체 산업의 핵심 인프라",
+        "title": "나노·반도체 기술의\n미래를 열어갑니다",
+        "subtitle": "세계 최고 수준의 나노공정 시설과\n시스템반도체 OSAT 기술을 지원합니다",
+        "buttonText": "기술원 소개",
+        "stats": {
+          "equipment": "첨단 장비",
+          "researchers": "전문 연구인력",
+          "companies": "누적 지원기업"
+        }
+      },
+      "slide2": {
+        "badge": "경기도 공공팹 오픈 이노베이션",
+        "title": "300mm 웨이퍼 팹\n완전 개방형 서비스",
+        "subtitle": "팹리스·중소기업을 위한 MPW 서비스와\nGaN 전력반도체 시제품 개발을 지원합니다",
+        "buttonText": "오픈팹 서비스",
+        "stats": {
+          "cleanroom": "클린룸",
+          "process": "공정 역량",
+          "wafers": "연간 웨이퍼"
+        }
+      },
+      "slide3": {
+        "badge": "차세대 패키징 기술 선도",
+        "title": "첨단패키징으로\n반도체 혁신 주도",
+        "subtitle": "시스템반도체 OSAT 분야 기술개발과\n전문인력 양성으로 K-반도체 경쟁력을 강화합니다",
+        "buttonText": "기업지원 안내",
+        "stats": {
+          "programs": "지원 프로그램",
+          "transfer": "기술이전 성과",
+          "graduates": "교육 수료생"
+        }
+      }
+    },
+    "service": {
+      "slide1": {
+        "badge": "24시간 오픈팹 예약 시스템",
+        "title": "실시간 장비 예약\nMOAFAB 서비스",
+        "subtitle": "E-Beam Lithography, PECVD 등 첨단 장비를\n온라인으로 간편하게 예약하고 이용하세요",
+        "buttonText": "장비 예약하기",
+        "stats": {
+          "equipment": "오픈팹 장비",
+          "usage": "월평균 이용",
+          "satisfaction": "이용 만족도"
+        }
+      },
+      "slide2": {
+        "badge": "반도체·나노 전문인력 양성",
+        "title": "직업계고부터 전문가까지\n맞춤형 기술교육",
+        "subtitle": "양자기술, E-beam Lithography, 첨단패키징 등\n실무 중심의 전문 교육과정을 운영합니다",
+        "buttonText": "교육 프로그램",
+        "stats": {
+          "students": "연간 교육생",
+          "courses": "무료 교육과정",
+          "employment": "취업 연계율"
+        }
+      },
+      "slide3": {
+        "badge": "ISO/IEC 17025 인증 시험기관",
+        "title": "원자력현미경부터\nCu Etching까지",
+        "subtitle": "최첨단 분석장비와 전문 연구진이\n정확한 시험분석 서비스를 제공합니다",
+        "buttonText": "시험분석 의뢰",
+        "stats": {
+          "items": "분석 항목",
+          "certification": "공인인증",
+          "processing": "처리시간"
+        }
+      }
     }
   }
 }

@@ -9,131 +9,131 @@ interface QuickMenuProps {
   variant: 'intro' | 'service'
 }
 
-const introItems = [
+const getIntroItems = (t: (key: string) => string) => [
   {
     id: '1',
-    title: '팹 서비스',
-    description: '나노공정 서비스',
+    title: t('kanc:sections.mainServices.items.fab.title'),
+    description: t('kanc:sections.mainServices.items.fab.description'),
     link: '/service/fab',
-    badge: '핵심',
+    badge: t('kanc:sections.mainServices.badges.core'),
     highlight: true
   },
   {
     id: '2',
-    title: '기술소개',
-    description: '첨단 기술 안내',
+    title: t('kanc:sections.mainServices.items.tech.title'),
+    description: t('kanc:sections.mainServices.items.tech.description'),
     link: '/tech/intro',
     badge: 'Tech'
   },
   {
     id: '3',
-    title: '교육 서비스',
-    description: '전문 교육 프로그램',
+    title: t('kanc:sections.mainServices.items.education.title'),
+    description: t('kanc:sections.mainServices.items.education.description'),
     link: '/service/education',
-    badge: '교육'
+    badge: t('kanc:sections.mainServices.badges.education')
   },
   {
     id: '4',
-    title: '임대서비스',
-    description: '시설 및 장비 임대',
+    title: t('kanc:sections.mainServices.items.rental.title'),
+    description: t('kanc:sections.mainServices.items.rental.description'),
     link: '/service/rental',
-    badge: '임대'
+    badge: t('kanc:sections.mainServices.badges.rental')
   },
   {
     id: '5',
-    title: '1:1문의',
-    description: '맞춤 상담 서비스',
+    title: t('kanc:sections.mainServices.items.inquiry.title'),
+    description: t('kanc:sections.mainServices.items.inquiry.description'),
     link: '/inquiry',
-    badge: '상담'
+    badge: t('kanc:sections.mainServices.badges.consultation')
   },
   {
     id: '6',
-    title: '주요사업',
-    description: '성과 및 실적',
+    title: t('kanc:sections.mainServices.items.business.title'),
+    description: t('kanc:sections.mainServices.items.business.description'),
     link: '/business',
-    badge: '성과'
+    badge: t('kanc:sections.mainServices.badges.achievement')
   },
   {
     id: '7',
-    title: '장비안내',
-    description: '500+ 첨단장비',
+    title: t('kanc:sections.mainServices.items.equipment.title'),
+    description: t('kanc:sections.mainServices.items.equipment.description'),
     link: '/equipment',
-    badge: '장비',
+    badge: t('kanc:sections.mainServices.badges.equipment'),
     highlight: true
   },
   {
     id: '8',
-    title: '대관안내',
-    description: '시설 대관 신청',
+    title: t('kanc:sections.mainServices.items.facility.title'),
+    description: t('kanc:sections.mainServices.items.facility.description'),
     link: '/facility',
-    badge: '대관'
+    badge: t('kanc:sections.mainServices.badges.facility')
   }
 ]
 
-const serviceItems = [
+const getServiceItems = (t: (key: string) => string) => [
   {
     id: '1',
-    title: '팹서비스 현황',
-    description: '진행현황 조회',
+    title: t('kanc:sections.serviceMenu.items.fabStatus.title'),
+    description: t('kanc:sections.serviceMenu.items.fabStatus.description'),
     link: '/fab/status',
     badge: 'Live',
     highlight: true
   },
   {
     id: '2',
-    title: '사용료 조회',
-    description: '요금 납부',
+    title: t('kanc:sections.serviceMenu.items.feeInquiry.title'),
+    description: t('kanc:sections.serviceMenu.items.feeInquiry.description'),
     link: '/fab/payment',
-    badge: '납부'
+    badge: t('kanc:sections.serviceMenu.badges.payment')
   },
   {
     id: '3',
-    title: '관련증빙 서류',
-    description: '서류 발급',
+    title: t('kanc:sections.serviceMenu.items.documents.title'),
+    description: t('kanc:sections.serviceMenu.items.documents.description'),
     link: '/fab/documents',
-    badge: '발급'
+    badge: t('kanc:sections.serviceMenu.badges.issuance')
   },
   {
     id: '4',
-    title: '8인치 팹서비스',
-    description: '8인치 공정',
+    title: t('kanc:sections.serviceMenu.items.eightInch.title'),
+    description: t('kanc:sections.serviceMenu.items.eightInch.description'),
     link: '/fab/8inch',
-    badge: '8인치'
+    badge: t('kanc:sections.serviceMenu.badges.eightInch')
   },
   {
     id: '5',
-    title: '팹출입 신청',
-    description: '출입 신청서',
+    title: t('kanc:sections.serviceMenu.items.fabAccess.title'),
+    description: t('kanc:sections.serviceMenu.items.fabAccess.description'),
     link: '/fab/access',
-    badge: '출입'
+    badge: t('kanc:sections.serviceMenu.badges.access')
   },
   {
     id: '6',
-    title: '대관 신청',
-    description: '시설 대관',
+    title: t('kanc:sections.serviceMenu.items.facilityApply.title'),
+    description: t('kanc:sections.serviceMenu.items.facilityApply.description'),
     link: '/facility/apply',
-    badge: '대관',
+    badge: t('kanc:sections.serviceMenu.badges.facility'),
     highlight: true
   },
   {
     id: '7',
-    title: '대관 현황',
-    description: '예약 조회',
+    title: t('kanc:sections.serviceMenu.items.facilityStatus.title'),
+    description: t('kanc:sections.serviceMenu.items.facilityStatus.description'),
     link: '/facility/status',
-    badge: '조회'
+    badge: t('kanc:sections.serviceMenu.badges.inquiry')
   },
   {
     id: '8',
-    title: '장비담당자',
-    description: '전문가 안내',
+    title: t('kanc:sections.serviceMenu.items.equipmentStaff.title'),
+    description: t('kanc:sections.serviceMenu.items.equipmentStaff.description'),
     link: '/equipment/staff',
-    badge: '담당자'
+    badge: t('kanc:sections.serviceMenu.badges.staff')
   }
 ]
 
 export function QuickMenu({ variant }: QuickMenuProps) {
   const { t } = useTranslation()
-  const items = variant === 'intro' ? introItems : serviceItems
+  const items = variant === 'intro' ? getIntroItems(t) : getServiceItems(t)
 
   return (
     <SectionWrapper>

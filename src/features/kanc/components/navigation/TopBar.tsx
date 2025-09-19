@@ -78,37 +78,37 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
                 <Select onValueChange={onDemoSelect}>
                   <SelectTrigger className="h-7 w-[180px] text-xs">
                     <Code className="w-3.5 h-3.5 mr-1" />
-                    <SelectValue placeholder="요구사항 데모" />
+                    <SelectValue placeholder={t('kanc:header.topbar.demoSelect')} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="sfr-002">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">SFR-002</span>
-                        <span className="text-muted-foreground">디자인 적용</span>
+                        <span className="text-muted-foreground">{t('kanc:header.topbar.demos.sfr002')}</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="sfr-003">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">SFR-003</span>
-                        <span className="text-muted-foreground">서비스 취소</span>
+                        <span className="text-muted-foreground">{t('kanc:header.topbar.demos.sfr003')}</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="sfr-004">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">SFR-004</span>
-                        <span className="text-muted-foreground">정산 동기화</span>
+                        <span className="text-muted-foreground">{t('kanc:header.topbar.demos.sfr004')}</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="sfr-005">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">SFR-005</span>
-                        <span className="text-muted-foreground">금액 동기화</span>
+                        <span className="text-muted-foreground">{t('kanc:header.topbar.demos.sfr005')}</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="sfr-006">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">SFR-006</span>
-                        <span className="text-muted-foreground">파일 인터페이스</span>
+                        <span className="text-muted-foreground">{t('kanc:header.topbar.demos.sfr006')}</span>
                       </div>
                     </SelectItem>
                   </SelectContent>
@@ -123,14 +123,14 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
               className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
             >
               <Users className="w-3.5 h-3.5" />
-              <span>Intranet</span>
+              <span>{t('kanc:header.topbar.intranet')}</span>
             </a>
             <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
             <a
               href="/sitemap"
               className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
             >
-              <span>홈페이지 안내</span>
+              <span>{t('kanc:header.topbar.sitemap')}</span>
             </a>
             <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
             {/* Language Switcher */}
@@ -176,7 +176,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
             >
               <HiSun className="h-4 w-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
               <HiMoon className="absolute h-4 w-4 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">테마 변경</span>
+              <span className="sr-only">{t('kanc:header.topbar.changeTheme')}</span>
             </Button>
 
             {/* 개발자 설정 버튼 */}
@@ -203,7 +203,7 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
             >
               <HiSun className="h-4 w-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
               <HiMoon className="absolute h-4 w-4 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">테마 변경</span>
+              <span className="sr-only">{t('kanc:header.topbar.changeTheme')}</span>
             </Button>
           </div>
         </div>

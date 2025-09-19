@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react'
 import { MenuItem } from '@/features/kanc/data/menu.mock'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface MobileDrawerProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface MobileDrawerProps {
 export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>([])
   const [showAllItems, setShowAllItems] = useState<Record<string, boolean>>({})
+  const { t } = useTranslation()
 
   const toggleExpand = (id: string) => {
     setExpandedItems(prev =>
@@ -32,7 +34,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
 
       <div className="fixed right-0 top-0 h-full w-80 bg-background shadow-xl z-50 lg:hidden overflow-y-auto">
         <div className="flex justify-between items-center p-4 border-b bg-card">
-          <h2 className="font-semibold text-lg">메뉴</h2>
+          <h2 className="font-semibold text-lg">{t('kanc:common.menu')}</h2>
           <button onClick={onClose} className="p-2 hover:bg-accent rounded-md transition-colors">
             <X className="w-5 h-5" />
           </button>
@@ -50,7 +52,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                     expandedItems.includes(item.id) && "bg-accent/50"
                   )}
                 >
-                  <span className="font-medium text-sm">{item.title}</span>
+                  <span className="font-medium text-sm">{t(item.title)}</span>
                   {item.children && (
                     <ChevronDown className={cn(
                       "w-4 h-4 transition-transform duration-200",
@@ -75,7 +77,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                                   expandedItems.includes(child.id) && "bg-accent/50"
                                 )}
                               >
-                                <span>{child.title}</span>
+                                <span>{t(child.title)}</span>
                                 <ChevronRight className={cn(
                                   "w-3 h-3 transition-transform duration-200",
                                   expandedItems.includes(child.id) && "rotate-90"
@@ -93,7 +95,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                                             onClick={() => toggleExpand(subChild.id)}
                                             className="w-full flex justify-between items-center px-3 py-1.5 text-left text-xs text-muted-foreground hover:text-primary hover:bg-accent/50 rounded"
                                           >
-                                            <span>· {subChild.title}</span>
+                                            <span>· {t(subChild.title)}</span>
                                             <ChevronRight className={cn(
                                               "w-3 h-3 transition-transform duration-200",
                                               expandedItems.includes(subChild.id) && "rotate-90"
@@ -108,7 +110,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                                                     className="block px-3 py-1 text-xs text-muted-foreground/70 hover:text-primary hover:bg-accent/30 rounded"
                                                     onClick={onClose}
                                                   >
-                                                    - {subSubChild.title}
+                                                    - {t(subSubChild.title)}
                                                   </a>
                                                 </li>
                                               ))}
@@ -121,7 +123,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                                           className="block px-3 py-1.5 text-xs text-muted-foreground hover:text-primary hover:bg-accent/50 rounded"
                                           onClick={onClose}
                                         >
-                                          · {subChild.title}
+                                          · {t(subChild.title)}
                                         </a>
                                       )}
                                     </li>
@@ -134,7 +136,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                                         onClick={() => setShowAllItems(prev => ({ ...prev, [child.id]: true }))}
                                         className="px-3 py-1.5 text-xs text-primary hover:underline"
                                       >
-                                        + {child.children.length - 3}개 더보기
+                                        + {child.children.length - 3}{t('kanc:common.moreItems')}
                                       </button>
                                     </li>
                                   )}
@@ -147,7 +149,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                               className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-accent rounded-md"
                               onClick={onClose}
                             >
-                              {child.title}
+                              {t(child.title)}
                             </a>
                           )}
                         </li>
@@ -160,7 +162,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
                             onClick={() => setShowAllItems(prev => ({ ...prev, [item.id]: true }))}
                             className="px-3 py-2 text-sm text-primary hover:underline font-medium"
                           >
-                            + {item.children.length - 5}개 메뉴 더보기
+                            + {item.children.length - 5}{t('kanc:common.moreMenuItems')}
                           </button>
                         </li>
                       )}

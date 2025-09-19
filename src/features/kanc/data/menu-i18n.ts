@@ -1,10 +1,4 @@
-export interface MenuItem {
-  id: string
-  title: string
-  path?: string
-  children?: MenuItem[]
-  depth?: number
-}
+import { MenuItem } from './menu.mock'
 
 export const introMenuItems: MenuItem[] = [
   {

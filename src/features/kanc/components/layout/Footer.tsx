@@ -12,19 +12,25 @@ export function Footer() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap gap-4">
-              {['개인정보처리방침', '이용약관', '이메일무단수집거부', '사이트맵', '찾아오시는길'].map((item, index) => (
+              {[
+                { key: 'privacy', label: t('kanc:footer.quickLinks.privacy'), required: true },
+                { key: 'terms', label: t('kanc:footer.quickLinks.terms') },
+                { key: 'emailPolicy', label: t('kanc:footer.quickLinks.emailPolicy') },
+                { key: 'sitemap', label: t('kanc:footer.quickLinks.sitemap') },
+                { key: 'directions', label: t('kanc:footer.quickLinks.directions') }
+              ].map((item) => (
                 <a
-                  key={index}
+                  key={item.key}
                   href="#"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
                 >
-                  {item}
-                  {index === 0 && <span className="text-xs text-red-600 font-semibold">필수</span>}
+                  {item.label}
+                  {item.required && <span className="text-xs text-red-600 font-semibold">{t('kanc:common.required')}</span>}
                 </a>
               ))}
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">관련 사이트</span>
+              <span className="text-sm text-muted-foreground">{t('kanc:footer.relatedSites')}</span>
               <select className="text-sm border rounded px-2 py-1 bg-popover text-foreground">
                 <option>과학기술정보통신부</option>
                 <option>한국연구재단</option>
@@ -33,7 +39,7 @@ export function Footer() {
                 <option>나노융합산업연구조합</option>
               </select>
               <Button size="sm" variant="outline">
-                바로가기
+                {t('kanc:common.go')}
                 <ExternalLink className="ml-1 h-3 w-3" />
               </Button>
             </div>
@@ -53,10 +59,8 @@ export function Footer() {
                 className="w-auto dark:filter dark:invert"
               />
             </div>
-            <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-              나노기술의 미래를 선도하는 한국나노기술원은<br />
-              세계 최고 수준의 나노팹 인프라와 전문 인력을 바탕으로<br />
-              대한민국 나노기술 발전에 기여하고 있습니다.
+            <p className="text-sm text-muted-foreground mb-6 leading-relaxed whitespace-pre-line">
+              {t('kanc:footer.slogan')}
             </p>
 
             {/* Certifications */}
@@ -68,21 +72,21 @@ export function Footer() {
                 ISO 14001
               </div>
               <div className="bg-white dark:bg-popover rounded px-3 py-2 text-xs font-medium text-gray-700 dark:text-muted-foreground border border-gray-200 dark:border-border">
-                KOLAS 인증
+                KOLAS {t('kanc:footer.certifications.certification')}
               </div>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">주요 서비스</h4>
+            <h4 className="font-semibold mb-4 text-sm">{t('kanc:footer.services.title')}</h4>
             <ul className="space-y-2">
               {[
-                '팹서비스 신청',
-                '장비 예약',
-                '교육 프로그램',
-                '기술 상담',
-                '시험분석 의뢰'
+                t('kanc:footer.services.fab'),
+                t('kanc:footer.services.equipment'),
+                t('kanc:footer.services.education'),
+                t('kanc:footer.services.consulting'),
+                t('kanc:footer.resources.reference')
               ].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
@@ -96,14 +100,14 @@ export function Footer() {
 
           {/* Support */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">고객지원</h4>
+            <h4 className="font-semibold mb-4 text-sm">{t('kanc:footer.resources.title')}</h4>
             <ul className="space-y-2">
               {[
-                '공지사항',
-                '자주 묻는 질문',
-                '온라인 문의',
-                '서식 자료실',
-                '이용 가이드'
+                t('kanc:footer.resources.notice'),
+                t('kanc:navigation.menu.servicePortal.faq'),
+                t('kanc:sections.quickService.items.inquiry.title'),
+                t('kanc:footer.resources.download'),
+                t('kanc:footer.resources.guide')
               ].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
@@ -117,19 +121,19 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">연락처</h4>
+            <h4 className="font-semibold mb-4 text-sm">{t('kanc:footer.contact.title')}</h4>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-muted-foreground mt-0.5" />
                 <div className="text-sm text-muted-foreground">
-                  <p>[16229] 경기도 수원시 영통구 광교로 109</p>
+                  <p>{t('kanc:footer.contact.zipcode')} {t('kanc:footer.contact.address')}</p>
                   <p className="text-xs">(이의동, 한국나노기술원)</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-muted-foreground" />
                 <div className="text-sm text-muted-foreground">
-                  <p>Tel: 031-546-6000 / 031-546-6114</p>
+                  <p>{t('kanc:footer.contact.tel')}: 031-546-6000 / 031-546-6114</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -170,15 +174,15 @@ export function Footer() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
             <div className="flex flex-wrap items-center gap-2">
-              <p>상호명 : (재)한국나노기술원</p>
+              <p>{t('kanc:footer.companyInfo.name')}</p>
               <Separator orientation="vertical" className="h-4" />
-              <p>사업자등록번호: 135-82-10611</p>
+              <p>{t('kanc:footer.companyInfo.bizNumber')}</p>
               <Separator orientation="vertical" className="h-4" />
-              <p>(대표자 : 박노재)</p>
+              <p>{t('kanc:footer.companyInfo.ceo')}</p>
             </div>
             <div className="text-center md:text-right">
-              <p>Copyright by kanc. All rights reserved.</p>
-              <p className="mt-1">게시된 정보화 관련한 문의 또는 건의사항은 info@kanc.re.kr로 연락주시기 바랍니다</p>
+              <p>{t('kanc:footer.copyright')}</p>
+              <p className="mt-1">{t('kanc:footer.contactUs')}</p>
             </div>
           </div>
         </div>

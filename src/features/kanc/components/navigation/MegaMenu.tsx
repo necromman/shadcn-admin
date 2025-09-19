@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { MenuItem } from '@/features/kanc/data/menu.mock'
 import { ChevronDown, ArrowRight, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface MegaMenuProps {
   menuItems: MenuItem[]
@@ -17,6 +18,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
   const [expandedSubMenus, setExpandedSubMenus] = useState<Record<string, boolean>>({})
   const navRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
+  const { t } = useTranslation()
 
   const toggleSubMenu = (menuId: string) => {
     setExpandedSubMenus(prev => ({
@@ -75,7 +77,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
               onMouseLeave={() => setActiveMenu(null)}
             >
               <button className="flex items-center gap-1 py-4 text-foreground hover:text-primary font-medium transition-colors">
-                {item.title}
+                {t(item.title)}
                 {item.children && <ChevronDown className="w-4 h-4" />}
               </button>
 
@@ -94,7 +96,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                 toggleSubMenu(child.id);
                               }}
                             >
-                              <span className="font-medium">{child.title}</span>
+                              <span className="font-medium">{t(child.title)}</span>
                               <ChevronRight className={cn(
                                 "w-4 h-4 transition-transform",
                                 expandedSubMenus[child.id] ? "rotate-90" : ""
@@ -116,7 +118,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                               toggleSubMenu(subChild.id);
                                             }}
                                           >
-                                            <span className="font-medium">{subChild.title}</span>
+                                            <span className="font-medium">{t(subChild.title)}</span>
                                             <ChevronRight className={cn(
                                               "w-3 h-3 transition-transform",
                                               expandedSubMenus[subChild.id] ? "rotate-90" : ""
@@ -133,7 +135,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                                       className="block px-3 py-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
                                                       onClick={() => setActiveMenu(null)}
                                                     >
-                                                      • {subSubChild.title}
+                                                      • {t(subSubChild.title)}
                                                     </a>
                                                   </li>
                                                 ))}
@@ -147,7 +149,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                           className="block px-3 py-2 text-xs text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
                                           onClick={() => setActiveMenu(null)}
                                         >
-                                          {subChild.title}
+                                          {t(subChild.title)}
                                         </a>
                                       )}
                                     </li>
@@ -162,7 +164,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                             className="block px-4 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-primary transition-colors"
                             onClick={() => setActiveMenu(null)}
                           >
-                            {child.title}
+                            {t(child.title)}
                           </a>
                         )}
                       </li>
@@ -203,7 +205,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                     ? "text-primary border-primary"
                     : "text-muted-foreground border-border"
                 )}>
-                  {item.title}
+                  {t(item.title)}
                 </h3>
 
                 {/* 서브메뉴 아이템들 - 2depth까지만 기본 표시 */}
@@ -222,7 +224,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                 ? "text-foreground hover:bg-accent/50"
                                 : "text-muted-foreground hover:text-foreground"
                             )}>
-                              <span>{child.title}</span>
+                              <span>{t(child.title)}</span>
                               <ChevronRight className="w-3 h-3 opacity-50" />
                             </div>
 
@@ -235,7 +237,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                     {subChild.children ? (
                                       <div className="group/sub relative">
                                         <div className="flex items-center justify-between px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-primary cursor-pointer">
-                                          <span>{subChild.title}</span>
+                                          <span>{t(subChild.title)}</span>
                                           <ChevronRight className="w-3 h-3 opacity-50" />
                                         </div>
                                         {/* 4depth는 더 작은 폰트로 */}
@@ -249,7 +251,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                                     className="block px-3 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-primary"
                                                     onClick={() => setIsMenuOpen(false)}
                                                   >
-                                                    {subSubChild.title}
+                                                    {t(subSubChild.title)}
                                                   </a>
                                                 </li>
                                               ))}
@@ -263,7 +265,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                                         className="block px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-primary"
                                         onClick={() => setIsMenuOpen(false)}
                                       >
-                                        {subChild.title}
+                                        {t(subChild.title)}
                                       </a>
                                     )}
                                     </li>
@@ -284,7 +286,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                             onMouseEnter={() => setActiveMenu(item.id)}
                           >
                             <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                            <span>{child.title}</span>
+                            <span>{t(child.title)}</span>
                           </a>
                         )}
                       </li>
@@ -298,7 +300,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                         href={`/${item.id}`}
                         className="flex items-center gap-1 px-2 py-1.5 text-xs text-muted-foreground hover:text-primary"
                       >
-                        <span>더보기</span>
+                        <span>{t('kanc:common.more')}</span>
                         <ArrowRight className="w-3 h-3" />
                       </a>
                     </li>
@@ -318,23 +320,23 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                   href="/kanc/sitemap"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  사이트맵
+                  {t('kanc:footer.quickLinks.sitemap')}
                 </a>
                 <a
                   href="/kanc/contact"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  오시는 길
+                  {t('kanc:footer.quickLinks.directions')}
                 </a>
                 <a
                   href="/kanc/faq"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  자주 묻는 질문
+                  {t('kanc:navigation.menu.servicePortal.faq')}
                 </a>
               </div>
               <div className="text-sm text-muted-foreground">
-                빠른 서비스 이용을 위한 메가 메뉴
+                {t('kanc:navigation.megaMenu.quickServiceInfo')}
               </div>
             </div>
           </div>
@@ -364,7 +366,7 @@ export function MegaMenu({ menuItems, style = 'default' }: MegaMenuProps) {
                   activeMenu === item.id && isMenuOpen && "text-primary"
                 )}
               >
-                {item.title}
+                {t(item.title)}
                 {item.children && <ChevronDown className={cn(
                   "w-4 h-4 transition-transform",
                   activeMenu === item.id && isMenuOpen && "rotate-180"

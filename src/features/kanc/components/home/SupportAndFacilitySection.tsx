@@ -16,69 +16,72 @@ import {
   HiSparkles
 } from 'react-icons/hi2'
 import { cn } from '@/lib/utils'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface SupportAndFacilitySectionProps {
   variant?: 'intro' | 'service'
 }
 
 export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacilitySectionProps = {}) {
+  const { t } = useTranslation()
+
   const supportChannels = [
     {
       icon: HiPhone,
-      title: '전화 상담',
+      title: t('kanc:sections.supportFacility.support.channels.phone.title'),
       value: '042-123-4567',
-      subtitle: '평일 09:00 - 18:00'
+      subtitle: t('kanc:sections.supportFacility.support.channels.phone.subtitle')
     },
     {
       icon: HiChatBubbleLeftRight,
-      title: '실시간 채팅',
-      value: '온라인 상담',
-      subtitle: '365일 24시간',
+      title: t('kanc:sections.supportFacility.support.channels.chat.title'),
+      value: t('kanc:sections.supportFacility.support.channels.chat.value'),
+      subtitle: t('kanc:sections.supportFacility.support.channels.chat.subtitle'),
       action: true
     },
     {
       icon: HiEnvelope,
-      title: '이메일 문의',
+      title: t('kanc:sections.supportFacility.support.channels.email.title'),
       value: 'help@kanc.re.kr',
-      subtitle: '1영업일 내 답변'
+      subtitle: t('kanc:sections.supportFacility.support.channels.email.subtitle')
     }
   ]
 
   const introFacilityInfo = [
     {
       icon: HiBuildingOffice2,
-      title: '시설안내',
-      description: 'KANC 첨단시설 VR 투어',
+      title: t('kanc:sections.supportFacility.facility.intro.facility.title'),
+      description: t('kanc:sections.supportFacility.facility.intro.facility.description'),
       link: '/facility/guide',
-      badge: 'VR 투어',
-      stats: '12개 연구동'
+      badge: t('kanc:sections.supportFacility.facility.intro.facility.badge'),
+      stats: t('kanc:sections.supportFacility.facility.intro.facility.stats')
     },
     {
       icon: HiUserGroup,
-      title: '전문 인력',
-      description: '분야별 전문가 검색',
+      title: t('kanc:sections.supportFacility.facility.intro.experts.title'),
+      description: t('kanc:sections.supportFacility.facility.intro.experts.description'),
       link: '/staff',
-      badge: '200+ 전문가',
-      stats: '15개 전문분야'
+      badge: t('kanc:sections.supportFacility.facility.intro.experts.badge'),
+      stats: t('kanc:sections.supportFacility.facility.intro.experts.stats')
     }
   ]
 
   const serviceFacilityInfo = [
     {
       icon: HiUserGroup,
-      title: '회원가입',
-      description: '3분 간편가입',
+      title: t('kanc:sections.supportFacility.facility.service.signup.title'),
+      description: t('kanc:sections.supportFacility.facility.service.signup.description'),
       link: '/signup/guide',
-      badge: '간편가입',
-      stats: '3분 완료'
+      badge: t('kanc:sections.supportFacility.facility.service.signup.badge'),
+      stats: t('kanc:sections.supportFacility.facility.service.signup.stats')
     },
     {
       icon: HiMapPin,
-      title: '오시는 길',
-      description: '위치 및 교통 안내',
+      title: t('kanc:sections.supportFacility.facility.service.location.title'),
+      description: t('kanc:sections.supportFacility.facility.service.location.description'),
       link: '/location',
-      badge: '위치안내',
-      stats: '대전 유성구'
+      badge: t('kanc:sections.supportFacility.facility.service.location.badge'),
+      stats: t('kanc:sections.supportFacility.facility.service.location.stats')
     }
   ]
 
@@ -90,10 +93,10 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
         {/* 섹션 헤더 */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
-            고객 지원 & 시설 안내
+            {t('kanc:sections.supportFacility.title')}
           </h2>
           <p className="text-base text-muted-foreground max-w-2xl mx-auto">
-            전문 상담팀과 최첨단 연구 시설이 여러분의 성공적인 연구를 지원합니다
+            {t('kanc:sections.supportFacility.subtitle')}
           </p>
         </div>
 
@@ -104,11 +107,11 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
             <CardHeader className="border-b px-6 pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-[#f3f3f3]">고객 지원</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-[#f3f3f3]">{t('kanc:sections.supportFacility.support.title')}</h3>
                 </div>
                 <Badge className="bg-green-100 text-green-700 dark:bg-[#343638] dark:text-[#3fd7bc] border-0">
                   <HiCheckCircle className="w-3.5 h-3.5 mr-1" />
-                  운영중
+                  {t('kanc:sections.supportFacility.support.badge')}
                 </Badge>
               </div>
             </CardHeader>
@@ -156,10 +159,10 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
                 <div className="pt-4 border-t border-border/50">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">
-                      평균 응답 시간: <span className="font-medium text-foreground">10분 이내</span>
+                      {t('kanc:sections.supportFacility.support.responseTime')}: <span className="font-medium text-foreground">{t('kanc:sections.supportFacility.support.responseTimeValue')}</span>
                     </span>
                     <Button variant="link" size="sm" className="h-auto p-0">
-                      자주 묻는 질문 →
+                      {t('kanc:sections.supportFacility.support.faqButton')} →
                     </Button>
                   </div>
                 </div>
@@ -171,7 +174,7 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
           <Card className="h-full overflow-hidden border border-gray-200/50 dark:border-[#383c3c] bg-white dark:bg-[#272829]">
             <CardHeader className="border-b px-6 pb-4">
               <div className="flex items-center gap-3">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-[#f3f3f3]">{variant === 'service' ? '이용 안내' : '시설 안내'}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-[#f3f3f3]">{variant === 'service' ? t('kanc:sections.supportFacility.facility.serviceTitle') : t('kanc:sections.supportFacility.facility.introTitle')}</h3>
               </div>
             </CardHeader>
             <CardContent className="p-6">
@@ -223,22 +226,22 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
                     <>
                       <Button variant="outline" size="default" className="justify-start h-10">
                         <HiPhone className="w-4 h-4 mr-2" />
-                        담당자 연결
+                        {t('kanc:sections.supportFacility.facility.contactButton')}
                       </Button>
                       <Button variant="outline" size="default" className="justify-start h-10">
                         <HiEnvelope className="w-4 h-4 mr-2" />
-                        FAQ
+                        {t('kanc:sections.supportFacility.facility.faqButton')}
                       </Button>
                     </>
                   ) : (
                     <>
                       <Button variant="outline" size="default" className="justify-start h-10">
                         <HiMapPin className="w-4 h-4 mr-2" />
-                        오시는 길
+                        {t('kanc:sections.supportFacility.facility.directionsButton')}
                       </Button>
                       <Button variant="outline" size="default" className="justify-start h-10">
                         <HiAcademicCap className="w-4 h-4 mr-2" />
-                        연구 성과
+                        {t('kanc:sections.supportFacility.facility.researchButton')}
                       </Button>
                     </>
                   )}
@@ -255,18 +258,18 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="text-center md:text-left">
                 <p className="text-sm font-medium">
-                  더 자세한 정보가 필요하신가요?
+                  {t('kanc:sections.supportFacility.cta.title')}
                 </p>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  KANC 종합 안내 브로셔를 다운로드하세요
+                  {t('kanc:sections.supportFacility.cta.subtitle')}
                 </p>
               </div>
               <div className="flex gap-3">
                 <Button size="default" variant="outline" className="h-10">
-                  브로셔 다운로드
+                  {t('kanc:sections.supportFacility.cta.downloadButton')}
                 </Button>
                 <Button size="default" className="h-10">
-                  견학 신청하기
+                  {t('kanc:sections.supportFacility.cta.tourButton')}
                   <HiArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>

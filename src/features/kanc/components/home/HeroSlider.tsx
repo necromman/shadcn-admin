@@ -2,103 +2,105 @@ import { useState, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight, ArrowRight, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { useTranslation } from '@/lib/i18n/hooks'
 
 interface HeroSliderProps {
   variant: 'intro' | 'service'
 }
 
-const introSlides = [
+const getIntroSlides = (t: (key: string) => string) => [
   {
     id: '1',
     image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1920&h=600&fit=crop',
-    badge: '대한민국 반도체 산업의 핵심 인프라',
-    title: '나노·반도체 기술의\n미래를 열어갑니다',
-    subtitle: '세계 최고 수준의 나노공정 시설과\n시스템반도체 OSAT 기술을 지원합니다',
-    buttonText: '기술원 소개',
+    badge: t('kanc:hero.intro.slide1.badge'),
+    title: t('kanc:hero.intro.slide1.title'),
+    subtitle: t('kanc:hero.intro.slide1.subtitle'),
+    buttonText: t('kanc:hero.intro.slide1.buttonText'),
     link: '/about',
     stats: [
-      { label: '첨단 장비', value: '500+' },
-      { label: '전문 연구인력', value: '200+' },
-      { label: '누적 지원기업', value: '5,000+' }
+      { label: t('kanc:hero.intro.slide1.stats.equipment'), value: '500+' },
+      { label: t('kanc:hero.intro.slide1.stats.researchers'), value: '200+' },
+      { label: t('kanc:hero.intro.slide1.stats.companies'), value: '5,000+' }
     ]
   },
   {
     id: '2',
     image: 'https://images.unsplash.com/photo-1567789884554-0b844b597180?w=1920&h=600&fit=crop',
-    badge: '경기도 공공팹 오픈 이노베이션',
-    title: '300mm 웨이퍼 팹\n완전 개방형 서비스',
-    subtitle: '팹리스·중소기업을 위한 MPW 서비스와\nGaN 전력반도체 시제품 개발을 지원합니다',
-    buttonText: '오픈팹 서비스',
+    badge: t('kanc:hero.intro.slide2.badge'),
+    title: t('kanc:hero.intro.slide2.title'),
+    subtitle: t('kanc:hero.intro.slide2.subtitle'),
+    buttonText: t('kanc:hero.intro.slide2.buttonText'),
     link: '/service',
     stats: [
-      { label: '클린룸', value: 'Class 100' },
-      { label: '공정 역량', value: '28nm~7nm' },
-      { label: '연간 웨이퍼', value: '100,000+' }
+      { label: t('kanc:hero.intro.slide2.stats.cleanroom'), value: 'Class 100' },
+      { label: t('kanc:hero.intro.slide2.stats.process'), value: '28nm~7nm' },
+      { label: t('kanc:hero.intro.slide2.stats.wafers'), value: '100,000+' }
     ]
   },
   {
     id: '3',
     image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=600&fit=crop',
-    badge: '차세대 패키징 기술 선도',
-    title: '첨단패키징으로\n반도체 혁신 주도',
-    subtitle: '시스템반도체 OSAT 분야 기술개발과\n전문인력 양성으로 K-반도체 경쟁력을 강화합니다',
-    buttonText: '기업지원 안내',
+    badge: t('kanc:hero.intro.slide3.badge'),
+    title: t('kanc:hero.intro.slide3.title'),
+    subtitle: t('kanc:hero.intro.slide3.subtitle'),
+    buttonText: t('kanc:hero.intro.slide3.buttonText'),
     link: '/support',
     stats: [
-      { label: '지원 프로그램', value: '30+' },
-      { label: '기술이전 성과', value: '200+' },
-      { label: '교육 수료생', value: '2,000+/년' }
+      { label: t('kanc:hero.intro.slide3.stats.programs'), value: '30+' },
+      { label: t('kanc:hero.intro.slide3.stats.transfer'), value: '200+' },
+      { label: t('kanc:hero.intro.slide3.stats.graduates'), value: '2,000+' }
     ]
   }
 ]
 
-const serviceSlides = [
+const getServiceSlides = (t: (key: string) => string) => [
   {
     id: '1',
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=600&fit=crop',
-    badge: '24시간 오픈팹 예약 시스템',
-    title: '실시간 장비 예약\nMOAFAB 서비스',
-    subtitle: 'E-Beam Lithography, PECVD 등 첨단 장비를\n온라인으로 간편하게 예약하고 이용하세요',
-    buttonText: '장비 예약하기',
+    badge: t('kanc:hero.service.slide1.badge'),
+    title: t('kanc:hero.service.slide1.title'),
+    subtitle: t('kanc:hero.service.slide1.subtitle'),
+    buttonText: t('kanc:hero.service.slide1.buttonText'),
     link: '/reservation',
     stats: [
-      { label: '오픈팹 장비', value: '150+' },
-      { label: '월평균 이용', value: '3,000+건' },
-      { label: '이용 만족도', value: '98%' }
+      { label: t('kanc:hero.service.slide1.stats.equipment'), value: '150+' },
+      { label: t('kanc:hero.service.slide1.stats.usage'), value: '3,000+' },
+      { label: t('kanc:hero.service.slide1.stats.satisfaction'), value: '98%' }
     ]
   },
   {
     id: '2',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=600&fit=crop',
-    badge: '반도체·나노 전문인력 양성',
-    title: '직업계고부터 전문가까지\n맞춤형 기술교육',
-    subtitle: '양자기술, E-beam Lithography, 첨단패키징 등\n실무 중심의 전문 교육과정을 운영합니다',
-    buttonText: '교육 프로그램',
+    badge: t('kanc:hero.service.slide2.badge'),
+    title: t('kanc:hero.service.slide2.title'),
+    subtitle: t('kanc:hero.service.slide2.subtitle'),
+    buttonText: t('kanc:hero.service.slide2.buttonText'),
     link: '/education',
     stats: [
-      { label: '연간 교육생', value: '2,500+' },
-      { label: '무료 교육과정', value: '40+' },
-      { label: '취업 연계율', value: '85%' }
+      { label: t('kanc:hero.service.slide2.stats.students'), value: '2,500+' },
+      { label: t('kanc:hero.service.slide2.stats.courses'), value: '40+' },
+      { label: t('kanc:hero.service.slide2.stats.employment'), value: '85%' }
     ]
   },
   {
     id: '3',
     image: 'https://images.unsplash.com/photo-1559028012-113943073c0a?w=1920&h=600&fit=crop',
-    badge: 'ISO/IEC 17025 인증 시험기관',
-    title: '원자력현미경부터\nCu Etching까지',
-    subtitle: '최첨단 분석장비와 전문 연구진이\n정확한 시험분석 서비스를 제공합니다',
-    buttonText: '시험분석 의뢰',
+    badge: t('kanc:hero.service.slide3.badge'),
+    title: t('kanc:hero.service.slide3.title'),
+    subtitle: t('kanc:hero.service.slide3.subtitle'),
+    buttonText: t('kanc:hero.service.slide3.buttonText'),
     link: '/analysis',
     stats: [
-      { label: '분석 항목', value: '250+' },
-      { label: '공인인증', value: 'KOLAS' },
-      { label: '처리시간', value: '3일 이내' }
+      { label: t('kanc:hero.service.slide3.stats.items'), value: '250+' },
+      { label: t('kanc:hero.service.slide3.stats.certification'), value: 'KOLAS' },
+      { label: t('kanc:hero.service.slide3.stats.processing'), value: '< 3 days' }
     ]
   }
 ]
 
 export function HeroSlider({ variant }: HeroSliderProps) {
-  const slides = variant === 'intro' ? introSlides : serviceSlides
+  const { t } = useTranslation()
+  const slides = variant === 'intro' ? getIntroSlides(t) : getServiceSlides(t)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const touchStartX = useRef<number | null>(null)

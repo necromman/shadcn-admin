@@ -34,9 +34,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 // 실무 데이터 생성 함수
 const generateServiceData = (count: number) => {
   const services = []
-  const serviceTypes = ['E-Beam Lithography', 'PECVD', 'Cu Etching', 'ALD', 'Dry Etching', 'Wet Etching', 'Metrology', 'Ion Implantation']
-  const users = ['김철수', '이영희', '박민수', '정수진', '최준호', '강미나', '조현우', '한지민']
-  const companies = ['삼성전자', 'SK하이닉스', '네오와인', '파워로직스', '실리콘웍스', '테크윈', '나노엑스', '케이엠더블유']
+  const serviceTypes = ['E-Beam Lithography', 'PECVD', 'Cu Etching', 'ALD', 'Dry Etching', 'Wet Etching', 'Metrology', 'Ion Implantation', 'Plasma Etching', 'Sputter Deposition', 'CVD', 'PVD', 'RTP', 'Oxidation', 'Diffusion', 'CMP']
+  const users = ['김철수', '이영희', '박민수', '정수진', '최준호', '강미나', '조현우', '한지민', '윤서준', '임하나', '장민호', '송유진', '백승현', '황지연', '남궁민', '서예린']
+  const companies = ['삼성전자', 'SK하이닉스', '네오와인', '파워로직스', '실리콘웍스', '테크윈', '나노엑스', '케이엠더블유', 'LG이노텍', '앰코테크놀로지', '시그네틱스', '하나마이크론', '유니테스트', '테라세미콘', '엑시콘', '프로텍']
 
   for (let i = 1; i <= count; i++) {
     const status = Math.random() > 0.7 ? '취소대기' : Math.random() > 0.5 ? '진행중' : '완료'
@@ -60,7 +60,7 @@ const generateServiceData = (count: number) => {
 
 // SFR-003: 모아팹 서비스 취소 정보 동기화 (고도화)
 export function SFR003AdvancedDemo() {
-  const [services, setServices] = useState(generateServiceData(150))
+  const [services, setServices] = useState(generateServiceData(500))
   const [filteredServices, setFilteredServices] = useState(services)
   const [syncLogs, setSyncLogs] = useState<any[]>([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -504,9 +504,9 @@ export function SFR003AdvancedDemo() {
 
             {/* 서비스 테이블 */}
             <div className="border rounded-lg" data-tour="table">
-              <ScrollArea className="h-[400px]">
+              <ScrollArea className="h-[800px]">
                 <Table>
-                  <TableHeader>
+                  <TableHeader className="sticky top-0 bg-background z-10">
                     <TableRow>
                       <TableHead className="w-12">
                         <input type="checkbox" className="rounded" />
@@ -524,7 +524,7 @@ export function SFR003AdvancedDemo() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredServices.slice(0, 50).map((service) => (
+                    {filteredServices.slice(0, 200).map((service) => (
                       <TableRow key={service.id}>
                         <TableCell>
                           <input
@@ -589,7 +589,7 @@ export function SFR003AdvancedDemo() {
 
             {/* 페이지네이션 정보 */}
             <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span>{filteredServices.length}개 중 50개 표시</span>
+              <span>{filteredServices.length}개 중 200개 표시</span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm">이전</Button>
                 <Button variant="outline" size="sm">다음</Button>
@@ -599,7 +599,7 @@ export function SFR003AdvancedDemo() {
 
           {/* 동기화 로그 탭 */}
           <TabsContent value="logs" className="space-y-4">
-            <ScrollArea className="h-[500px] w-full rounded-lg border p-4">
+            <ScrollArea className="h-[800px] w-full rounded-lg border p-4">
               <div className="space-y-2">
                 {syncLogs.length === 0 ? (
                   <p className="text-center text-muted-foreground py-8">동기화 로그가 없습니다.</p>

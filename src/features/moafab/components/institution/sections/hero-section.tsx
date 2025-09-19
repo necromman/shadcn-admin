@@ -1,4 +1,4 @@
-import { Institution } from '../../../data/institutions.mock'
+import { type Institution } from '../../../data/institutions.mock'
 import { Button } from '@/components/ui/button'
 import { Calendar, GraduationCap, Wrench } from 'lucide-react'
 import { Link } from '@tanstack/react-router'

@@ -201,7 +201,7 @@ export function DSFooterEnhanced() {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">
-                © 2024 BRAND Campus Library. All rights reserved.
+                © 2025 BRAND Campus Library. All rights reserved.
               </p>
               <p className="text-xs text-muted-foreground">
                 도서관장: 김학자 | 사업자등록번호: 101-82-00001 | 대표전화: 02-3290-0000

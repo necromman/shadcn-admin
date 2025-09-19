@@ -184,7 +184,104 @@
         "sitemap": "사이트맵",
         "accessibility": "웹접근성"
       },
-      "copyright": "© 2024 한국나노기술원. All rights reserved."
+      "copyright": "© 2025 한국나노기술원. All rights reserved."
+    }
+  },
+  "kanc": {
+    "equipment": {
+      "monitoring": "실시간 모니터링 시스템",
+      "title": "통합 장비관리 대시보드",
+      "stats": {
+        "total": "총 보유",
+        "nano": "나노기술 특화 장비",
+        "utilization": "평균 가동률",
+        "optimized": "최적화",
+        "avgWait": "평균 대기시간",
+        "fulfillment": "예약 충족률"
+      },
+      "units": {
+        "equipment": "대",
+        "hours": "시간"
+      },
+      "categories": {
+        "semiconductor": "반도체 공정장비",
+        "analysis": "측정/분석장비",
+        "nanomaterial": "나노소재장비",
+        "cleanroom": "클린룸 설비"
+      },
+      "categoryStatus": "장비 카테고리별 현황",
+      "viewDetails": "상세보기",
+      "realTimeActivity": "실시간 활동",
+      "log": "로그",
+      "activities": {
+        "booking": "SEM-FEI-01 전자현미경 예약 승인",
+        "start": "XRD-Rigaku-03 X선 회절 분석 시작",
+        "complete": "AFM-Park-02 원자현미경 정비 완료",
+        "alert": "Clean Room B동 습도 조절 필요",
+        "user": "ICP-MS 장비 교육 세션 시작 (12명)"
+      },
+      "status": {
+        "approved": "승인",
+        "inProgress": "진행중",
+        "completed": "완료",
+        "warning": "주의",
+        "info": "정보"
+      },
+      "performanceMetrics": "주요 성능 지표",
+      "analysis": "분석",
+      "metrics": {
+        "waitTime": "평균 대기시간",
+        "waitTimeValue": "{{time}}시간",
+        "accuracy": "장비 정확도",
+        "fulfillment": "예약 충족률",
+        "failureRate": "고장률"
+      },
+      "todayStats": {
+        "activeUsers": "활성 사용자",
+        "todayBookings": "오늘 예약",
+        "maintenance": "예정 정비"
+      },
+      "actions": {
+        "book": "장비 예약하기",
+        "analyze": "상세 분석 보기",
+        "report": "리포트 생성"
+      }
+    },
+    "services": {
+      "title": "대관 서비스",
+      "subtitle": "KANC 시설을 편리하게 이용하실 수 있습니다",
+      "facility": {
+        "apply": {
+          "title": "대관 신청",
+          "description": "회의실, 강당, 실험실 등 시설 대관 신청",
+          "stats": "즉시 예약"
+        },
+        "status": {
+          "title": "대관 신청 현황",
+          "description": "대관 신청 내역 및 처리 상태 확인",
+          "stats": "실시간 조회"
+        },
+        "price": {
+          "title": "대관료",
+          "description": "시설별 대관료 안내 및 요금 계산",
+          "stats": "투명한 요금"
+        },
+        "process": {
+          "title": "대관절차",
+          "description": "대관 신청부터 이용까지 전체 절차 안내",
+          "stats": "간편 절차"
+        }
+      },
+      "quick": {
+        "fabPricing": {
+          "title": "팹서비스 이용료",
+          "description": "팹서비스 이용 요금 상세 안내 및 견적 계산"
+        },
+        "education": {
+          "title": "교육서비스",
+          "description": "나노기술 전문 교육 프로그램 신청 및 일정"
+        }
+      }
     }
   }
 }

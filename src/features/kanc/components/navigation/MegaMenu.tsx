@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { MenuItem } from '@/features/kanc/data/menu.mock'
+import { type MenuItem } from '@/features/kanc/data/menu.mock'
 import { ChevronDown, ArrowRight, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTranslation } from '@/lib/i18n/hooks'

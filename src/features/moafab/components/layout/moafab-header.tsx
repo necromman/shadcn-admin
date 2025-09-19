@@ -24,7 +24,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
-import { NavMenuItem } from '../../types'
+import { type NavMenuItem } from '../../types'
 import { useMoafabDevSettings } from '../../context/dev-settings-provider'
 import { useTranslation } from '@/lib/i18n/hooks'
 

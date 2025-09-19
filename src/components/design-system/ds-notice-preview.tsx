@@ -52,7 +52,7 @@ const notices: NoticeItem[] = [
     category: '공지사항',
     title: '2025년 1월 정기 시스템 점검 안내',
     content: '서비스 품질 향상을 위한 정기 점검이 예정되어 있습니다. 점검 시간 동안 일부 서비스 이용이 제한될 수 있습니다.',
-    date: '2024-12-28',
+    date: '2025-12-28',
     isNew: true,
     isPinned: true,
     tags: ['시스템', '점검'],
@@ -63,7 +63,7 @@ const notices: NoticeItem[] = [
     category: '업데이트',
     title: 'v3.0 메이저 업데이트 - AI 기능 대폭 강화',
     content: '새로운 AI 어시스턴트 기능과 함께 작업 효율성이 크게 향상되었습니다. 자동 번역, 코드 생성 등 다양한 기능을 경험해보세요.',
-    date: '2024-12-27',
+    date: '2025-12-27',
     isNew: true,
     isHot: true,
     tags: ['업데이트', 'AI', '신기능'],
@@ -74,7 +74,7 @@ const notices: NoticeItem[] = [
     category: '이벤트',
     title: '신년 맞이 프리미엄 요금제 50% 할인',
     content: '2025년을 맞아 특별 할인 이벤트를 진행합니다. 1월 31일까지 프리미엄 요금제 50% 할인!',
-    date: '2024-12-26',
+    date: '2025-12-26',
     isHot: true,
     tags: ['이벤트', '할인', '프로모션'],
     viewCount: 5234
@@ -84,7 +84,7 @@ const notices: NoticeItem[] = [
     category: '보안',
     title: '2단계 인증 의무화 시행 안내',
     content: '계정 보안 강화를 위해 2025년 2월 1일부터 모든 사용자에게 2단계 인증이 의무화됩니다.',
-    date: '2024-12-25',
+    date: '2025-12-25',
     isPinned: true,
     tags: ['보안', '인증', '필수'],
     viewCount: 2156
@@ -94,7 +94,7 @@ const notices: NoticeItem[] = [
     category: '기능소개',
     title: '새로운 대시보드 커스터마이징 기능 출시',
     content: '이제 대시보드를 원하는 대로 커스터마이징할 수 있습니다. 위젯 추가, 레이아웃 변경 등 자유롭게 설정하세요.',
-    date: '2024-12-24',
+    date: '2025-12-24',
     tags: ['신기능', '대시보드'],
     viewCount: 1892
   },
@@ -103,7 +103,7 @@ const notices: NoticeItem[] = [
     category: '공지사항',
     title: '개인정보처리방침 개정 안내',
     content: '관련 법령 개정에 따라 개인정보처리방침이 일부 변경되었습니다. 변경된 내용을 확인해주세요.',
-    date: '2024-12-23',
+    date: '2025-12-23',
     tags: ['정책', '개인정보'],
     viewCount: 987
   }
@@ -172,7 +172,7 @@ const boardPosts: BoardData[] = [
       { id: '1', title: '서비스 이용 약관 변경 안내', date: '2025-01-09', isNew: true },
       { id: '2', title: '1월 정기 점검 일정 공지', date: '2025-01-07', isPinned: true },
       { id: '3', title: '신규 기능 업데이트 안내', date: '2025-01-05' },
-      { id: '4', title: '2024년 연말 이벤트 당첨자 발표', date: '2025-01-03' },
+      { id: '4', title: '2025년 연말 이벤트 당첨자 발표', date: '2025-01-03' },
       { id: '5', title: '개인정보처리방침 개정 안내', date: '2025-01-01' }
     ]
   },

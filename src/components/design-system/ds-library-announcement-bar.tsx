@@ -22,7 +22,7 @@ export function DSLibraryAnnouncementBar() {
             
             {/* 메시지 */}
             <div className="flex items-center gap-2 flex-1">
-              <span className="font-medium">2024학년도 겨울방학 특별 개관</span>
+              <span className="font-medium">2025학년도 겨울방학 특별 개관</span>
               <span className="text-white/90 hidden sm:inline">
                 방학 중에도 도서관을 이용하실 수 있습니다. (09:00 - 18:00)
               </span>
@@ -238,7 +238,7 @@ function EventAnnouncementBar() {
           <div className="flex items-center gap-3 flex-1">
             <span className="text-lg">📚</span>
             <div className="flex-1">
-              <span className="font-semibold">2024 겨울 독서 캠페인</span>
+              <span className="font-semibold">2025 겨울 독서 캠페인</span>
               <span className="ml-2 opacity-90">참여하고 도서 상품권 받아가세요!</span>
             </div>
             <Button

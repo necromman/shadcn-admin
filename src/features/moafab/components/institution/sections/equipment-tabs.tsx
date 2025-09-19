@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Institution } from '../../../data/institutions.mock'
+import { type Institution } from '../../../data/institutions.mock'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'

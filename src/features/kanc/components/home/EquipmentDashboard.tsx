@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { SectionWrapper } from '../common/SectionWrapper'
+import { useTranslation } from 'react-i18next'
 import {
   Activity,
   CheckCircle,
@@ -40,9 +41,9 @@ const equipmentStats = {
   peakHourUsage: 92
 }
 
-const equipmentCategories = [
+const getEquipmentCategories = (t: any) => [
   {
-    name: '반도체 공정장비',
+    name: t('kanc.equipment.categories.semiconductor'),
     total: 124,
     available: 98,
     usage: 79.2,
@@ -50,7 +51,7 @@ const equipmentCategories = [
     icon: 'semiconductor'
   },
   {
-    name: '측정/분석장비',
+    name: t('kanc.equipment.categories.analysis'),
     total: 156,
     available: 142,
     usage: 91.0,
@@ -58,7 +59,7 @@ const equipmentCategories = [
     icon: 'analysis'
   },
   {
-    name: '나노소재장비',
+    name: t('kanc.equipment.categories.nanomaterial'),
     total: 98,
     available: 87,
     usage: 88.8,
@@ -66,7 +67,7 @@ const equipmentCategories = [
     icon: 'nanomaterial'
   },
   {
-    name: '클린룸 설비',
+    name: t('kanc.equipment.categories.cleanroom'),
     total: 145,
     available: 85,
     usage: 58.6,
@@ -75,22 +76,24 @@ const equipmentCategories = [
   }
 ]
 
-const recentActivities = [
-  { time: '14:32', type: 'booking', message: 'SEM-FEI-01 전자현미경 예약 승인', status: 'success' },
-  { time: '14:25', type: 'start', message: 'XRD-Rigaku-03 X선 회절 분석 시작', status: 'active' },
-  { time: '14:18', type: 'complete', message: 'AFM-Park-02 원자현미경 정비 완료', status: 'complete' },
-  { time: '14:05', type: 'alert', message: 'Clean Room B동 습도 조절 필요', status: 'warning' },
-  { time: '13:58', type: 'user', message: 'ICP-MS 장비 교육 세션 시작 (12명)', status: 'info' }
+const getRecentActivities = (t: any) => [
+  { time: '14:32', type: 'booking', message: t('kanc.equipment.activities.booking'), status: 'success' },
+  { time: '14:25', type: 'start', message: t('kanc.equipment.activities.start'), status: 'active' },
+  { time: '14:18', type: 'complete', message: t('kanc.equipment.activities.complete'), status: 'complete' },
+  { time: '14:05', type: 'alert', message: t('kanc.equipment.activities.alert'), status: 'warning' },
+  { time: '13:58', type: 'user', message: t('kanc.equipment.activities.user'), status: 'info' }
 ]
 
-const performanceMetrics = [
-  { label: '평균 대기시간', value: '2.5시간', change: -15, unit: '' },
-  { label: '장비 정확도', value: '99.2%', change: 0.3, unit: '' },
-  { label: '예약 충족률', value: '94.2%', change: 2.1, unit: '' },
-  { label: '고장률', value: '0.8%', change: -0.2, unit: '' }
+const getPerformanceMetrics = (t: any) => [
+  { label: t('kanc.equipment.metrics.waitTime'), value: t('kanc.equipment.metrics.waitTimeValue', { time: '2.5' }), change: -15, unit: '' },
+  { label: t('kanc.equipment.metrics.accuracy'), value: '99.2%', change: 0.3, unit: '' },
+  { label: t('kanc.equipment.metrics.fulfillment'), value: '94.2%', change: 2.1, unit: '' },
+  { label: t('kanc.equipment.metrics.failureRate'), value: '0.8%', change: -0.2, unit: '' }
 ]
 
 export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardProps) {
+  const { t } = useTranslation()
+
   if (variant !== 'service') return null
 
   return (
@@ -100,10 +103,10 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
         <div className="text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
             <Zap className="w-3 h-3" />
-            실시간 모니터링 시스템
+            {t('kanc.equipment.monitoring')}
           </div>
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
-            통합 장비관리 대시보드
+            {t('kanc.equipment.title')}
           </h2>
         </div>
 
@@ -118,16 +121,16 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
                     <Settings className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <Badge variant="outline" className="text-[10px] px-2 py-0.5">
-                    총 보유
+                    {t('kanc.equipment.stats.total')}
                   </Badge>
                 </div>
                 <div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold">{equipmentStats.total}</span>
-                    <span className="text-sm text-muted-foreground">대</span>
+                    <span className="text-sm text-muted-foreground">{t('kanc.equipment.units.equipment')}</span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    나노기술 특화 장비
+                    {t('kanc.equipment.stats.nano')}
                   </p>
                 </div>
               </div>
@@ -154,7 +157,7 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    평균 가동률
+                    {t('kanc.equipment.stats.utilization')}
                   </p>
                 </div>
               </div>
@@ -170,16 +173,16 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
                     <Clock className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                   </div>
                   <Badge variant="outline" className="text-[10px] px-2 py-0.5">
-                    최적화
+                    {t('kanc.equipment.stats.optimized')}
                   </Badge>
                 </div>
                 <div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold">{equipmentStats.avgWaitTime}</span>
-                    <span className="text-sm text-muted-foreground">시간</span>
+                    <span className="text-sm text-muted-foreground">{t('kanc.equipment.units.hours')}</span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    평균 대기시간
+                    {t('kanc.equipment.stats.avgWait')}
                   </p>
                 </div>
               </div>
@@ -204,7 +207,7 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
                     <span className="text-2xl font-bold">{equipmentStats.completionRate}%</span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    예약 충족률
+                    {t('kanc.equipment.stats.fulfillment')}
                   </p>
                 </div>
               </div>
@@ -216,16 +219,16 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
         <Card className="border-0 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold">장비 카테고리별 현황</h3>
+              <h3 className="text-base font-semibold">{t('kanc.equipment.categoryStatus')}</h3>
               <Button variant="ghost" size="sm" className="h-8 text-xs">
-                상세보기
+                {t('kanc.equipment.viewDetails')}
                 <ChevronUp className="w-3 h-3 ml-1" />
               </Button>
             </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {equipmentCategories.map((category) => (
+              {getEquipmentCategories(t).map((category) => (
                 <div key={category.name} className="space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -257,7 +260,7 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base font-semibold">실시간 활동</h3>
+                  <h3 className="text-base font-semibold">{t('kanc.equipment.realTimeActivity')}</h3>
                   <div className="flex items-center gap-1">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -268,13 +271,13 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
                 </div>
                 <Button variant="ghost" size="sm" className="h-7 text-xs">
                   <FileText className="w-3 h-3 mr-1" />
-                  로그
+                  {t('kanc.equipment.log')}
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {recentActivities.map((activity, index) => (
+                {getRecentActivities(t).map((activity, index) => (
                   <div key={index} className="flex items-start gap-3 pb-3 border-b last:border-0 last:pb-0">
                     <Badge
                       variant="outline"
@@ -287,27 +290,27 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
                       <div className="flex items-center gap-2">
                         {activity.status === 'success' && (
                           <Badge className="h-5 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-0 text-[10px]">
-                            승인
+                            {t('kanc.equipment.status.approved')}
                           </Badge>
                         )}
                         {activity.status === 'active' && (
                           <Badge className="h-5 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-0 text-[10px]">
-                            진행중
+                            {t('kanc.equipment.status.inProgress')}
                           </Badge>
                         )}
                         {activity.status === 'complete' && (
                           <Badge className="h-5 bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400 border-0 text-[10px]">
-                            완료
+                            {t('kanc.equipment.status.completed')}
                           </Badge>
                         )}
                         {activity.status === 'warning' && (
                           <Badge className="h-5 bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border-0 text-[10px]">
-                            주의
+                            {t('kanc.equipment.status.warning')}
                           </Badge>
                         )}
                         {activity.status === 'info' && (
                           <Badge className="h-5 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-0 text-[10px]">
-                            정보
+                            {t('kanc.equipment.status.info')}
                           </Badge>
                         )}
                       </div>
@@ -322,16 +325,16 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
           <Card className="border-0 shadow-sm">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-semibold">주요 성능 지표</h3>
+                <h3 className="text-base font-semibold">{t('kanc.equipment.performanceMetrics')}</h3>
                 <Button variant="ghost" size="sm" className="h-7 text-xs">
                   <BarChart3 className="w-3 h-3 mr-1" />
-                  분석
+                  {t('kanc.equipment.analysis')}
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-3">
-                {performanceMetrics.map((metric, index) => (
+                {getPerformanceMetrics(t).map((metric, index) => (
                   <div
                     key={index}
                     className="p-3 rounded-lg border bg-gray-50/50 dark:bg-gray-800/30 border-gray-200/50 dark:border-gray-700/50"
@@ -370,21 +373,21 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
                       <Users className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <p className="text-lg font-bold">{equipmentStats.activeUsers}</p>
-                    <p className="text-[10px] text-muted-foreground">활성 사용자</p>
+                    <p className="text-[10px] text-muted-foreground">{t('kanc.equipment.todayStats.activeUsers')}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center mb-1">
                       <Calendar className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <p className="text-lg font-bold">{equipmentStats.todayBookings}</p>
-                    <p className="text-[10px] text-muted-foreground">오늘 예약</p>
+                    <p className="text-[10px] text-muted-foreground">{t('kanc.equipment.todayStats.todayBookings')}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center mb-1">
                       <Settings className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <p className="text-lg font-bold">{equipmentStats.maintenanceScheduled}</p>
-                    <p className="text-[10px] text-muted-foreground">예정 정비</p>
+                    <p className="text-[10px] text-muted-foreground">{t('kanc.equipment.todayStats.maintenance')}</p>
                   </div>
                 </div>
               </div>
@@ -396,15 +399,15 @@ export function EquipmentDashboard({ variant = 'service' }: EquipmentDashboardPr
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
           <Button variant="default" size="sm" className="min-w-[140px]">
             <Calendar className="w-4 h-4 mr-2" />
-            장비 예약하기
+            {t('kanc.equipment.actions.book')}
           </Button>
           <Button variant="outline" size="sm" className="min-w-[140px]">
             <BarChart3 className="w-4 h-4 mr-2" />
-            상세 분석 보기
+            {t('kanc.equipment.actions.analyze')}
           </Button>
           <Button variant="ghost" size="sm" className="min-w-[140px]">
             <FileText className="w-4 h-4 mr-2" />
-            리포트 생성
+            {t('kanc.equipment.actions.report')}
           </Button>
         </div>
       </div>

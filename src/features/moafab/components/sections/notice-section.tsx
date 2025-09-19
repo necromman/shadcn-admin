@@ -39,7 +39,7 @@ const latestNews: NoticeItem[] = [
     id: '2',
     category: '보도자료',
     title: '나노팹 플랫폼, 글로벌 반도체 혁신 대상 수상',
-    content: 'MOAFAB 플랫폼이 2024 글로벌 반도체 기술 혁신 대상을 수상했습니다. 국내 나노팹 기술의 우수성을 인정받은 쾌거입니다.',
+    content: 'MOAFAB 플랫폼이 2025 글로벌 반도체 기술 혁신 대상을 수상했습니다. 국내 나노팹 기술의 우수성을 인정받은 쾌거입니다.',
     date: '2025-01-11',
     isNew: true,
     isHot: true,

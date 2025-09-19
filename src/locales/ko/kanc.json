@@ -21,6 +21,8 @@
       "intranet": "인트라넷",
       "sitemap": "홈페이지 안내",
       "changeTheme": "테마 변경",
+      "login": "로그인",
+      "signup": "회원가입",
       "demoSelect": "요구사항 데모",
       "demos": {
         "sfr002": "디자인 적용",

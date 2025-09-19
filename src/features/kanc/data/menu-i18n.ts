@@ -1,4 +1,4 @@
-import { MenuItem } from './menu.mock'
+import { type MenuItem } from './menu.mock'
 
 export const introMenuItems: MenuItem[] = [
   {

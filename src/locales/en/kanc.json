@@ -21,6 +21,8 @@
       "intranet": "Intranet",
       "sitemap": "Sitemap",
       "changeTheme": "Change Theme",
+      "login": "Login",
+      "signup": "Sign up",
       "demoSelect": "Requirement Demo",
       "demos": {
         "sfr002": "Design Apply",
@@ -514,8 +516,8 @@
       },
       "slide3": {
         "badge": "Leading Next-Gen Packaging Technology",
-        "title": "Leading Semiconductor Innovation\nwith Advanced Packaging",
-        "subtitle": "Strengthening K-Semiconductor competitiveness through\nsystem semiconductor OSAT technology development and talent nurturing",
+        "title": "Leading Semiconductor Innovation with Advanced Packaging",
+        "subtitle": "Strengthening K-Semiconductor competitiveness",
         "buttonText": "Business Support",
         "stats": {
           "programs": "Support Programs",

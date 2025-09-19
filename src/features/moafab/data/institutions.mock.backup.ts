@@ -176,7 +176,7 @@ export const mockInstitutions: Institution[] = [
         category: '안전',
         fileSize: '2.5MB',
         downloadUrl: '/files/laser-safety.pdf',
-        createdAt: '2024-12-28'
+        createdAt: '2025-12-28'
       }
     ]
   },
@@ -323,11 +323,11 @@ export const mockInstitutions: Institution[] = [
     archives: [
       {
         id: 'arch-004',
-        title: '2024년 우수 프로젝트 사례집',
+        title: '2025년 우수 프로젝트 사례집',
         description: '작년 한 해 진행된 우수 메이커 프로젝트 모음',
         category: '사례집',
         fileSize: '25.3MB',
-        downloadUrl: '/files/best-projects-2024.pdf',
+        downloadUrl: '/files/best-projects-2025.pdf',
         createdAt: '2025-01-03'
       }
     ]

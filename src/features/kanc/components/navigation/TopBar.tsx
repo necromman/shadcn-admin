@@ -1,4 +1,4 @@
-import { Globe, Home, BookOpen, Users, Youtube, Share2, Settings, Code, ExternalLink } from 'lucide-react'
+import { Globe, Home, BookOpen, Users, Settings, Code, ExternalLink, LogIn, UserPlus } from 'lucide-react'
 import { HiMoon, HiSun } from 'react-icons/hi2'
 import { Button } from '@/components/ui/button'
 import { useTheme } from '@/context/theme-provider'
@@ -116,16 +116,21 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
                 <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
               </>
             )}
-            <a
-              href="https://intranet.kanc.re.kr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
-            >
-              <Users className="w-3.5 h-3.5" />
-              <span>{t('kanc:header.topbar.intranet')}</span>
-            </a>
-            <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
+            {/* 인트라넷 링크 - intro 탭에서만 표시 */}
+            {currentTab === 'intro' && (
+              <>
+                <a
+                  href="https://intranet.kanc.re.kr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
+                >
+                  <Users className="w-3.5 h-3.5" />
+                  <span>{t('kanc:header.topbar.intranet')}</span>
+                </a>
+                <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
+              </>
+            )}
             <a
               href="/sitemap"
               className="flex items-center gap-1 px-3 py-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
@@ -135,37 +140,69 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
             <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
             {/* Language Switcher */}
             <Select value={currentLanguage} onValueChange={(value) => setLanguage(value as 'ko' | 'en')}>
-              <SelectTrigger className="h-7 w-[70px] text-xs">
-                <Globe className="w-3.5 h-3.5 mr-1" />
-                <SelectValue />
+              <SelectTrigger className="h-7 w-[85px] text-xs">
+                <div className="flex items-center gap-1">
+                  <Globe className="w-3.5 h-3.5" />
+                  <span className="font-medium">{currentLanguage.toUpperCase()}</span>
+                </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ko">KO</SelectItem>
-                <SelectItem value="en">EN</SelectItem>
+                <SelectItem value="ko">
+                  <span className="font-medium">KO</span>
+                  <span className="ml-2 text-muted-foreground">한국어</span>
+                </SelectItem>
+                <SelectItem value="en">
+                  <span className="font-medium">EN</span>
+                  <span className="ml-2 text-muted-foreground">English</span>
+                </SelectItem>
               </SelectContent>
             </Select>
-            <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
-            <div className="flex items-center gap-2">
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
-                aria-label="Blog"
-              >
-                <Share2 className="w-3.5 h-3.5" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
-                aria-label="YouTube"
-              >
-                <Youtube className="w-3.5 h-3.5" />
-              </a>
-            </div>
-            <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
+            {/* 블로그 링크 - intro 탭에서만 표시 */}
+            {currentTab === 'intro' && (
+              <>
+                <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
+                <a
+                  href="https://blog.naver.com/kanc5525"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground hover:bg-gray-100/50 dark:hover:bg-secondary/50 rounded"
+                  aria-label="Naver Blog"
+                >
+                  <img
+                    src="https://ssl.pstatic.net/static/blog/icon/favicon.ico"
+                    alt="Naver Blog"
+                    className="w-3.5 h-3.5"
+                  />
+                </a>
+                <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
+              </>
+            )}
+
+            {/* 로그인/회원가입 버튼 - service 탭에서만 표시 */}
+            {currentTab === 'service' && (
+              <>
+                <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-3 text-xs gap-1 text-gray-600 dark:text-muted-foreground hover:text-gray-900 dark:hover:text-foreground"
+                  onClick={() => {/* 로그인 모달 또는 페이지로 이동 */}}
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>{t('kanc:header.topbar.login')}</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-3 text-xs gap-1"
+                  onClick={() => {/* 회원가입 페이지로 이동 */}}
+                >
+                  <UserPlus className="w-3.5 h-3.5" />
+                  <span>{t('kanc:header.topbar.signup')}</span>
+                </Button>
+                <div className="w-px h-4 bg-gray-300 dark:bg-border mx-1" />
+              </>
+            )}
 
             {/* 테마 토글 버튼 */}
             <Button
@@ -194,6 +231,26 @@ export function TopBar({ currentTab, onTabChange, onOpenDevSettings, onDemoSelec
 
           {/* Mobile Menu */}
           <div className="flex md:hidden items-center gap-2">
+            {/* Language Switcher for Mobile */}
+            <Select value={currentLanguage} onValueChange={(value) => setLanguage(value as 'ko' | 'en')}>
+              <SelectTrigger className="h-8 w-[75px] text-xs px-2">
+                <div className="flex items-center gap-1">
+                  <Globe className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span className="font-medium">{currentLanguage.toUpperCase()}</span>
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ko">
+                  <span className="font-medium">KO</span>
+                  <span className="ml-2 text-muted-foreground">한국어</span>
+                </SelectItem>
+                <SelectItem value="en">
+                  <span className="font-medium">EN</span>
+                  <span className="ml-2 text-muted-foreground">English</span>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+
             {/* 테마 토글 버튼 */}
             <Button
               variant="ghost"

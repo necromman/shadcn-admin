@@ -41,7 +41,7 @@ function FindAccountPage() {
   
   // 찾은 계정들 (데모용)
   const [foundAccounts] = useState<AccountInfo[]>([
-    { id: 'user123', email: 'user123@example.com', type: '', joinDate: '2024.01.15' },
+    { id: 'user123', email: 'user123@example.com', type: '', joinDate: '2025.01.15' },
     { id: 'john.doe', email: 'john.doe@email.com', type: '', joinDate: '2023.08.20' },
     { id: 'testuser', email: 'test@domain.com', type: '', joinDate: '2023.03.10' },
   ])

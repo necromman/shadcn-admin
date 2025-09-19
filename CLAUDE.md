@@ -21,13 +21,63 @@ export const Route = createFileRoute('/')({
 // ❌ src/features/library/... (틀림)
 ```
 
-### 2. 국제화(i18n) 보존 필수
+### 2. 국제화(i18n) 보존 필수 및 올바른 구현
 **국제화 관련 코드는 절대 제거 금지:**
 - `useTranslation` 훅 유지
 - `t()` 함수 사용 유지
 - 다국어 지원 파일 보존
 - 언어 전환 기능 유지
 - **이유**: 프로토타입도 글로벌 서비스를 고려해야 함
+
+**⚠️ 국제화 구현 시 필수 확인사항 (매우 중요!):**
+1. **번역 파일 먼저 확인**: 국제화 적용 전 반드시 번역 파일(`src/locales/*/translation.json`) 확인
+2. **번역 키 중복 체크**: 새로운 번역 키 추가 시 기존 키와 중복되지 않는지 검증
+3. **번역 값 동시 추가**: 한국어와 영어 번역 파일에 동시에 추가 필수
+4. **번역 키 테스트**: 번역 키만 표시되는 문제 방지를 위해 개발 서버에서 즉시 확인
+
+**올바른 국제화 작업 순서:**
+```tsx
+// 1단계: 번역 파일 확인
+// src/locales/ko/translation.json, src/locales/en/translation.json 파일 열어서 구조 확인
+
+// 2단계: 번역 키 추가 (한국어/영어 동시)
+// ko/translation.json
+{
+  "kanc": {
+    "equipment": {
+      "title": "통합 장비관리 대시보드"
+    }
+  }
+}
+
+// en/translation.json
+{
+  "kanc": {
+    "equipment": {
+      "title": "Integrated Equipment Dashboard"
+    }
+  }
+}
+
+// 3단계: 컴포넌트에 적용
+const { t } = useTranslation()
+<h1>{t('kanc.equipment.title')}</h1>
+
+// 4단계: 개발 서버에서 확인
+// 번역 키가 아닌 실제 텍스트가 표시되는지 검증
+```
+
+**❌ 잘못된 예시 - 번역 파일 확인 없이 키만 추가:**
+```tsx
+// 번역 파일에 없는 키를 사용하면 "kanc.equipment.title" 그대로 화면에 표시됨
+<h1>{t('kanc.equipment.title')}</h1>  // 화면에 "kanc.equipment.title" 표시
+```
+
+**✅ 올바른 예시 - 번역 파일 확인 후 추가:**
+```tsx
+// 번역 파일에 키와 값이 모두 있어야 정상 표시
+<h1>{t('kanc.equipment.title')}</h1>  // 화면에 "통합 장비관리 대시보드" 표시
+```
 
 ### 3. 배경색 및 그라데이션 사용 금지
 **촌스러운 그라데이션 배경색 절대 금지:**

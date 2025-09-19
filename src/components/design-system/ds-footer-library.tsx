@@ -180,7 +180,7 @@ export function DSFooterLibrary({
         {options.showCopyright && (
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-muted-foreground">
-              Copyright © 2024 BRAND Campus Library. All rights reserved.
+              Copyright © 2025 BRAND Campus Library. All rights reserved.
             </div>
             <div className="flex space-x-4">
               <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">

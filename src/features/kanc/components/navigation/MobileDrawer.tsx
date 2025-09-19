@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react'
-import { MenuItem } from '@/features/kanc/data/menu.mock'
+import { type MenuItem } from '@/features/kanc/data/menu.mock'
 import { cn } from '@/lib/utils'
 import { useTranslation } from '@/lib/i18n/hooks'
 
@@ -28,7 +28,7 @@ export function MobileDrawer({ isOpen, onClose, menuItems }: MobileDrawerProps) 
   return (
     <>
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden"
         onClick={onClose}
       />
 

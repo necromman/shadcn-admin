@@ -75,7 +75,7 @@ const news = [
     id: '1',
     category: 'news',
     type: '수상',
-    title: 'BRAND, 2024 대한민국 나노기술대상 대통령상 수상',
+    title: 'BRAND, 2025 대한민국 나노기술대상 대통령상 수상',
     content: '나노기술 발전에 기여한 공로를 인정받아 최고 영예의 대통령상을 수상했습니다.',
     date: '2025-01-14',
     author: '홍보팀',

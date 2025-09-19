@@ -1,8 +1,8 @@
-import { Institution } from '../../../data/institutions.mock'
+import { type Institution } from '../../../data/institutions.mock'
 import { Card, CardContent } from '@/components/ui/card'
 import { Link } from '@tanstack/react-router'
 import { Calendar, GraduationCap, MessageSquare, Building, Package, Lightbulb, Users, Microscope, Shield } from 'lucide-react'
-import { LucideIcon } from 'lucide-react'
+import { type LucideIcon } from 'lucide-react'
 
 interface QuickLinksProps {
   institution: Institution

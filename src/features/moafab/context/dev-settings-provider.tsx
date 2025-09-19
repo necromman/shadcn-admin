@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { DevSettings } from '../types'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { type DevSettings } from '../types'
 
 interface DevSettingsContextValue {
   settings: DevSettings

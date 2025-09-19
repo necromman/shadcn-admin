@@ -1,61 +1,66 @@
 import { Card } from '@/components/ui/card'
 import { SectionWrapper } from '../common/SectionWrapper'
+import { useTranslation } from 'react-i18next'
 
-const mainServices = [
+const getMainServices = (t: any) => [
   {
     id: '1',
-    title: '대관 신청',
-    description: '회의실, 강당, 실험실 등 시설 대관 신청',
-    stats: '즉시 예약',
+    title: t('kanc.services.facility.apply.title'),
+    description: t('kanc.services.facility.apply.description'),
+    stats: t('kanc.services.facility.apply.stats'),
     link: '/facility/apply'
   },
   {
     id: '2',
-    title: '대관 신청 현황',
-    description: '대관 신청 내역 및 처리 상태 확인',
-    stats: '실시간 조회',
+    title: t('kanc.services.facility.status.title'),
+    description: t('kanc.services.facility.status.description'),
+    stats: t('kanc.services.facility.status.stats'),
     link: '/facility/status'
   },
   {
     id: '3',
-    title: '대관료',
-    description: '시설별 대관료 안내 및 요금 계산',
-    stats: '투명한 요금',
+    title: t('kanc.services.facility.price.title'),
+    description: t('kanc.services.facility.price.description'),
+    stats: t('kanc.services.facility.price.stats'),
     link: '/facility/price'
   },
   {
     id: '4',
-    title: '대관절차',
-    description: '대관 신청부터 이용까지 전체 절차 안내',
-    stats: '간편 절차',
+    title: t('kanc.services.facility.process.title'),
+    description: t('kanc.services.facility.process.description'),
+    stats: t('kanc.services.facility.process.stats'),
     link: '/facility/process'
   }
 ]
 
-const quickServices = [
+const getQuickServices = (t: any) => [
   {
     id: '1',
-    title: '팹서비스 이용료',
-    description: '팹서비스 이용 요금 상세 안내 및 견적 계산',
+    title: t('kanc.services.quick.fabPricing.title'),
+    description: t('kanc.services.quick.fabPricing.description'),
     bgColor: 'bg-blue-50 dark:bg-blue-950/20',
     link: '/fab/pricing'
   },
   {
     id: '2',
-    title: '교육서비스',
-    description: '나노기술 전문 교육 프로그램 신청 및 일정',
+    title: t('kanc.services.quick.education.title'),
+    description: t('kanc.services.quick.education.description'),
     bgColor: 'bg-green-50 dark:bg-green-950/20',
     link: '/education'
   }
 ]
 
 export function ServiceCards() {
+  const { t } = useTranslation()
+  const mainServices = getMainServices(t)
+  const quickServices = getQuickServices(t)
+
   return (
     <SectionWrapper background="gray">
       <div className="text-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold mb-2">대관 서비스</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">{t('kanc.services.title')}</h2>
           <p className="text-muted-foreground">
-            KANC 시설을 편리하게 이용하실 수 있습니다
+            {t('kanc.services.subtitle')}
           </p>
         </div>
 

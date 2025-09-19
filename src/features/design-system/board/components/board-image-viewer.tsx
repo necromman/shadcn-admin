@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, TouchEvent, WheelEvent } from 'react'
+import React, { useState, useEffect, useRef, type TouchEvent, type WheelEvent } from 'react'
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCw, Download, Maximize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'

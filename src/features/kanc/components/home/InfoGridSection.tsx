@@ -13,8 +13,8 @@ const introNotices = [
   {
     id: 1,
     category: '공지',
-    title: '2024년 상반기 나노팹 신규 장비 도입 안내',
-    date: '2024.03.15',
+    title: '2025년 상반기 나노팹 신규 장비 도입 안내',
+    date: '2025.03.15',
     isNew: true,
     isPinned: true
   },
@@ -22,26 +22,26 @@ const introNotices = [
     id: 2,
     category: '교육',
     title: '나노공정 전문가 양성과정 수강생 모집',
-    date: '2024.03.14',
+    date: '2025.03.14',
     isNew: true
   },
   {
     id: 3,
     category: '행사',
     title: '제10회 한국나노기술 심포지엄 개최',
-    date: '2024.03.13'
+    date: '2025.03.13'
   },
   {
     id: 4,
     category: '입찰',
     title: '8인치 웨이퍼 공정장비 구매 입찰 공고',
-    date: '2024.03.12'
+    date: '2025.03.12'
   },
   {
     id: 5,
     category: '채용',
-    title: '2024년 상반기 연구원 정규직 채용 공고',
-    date: '2024.03.11'
+    title: '2025년 상반기 연구원 정규직 채용 공고',
+    date: '2025.03.11'
   }
 ]
 

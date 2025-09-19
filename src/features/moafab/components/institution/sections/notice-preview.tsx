@@ -1,4 +1,4 @@
-import { Institution } from '../../../data/institutions.mock'
+import { type Institution } from '../../../data/institutions.mock'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'

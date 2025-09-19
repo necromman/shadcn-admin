@@ -186,5 +186,102 @@
       },
       "copyright": "Copyright © KION All Rights Reserved."
     }
+  },
+  "kanc": {
+    "equipment": {
+      "monitoring": "Real-time Monitoring System",
+      "title": "Integrated Equipment Management Dashboard",
+      "stats": {
+        "total": "Total Equipment",
+        "nano": "Nano Technology Equipment",
+        "utilization": "Average Utilization",
+        "optimized": "Optimized",
+        "avgWait": "Average Wait Time",
+        "fulfillment": "Booking Fulfillment"
+      },
+      "units": {
+        "equipment": "units",
+        "hours": "hours"
+      },
+      "categories": {
+        "semiconductor": "Semiconductor Processing Equipment",
+        "analysis": "Measurement/Analysis Equipment",
+        "nanomaterial": "Nanomaterial Equipment",
+        "cleanroom": "Cleanroom Facilities"
+      },
+      "categoryStatus": "Equipment Status by Category",
+      "viewDetails": "View Details",
+      "realTimeActivity": "Real-time Activity",
+      "log": "Log",
+      "activities": {
+        "booking": "SEM-FEI-01 Electron Microscope Booking Approved",
+        "start": "XRD-Rigaku-03 X-ray Diffraction Analysis Started",
+        "complete": "AFM-Park-02 Atomic Force Microscope Maintenance Completed",
+        "alert": "Clean Room B Humidity Adjustment Required",
+        "user": "ICP-MS Equipment Training Session Started (12 participants)"
+      },
+      "status": {
+        "approved": "Approved",
+        "inProgress": "In Progress",
+        "completed": "Completed",
+        "warning": "Warning",
+        "info": "Info"
+      },
+      "performanceMetrics": "Key Performance Metrics",
+      "analysis": "Analysis",
+      "metrics": {
+        "waitTime": "Average Wait Time",
+        "waitTimeValue": "{{time}} hours",
+        "accuracy": "Equipment Accuracy",
+        "fulfillment": "Booking Fulfillment Rate",
+        "failureRate": "Failure Rate"
+      },
+      "todayStats": {
+        "activeUsers": "Active Users",
+        "todayBookings": "Today's Bookings",
+        "maintenance": "Scheduled Maintenance"
+      },
+      "actions": {
+        "book": "Book Equipment",
+        "analyze": "View Detailed Analysis",
+        "report": "Generate Report"
+      }
+    },
+    "services": {
+      "title": "Facility Services",
+      "subtitle": "Conveniently use KANC facilities",
+      "facility": {
+        "apply": {
+          "title": "Facility Application",
+          "description": "Apply for conference rooms, auditoriums, laboratories",
+          "stats": "Instant Booking"
+        },
+        "status": {
+          "title": "Application Status",
+          "description": "Check facility application history and processing status",
+          "stats": "Real-time Inquiry"
+        },
+        "price": {
+          "title": "Facility Fees",
+          "description": "Facility fee guide and rate calculation",
+          "stats": "Transparent Pricing"
+        },
+        "process": {
+          "title": "Rental Process",
+          "description": "Complete guide from application to usage",
+          "stats": "Simple Process"
+        }
+      },
+      "quick": {
+        "fabPricing": {
+          "title": "Fab Service Fees",
+          "description": "Detailed fab service pricing guide and quote calculation"
+        },
+        "education": {
+          "title": "Education Services",
+          "description": "Nano technology professional training program application and schedule"
+        }
+      }
+    }
   }
 }

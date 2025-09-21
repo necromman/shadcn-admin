@@ -688,7 +688,7 @@ export function SFR005AdvancedDemo() {
 
           {/* 상세 내역 탭 */}
           <TabsContent value="detail" className="space-y-4">
-            <ScrollArea className="h-[500px] border rounded-lg" data-tour="revenue-table">
+            <ScrollArea className="h-[800px] border rounded-lg" data-tour="revenue-table">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -756,7 +756,7 @@ export function SFR005AdvancedDemo() {
 
           {/* 배치 이력 탭 */}
           <TabsContent value="batch" className="space-y-4">
-            <ScrollArea className="h-[500px] border rounded-lg p-4">
+            <ScrollArea className="h-[800px] border rounded-lg p-4">
               <div className="space-y-2">
                 {batchHistory.slice(0, 20).map(batch => (
                   <div key={batch.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50">

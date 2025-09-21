@@ -530,7 +530,7 @@ export function SFR004AdvancedDemo() {
 
             {/* 담당자 테이블 */}
             <div className="border rounded-lg" data-tour="manager-table">
-              <ScrollArea className="h-[400px]">
+              <ScrollArea className="h-[800px]">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -632,7 +632,7 @@ export function SFR004AdvancedDemo() {
 
           {/* 변경 이력 탭 */}
           <TabsContent value="history" className="space-y-4">
-            <ScrollArea className="h-[500px] border rounded-lg p-4">
+            <ScrollArea className="h-[800px] border rounded-lg p-4">
               <div className="space-y-2">
                 {changeHistory.slice(0, 30).map((history) => (
                   <div key={history.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50">

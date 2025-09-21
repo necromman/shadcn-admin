@@ -622,7 +622,7 @@ export function SFR006AdvancedDemo() {
             </div>
 
             {/* 파일 테이블 */}
-            <ScrollArea className="h-[500px] border rounded-lg" data-tour="file-table">
+            <ScrollArea className="h-[800px] border rounded-lg" data-tour="file-table">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -731,7 +731,7 @@ export function SFR006AdvancedDemo() {
 
           {/* 동기화 큐 탭 */}
           <TabsContent value="queue" className="space-y-4">
-            <ScrollArea className="h-[500px] border rounded-lg p-4" data-tour="sync-status">
+            <ScrollArea className="h-[800px] border rounded-lg p-4" data-tour="sync-status">
               <div className="space-y-3">
                 {syncQueue.map((item) => {
                   const file = files.find(f => f.id === item.fileId)

@@ -188,6 +188,56 @@
     }
   },
   "kanc": {
+    "sections": {
+      "serviceMenu": {
+        "title": "Service Menu",
+        "subtitle": "Explore various services provided by Korea Advanced Nanotechnology Center",
+        "items": {
+          "fabStatus": {
+            "title": "Fab Status",
+            "description": "Check the status of fab equipment"
+          },
+          "feeInquiry": {
+            "title": "Fee Inquiry",
+            "description": "Check service usage fees"
+          },
+          "documents": {
+            "title": "Download Documents",
+            "description": "Download necessary documents"
+          },
+          "eightInch": {
+            "title": "8-inch Equipment",
+            "description": "Check 8-inch equipment status"
+          },
+          "fabAccess": {
+            "title": "Fab Access/Tour",
+            "description": "Apply for fab access and tour"
+          },
+          "facilityApply": {
+            "title": "Facility Application",
+            "description": "Apply for facility usage"
+          },
+          "facilityStatus": {
+            "title": "Facility Status",
+            "description": "Check facility status"
+          },
+          "equipmentStaff": {
+            "title": "Equipment Staff",
+            "description": "Check equipment staff information"
+          }
+        }
+      },
+      "latestNews": {
+        "title": "Latest News",
+        "badges": {
+          "new": "NEW",
+          "important": "[Important]"
+        }
+      }
+    },
+    "common": {
+      "viewAll": "View All"
+    },
     "equipment": {
       "monitoring": "Real-time Monitoring System",
       "title": "Integrated Equipment Management Dashboard",

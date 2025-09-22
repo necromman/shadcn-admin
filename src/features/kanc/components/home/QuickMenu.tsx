@@ -95,65 +95,65 @@ const getIntroItems = (t: (key: string) => string) => [
 const getServiceItems = (t: (key: string) => string) => [
   {
     id: '1',
-    title: t('kanc:sections.serviceMenu.items.fabStatus.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.fabStatus.title'),
-    description: t('kanc:sections.serviceMenu.items.fabStatus.description'),
+    title: t('kanc.sections.serviceMenu.items.fabStatus.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.fabStatus.title'),
+    description: t('kanc.sections.serviceMenu.items.fabStatus.description'),
     link: '/fab/status',
     bgImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop'
   },
   {
     id: '2',
-    title: t('kanc:sections.serviceMenu.items.feeInquiry.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.feeInquiry.title'),
-    description: t('kanc:sections.serviceMenu.items.feeInquiry.description'),
+    title: t('kanc.sections.serviceMenu.items.feeInquiry.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.feeInquiry.title'),
+    description: t('kanc.sections.serviceMenu.items.feeInquiry.description'),
     link: '/fab/payment',
     bgImage: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=400&fit=crop'
   },
   {
     id: '3',
-    title: t('kanc:sections.serviceMenu.items.documents.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.documents.title'),
-    description: t('kanc:sections.serviceMenu.items.documents.description'),
+    title: t('kanc.sections.serviceMenu.items.documents.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.documents.title'),
+    description: t('kanc.sections.serviceMenu.items.documents.description'),
     link: '/fab/documents',
     bgImage: 'https://images.unsplash.com/photo-1568667256549-094345857637?w=400&h=400&fit=crop'
   },
   {
     id: '4',
-    title: t('kanc:sections.serviceMenu.items.eightInch.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.eightInch.title'),
-    description: t('kanc:sections.serviceMenu.items.eightInch.description'),
+    title: t('kanc.sections.serviceMenu.items.eightInch.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.eightInch.title'),
+    description: t('kanc.sections.serviceMenu.items.eightInch.description'),
     link: '/fab/8inch',
     bgImage: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop'
   },
   {
     id: '5',
-    title: t('kanc:sections.serviceMenu.items.fabAccess.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.fabAccess.title'),
-    description: t('kanc:sections.serviceMenu.items.fabAccess.description'),
+    title: t('kanc.sections.serviceMenu.items.fabAccess.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.fabAccess.title'),
+    description: t('kanc.sections.serviceMenu.items.fabAccess.description'),
     link: '/fab/access',
     bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop'
   },
   {
     id: '6',
-    title: t('kanc:sections.serviceMenu.items.facilityApply.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.facilityApply.title'),
-    description: t('kanc:sections.serviceMenu.items.facilityApply.description'),
+    title: t('kanc.sections.serviceMenu.items.facilityApply.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.facilityApply.title'),
+    description: t('kanc.sections.serviceMenu.items.facilityApply.description'),
     link: '/facility/apply',
     bgImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=400&fit=crop'
   },
   {
     id: '7',
-    title: t('kanc:sections.serviceMenu.items.facilityStatus.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.facilityStatus.title'),
-    description: t('kanc:sections.serviceMenu.items.facilityStatus.description'),
+    title: t('kanc.sections.serviceMenu.items.facilityStatus.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.facilityStatus.title'),
+    description: t('kanc.sections.serviceMenu.items.facilityStatus.description'),
     link: '/facility/status',
     bgImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=400&fit=crop'
   },
   {
     id: '8',
-    title: t('kanc:sections.serviceMenu.items.equipmentStaff.title'),
-    shortTitle: t('kanc:sections.serviceMenu.items.equipmentStaff.title'),
-    description: t('kanc:sections.serviceMenu.items.equipmentStaff.description'),
+    title: t('kanc.sections.serviceMenu.items.equipmentStaff.title'),
+    shortTitle: t('kanc.sections.serviceMenu.items.equipmentStaff.title'),
+    description: t('kanc.sections.serviceMenu.items.equipmentStaff.description'),
     link: '/equipment/staff',
     bgImage: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=400&h=400&fit=crop'
   },
@@ -184,10 +184,10 @@ export function QuickMenu({ variant }: QuickMenuProps) {
       {/* Section Header */}
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
-          {variant === 'intro' ? '주요 서비스' : t('kanc:sections.serviceMenu.title')}
+          {variant === 'intro' ? '주요 서비스' : t('kanc.sections.serviceMenu.title')}
         </h2>
         <p className="text-base text-muted-foreground max-w-2xl mx-auto">
-          {variant === 'intro' ? '한국나노기술원이 제공하는 다양한 서비스를 확인하세요' : t('kanc:sections.serviceMenu.subtitle')}
+          {variant === 'intro' ? '한국나노기술원이 제공하는 다양한 서비스를 확인하세요' : t('kanc.sections.serviceMenu.subtitle')}
         </p>
       </div>
 

@@ -25,7 +25,7 @@ const getIntroSlides = (t: (key: string) => string) => [
   },
   {
     id: '2',
-    image: 'https://images.unsplash.com/photo-1567789884554-0b844b597180?w=1920&h=600&fit=crop',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=600&fit=crop',
     badge: t('kanc:hero.intro.slide2.badge'),
     title: t('kanc:hero.intro.slide2.title'),
     subtitle: t('kanc:hero.intro.slide2.subtitle'),

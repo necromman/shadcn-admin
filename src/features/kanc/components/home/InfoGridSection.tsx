@@ -93,12 +93,12 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
             <Card className="flex-1 flex flex-col p-0 overflow-hidden">
               <CardHeader>
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-semibold text-foreground">{t('kanc:sections.latestNews.title')}</h3>
+                    <h3 className="text-base font-semibold text-foreground">{t('kanc.sections.latestNews.title')}</h3>
                     <a
                       href="/notice"
                       className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"
                     >
-                      {t('kanc:common.viewAll')}
+                      {t('kanc.common.viewAll')}
                       <ChevronRight className="w-3 h-3" />
                     </a>
                   </div>
@@ -135,7 +135,7 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                             {/* 모바일에서만 NEW 배지를 여기에 표시 */}
                             {notice.isNew && (
                               <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 md:hidden">
-                                {t('kanc:sections.latestNews.badges.new')}
+                                {t('kanc.sections.latestNews.badges.new')}
                               </Badge>
                             )}
                           </div>
@@ -143,7 +143,7 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                           <div className="flex-1 min-w-0">
                             <h4 className="text-xs md:text-sm text-foreground/80 group-hover:text-primary transition-colors line-clamp-1 md:line-clamp-1 font-medium">
                               {notice.isPinned && (
-                                <span className="text-destructive font-semibold mr-1">{t('kanc:sections.latestNews.badges.important')}</span>
+                                <span className="text-destructive font-semibold mr-1">{t('kanc.sections.latestNews.badges.important')}</span>
                               )}
                               {notice.title}
                             </h4>
@@ -154,7 +154,7 @@ export function InfoGridSection({ variant }: InfoGridSectionProps) {
                           {/* 데스크톱에서만 NEW 배지 표시 */}
                           {notice.isNew && (
                             <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 hidden md:block">
-                              {t('kanc:sections.latestNews.badges.new')}
+                              {t('kanc.sections.latestNews.badges.new')}
                             </Badge>
                           )}
                           <span className="text-[11px] md:text-xs text-muted-foreground whitespace-nowrap">

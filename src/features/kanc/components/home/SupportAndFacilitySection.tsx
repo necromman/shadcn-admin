@@ -37,39 +37,39 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
   const serviceCards = [
     {
       id: 1,
-      icon: Building2,
-      title: '시설안내',
-      description: '한국나노기술원에서 제공하는 연구시설 및 장비현황을 확인할 수 있습니다.',
-      link: '/facility',
-      linkText: '시설현황 바로가기',
-      bgImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=400&fit=crop'
+      icon: Beaker,
+      title: '팹 서비스',
+      description: '나노공정 팹 시설 이용 및 공정 서비스를 제공합니다.',
+      link: '/service/fab',
+      linkText: '팹 서비스 안내',
+      bgImage: 'https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=400&h=400&fit=crop'
     },
     {
       id: 2,
       icon: Users,
-      title: '직원조회',
-      description: '한국나노기술원의 직원 정보를 확인할 수 있습니다.',
-      link: '/staff',
-      linkText: '직원조회 바로가기',
-      bgImage: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=400&fit=crop'
+      title: '팹 출입/투어',
+      description: '팹 시설 출입 신청 및 견학 프로그램 안내입니다.',
+      link: '/fab/access',
+      linkText: '신청하기',
+      bgImage: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop'
     },
     {
       id: 3,
-      icon: GraduationCap,
-      title: '교육 프로그램',
-      description: '나노기술 전문 교육 과정 및 신청 방법을 안내합니다.',
-      link: '/education',
-      linkText: '교육과정 안내',
-      bgImage: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=400&fit=crop'
+      icon: Building2,
+      title: '대관',
+      description: '회의실, 세미나실 등 시설 대관 서비스입니다.',
+      link: '/facility/rental',
+      linkText: '대관 신청하기',
+      bgImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=400&fit=crop'
     },
     {
       id: 4,
-      icon: Calendar,
-      title: '장비 예약',
-      description: '첨단 장비 예약 및 사용 방법을 안내합니다.',
-      link: '/equipment/reservation',
-      linkText: '예약 시스템 바로가기',
-      bgImage: 'https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=400&h=400&fit=crop'
+      icon: GraduationCap,
+      title: '교육',
+      description: '나노기술 전문 교육 과정 및 프로그램 안내입니다.',
+      link: '/education',
+      linkText: '교육 프로그램 보기',
+      bgImage: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=400&fit=crop'
     }
   ]
 
@@ -116,37 +116,38 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
         </div>
 
 
-        {/* 원스톱 핫라인 및 시설/직원 안내 */}
-        <div className="grid lg:grid-cols-3 gap-6 mb-12">
+        {/* 원스톱 핫라인 및 고객 서비스 */}
+        <div className="grid lg:grid-cols-3 gap-4 mb-8">
           {/* 원스톱 핫라인 카드 */}
           <Card className="lg:col-span-1 relative overflow-hidden border-0 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-            <CardContent className="p-8 h-full flex flex-col">
-              <div className="mb-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full mb-4">
-                  <Zap className="w-4 h-4" />
-                  <span className="text-xs font-medium">원스톱 서비스</span>
+            <CardContent className="p-6 h-full flex flex-col">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 backdrop-blur-sm rounded-full mb-2 text-xs">
+                    <Zap className="w-3 h-3" />
+                    <span className="text-xs">원스톱</span>
+                  </div>
+                  <h3 className="text-lg font-bold leading-tight">
+                    원스톱 핫라인
+                    <span className="block text-sm font-medium text-white/80 mt-0.5">고객대응서비스</span>
+                  </h3>
                 </div>
-                <h3 className="text-2xl font-bold mb-3">
-                  원스톱 핫라인<br/>
-                  고객대응서비스
-                </h3>
-                <p className="text-sm text-white/80 leading-relaxed mb-6">
-                  기관 인프라 정보 및 공정/분석 기술 상담 등 문의가 있을 경우 아래의 연락처로 연락해 주시면 친절하게 안내 및 방문을 약속해 드립니다.
-                </p>
+                <Phone className="w-6 h-6 text-white/60" />
               </div>
 
-              <div className="mt-auto">
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center">
-                  <Phone className="w-8 h-8 mx-auto mb-3 text-white/80" />
-                  <p className="text-3xl font-bold mb-1">031-546-6000</p>
-                  <p className="text-xs text-white/60">평일 09:00 - 18:00</p>
-                </div>
+              <p className="text-xs text-white/70 leading-relaxed mb-4">
+                기관 인프라 정보 및 공정/분석 기술 상담 등 문의 시 친절하게 안내해드립니다.
+              </p>
+
+              <div className="mt-auto bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center">
+                <p className="text-2xl font-bold mb-0.5">031-546-6000</p>
+                <p className="text-xs text-white/60">평일 09:00-18:00</p>
               </div>
             </CardContent>
           </Card>
 
-          {/* 시설 및 직원 안내 카드들 */}
-          <div className="lg:col-span-2 grid md:grid-cols-2 gap-4">
+          {/* 고객 서비스 카드들 */}
+          <div className="lg:col-span-2 grid grid-cols-2 gap-3">
             {/* 서비스 카드들 - QuickMenu 스타일 적용 */}
             {serviceCards.map((card) => (
               <a
@@ -155,7 +156,7 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
                 className="group block"
               >
                 <Card className={cn(
-                  "relative overflow-hidden h-full aspect-[4/3]",
+                  "relative overflow-hidden h-full aspect-[3/2]",
                   "transition-all duration-500 ease-out",
                   "hover:scale-105 hover:shadow-2xl",
                   "border-0"
@@ -172,25 +173,31 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
                   </div>
 
                   {/* Content */}
-                  <div className="relative h-full flex flex-col justify-between p-5 lg:p-6">
+                  <div className="relative h-full flex flex-col justify-between p-3 sm:p-4 lg:p-5">
                     {/* Top Section */}
                     <div>
-                      <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center mb-4">
-                        <card.icon className="w-6 h-6 text-white" />
+                      {/* Icon - Hidden on small mobile */}
+                      <div className="hidden sm:block w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm sm:flex items-center justify-center mb-3">
+                        <card.icon className="w-5 h-5 text-white" />
                       </div>
-                      <h3 className="text-lg lg:text-xl font-bold text-white mb-2">
+                      <h3 className="text-sm sm:text-base lg:text-lg font-bold text-white mb-1 sm:mb-1.5">
                         {card.title}
                       </h3>
-                      <p className="text-xs lg:text-sm text-white/80 line-clamp-2">
+                      {/* Description - Hidden on mobile */}
+                      <p className="hidden sm:block text-xs text-white/70 line-clamp-2">
                         {card.description}
                       </p>
                     </div>
 
-                    {/* Bottom Section - Button Style Link */}
-                    <div className="mt-4">
-                      <div className="inline-flex items-center gap-2 text-sm font-medium text-white/90 group-hover:text-white transition-colors">
+                    {/* Bottom Section - Button Style Link - Hidden on small mobile */}
+                    <div className="mt-2 sm:mt-3">
+                      <div className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-white/80 group-hover:text-white transition-colors">
                         <span>{card.linkText}</span>
-                        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+                      </div>
+                      {/* Mobile arrow icon only */}
+                      <div className="sm:hidden flex justify-end">
+                        <ArrowRight className="w-4 h-4 text-white/60" />
                       </div>
                     </div>
                   </div>
@@ -206,69 +213,69 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
 
         {/* 하단 헬프 섹션 */}
         <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-          <CardContent className="p-8 lg:p-12">
+          <CardContent className="p-6 lg:p-8">
             <div className="relative z-10">
-              <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div className="grid lg:grid-cols-2 gap-6 items-center">
                 {/* 왼쪽: 검색 */}
                 <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
-                      <Search className="w-5 h-5 text-white" />
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="p-1.5 bg-white/10 rounded-md backdrop-blur-sm">
+                      <Search className="w-4 h-4 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold">빠른 검색</h3>
+                    <h3 className="text-lg font-bold">빠른 검색</h3>
                   </div>
-                  <p className="text-white/80 mb-6">
+                  <p className="text-sm text-white/70 mb-4">
                     궁금한 점을 검색해보세요
                   </p>
                   <div className="relative">
                     <input
                       type="text"
                       placeholder="무엇을 도와드릴까요?"
-                      className="w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 pr-12"
+                      className="w-full px-3 py-2 text-sm rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 pr-10"
                     />
-                    <button className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-white/10 rounded-md transition-colors">
-                      <Search className="w-5 h-5" />
+                    <button className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 hover:bg-white/10 rounded-md transition-colors">
+                      <Search className="w-4 h-4" />
                     </button>
                   </div>
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    <span className="text-xs text-white/60">인기 검색:</span>
-                    <button className="text-xs text-white/80 hover:text-white underline">팹 이용료</button>
-                    <button className="text-xs text-white/80 hover:text-white underline">장비 예약</button>
-                    <button className="text-xs text-white/80 hover:text-white underline">교육 신청</button>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="text-xs text-white/50">인기:</span>
+                    <button className="text-xs text-white/70 hover:text-white underline">팹 이용료</button>
+                    <button className="text-xs text-white/70 hover:text-white underline">장비 예약</button>
+                    <button className="text-xs text-white/70 hover:text-white underline">교육 신청</button>
                   </div>
                 </div>
 
                 {/* 오른쪽: 도움말 링크 */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-4 gap-3">
                   <a href="#" className="group">
                     <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300">
-                      <CardContent className="p-4 text-center">
-                        <FileText className="w-8 h-8 mx-auto mb-2 text-white/80" />
-                        <p className="text-sm font-medium text-white">사용자 가이드</p>
+                      <CardContent className="p-3 text-center">
+                        <FileText className="w-6 h-6 mx-auto mb-1.5 text-white/70" />
+                        <p className="text-xs font-medium text-white/90">가이드</p>
                       </CardContent>
                     </Card>
                   </a>
                   <a href="#" className="group">
                     <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300">
-                      <CardContent className="p-4 text-center">
-                        <Headphones className="w-8 h-8 mx-auto mb-2 text-white/80" />
-                        <p className="text-sm font-medium text-white">기술 지원</p>
+                      <CardContent className="p-3 text-center">
+                        <Headphones className="w-6 h-6 mx-auto mb-1.5 text-white/70" />
+                        <p className="text-xs font-medium text-white/90">기술지원</p>
                       </CardContent>
                     </Card>
                   </a>
                   <a href="#" className="group">
                     <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300">
-                      <CardContent className="p-4 text-center">
-                        <HelpCircle className="w-8 h-8 mx-auto mb-2 text-white/80" />
-                        <p className="text-sm font-medium text-white">FAQ</p>
+                      <CardContent className="p-3 text-center">
+                        <HelpCircle className="w-6 h-6 mx-auto mb-1.5 text-white/70" />
+                        <p className="text-xs font-medium text-white/90">FAQ</p>
                       </CardContent>
                     </Card>
                   </a>
                   <a href="#" className="group">
                     <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300">
-                      <CardContent className="p-4 text-center">
-                        <MessageCircle className="w-8 h-8 mx-auto mb-2 text-white/80" />
-                        <p className="text-sm font-medium text-white">1:1 문의</p>
+                      <CardContent className="p-3 text-center">
+                        <MessageCircle className="w-6 h-6 mx-auto mb-1.5 text-white/70" />
+                        <p className="text-xs font-medium text-white/90">1:1문의</p>
                       </CardContent>
                     </Card>
                   </a>
@@ -278,8 +285,8 @@ export function SupportAndFacilitySection({ variant = 'intro' }: SupportAndFacil
 
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
             </div>
           </CardContent>
         </Card>

@@ -210,20 +210,24 @@ export function QuickMenu({ variant }: QuickMenuProps) {
                 <img
                   src={item.bgImage}
                   alt=""
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover brightness-110 dark:brightness-100"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-900/85 to-gray-800/85 backdrop-blur-[2px]" />
+                {/* Light mode: semi-dark overlay for contrast, Dark mode: darker overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-800/60 to-gray-900/50 dark:from-gray-900/85 dark:to-gray-800/85 backdrop-blur-[1px]" />
               </div>
 
               {/* Content */}
               <div className="relative h-full flex flex-col justify-center items-center p-5 lg:p-6 text-center">
+                {/* Content Background for better readability in light mode */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/30 dark:from-transparent dark:via-transparent dark:to-transparent" />
+
                 {/* Centered Content */}
-                <div className="space-y-3">
+                <div className="relative space-y-3">
                   <h3 className="text-xl lg:text-2xl font-bold text-white drop-shadow-lg">
                     {item.shortTitle}
                   </h3>
-                  <p className="text-xs lg:text-sm text-white/90 line-clamp-2 drop-shadow max-w-[90%] mx-auto">
+                  <p className="text-xs lg:text-sm text-white/95 line-clamp-2 drop-shadow-md max-w-[90%] mx-auto">
                     {item.description}
                   </p>
                 </div>

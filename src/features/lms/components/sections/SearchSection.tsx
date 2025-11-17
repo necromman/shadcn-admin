@@ -50,9 +50,6 @@ export function SearchSection() {
 
           {/* 인기 검색어 - 검색바 아래 */}
           <div className="flex items-center gap-3 mt-5">
-            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              인기 검색어
-            </span>
             <div className="flex items-center gap-2 flex-wrap">
               {popularKeywords.slice(0, 8).map((keyword, index) => (
                 <button

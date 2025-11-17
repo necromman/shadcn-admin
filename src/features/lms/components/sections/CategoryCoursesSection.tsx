@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { CourseCard } from '../common/CourseCard'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Course } from '../../data/mockData'
+import { LMS_STYLES } from '../../constants/styles'
 
 interface CategoryCoursesSectionProps {
   title: string
@@ -12,6 +12,7 @@ interface CategoryCoursesSectionProps {
   categoryId: string
   className?: string
   variant?: 'default' | 'compact'
+  sectionIndex?: number
 }
 
 export function CategoryCoursesSection({
@@ -19,7 +20,8 @@ export function CategoryCoursesSection({
   courses,
   categoryId,
   className,
-  variant = 'default'
+  variant = 'default',
+  sectionIndex = 0
 }: CategoryCoursesSectionProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -50,93 +52,99 @@ export function CategoryCoursesSection({
     }
   }
 
+  // odd/even 패턴으로 배경색 적용 (중앙화된 스타일 사용)
+  const isEven = sectionIndex % 2 === 0
+  const sectionBg = isEven
+    ? LMS_STYLES.sectionBg.even
+    : LMS_STYLES.sectionBg.odd
+
   return (
-    <section className={cn("py-8", className)}>
+    <section className={cn("w-full py-12", sectionBg, className)}>
       <div className="container mx-auto px-4">
-        <Card className="border-0 shadow-sm">
-          <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                {title}
-              </h2>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950"
-              >
-                전체보기
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
-            </div>
-          </CardHeader>
+        <div>
+          {/* 섹션 헤더 */}
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              {title}
+            </h2>
+          </div>
 
-          <CardContent className="pb-6">
-            <div className="relative">
-              {/* 좌측 스크롤 버튼 */}
-              {canScrollLeft && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="rounded-full shadow-lg bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    onClick={() => scroll('left')}
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                  </Button>
-                </div>
-              )}
-
-              {/* 우측 스크롤 버튼 */}
-              {canScrollRight && (
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="rounded-full shadow-lg bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    onClick={() => scroll('right')}
-                  >
-                    <ChevronRight className="h-5 w-5" />
-                  </Button>
-                </div>
-              )}
-
-              {/* 과정 카드 컨테이너 */}
-              <div
-                ref={scrollContainerRef}
-                className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
-                onScroll={updateScrollButtons}
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                {courses.map((course) => (
-                  <div key={course.id} className="flex-none w-[300px]">
-                    <CourseCard
-                      course={course}
-                      variant={variant === 'compact' ? 'compact' : 'default'}
-                      showActions={true}
-                    />
-                  </div>
-                ))}
-
-                {/* 더보기 카드 */}
-                {courses.length >= 4 && (
-                  <div className="flex-none w-[300px]">
-                    <Card className="h-full flex items-center justify-center hover:shadow-lg transition-shadow cursor-pointer bg-gray-50 dark:bg-gray-800 border-dashed">
-                      <CardContent className="text-center p-6">
-                        <MoreHorizontal className="w-8 h-8 mx-auto mb-3 text-gray-400" />
-                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                          더 많은 과정 보기
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {categoryId} 카테고리 전체
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                )}
+          {/* 과정 카드 영역 */}
+          <div className="relative">
+            {/* 좌측 스크롤 버튼 */}
+            {canScrollLeft && (
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="rounded-full shadow-lg bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  onClick={() => scroll('left')}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
               </div>
+            )}
+
+            {/* 우측 스크롤 버튼 */}
+            {canScrollRight && (
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="rounded-full shadow-lg bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  onClick={() => scroll('right')}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              </div>
+            )}
+
+            {/* 과정 카드 컨테이너 */}
+            <div
+              ref={scrollContainerRef}
+              className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
+              onScroll={updateScrollButtons}
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {courses.map((course) => (
+                <div key={course.id} className={cn("flex-none", LMS_STYLES.cardWidth)}>
+                  <CourseCard
+                    course={course}
+                    variant={variant === 'compact' ? 'compact' : 'default'}
+                    showActions={true}
+                  />
+                </div>
+              ))}
+
+              {/* 더보기 카드 - 새로운 스타일에 맞춰 수정 */}
+              {courses.length >= 8 && (
+                <div className={cn("flex-none", LMS_STYLES.cardWidth)}>
+                  <div className="h-full flex flex-col items-center justify-center cursor-pointer group">
+                    <div className={cn(
+                      "aspect-video w-full mb-3 bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center group-hover:border-gray-400 dark:group-hover:border-gray-500 transition-colors",
+                      LMS_STYLES.imageRadius
+                    )}>
+                      <MoreHorizontal className="w-10 h-10 text-gray-400" />
+                    </div>
+                    <div className="text-center space-y-1">
+                      <p className="text-base font-medium text-gray-700 dark:text-gray-300">
+                        더 많은 과정 보기
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {categoryId === 'recommended' ? '추천' :
+                         categoryId === 'career' ? '커리어' :
+                         categoryId === 'new' ? '신규' :
+                         categoryId === 'metaverse' ? '메타버스' :
+                         categoryId === 'bigdata' ? '빅데이터' :
+                         categoryId === 'ai' ? 'AI' : categoryId} 전체보기
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </section>
   )

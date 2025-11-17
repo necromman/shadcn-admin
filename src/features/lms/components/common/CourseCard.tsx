@@ -14,6 +14,7 @@ import {
   Calendar
 } from 'lucide-react'
 import { Course } from '../../data/mockData'
+import { LMS_STYLES } from '../../constants/styles'
 
 interface CourseCardProps {
   course: Course
@@ -85,7 +86,7 @@ export function CourseCard({
     return (
       <Card className={cn("overflow-hidden hover:shadow-lg transition-shadow", className)}>
         <div className="flex">
-          <div className="relative w-48 h-36">
+          <div className={cn("relative w-48 h-36 overflow-hidden", LMS_STYLES.imageRadius)}>
             <img
               src={course.thumbnail}
               alt={course.title}
@@ -147,25 +148,29 @@ export function CourseCard({
   }
 
   return (
-    <Card className={cn(
-      "overflow-hidden hover:shadow-lg transition-shadow",
-      variant === 'compact' && "h-full",
-      className
-    )}>
-      <div className="relative aspect-video">
+    <div className={cn("group cursor-pointer", className)}>
+      {/* 이미지 영역 - 중앙화된 border-radius 적용 */}
+      <div className={cn("relative aspect-video mb-3 overflow-hidden", LMS_STYLES.imageRadius)}>
         <img
           src={course.thumbnail}
           alt={course.title}
-          className="absolute inset-0 w-full h-full object-cover"
+          className={cn("w-full h-full object-cover transition-transform", LMS_STYLES.transitionDuration, LMS_STYLES.imageHoverScale)}
         />
+        {/* 상단 배지 */}
         <div className="absolute top-2 right-2 flex gap-1">
-          <Badge variant="secondary" className={cn("text-xs", getDifficultyColor(course.difficulty))}>
+          <Badge className={cn(
+            "text-xs backdrop-blur-sm",
+            getDifficultyColor(course.difficulty)
+          )}>
             {getDifficultyText(course.difficulty)}
           </Badge>
-          <Badge variant="secondary" className={cn("text-xs", getStatusColor(course.status))}>
-            {getStatusText(course.status)}
-          </Badge>
+          {course.status === 'recruiting' && (
+            <Badge className="text-xs bg-red-500 text-white backdrop-blur-sm">
+              모집중
+            </Badge>
+          )}
         </div>
+        {/* 진행률 표시 */}
         {course.progress !== undefined && course.progress > 0 && (
           <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2">
             <Progress value={course.progress} className="h-1" />
@@ -174,63 +179,79 @@ export function CourseCard({
         )}
       </div>
 
-      <CardContent className={cn("p-4", variant === 'compact' && "p-3")}>
+      {/* 콘텐츠 영역 - 배경 없이 */}
+      <div className="space-y-2">
+        {/* 제목 */}
         <h3 className={cn(
-          "font-semibold line-clamp-2 mb-2",
+          "font-semibold line-clamp-2 text-gray-900 dark:text-gray-100",
           variant === 'compact' ? "text-sm" : "text-base"
         )}>
           {course.title}
         </h3>
 
+        {/* 강사 및 기관 */}
         <p className={cn(
-          "text-muted-foreground mb-3",
+          "text-muted-foreground",
           variant === 'compact' ? "text-xs" : "text-sm"
         )}>
-          {course.instructor} · {course.organization}
+          {course.instructor}
         </p>
 
+        {/* 평점, 수강생, 수업시간 */}
         <div className={cn(
-          "flex items-center gap-3 text-muted-foreground mb-3",
-          variant === 'compact' ? "text-xs gap-2" : "text-sm"
+          "flex items-center gap-3 text-muted-foreground",
+          variant === 'compact' ? "text-xs" : "text-sm"
         )}>
           <div className="flex items-center gap-1">
             <Star className={cn(
               "fill-yellow-400 text-yellow-400",
               variant === 'compact' ? "h-3 w-3" : "h-4 w-4"
             )} />
-            <span className="font-medium">{course.rating}</span>
-            <span>({course.reviewCount})</span>
+            <span className="font-medium text-gray-900 dark:text-gray-100">
+              {course.rating}
+            </span>
+            <span className="text-xs">({course.reviewCount})</span>
           </div>
           <div className="flex items-center gap-1">
             <Users className={cn(variant === 'compact' ? "h-3 w-3" : "h-4 w-4")} />
-            <span>{course.studentCount}명</span>
+            <span>{course.studentCount.toLocaleString()}명</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Clock className={cn(variant === 'compact' ? "h-3 w-3" : "h-4 w-4")} />
+            <span>{course.duration}</span>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-1">
-          {course.tags.slice(0, 3).map((tag) => (
-            <Badge key={tag} variant="outline" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
+        {/* 태그 (compact 모드가 아닐 때만) */}
+        {variant !== 'compact' && (
+          <div className="flex flex-wrap gap-1 pt-2">
+            {course.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-800 text-xs text-gray-700 dark:text-gray-300"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
 
-      {showActions && variant !== 'compact' && (
-        <CardFooter className="p-4 pt-0 gap-2">
-          <Button size="sm" variant="outline" className="flex-1">
-            <PlayCircle className="h-4 w-4 mr-1" />
-            미리보기
-          </Button>
-          <Button size="sm" variant="ghost" className="w-10 p-0">
-            <Heart className="h-4 w-4" />
-          </Button>
-          <Button size="sm" className="flex-1 bg-blue-600 hover:bg-blue-700">
-            <ShoppingCart className="h-4 w-4 mr-1" />
-            수강신청
-          </Button>
-        </CardFooter>
-      )}
-    </Card>
+        {/* 액션 버튼 (hover 시 표시) */}
+        {showActions && variant !== 'compact' && (
+          <div className="flex gap-2 pt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button size="sm" variant="outline" className="flex-1">
+              <PlayCircle className="h-4 w-4 mr-1" />
+              미리보기
+            </Button>
+            <Button size="sm" variant="ghost" className="w-10 p-0">
+              <Heart className="h-4 w-4" />
+            </Button>
+            <Button size="sm" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white">
+              수강신청
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }

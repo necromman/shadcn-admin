@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { ChevronLeft, ChevronRight, TrendingUp, ArrowRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react'
 import { popularCourses } from '../../data/mockData'
 import { CourseCard } from '../common/CourseCard'
 import { cn } from '@/lib/utils'
@@ -31,10 +31,10 @@ export function PopularCoursesSection() {
   )
 
   return (
-    <section className="py-12 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-12 bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4">
         {/* 섹션 헤더 */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8">
           <div className="flex items-center gap-3">
             <TrendingUp className="h-6 w-6 text-blue-600" />
             <div>
@@ -46,10 +46,6 @@ export function PopularCoursesSection() {
               </p>
             </div>
           </div>
-          <Button variant="ghost" className="gap-2">
-            전체보기
-            <ArrowRight className="h-4 w-4" />
-          </Button>
         </div>
 
         {/* 데스크톱 뷰 - 카드 그리드 */}

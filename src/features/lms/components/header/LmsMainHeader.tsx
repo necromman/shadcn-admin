@@ -152,7 +152,7 @@ export function LmsMainHeader() {
           {/* 로고 */}
           <div className="flex items-center gap-6">
             <a href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-blue-600">STEP</span>
+              <span className="text-2xl font-bold text-blue-600">BCU</span>
               <span className="text-lg font-medium text-gray-700 dark:text-gray-300">
                 LMS
               </span>

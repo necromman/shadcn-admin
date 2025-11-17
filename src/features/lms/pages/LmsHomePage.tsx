@@ -23,7 +23,7 @@ export function LmsHomePage() {
       <SearchSection />
 
       {/* 메인 콘텐츠 */}
-      <main className="bg-gray-50 dark:bg-gray-900">
+      <main>
         <HeroSection />
         <PopularCoursesSection />
 
@@ -32,36 +32,42 @@ export function LmsHomePage() {
           title="추천하는 과정"
           courses={recommendedCourses}
           categoryId="recommended"
+          sectionIndex={0}
         />
 
         <CategoryCoursesSection
           title="취업 마스터 플랜: 실전 전략·스킬"
           courses={careerMasterCourses}
           categoryId="career"
+          sectionIndex={1}
         />
 
         <CategoryCoursesSection
           title="새로 올라온 과정"
           courses={newCourses}
           categoryId="new"
+          sectionIndex={2}
         />
 
         <CategoryCoursesSection
           title="메타버스로 연결된 디지털 세상"
           courses={metaverseCourses}
           categoryId="metaverse"
+          sectionIndex={3}
         />
 
         <CategoryCoursesSection
           title="데이터로 연결된 세상: 빅데이터"
           courses={bigDataCourses}
           categoryId="bigdata"
+          sectionIndex={4}
         />
 
         <CategoryCoursesSection
           title="쉽고 재미있게 배우는 AI"
           courses={aiCourses}
           categoryId="ai"
+          sectionIndex={5}
         />
 
         <NoticeSection />
@@ -148,11 +154,11 @@ export function LmsHomePage() {
           </div>
 
           <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            <p>© 2025 STEP LMS. All rights reserved.</p>
+            <p>© 2025 BCU LMS. All rights reserved.</p>
             <p className="mt-2">
-              사업자등록번호: 123-45-67890 | 통신판매업신고: 2025-서울강남-1234
+              사업자등록번호: 123-45-67890 
               <br />
-              서울특별시 강남구 테헤란로 123, 12층 (역삼동, STEP빌딩)
+              천안시
             </p>
           </div>
         </div>

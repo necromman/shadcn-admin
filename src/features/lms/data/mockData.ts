@@ -1264,3 +1264,14 @@ export const coursesCountByCategory = {
   business: 25,
   marketing: 20
 }
+
+// 모든 과정 데이터 (이러닝 페이지용)
+export const mockCourses: Course[] = [
+  ...popularCourses,
+  ...recommendedCourses,
+  ...careerMasterCourses,
+  ...newCourses,
+  ...metaverseCourses,
+  ...bigDataCourses,
+  ...aiCourses
+]

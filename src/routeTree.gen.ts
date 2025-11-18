@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThemeEditorRouteImport } from './routes/theme-editor'
+import { Route as ElearningRouteImport } from './routes/elearning'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -60,6 +61,11 @@ import { Route as AuthenticatedBoardTypeRouteImport } from './routes/_authentica
 const ThemeEditorRoute = ThemeEditorRouteImport.update({
   id: '/theme-editor',
   path: '/theme-editor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ElearningRoute = ElearningRouteImport.update({
+  id: '/elearning',
+  path: '/elearning',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
@@ -304,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/elearning': typeof ElearningRoute
   '/theme-editor': typeof ThemeEditorRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/auth/signup': typeof AuthSignupRouteRouteWithChildren
@@ -350,6 +357,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
+  '/elearning': typeof ElearningRoute
   '/theme-editor': typeof ThemeEditorRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
@@ -397,6 +405,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
+  '/elearning': typeof ElearningRoute
   '/theme-editor': typeof ThemeEditorRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/auth/signup': typeof AuthSignupRouteRouteWithChildren
@@ -447,6 +456,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/clerk'
+    | '/elearning'
     | '/theme-editor'
     | '/settings'
     | '/auth/signup'
@@ -493,6 +503,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/elearning'
     | '/theme-editor'
     | '/clerk'
     | '/forgot-password'
@@ -539,6 +550,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/clerk'
+    | '/elearning'
     | '/theme-editor'
     | '/_authenticated/settings'
     | '/auth/signup'
@@ -589,6 +601,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   ClerkRouteRoute: typeof ClerkRouteRouteWithChildren
+  ElearningRoute: typeof ElearningRoute
   ThemeEditorRoute: typeof ThemeEditorRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
@@ -611,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/theme-editor'
       fullPath: '/theme-editor'
       preLoaderRoute: typeof ThemeEditorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/elearning': {
+      id: '/elearning'
+      path: '/elearning'
+      fullPath: '/elearning'
+      preLoaderRoute: typeof ElearningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clerk': {
@@ -1078,6 +1098,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   ClerkRouteRoute: ClerkRouteRouteWithChildren,
+  ElearningRoute: ElearningRoute,
   ThemeEditorRoute: ThemeEditorRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,

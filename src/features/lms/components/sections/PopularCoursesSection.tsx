@@ -36,7 +36,6 @@ export function PopularCoursesSection() {
         {/* 섹션 헤더 */}
         <div className="mb-8">
           <div className="flex items-center gap-3">
-            <TrendingUp className="h-6 w-6 text-blue-600" />
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 실시간 인기 강좌

@@ -80,7 +80,7 @@ export function LmsHomePage() {
             {/* 회사 정보 */}
             <div>
               <div className="mb-4">
-                <span className="text-2xl font-bold text-blue-600">STEP</span>
+                <span className="text-2xl font-bold text-blue-600">BCU</span>
                 <span className="text-lg font-medium text-gray-700 dark:text-gray-300 ml-2">
                   LMS
                 </span>

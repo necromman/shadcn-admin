@@ -48,32 +48,7 @@ export function LmsMainHeader() {
       title: '이러닝',
       href: '/elearning',
       icon: <Monitor className="h-4 w-4" />,
-      children: [
-        {
-          title: '프로그래밍',
-          href: '/elearning/programming',
-          description: '웹, 앱, 시스템 개발 과정',
-          icon: <Code className="h-4 w-4" />
-        },
-        {
-          title: '데이터 분석',
-          href: '/elearning/data',
-          description: '빅데이터, AI, 머신러닝 과정',
-          icon: <Database className="h-4 w-4" />
-        },
-        {
-          title: '디자인',
-          href: '/elearning/design',
-          description: 'UI/UX, 그래픽, 영상 디자인',
-          icon: <Palette className="h-4 w-4" />
-        },
-        {
-          title: '비즈니스',
-          href: '/elearning/business',
-          description: '경영, 마케팅, 재무 과정',
-          icon: <Briefcase className="h-4 w-4" />
-        },
-      ]
+      description: '온라인 학습 과정'
     },
     {
       title: '가상훈련',

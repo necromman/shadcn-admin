@@ -1,1 +1,73 @@
-/* buttons.css - To be implemented */
+/* Button Styles - 네이버 스타일 다크모드 지원 */
+
+@layer components {
+  /* Primary Button */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-colors;
+  }
+
+  /* Secondary Button */
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors;
+  }
+
+  /* Ghost Button */
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent transition-colors;
+  }
+
+  /* Outline Button */
+  .btn-outline {
+    @apply border bg-background hover:bg-accent hover:text-accent-foreground
+           dark:bg-card dark:hover:bg-accent dark:border-border transition-colors;
+  }
+
+  /* Icon Button */
+  .btn-icon {
+    @apply hover:bg-accent dark:hover:bg-accent rounded-full transition-colors;
+  }
+
+  /* Navigation Button */
+  .btn-nav {
+    @apply hover:bg-gray-100 dark:hover:bg-accent transition-colors;
+  }
+
+  /* Search Button */
+  .btn-search {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground transition-all;
+  }
+
+  /* Tag/Chip Button */
+  .btn-tag {
+    @apply bg-gray-100 dark:bg-card hover:bg-gray-200 dark:hover:bg-accent
+           border border-gray-200 dark:border-border transition-all;
+  }
+
+  /* Active State */
+  .btn-active {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  /* Disabled State */
+  .btn-disabled {
+    @apply opacity-50 pointer-events-none;
+  }
+}
+
+/* Hover Effects */
+@layer utilities {
+  /* Remove blue hover colors */
+  .no-blue-hover {
+    @apply hover:bg-accent dark:hover:bg-accent;
+  }
+
+  /* Standard hover for dark mode */
+  .dark-hover {
+    @apply hover:bg-gray-100 dark:hover:bg-accent transition-colors;
+  }
+
+  /* Text hover */
+  .text-hover {
+    @apply hover:text-primary dark:hover:text-primary transition-colors;
+  }
+}

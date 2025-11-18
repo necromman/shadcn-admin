@@ -72,7 +72,7 @@ export function NoticeSection() {
               </div>
 
               {/* 제목 - 고정 2줄 높이 */}
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2 min-h-[2.5rem] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2 min-h-[2.5rem] group-hover:text-primary dark:group-hover:text-primary transition-colors">
                 {notice.title}
               </h3>
 

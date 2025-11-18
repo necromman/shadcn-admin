@@ -1,0 +1,117 @@
+/* Dark Mode Color Overrides - 네이버 스타일 적용 */
+
+/* 다크모드일 때만 적용되는 스타일 */
+.dark {
+  /* Accent 색상 오버라이드 - 네이버 스타일의 은은한 회색 */
+  & .dark\:bg-accent {
+    background-color: #2a2b2c !important;
+  }
+
+  & .dark\:bg-accent\/50 {
+    background-color: rgba(42, 43, 44, 0.5) !important;
+  }
+
+  & .dark\:bg-accent\/80 {
+    background-color: rgba(42, 43, 44, 0.8) !important;
+  }
+
+  & .dark\:hover\:bg-accent:hover {
+    background-color: #2d2e2f !important;
+  }
+
+  & .dark\:hover\:bg-accent\/50:hover {
+    background-color: rgba(45, 46, 47, 0.5) !important;
+  }
+
+  & .dark\:hover\:bg-accent\/80:hover {
+    background-color: rgba(45, 46, 47, 0.8) !important;
+  }
+
+  /* Secondary 색상 오버라이드 */
+  & .dark\:bg-secondary {
+    background-color: #2a2b2c !important;
+  }
+
+  & .dark\:hover\:bg-secondary:hover {
+    background-color: #2d2e2f !important;
+  }
+
+  /* Card 색상 보정 */
+  & .dark\:bg-card {
+    background-color: #272829 !important;
+  }
+
+  & .dark\:bg-card\/30 {
+    background-color: rgba(39, 40, 41, 0.3) !important;
+  }
+
+  & .dark\:bg-card\/50 {
+    background-color: rgba(39, 40, 41, 0.5) !important;
+  }
+
+  /* Primary hover 효과 제거 - 블루 계열 제거 */
+  & .dark\:hover\:bg-primary\/10:hover {
+    background-color: rgba(42, 43, 44, 0.1) !important;
+  }
+
+  & .dark\:hover\:bg-primary\/20:hover {
+    background-color: rgba(42, 43, 44, 0.2) !important;
+  }
+
+  /* Button hover 효과 통일 */
+  & button:hover:not([disabled]),
+  & [role="button"]:hover:not([disabled]) {
+    background-color: #2d2e2f;
+  }
+
+  /* Navigation hover 효과 */
+  & .nav-item:hover {
+    background-color: #2d2e2f;
+  }
+
+  /* Dropdown hover 효과 */
+  & [role="menuitem"]:hover,
+  & [role="option"]:hover {
+    background-color: #2d2e2f;
+  }
+
+  /* Input focus 효과 */
+  & input:focus,
+  & textarea:focus,
+  & select:focus {
+    border-color: #4a9eff;
+    background-color: #2a2b2c;
+  }
+}
+
+/* 특정 컴포넌트 오버라이드 - 다크모드만 */
+.dark {
+  /* Sidebar 메뉴 hover */
+  & .sidebar-menu-item:hover {
+    background-color: #2d2e2f;
+  }
+
+  /* Dropdown 메뉴 hover */
+  & .dropdown-menu-item:hover {
+    background-color: #2d2e2f;
+  }
+
+  /* Tab hover */
+  & [role="tab"]:hover {
+    background-color: #2d2e2f;
+  }
+
+  /* List item hover */
+  & .list-item:hover {
+    background-color: #2d2e2f;
+  }
+
+  /* 모든 accent 클래스 오버라이드 */
+  & [class*="dark:bg-accent"] {
+    background-color: #2a2b2c !important;
+  }
+
+  & [class*="dark:hover:bg-accent"]:hover {
+    background-color: #2d2e2f !important;
+  }
+}

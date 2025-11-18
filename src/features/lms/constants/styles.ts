@@ -18,8 +18,8 @@ export const LMS_STYLES = {
 
   // 섹션 배경색 설정
   sectionBg: {
-    even: 'bg-gray-50/50 dark:bg-gray-900/30',  // 짝수 섹션
-    odd: 'bg-white dark:bg-gray-950'            // 홀수 섹션
+    even: 'bg-gray-50/50 dark:bg-card/30',      // 짝수 섹션
+    odd: 'bg-white dark:bg-background'          // 홀수 섹션
   },
 
   // 카드 너비 설정

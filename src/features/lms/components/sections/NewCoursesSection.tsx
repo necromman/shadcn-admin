@@ -6,14 +6,14 @@ import { CourseCard } from '../common/CourseCard'
 
 export function NewCoursesSection() {
   return (
-    <section className="py-12 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-12 bg-gray-50 dark:bg-accent/50">
       <div className="container mx-auto px-4">
         {/* 섹션 헤더 */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <Sparkles className="h-6 w-6 text-purple-600" />
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-foreground">
                 신규 과정
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
@@ -32,7 +32,7 @@ export function NewCoursesSection() {
           <div className="grid grid-cols-12 gap-6">
             {/* 프로모션 배너 */}
             <div className="col-span-4">
-              <div className="h-full bg-blue-600 rounded-lg p-6 text-white">
+              <div className="h-full bg-primary rounded-lg p-6 text-white">
                 <Badge className="bg-white/20 text-white mb-4">
                   <Tag className="h-3 w-3 mr-1" />
                   신규 오픈 특가
@@ -48,7 +48,7 @@ export function NewCoursesSection() {
                     <Clock className="h-4 w-4" />
                     <span className="text-sm">1월 31일까지 한정</span>
                   </div>
-                  <Button className="w-full bg-white text-blue-600 hover:bg-gray-100">
+                  <Button className="w-full bg-white text-primary hover:bg-gray-100">
                     할인 쿠폰 받기
                   </Button>
                 </div>

@@ -64,7 +64,7 @@ export function CategoryCoursesSection({
         <div>
           {/* 섹션 헤더 */}
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-foreground">
               {title}
             </h2>
           </div>
@@ -77,7 +77,7 @@ export function CategoryCoursesSection({
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="rounded-full shadow-lg bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="rounded-full shadow-lg bg-white dark:bg-card hover:bg-gray-100 dark:hover:bg-accent"
                   onClick={() => scroll('left')}
                 >
                   <ChevronLeft className="h-5 w-5" />
@@ -91,7 +91,7 @@ export function CategoryCoursesSection({
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="rounded-full shadow-lg bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="rounded-full shadow-lg bg-white dark:bg-card hover:bg-gray-100 dark:hover:bg-accent"
                   onClick={() => scroll('right')}
                 >
                   <ChevronRight className="h-5 w-5" />
@@ -121,13 +121,13 @@ export function CategoryCoursesSection({
                 <div className={cn("flex-none", LMS_STYLES.cardWidth)}>
                   <div className="h-full flex flex-col items-center justify-center cursor-pointer group">
                     <div className={cn(
-                      "aspect-video w-full mb-3 bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center group-hover:border-gray-400 dark:group-hover:border-gray-500 transition-colors",
+                      "aspect-video w-full mb-3 bg-gray-100 dark:bg-accent border-2 border-dashed border-gray-300 dark:border-border flex items-center justify-center group-hover:border-gray-400 dark:group-hover:border-border transition-colors",
                       LMS_STYLES.imageRadius
                     )}>
                       <MoreHorizontal className="w-10 h-10 text-gray-400" />
                     </div>
                     <div className="text-center space-y-1">
-                      <p className="text-base font-medium text-gray-700 dark:text-gray-300">
+                      <p className="text-base font-medium text-gray-700 dark:text-muted-foreground">
                         더 많은 과정 보기
                       </p>
                       <p className="text-sm text-muted-foreground">

@@ -1,1 +1,75 @@
-/* navigation.css - To be implemented */
+/* Navigation Styles - 네이버 스타일 다크모드 지원 */
+
+@layer components {
+  /* Navigation Item */
+  .nav-item {
+    @apply flex items-center px-3 py-2 rounded-md
+           hover:bg-gray-100 dark:hover:bg-accent
+           transition-colors cursor-pointer;
+  }
+
+  /* Active Navigation Item */
+  .nav-item-active {
+    @apply bg-primary/10 dark:bg-primary/20
+           text-primary dark:text-primary
+           font-medium;
+  }
+
+  /* Navigation Link */
+  .nav-link {
+    @apply text-gray-700 dark:text-foreground
+           hover:text-primary dark:hover:text-primary
+           transition-colors;
+  }
+
+  /* Dropdown Navigation */
+  .nav-dropdown {
+    @apply bg-white dark:bg-card
+           border border-gray-200 dark:border-border
+           shadow-lg rounded-md;
+  }
+
+  /* Sidebar Navigation */
+  .nav-sidebar {
+    @apply bg-white dark:bg-background
+           border-r border-gray-200 dark:border-border;
+  }
+
+  /* Mega Menu */
+  .nav-mega-menu {
+    @apply bg-white dark:bg-card
+           border-t border-gray-200 dark:border-border
+           shadow-xl;
+  }
+
+  /* Navigation Button */
+  .nav-button {
+    @apply rounded-full bg-white dark:bg-card
+           hover:bg-gray-100 dark:hover:bg-accent
+           border border-gray-200 dark:border-border
+           shadow-md transition-all;
+  }
+}
+
+/* Navigation States */
+@layer utilities {
+  /* Hover State */
+  .nav-hover {
+    @apply hover:bg-gray-100 dark:hover:bg-accent transition-colors;
+  }
+
+  /* Active State */
+  .nav-active {
+    @apply bg-secondary dark:bg-accent;
+  }
+
+  /* Focus State */
+  .nav-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-primary/30;
+  }
+
+  /* Disabled State */
+  .nav-disabled {
+    @apply opacity-50 pointer-events-none;
+  }
+}

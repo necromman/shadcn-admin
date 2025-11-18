@@ -58,11 +58,11 @@ export function CourseCard({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'recruiting':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+        return 'bg-blue-100 text-blue-800 dark:bg-accent dark:text-primary'
       case 'in-progress':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+        return 'bg-green-100 text-green-800 dark:bg-accent dark:text-green-400'
       case 'completed':
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+        return 'bg-gray-100 text-gray-800 dark:bg-muted dark:text-muted-foreground'
       default:
         return ''
     }
@@ -136,7 +136,7 @@ export function CourseCard({
                 <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                   <Heart className="h-4 w-4" />
                 </Button>
-                <Button size="sm" variant="default" className="bg-blue-600 hover:bg-blue-700">
+                <Button size="sm" variant="default" className="bg-primary hover:bg-primary/90">
                   수강신청
                 </Button>
               </div>
@@ -228,7 +228,7 @@ export function CourseCard({
             {course.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-800 text-xs text-gray-700 dark:text-gray-300"
+                className="inline-flex items-center px-2 py-1 rounded-md bg-primary/10 dark:bg-primary/20 text-xs text-primary dark:text-primary/90"
               >
                 {tag}
               </span>
@@ -246,7 +246,7 @@ export function CourseCard({
             <Button size="sm" variant="ghost" className="w-10 p-0">
               <Heart className="h-4 w-4" />
             </Button>
-            <Button size="sm" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white">
+            <Button size="sm" className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground">
               수강신청
             </Button>
           </div>

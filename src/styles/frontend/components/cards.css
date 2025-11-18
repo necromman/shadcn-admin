@@ -1,1 +1,71 @@
-/* cards.css - To be implemented */
+/* Card Styles - 네이버 스타일 다크모드 지원 */
+
+@layer components {
+  /* Base Card */
+  .card-base {
+    @apply bg-white dark:bg-card border border-gray-200 dark:border-border rounded-lg;
+  }
+
+  /* Hoverable Card */
+  .card-hover {
+    @apply bg-white dark:bg-card border border-gray-200 dark:border-border rounded-lg
+           hover:shadow-md dark:hover:bg-accent/50 transition-all cursor-pointer;
+  }
+
+  /* Section Card */
+  .card-section {
+    @apply bg-gray-50 dark:bg-card/50 border border-gray-100 dark:border-border rounded-lg;
+  }
+
+  /* Interactive Card */
+  .card-interactive {
+    @apply bg-white dark:bg-card border border-gray-200 dark:border-border rounded-lg
+           hover:border-gray-300 dark:hover:border-border hover:shadow-lg transition-all;
+  }
+
+  /* Tag/Badge */
+  .tag {
+    @apply inline-flex items-center px-2 py-1 rounded-md
+           bg-primary/10 dark:bg-primary/20
+           text-primary dark:text-primary/90
+           text-xs transition-colors;
+  }
+
+  /* Tag Variants */
+  .tag-secondary {
+    @apply bg-gray-100 dark:bg-secondary
+           text-gray-700 dark:text-foreground;
+  }
+
+  .tag-accent {
+    @apply bg-gray-100 dark:bg-accent
+           text-gray-700 dark:text-muted-foreground;
+  }
+}
+
+/* Card Sections */
+@layer utilities {
+  /* Even/Odd Section Backgrounds */
+  .section-even {
+    @apply bg-gray-50/50 dark:bg-card/30;
+  }
+
+  .section-odd {
+    @apply bg-white dark:bg-background;
+  }
+
+  /* Card Headers */
+  .card-header {
+    @apply border-b border-gray-200 dark:border-border p-4;
+  }
+
+  /* Card Body */
+  .card-body {
+    @apply p-4;
+  }
+
+  /* Card Footer */
+  .card-footer {
+    @apply border-t border-gray-200 dark:border-border p-4;
+  }
+}

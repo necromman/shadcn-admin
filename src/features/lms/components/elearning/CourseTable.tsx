@@ -18,11 +18,11 @@ export function CourseTable({
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'beginner':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+        return 'bg-green-100 text-green-800 dark:bg-accent dark:text-green-200'
       case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+        return 'bg-yellow-100 text-yellow-800 dark:bg-accent dark:text-yellow-200'
       case 'advanced':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+        return 'bg-red-100 text-red-800 dark:bg-accent dark:text-red-200'
       default:
         return ''
     }
@@ -44,11 +44,11 @@ export function CourseTable({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'recruiting':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+        return 'bg-primary/10 text-primary dark:bg-accent dark:text-primary'
       case 'in-progress':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+        return 'bg-green-100 text-green-800 dark:bg-accent dark:text-green-200'
       case 'completed':
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+        return 'bg-gray-100 text-gray-800 dark:bg-card dark:text-gray-200'
       default:
         return ''
     }
@@ -68,33 +68,33 @@ export function CourseTable({
   }
 
   return (
-    <div className={cn("bg-white dark:bg-gray-950 rounded-lg border overflow-hidden", className)}>
+    <div className={cn("bg-white dark:bg-card rounded-lg border overflow-hidden", className)}>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 dark:bg-gray-900 border-b">
+          <thead className="bg-gray-50 dark:bg-accent border-b">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 과정명
               </th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 강사/기관
               </th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 난이도
               </th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 평점
               </th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 수강생
               </th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 기간
               </th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 상태
               </th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 dark:text-muted-foreground">
                 액션
               </th>
             </tr>
@@ -104,8 +104,8 @@ export function CourseTable({
               <tr
                 key={course.id}
                 className={cn(
-                  "border-b hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors",
-                  index % 2 === 0 ? "" : "bg-gray-50/50 dark:bg-gray-900/20"
+                  "border-b hover:bg-gray-50 dark:hover:bg-accent transition-colors",
+                  index % 2 === 0 ? "" : "bg-gray-50/50 dark:bg-accent/20"
                 )}
               >
                 <td className="px-4 py-4">
@@ -118,14 +118,14 @@ export function CourseTable({
                       />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="font-medium text-sm text-gray-900 dark:text-gray-100 truncate">
+                      <h3 className="font-medium text-sm text-gray-900 dark:text-foreground truncate">
                         {course.title}
                       </h3>
                       <div className="flex gap-2 mt-1">
                         {course.tags.slice(0, 2).map((tag) => (
                           <span
                             key={tag}
-                            className="inline-block px-1.5 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                            className="inline-block px-1.5 py-0.5 rounded text-xs bg-gray-100 dark:bg-accent text-gray-600 dark:text-muted-foreground"
                           >
                             {tag}
                           </span>
@@ -136,7 +136,7 @@ export function CourseTable({
                 </td>
                 <td className="px-4 py-4">
                   <div className="text-sm">
-                    <div className="text-gray-900 dark:text-gray-100">{course.instructor}</div>
+                    <div className="text-gray-900 dark:text-foreground">{course.instructor}</div>
                     <div className="text-xs text-muted-foreground">{course.organization}</div>
                   </div>
                 </td>
@@ -177,7 +177,7 @@ export function CourseTable({
                     <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                       <Heart className="h-4 w-4" />
                     </Button>
-                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
                       수강신청
                     </Button>
                   </div>

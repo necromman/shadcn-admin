@@ -68,7 +68,7 @@ export function Pagination({
   const endItem = Math.min(currentPage * itemsPerPage, totalItems)
 
   return (
-    <div className={cn("flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-950 border-t", className)}>
+    <div className={cn("flex items-center justify-between px-4 py-3 bg-white dark:bg-card border-t", className)}>
       {/* 왼쪽: 아이템 정보 */}
       <div className="flex items-center gap-4">
         <p className="text-sm text-muted-foreground">
@@ -133,7 +133,7 @@ export function Pagination({
                 onClick={() => onPageChange(page as number)}
                 className={cn(
                   "h-8 min-w-[2rem]",
-                  currentPage === page && "bg-blue-600 hover:bg-blue-700"
+                  currentPage === page && "bg-primary hover:bg-primary/90"
                 )}
               >
                 {page}

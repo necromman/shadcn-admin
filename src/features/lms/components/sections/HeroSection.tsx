@@ -39,7 +39,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 pt-0 pb-6">
+    <section className="bg-gray-50 dark:bg-background pt-0 pb-6">
       <div className="container mx-auto px-4">
         {/* relative 컨테이너로 감싸서 absolute 요소들이 올바르게 위치하도록 함 */}
         <div className="relative">

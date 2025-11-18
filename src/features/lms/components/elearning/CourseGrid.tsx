@@ -36,7 +36,7 @@ export function CourseGrid({
 
       {/* 빈 상태 */}
       {courses.length === 0 && (
-        <div className="text-center py-12 bg-white dark:bg-gray-950 rounded-lg border">
+        <div className="text-center py-12 bg-white dark:bg-card rounded-lg border">
           <p className="text-muted-foreground">표시할 과정이 없습니다.</p>
         </div>
       )}

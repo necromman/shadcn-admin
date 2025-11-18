@@ -35,63 +35,40 @@
 }
 
 .dark {
-  /* 기본 다크모드 설정 - 개선된 색상 */
-  --background: oklch(0.15 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.17 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.2 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.6 0.15 230);
-  --primary-foreground: oklch(0.95 0 0);
-  --secondary: oklch(0.25 0.01 240);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.25 0.01 240);
-  --muted-foreground: oklch(0.65 0.01 240);
-  --accent: oklch(0.22 0.01 240);
-  --accent-foreground: oklch(0.95 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.3 0.01 240);
-  --input: oklch(0.25 0.01 240);
-  --ring: oklch(0.6 0.15 230);
+  /* 네이버 스타일 다크모드 - 통일된 색상 체계 */
+  --background: #1e1e1e;
+  --foreground: #f3f3f3;
+  --card: #272829;
+  --card-foreground: #f3f3f3;
+  --popover: #2d2e2f;
+  --popover-foreground: #f3f3f3;
+  --primary: #4a9eff;
+  --primary-foreground: #ffffff;
+  --secondary: #313233;
+  --secondary-foreground: #f3f3f3;
+  --muted: #313233;
+  --muted-foreground: #b5b5b5;
+  --accent: #2a2b2c;
+  --accent-foreground: #f3f3f3;
+  --destructive: #ff6956;
+  --border: #383c3c;
+  --input: #313233;
+  --ring: #4a9eff;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
 
-  /* 네이버 다크모드 추가 색상 변수 */
-  --naver-block-bg: #272829;
-  --naver-board-bg: #292a2c;
-  --naver-option-bg: #313233;
-  --naver-login-bg: #2d2e2f;
-  --naver-menu-widget-bg: #353637;
-  --naver-setting-bg: #2b2c2d;
-  --naver-button1-bg: #343638;
-  --naver-button2-bg: #454749;
-  --naver-border-out: #383c3c;
-  --naver-border-in: #313334;
-  --naver-border-divider: #3c3e3e;
-  --naver-border-exception: #454749;
-  --naver-button-border: #515254;
-  --naver-dot-divider: #747474;
-  --naver-title: #fff;
-  --naver-body: #f3f3f3;
-  --naver-caption1: #cbcbcb;
-  --naver-caption2: #b5b5b5;
-  --naver-caption3: #cbcbcb;
-  --naver-news: #7e9fff;
-  --naver-news-econ-stay: #a2acbc;
-  --naver-news-econ-down: #899bee;
-  --naver-live-price: #ff6956;
-  --naver-enter: #eb48e8;
-  --naver-enter-bg: #33323a;
-  --naver-sports: #729df2;
-  --naver-sports-bg: #313235;
-  --naver-econ: #3fd7bc;
-  --naver-calendar: #f08484;
-  --naver-dic: #bccdf4;
-  --naver-shop: #b077ff;
+  /* 사이드바 다크모드 색상 */
+  --sidebar: #1e1e1e;
+  --sidebar-foreground: #f3f3f3;
+  --sidebar-primary: #4a9eff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2b2c;
+  --sidebar-accent-foreground: #f3f3f3;
+  --sidebar-border: #383c3c;
+  --sidebar-ring: #4a9eff;
 }
 
 @theme inline {

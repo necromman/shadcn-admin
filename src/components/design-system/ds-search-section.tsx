@@ -98,7 +98,7 @@ export function DSSearchSection() {
                 />
               </div>
               
-              <Button type="submit" size="lg" className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8">
+              <Button type="submit" size="lg" className="bg-white text-blue-600 hover:bg-accent font-semibold px-8">
                 검색
               </Button>
             </div>

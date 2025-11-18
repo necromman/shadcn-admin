@@ -189,7 +189,7 @@ export function ElearningPage() {
 
           {/* 빈 상태 */}
           {filteredCourses.length === 0 && (
-            <div className="text-center py-12 bg-white dark:bg-gray-950 rounded-lg border">
+            <div className="text-center py-12 bg-white dark:bg-card rounded-lg border">
               <p className="text-muted-foreground">검색 결과가 없습니다.</p>
               <p className="text-sm text-muted-foreground mt-1">다른 검색어나 필터를 시도해보세요.</p>
             </div>

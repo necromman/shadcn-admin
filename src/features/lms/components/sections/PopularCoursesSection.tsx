@@ -31,13 +31,13 @@ export function PopularCoursesSection() {
   )
 
   return (
-    <section className="py-12 bg-white dark:bg-gray-950">
+    <section className="py-12 bg-white dark:bg-card">
       <div className="container mx-auto px-4">
         {/* 섹션 헤더 */}
         <div className="mb-8">
           <div className="flex items-center gap-3">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-foreground">
                 실시간 인기 강좌
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
@@ -64,7 +64,7 @@ export function PopularCoursesSection() {
               disabled={!canGoPrevious}
               className={cn(
                 "absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-10",
-                "bg-white dark:bg-gray-800 shadow-lg",
+                "bg-white dark:bg-accent shadow-lg",
                 !canGoPrevious && "opacity-50 cursor-not-allowed"
               )}
             >
@@ -77,7 +77,7 @@ export function PopularCoursesSection() {
               disabled={!canGoNext}
               className={cn(
                 "absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10",
-                "bg-white dark:bg-gray-800 shadow-lg",
+                "bg-white dark:bg-accent shadow-lg",
                 !canGoNext && "opacity-50 cursor-not-allowed"
               )}
             >
@@ -113,8 +113,8 @@ export function PopularCoursesSection() {
               className={cn(
                 "h-2 rounded-full transition-all",
                 i === Math.floor(currentIndex / itemsPerPage)
-                  ? "w-8 bg-blue-600"
-                  : "w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400"
+                  ? "w-8 bg-primary"
+                  : "w-2 bg-gray-300 dark:bg-border hover:bg-gray-400"
               )}
               aria-label={`Go to page ${i + 1}`}
             />

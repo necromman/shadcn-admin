@@ -40,7 +40,7 @@ export function DSFooterEnhanced() {
     { icon: RiKakaoTalkFill, href: '#', label: '카카오톡 채널', color: 'hover:bg-yellow-400' },
     { icon: FaYoutube, href: '#', label: '유튜브', color: 'hover:bg-red-500' },
     { icon: FaInstagram, href: '#', label: '인스타그램', color: 'hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500' },
-    { icon: FaFacebook, href: '#', label: '페이스북', color: 'hover:bg-blue-600' },
+    { icon: FaFacebook, href: '#', label: '페이스북', color: 'hover:bg-primary/90' },
   ]
 
   // 푸터 링크들

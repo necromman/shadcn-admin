@@ -71,7 +71,7 @@ export function CourseSearchBar({
   }
 
   return (
-    <div className={cn("bg-white dark:bg-gray-950 rounded-lg border p-6", className)}>
+    <div className={cn("bg-white dark:bg-card rounded-lg border p-6", className)}>
       {/* 검색 영역 */}
       <div className="space-y-4">
         <div className="flex gap-2">
@@ -86,7 +86,7 @@ export function CourseSearchBar({
               className="pl-10"
             />
           </div>
-          <Button onClick={handleSearch} className="bg-blue-600 hover:bg-blue-700">
+          <Button onClick={handleSearch} className="bg-primary hover:bg-primary/90">
             <Search className="h-4 w-4 mr-2" />
             검색
           </Button>

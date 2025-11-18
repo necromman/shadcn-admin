@@ -15,7 +15,6 @@ import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MoafabInstitutionsRouteImport } from './routes/moafab/institutions'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthFindAccountRouteImport } from './routes/auth/find-account'
 import { Route as AuthenticatedOldRouteImport } from './routes/_authenticated/old'
@@ -41,7 +40,6 @@ import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authenticated/apps/index'
-import { Route as MoafabInstitutionSlugRouteImport } from './routes/moafab/institution/$slug'
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
 import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-up'
 import { Route as ClerkauthSignInRouteImport } from './routes/clerk/(auth)/sign-in'
@@ -85,11 +83,6 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MoafabInstitutionsRoute = MoafabInstitutionsRouteImport.update({
-  id: '/moafab/institutions',
-  path: '/moafab/institutions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
@@ -219,11 +212,6 @@ const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexRouteImport.update({
   path: '/apps/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const MoafabInstitutionSlugRoute = MoafabInstitutionSlugRouteImport.update({
-  id: '/moafab/institution/$slug',
-  path: '/moafab/institution/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ClerkAuthenticatedUserManagementRoute =
   ClerkAuthenticatedUserManagementRouteImport.update({
     id: '/user-management',
@@ -329,7 +317,6 @@ export interface FileRoutesByFullPath {
   '/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
-  '/moafab/institutions': typeof MoafabInstitutionsRoute
   '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -345,7 +332,6 @@ export interface FileRoutesByFullPath {
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
-  '/moafab/institution/$slug': typeof MoafabInstitutionSlugRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
@@ -374,7 +360,6 @@ export interface FileRoutesByTo {
   '/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
-  '/moafab/institutions': typeof MoafabInstitutionsRoute
   '/board/$type': typeof AuthenticatedBoardTypeRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -390,7 +375,6 @@ export interface FileRoutesByTo {
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
-  '/moafab/institution/$slug': typeof MoafabInstitutionSlugRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
@@ -425,7 +409,6 @@ export interface FileRoutesById {
   '/_authenticated/old': typeof AuthenticatedOldRoute
   '/auth/find-account': typeof AuthFindAccountRoute
   '/auth/login': typeof AuthLoginRoute
-  '/moafab/institutions': typeof MoafabInstitutionsRoute
   '/_authenticated/board/$type': typeof AuthenticatedBoardTypeRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
@@ -441,7 +424,6 @@ export interface FileRoutesById {
   '/clerk/(auth)/sign-in': typeof ClerkauthSignInRoute
   '/clerk/(auth)/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
-  '/moafab/institution/$slug': typeof MoafabInstitutionSlugRoute
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
@@ -475,7 +457,6 @@ export interface FileRouteTypes {
     | '/old'
     | '/auth/find-account'
     | '/auth/login'
-    | '/moafab/institutions'
     | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
@@ -491,7 +472,6 @@ export interface FileRouteTypes {
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
-    | '/moafab/institution/$slug'
     | '/apps'
     | '/chats'
     | '/help-center'
@@ -520,7 +500,6 @@ export interface FileRouteTypes {
     | '/old'
     | '/auth/find-account'
     | '/auth/login'
-    | '/moafab/institutions'
     | '/board/$type'
     | '/errors/$error'
     | '/settings/account'
@@ -536,7 +515,6 @@ export interface FileRouteTypes {
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
-    | '/moafab/institution/$slug'
     | '/apps'
     | '/chats'
     | '/help-center'
@@ -570,7 +548,6 @@ export interface FileRouteTypes {
     | '/_authenticated/old'
     | '/auth/find-account'
     | '/auth/login'
-    | '/moafab/institutions'
     | '/_authenticated/board/$type'
     | '/_authenticated/errors/$error'
     | '/_authenticated/settings/account'
@@ -586,7 +563,6 @@ export interface FileRouteTypes {
     | '/clerk/(auth)/sign-in'
     | '/clerk/(auth)/sign-up'
     | '/clerk/_authenticated/user-management'
-    | '/moafab/institution/$slug'
     | '/_authenticated/apps/'
     | '/_authenticated/chats/'
     | '/_authenticated/help-center/'
@@ -613,8 +589,6 @@ export interface RootRouteChildren {
   errors404Route: typeof errors404Route
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
-  MoafabInstitutionsRoute: typeof MoafabInstitutionsRoute
-  MoafabInstitutionSlugRoute: typeof MoafabInstitutionSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -659,13 +633,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/moafab/institutions': {
-      id: '/moafab/institutions'
-      path: '/moafab/institutions'
-      fullPath: '/moafab/institutions'
-      preLoaderRoute: typeof MoafabInstitutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/login': {
@@ -842,13 +809,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/apps'
       preLoaderRoute: typeof AuthenticatedAppsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/moafab/institution/$slug': {
-      id: '/moafab/institution/$slug'
-      path: '/moafab/institution/$slug'
-      fullPath: '/moafab/institution/$slug'
-      preLoaderRoute: typeof MoafabInstitutionSlugRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/clerk/_authenticated/user-management': {
       id: '/clerk/_authenticated/user-management'
@@ -1110,8 +1070,6 @@ const rootRouteChildren: RootRouteChildren = {
   errors404Route: errors404Route,
   errors500Route: errors500Route,
   errors503Route: errors503Route,
-  MoafabInstitutionsRoute: MoafabInstitutionsRoute,
-  MoafabInstitutionSlugRoute: MoafabInstitutionSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

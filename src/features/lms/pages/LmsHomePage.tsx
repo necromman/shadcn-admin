@@ -16,7 +16,7 @@ import {
 
 export function LmsHomePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-white dark:bg-background">
       {/* 헤더 영역 */}
       <LmsTopBar />
       <LmsMainHeader />
@@ -74,14 +74,14 @@ export function LmsHomePage() {
       </main>
 
       {/* 푸터 */}
-      <footer className="bg-gray-100 dark:bg-gray-900 border-t">
+      <footer className="bg-gray-100 dark:bg-card border-t">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* 회사 정보 */}
             <div>
               <div className="mb-4">
                 <span className="text-2xl font-bold text-blue-600">BCU</span>
-                <span className="text-lg font-medium text-gray-700 dark:text-gray-300 ml-2">
+                <span className="text-lg font-medium text-gray-700 dark:text-muted-foreground ml-2">
                   LMS
                 </span>
               </div>

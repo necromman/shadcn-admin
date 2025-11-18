@@ -18,9 +18,9 @@ export function RecommendedCoursesSection() {
         {/* 섹션 헤더 */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <Award className="h-6 w-6 text-blue-600" />
+            <Award className="h-6 w-6 text-primary" />
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-foreground">
                 추천 과정
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
@@ -42,7 +42,7 @@ export function RecommendedCoursesSection() {
                 key={category.id}
                 value={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white px-4 py-2 rounded-full"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white px-4 py-2 rounded-full"
               >
                 {category.name}
                 <span className="ml-2 text-xs opacity-70">

@@ -1,1 +1,25 @@
-/* helpers.css - To be implemented */
+/* Helper Utilities & Overrides */
+
+/* Import color overrides */
+@import './overrides.css';
+
+/* Additional Helper Classes */
+@layer utilities {
+  /* Remove all blue hover effects */
+  .no-blue {
+    @apply hover:bg-transparent dark:hover:bg-transparent;
+  }
+
+  /* Consistent dark mode backgrounds */
+  .dark-bg-primary {
+    @apply dark:bg-background;
+  }
+
+  .dark-bg-secondary {
+    @apply dark:bg-card;
+  }
+
+  .dark-bg-tertiary {
+    @apply dark:bg-accent;
+  }
+}

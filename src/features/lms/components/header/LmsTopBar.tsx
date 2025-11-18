@@ -39,7 +39,7 @@ export function LmsTopBar() {
   ]
 
   return (
-    <div className="border-b bg-gray-50/50 dark:bg-gray-900/50">
+    <div className="border-b bg-gray-50/50 dark:bg-background">
       <div className="container mx-auto px-4">
         <div className="flex h-11 items-center justify-between">
           {/* 왼쪽 영역 - 훈련기관 선택 */}
@@ -57,7 +57,7 @@ export function LmsTopBar() {
                   <DropdownMenuItem
                     key={org}
                     onClick={() => setSelectedOrg(org)}
-                    className={selectedOrg === org ? 'bg-gray-100 dark:bg-gray-800' : ''}
+                    className={selectedOrg === org ? 'bg-gray-100 dark:bg-accent' : ''}
                   >
                     {org}
                   </DropdownMenuItem>
@@ -138,7 +138,7 @@ export function LmsTopBar() {
                 <Button
                   variant="default"
                   size="sm"
-                  className="gap-2 bg-blue-600 hover:bg-blue-700"
+                  className="gap-2 bg-primary hover:bg-primary/90"
                 >
                   <UserPlus className="h-4 w-4" />
                   <span className="hidden sm:inline">회원가입</span>

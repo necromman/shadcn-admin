@@ -14,12 +14,12 @@ export function SubPageLayout({ sidebar, children, className }: SubPageLayoutPro
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = React.useState(false)
 
   return (
-    <div className={cn("min-h-screen bg-gray-50/50 dark:bg-gray-900/50", className)}>
+    <div className={cn("min-h-screen bg-gray-50/50 dark:bg-accent/50", className)}>
       <div className="container mx-auto px-4">
         <div className="flex gap-6">
           {/* 데스크톱 사이드바 */}
           <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-20 bg-white dark:bg-gray-950 rounded-lg border">
+            <div className="sticky top-20 bg-white dark:bg-card rounded-lg border">
               <div className="h-[calc(100vh-6rem)] overflow-y-auto">
                 {sidebar}
               </div>
@@ -29,7 +29,7 @@ export function SubPageLayout({ sidebar, children, className }: SubPageLayoutPro
           {/* 메인 콘텐츠 */}
           <main className="flex-1 min-w-0">
             {/* 모바일 메뉴 버튼 */}
-            <div className="lg:hidden sticky top-16 z-30 bg-white dark:bg-gray-950 rounded-lg border mb-4 px-4 py-2">
+            <div className="lg:hidden sticky top-16 z-30 bg-white dark:bg-card rounded-lg border mb-4 px-4 py-2">
               <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="sm" className="gap-2">

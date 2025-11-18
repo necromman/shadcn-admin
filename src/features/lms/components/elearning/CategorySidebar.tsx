@@ -98,8 +98,8 @@ export function CategorySidebar({ selectedCategory, onCategoryChange, className 
               className={cn(
                 "w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors",
                 selectedCategory === category.id
-                  ? "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-medium"
-                  : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+                  ? "bg-primary/10 text-primary dark:bg-accent dark:text-primary font-medium"
+                  : "hover:bg-gray-100 dark:hover:bg-accent text-gray-700 dark:text-muted-foreground"
               )}
             >
               <div className="flex items-center gap-2">
@@ -127,8 +127,8 @@ export function CategorySidebar({ selectedCategory, onCategoryChange, className 
                     className={cn(
                       "w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors",
                       selectedCategory === child.id
-                        ? "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-medium"
-                        : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400"
+                        ? "bg-primary/10 text-primary dark:bg-accent dark:text-primary font-medium"
+                        : "hover:bg-gray-100 dark:hover:bg-accent text-gray-600 dark:text-muted-foreground"
                     )}
                   >
                     <span>{child.name}</span>
@@ -143,21 +143,21 @@ export function CategorySidebar({ selectedCategory, onCategoryChange, className 
 
       {/* 추천 카테고리 */}
       <div className="mt-8 pt-8 border-t">
-        <h3 className="text-sm font-medium mb-3 px-2 text-gray-700 dark:text-gray-300">추천 카테고리</h3>
+        <h3 className="text-sm font-medium mb-3 px-2 text-gray-700 dark:text-muted-foreground">추천 카테고리</h3>
         <div className="space-y-1">
-          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300">
+          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-accent text-gray-700 dark:text-muted-foreground">
             <TrendingUp className="h-4 w-4 text-orange-500" />
             <span>인기 과정</span>
           </button>
-          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300">
+          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-accent text-gray-700 dark:text-muted-foreground">
             <Heart className="h-4 w-4 text-red-500" />
             <span>추천 과정</span>
           </button>
-          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300">
-            <Users className="h-4 w-4 text-blue-500" />
+          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-accent text-gray-700 dark:text-muted-foreground">
+            <Users className="h-4 w-4 text-primary" />
             <span>그룹 학습</span>
           </button>
-          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300">
+          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-accent text-gray-700 dark:text-muted-foreground">
             <Globe className="h-4 w-4 text-green-500" />
             <span>글로벌 과정</span>
           </button>

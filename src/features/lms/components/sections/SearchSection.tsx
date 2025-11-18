@@ -41,7 +41,7 @@ export function SearchSection() {
               <Button
                 type="submit"
                 size="icon"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary/90 text-white h-10 w-10 rounded-full shadow-md hover:shadow-lg transition-all"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary/90 text-primary-foreground h-10 w-10 rounded-full shadow-md hover:shadow-lg transition-all"
               >
                 <Search className="h-5 w-5" />
               </Button>

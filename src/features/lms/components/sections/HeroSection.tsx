@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 import { banners } from '../../data/mockData'
+import { LMS_STYLES } from '../../constants/styles'
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -42,8 +43,8 @@ export function HeroSection() {
       <div className="container mx-auto px-4">
         {/* relative 컨테이너로 감싸서 absolute 요소들이 올바르게 위치하도록 함 */}
         <div className="relative">
-          {/* 슬라이드 컨테이너 - 안전 영역 적용 */}
-          <div className="relative h-[400px] md:h-[450px] lg:h-[500px] rounded-lg overflow-hidden shadow-lg">
+          {/* 슬라이드 컨테이너 - 공통 border-radius 적용 */}
+          <div className={cn("relative h-[400px] md:h-[450px] lg:h-[500px] overflow-hidden shadow-lg", LMS_STYLES.imageRadius)}>
             {banners.map((banner, index) => (
               <div
                 key={banner.id}
@@ -95,7 +96,7 @@ export function HeroSection() {
             ))}
 
             {/* 네비게이션 컨트롤 - 캐러셀 내부에 위치 */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-lg">
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent">
               <div className="px-8 md:px-12 lg:px-16 py-4">
                 <div className="flex items-center justify-between">
                   {/* 왼쪽: 인디케이터 + 컨트롤 버튼 */}
@@ -157,7 +158,8 @@ export function HeroSection() {
                         key={banner.id}
                         onClick={() => goToSlide(index)}
                         className={cn(
-                          "relative w-16 h-12 rounded overflow-hidden transition-all border-2",
+                          "relative w-16 h-12 overflow-hidden transition-all border-2",
+                          LMS_STYLES.imageRadius,
                           index === currentSlide
                             ? "border-white opacity-100"
                             : "border-white/30 opacity-60 hover:opacity-80"
